@@ -26,6 +26,38 @@ const morgan = require('morgan');
 
 const app = express();
 
+// Setup Express sessions.
+const expressSession = require('express-session');
+if (isDev) {
+  // Use FileStore in development.
+  const FileStore = require('session-file-store')(expressSession);
+  app.use(expressSession({
+    resave: false,
+    saveUnitialized: true,
+    secret: 'unguessable',
+    store: new FileStore(),
+  }));
+} else {
+  // Use RedisStore in production mode.
+}
+
+// Passport Authentication.
+const passport = require('passport');
+passport.serializeUser((profile, done) => done(null, {
+  id:profile.id,
+  provider: profile.provider,
+}));
+passport.deserializeUser((user,done) => done(null, user));
+app.use(passport.initialize());
+app.use(passport.session());
+
+const FacebookStrategy = require('passport-facebook').Strategy;
+passport.use(new FacebookStrategy({
+  clientID: nconf.get('auth:facebook:appID'),
+  clientSecret: nconf.get('auth:facebook:appSecret'),
+  callbackURL: new URL('/auth/facebook/callback', serviceUrl).href,
+}, (accessToken, refreshToken, profile, done) => done(null, profile)));
+
 app.use(morgan('dev'));
 
 app.get('/api/version', (req, res) => res.status(200).json(pkg.version));
@@ -43,4 +75,14 @@ if (isDev) {
     app.use(express.static('dist'));
   }
 
-  app.listen(servicePort, () => console.log('Ready.'));
+app.get('/api/session', (req, res) => {
+  const session = {auth: req.isAuthenticated()};
+  res.status(200).json(session);
+});
+
+app.get('/auth/signout', (req, res) => {
+  req.logout();
+  res.redirect('/');
+});
+
+app.listen(servicePort, () => console.log('Ready.'));
