@@ -58,6 +58,12 @@ passport.use(new FacebookStrategy({
   callbackURL: new URL('/auth/facebook/callback', serviceUrl).href,
 }, (accessToken, refreshToken, profile, done) => done(null, profile)));
 
+app.get('/auth/facebook', passport.authenticate('facebook'));
+app.get('/auth/facebook/callback', passport.authenticate('facebook', {
+  successRedirect: '/',
+  failureRedirect: '/',
+}));
+
 app.use(morgan('dev'));
 
 app.get('/api/version', (req, res) => res.status(200).json(pkg.version));
@@ -85,4 +91,14 @@ app.get('/auth/signout', (req, res) => {
   res.redirect('/');
 });
 
-app.listen(servicePort, () => console.log('Ready.'));
+// Creates a http secure server with the Express app as a parameter
+const fs = require('fs');
+const https = require('https');
+const httpsOptions = {
+key: fs.readFileSync(nconf.get('privateKey')),
+cert: fs.readFileSync(nconf.get('certificatePem'))
+};
+
+https.createServer(httpsOptions, app)
+  .listen(servicePort, () => console.log('Secure Server Ready on port: ' +
+                                            servicePort));
