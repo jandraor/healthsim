@@ -58,11 +58,9 @@ passport.use(new FacebookStrategy({
   callbackURL: new URL('/auth/facebook/callback', serviceUrl).href,
 }, (accessToken, refreshToken, profile, done) => done(null, profile)));
 
-app.get('/auth/facebook', passport.authenticate('facebook'));
-app.get('/auth/facebook/callback', passport.authenticate('facebook', {
-  successRedirect: '/',
-  failureRedirect: '/',
-}));
+// Create auth route
+app.use('/auth', require('./lib/auth.js'));
+
 
 app.use(morgan('dev'));
 
@@ -86,10 +84,7 @@ app.get('/api/session', (req, res) => {
   res.status(200).json(session);
 });
 
-app.get('/auth/signout', (req, res) => {
-  req.logout();
-  res.redirect('/');
-});
+
 
 // Creates a http secure server with the Express app as a parameter
 const fs = require('fs');
