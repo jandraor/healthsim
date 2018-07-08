@@ -13,10 +13,10 @@ import * as templates from './templates.ts';
 */
 const fetchJSON = async (url, method = 'GET') => {
 try {
-const response = await fetch(url, {method, credentials: 'same-origin'});
-return response.json();
+  const response = await fetch(url, {method, credentials: 'same-origin'});
+  return response.json();
 } catch (error) {
-return {error};
+  return {error};
 }
 };
 
