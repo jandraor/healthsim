@@ -29,6 +29,20 @@ const app = express();
 
 app.use(morgan('dev'));
 
+// Serve webpack assets.
+// Must come before passport.session()
+if (isDev) {
+  const webpack = require('webpack');
+  const webpackMiddleware = require('webpack-dev-middleware');
+  const webpackConfig = require('./webpack.config.js');
+  app.use(webpackMiddleware(webpack(webpackConfig), {
+    publicPath: '/',
+    stats: {colors: true},
+  }));
+  } else {
+    app.use(express.static('dist'));
+  }
+
 // Connect to mysql database
 const mysql = require('mysql');
 
@@ -65,13 +79,25 @@ if (isDev) {
 // Passport Authentication.
 const passport = require('passport');
 
-passport.serializeUser((profile, done) => done(null, {
-  id:profile.id,
-  provider: profile.provider,
-}));
-passport.deserializeUser((user,done) => done(null, user));
-app.use(passport.initialize());
-app.use(passport.session());
+passport.serializeUser((user, done) => {
+  console.log("serialising: " + done);
+  done(null, user.email);
+});
+passport.deserializeUser((email, done) => {
+  const findUserQuery = `
+    SELECT email FROM  users WHERE email = '${email}'
+  `;
+  
+  con.query(findUserQuery, (err, queryResult) => {
+
+    if (err) throw err;
+    if(queryResult.length == 1){
+      const user = {"email": queryResult[0].email};
+      done(err, user);
+    }
+  });
+
+});
 
 const FacebookStrategy = require('passport-facebook').Strategy;
 passport.use(new FacebookStrategy({
@@ -83,53 +109,46 @@ passport.use(new FacebookStrategy({
     const findUserQuery = `
       SELECT email FROM  users WHERE email = '${profile._json.email}'
     `
-    console.log("---------query-----------:" + findUserQuery);
+    //check if user already exists in the db
+    con.query(findUserQuery, (err, queryResult) => {
 
-    console.log("First name: " + profile._json.first_name);
-    console.log("Last name: " + profile._json.last_name);
-    console.log("Email: " + profile._json.email);
-
-    con.query(findUserQuery, (err, rows) => {
       if (err) throw err;
-      console.log("length: " + rows.length);
-      if(rows.length == 1){
-        console.log("The user exists");
-      } else if(rows.length == 0){
-        console.log("Creating new user");
-        done(null, profile);
+
+      console.log("length: " + queryResult.length);
+
+      if(queryResult.length == 1){
+
+        console.log("User already exists");
+        const currentUser = {"email": queryResult[0].email };
+        done(null, currentUser);
+
+      } else if(queryResult.length == 0){
         const createUserQuery = `
           INSERT INTO users VALUES('${profile._json.email}',
                                      '${profile._json.first_name}',
                                      '${profile._json.last_name}')
           `;
-
+        //creates a new user
         con.query(createUserQuery, (err, result) => {
+
             if (err) throw err
             console.log("A new user has been created");
-            done(null, profile);
+            const newUser = {"email": profile._json.email};
+            done(null, newUser);
           });
+
       } else{
-        console.log("Something went wrong");
+        throw "Duplicated users";
       }
-      done(null, profile);
+
     })
 }));
 
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Create auth route
 app.use('/auth', require('./lib/auth.js'));
-
-// Serve webpack assets.
-if (isDev) {
-  const webpack = require('webpack');
-  const webpackMiddleware = require('webpack-dev-middleware');
-  const webpackConfig = require('./webpack.config.js');
-  app.use(webpackMiddleware(webpack(webpackConfig), {
-    publicPath: '/',
-    stats: {colors: true},
-  }));
-  } else {
-    app.use(express.static('dist'));
-  }
 
 app.get('/api/session', (req, res) => {
   const session = {auth: req.isAuthenticated()};
