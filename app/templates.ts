@@ -37,7 +37,7 @@ export const welcome = Handlebars.compile(`
     <p>HealthSim is an open source and cloud-based public health supply chain simulator.</p>
 
     {{#if session.auth}}
-    <p>Select a <a href="#list-models">model</a>.</p>
+    <p>Go to <a href="#interface">interface</a>.</p>
     {{else}}
     <p>Sign in with any of these services to begin.</p>
 		<div class="row">
@@ -67,5 +67,18 @@ export const alert = Handlebars.compile(`
       <span aria-hidden="true">&times;</span>
     </button>
     {{message}}
+  </div>
+`);
+
+export const interfaceLayout = Handlebars.compile(`
+  <div class = "interface">
+    <h1> Model 1 </h1>
+    <div class = "time-series"></div>
+    <p>
+      <input id = "slider" type = "range"
+        min = "0" max = "0.15" step = "0.01" value = "0.05">
+    </p>
+    <button id= "run" type="button"> Run </button>
+    <button id = "step" type="button"> Step </button>
   </div>
 `);
