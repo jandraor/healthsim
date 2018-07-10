@@ -87,7 +87,7 @@ passport.deserializeUser((email, done) => {
   const findUserQuery = `
     SELECT email FROM  users WHERE email = '${email}'
   `;
-  
+
   con.query(findUserQuery, (err, queryResult) => {
 
     if (err) throw err;
@@ -106,42 +106,35 @@ passport.use(new FacebookStrategy({
   callbackURL: new URL('/auth/facebook/callback', serviceUrl).href,
   profileFields: ['id', 'displayName', 'email', 'first_name', 'last_name'],
 }, (accessToken, refreshToken, profile, done) => {
-    const findUserQuery = `
-      SELECT email FROM  users WHERE email = '${profile._json.email}'
-    `
-    //check if user already exists in the db
-    con.query(findUserQuery, (err, queryResult) => {
+      const findUserQuery = `
+        SELECT email FROM  users WHERE email = '${profile._json.email}'
+      `;
+      //check if user already exists in the db
+      con.query(findUserQuery, (err, queryResult) => {
+        if (err) throw err;
+        console.log("length: " + queryResult.length);
 
-      if (err) throw err;
-
-      console.log("length: " + queryResult.length);
-
-      if(queryResult.length == 1){
-
-        console.log("User already exists");
-        const currentUser = {"email": queryResult[0].email };
-        done(null, currentUser);
-
-      } else if(queryResult.length == 0){
-        const createUserQuery = `
-          INSERT INTO users VALUES('${profile._json.email}',
+        if(queryResult.length == 1){
+          console.log("User already exists");
+          const currentUser = {"email": queryResult[0].email };
+          done(null, currentUser);
+        } else if(queryResult.length == 0){
+            const createUserQuery = `
+            INSERT INTO users VALUES('${profile._json.email}',
                                      '${profile._json.first_name}',
                                      '${profile._json.last_name}')
-          `;
-        //creates a new user
-        con.query(createUserQuery, (err, result) => {
-
+            `;
+          //creates a new user
+          con.query(createUserQuery, (err, result) => {
             if (err) throw err
             console.log("A new user has been created");
             const newUser = {"email": profile._json.email};
             done(null, newUser);
           });
-
-      } else{
-        throw "Duplicated users";
-      }
-
-    })
+        } else{
+          throw "Duplicated users";
+        }
+      });
 }));
 
 app.use(passport.initialize());
@@ -149,6 +142,9 @@ app.use(passport.session());
 
 // Create auth route
 app.use('/auth', require('./lib/auth.js'));
+
+// Create sim route
+app.use('/sim', require('./lib/simulation.js'));
 
 app.get('/api/session', (req, res) => {
   const session = {auth: req.isAuthenticated()};
