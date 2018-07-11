@@ -20,8 +20,6 @@ try {
 }
 };
 
-
-
 /**
  * Show an alert to the user.
  */
@@ -70,10 +68,10 @@ const showView = async() => {
           dataset[i] = rowConverter(dataset[i]);
         }
 
-        //Width and height
-        const w = 800;
-        const h = 500;
+        const w = 800; //Width
+        const h = 500; //Heigth
         const padding = 40;
+        //var stepFlag = false;
 
         var xScale = d3.scaleLinear()
                        .domain([0,
@@ -84,8 +82,6 @@ const showView = async() => {
                        .domain([0,
                          d3.max(dataset, d => { return d.sStock; })])
                        .range([h - padding, 0 + padding]);
-        console.log("max: " + d3.max(dataset, d => { return d.sStock; }))
-        console.log("Test yScale: " + yScale(9955));
 
         //Define X axis
         var xAxis = d3.axisBottom()
@@ -122,7 +118,6 @@ const showView = async() => {
             return xScale(d.time)
           })
           .attr("cy", d => {
-            console.log("Stock: " + d.sStock + " Transformation: " + yScale(d.sStock));
             return yScale(d.sStock);
           })
           .attr("r", 5);
@@ -138,6 +133,77 @@ const showView = async() => {
           .attr("class", "y axis")
           .attr("transform", "translate(" + padding + ", 0)")
           .call(yAxis);
+
+        var UpdateTimeSeries = (dataset) => {
+
+                  for(let i in dataset){
+                     dataset[i] = rowConverter(dataset[i]);
+                  }
+/*
+                  console.log("stepFlag:" + stepFlag);
+
+                  if(stepFlag == true){
+                    var i;
+                    for(i = 1; i < response.length; i++){
+                      dataset.push(response[i]);
+                    }
+                  }else{
+                    svg.selectAll("circle").remove();
+                    dataset = response;
+                    stepFlag = true;
+                  }
+*/
+                  svg.selectAll("circle").remove();
+
+                  //Update scale domains
+                  xScale.domain([0, d3.max(dataset, function(d) { return d.time; })]);
+                  yScale.domain([0, d3.max(dataset, function(d) { return d.sStock; })]);
+
+
+                  var circles = svg.selectAll("circle")
+                       .data(dataset);
+
+                  circles.enter()
+                         .append("circle")
+                         .merge(circles)
+                         .attr("cx", function(d){
+                           return xScale(d.time)
+                         })
+                         .attr("cy", function(d){
+                           return yScale(d.sStock)
+                          })
+                         .attr("r", 3);
+
+                  circles.exit().remove();
+
+
+
+                  //Update X axis
+                  svg.select(".x.axis")
+                       .transition()
+                       .duration(1000)
+                       .call(xAxis);
+
+                  //Update y axis
+                  svg.select(".y.axis")
+                     .transition()
+                     .duration(1000)
+                     .call(yAxis);
+                }
+
+        d3.select("#run")
+          .on("click", async() => {
+          const gr = d3.select("#slider").node().value;
+          console.log("-----------testing sync:--------");
+          const url = `sim/model/LimitstoGrowth?gr=${gr}`;
+          const data = await fetchJSON(url);
+          console.log(data);
+          console.log("-----------testing sync:--------");
+          console.log(gr);
+          UpdateTimeSeries(data);
+          //ExecuteRCode(gr, UpdateTimeSeries);
+        });
+
       } else{
         showAlert("Not logged in");
         throw Error(`Not logged in`);
