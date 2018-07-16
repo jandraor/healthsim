@@ -1,29 +1,59 @@
 import * as Handlebars from '../node_modules/handlebars/dist/handlebars.js';
+const logo = require('./img/logo.svg');
+
+
 
 export const main = Handlebars.compile(`
-  <nav class="navbar navbar-default">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed"
-            data-toggle="collapse" data-target=".navbar-collapse"
-            aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#welcome">HealthSim</a>
-      </div>
+  <nav class = "navbar navbar-expand-lg navbar-dark bg-secondary">
+    <div class = "container">
+      <a class = "navbar-brand" href = "#welcome">
+        <img src = ${logo} width = "30" height = "30" alt="">
+        HealthSim
+      </a>
+      <button class = "navbar-toggler" type = "button" data-toggle = "collapse" data-target = ".dual-collapse2">
+        <span class = "navbar-toggler-icon"></span>
+      </button>
+     <div class = "collapse navbar-collapse dual-collapse2" id = "mainNav">
+        <ul class ="navbar-nav mx-auto" >
+          <li class="nav-item active">
+            <a class="nav-link" href = "#Welcome">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class = "nav-link" href = "#List-models">Explore</a>
+          </li>
+          <li class="nav-item">
+            <a class = "nav-link" href = "#play">Play</a>
+          </li>
+          <li class="nav-item">
+            <a class = "nav-link" href = "#Resources">Resources</a>
+          </li>
+          <li class="nav-item">
+            <a class = "nav-link" href = "#About">About</a>
+          </li>
+          <li class="nav-item">
+            <a class = "nav-link" href = "#Contact">Contact</a>
+          </li>
 
-      {{#if session.auth}}
-      <div class="collapse navbar-collapse">
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="#list-bundles">My Models</a></li>
-          <li><a href="/auth/signout">Sign Out</a></li>
-        </ul>
-      </div><!-- /.navbar-collapse -->
-      {{/if}}
-    </div><!-- /.container-fluid -->
+       </ul>
+      </div>
+      <div class="collapse navbar-collapse dual-collapse2">
+      <ul class="navbar-nav ml-auto">
+        {{#if session.auth}}
+          <li class="nav-item">
+            <a class="nav-link" href="#models">My models</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/auth/signout">Sign out</a>
+          </li>
+        {{else}}
+          <li class="nav-item">
+            <a class="nav-link" href="#welcome">Sign in</a>
+          </li>
+        {{/if}}
+      </ul>
+    </div>
+  </div>
+    </div>
   </nav>
 <div class="container">
   <div class="hs-alerts"></div>
