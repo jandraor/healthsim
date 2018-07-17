@@ -46,19 +46,12 @@ if (isDev) {
 // Connect to mysql database
 const mysql = require('mysql');
 
-const con = mysql.createConnection({
+const pool = mysql.createPool({
   host: nconf.get('mysql:host'),
   user: nconf.get('mysql:user'),
   password: nconf.get('mysql:password'),
-  database: nconf.get('mysql:database')
-});
-
-con.connect(err => {
-  if (err) {
-    console.error('error connecting: ' + err.stack);
-    return;
-  }
-  console.log('connected as id ' + con.threadId);
+  database: nconf.get('mysql:database'),
+  connectionLimit: 10
 });
 
 // Setup Express sessions.
@@ -83,20 +76,29 @@ passport.serializeUser((user, done) => {
   console.log("serialising: " + done);
   done(null, user.email);
 });
+
 passport.deserializeUser((email, done) => {
   const findUserQuery = `
-    SELECT email FROM  users WHERE email = '${email}'
+    SELECT
+      email
+    FROM
+      users
+    WHERE
+      email = '${email}'
   `;
 
-  con.query(findUserQuery, (err, queryResult) => {
+  pool.getConnection((err, connection) => {
+    connection.query(findUserQuery, (err, queryResult) => {
+      connection.release(); //release the connection
+      if (err) throw err;
 
-    if (err) throw err;
-    if(queryResult.length == 1){
-      const user = {"email": queryResult[0].email};
-      done(err, user);
-    }
+      if(queryResult.length == 1){
+        const user = {"email": queryResult[0].email};
+        done(err, user);
+      }
+
+    });
   });
-
 });
 
 const FacebookStrategy = require('passport-facebook').Strategy;
@@ -107,33 +109,48 @@ passport.use(new FacebookStrategy({
   profileFields: ['id', 'displayName', 'email', 'first_name', 'last_name'],
 }, (accessToken, refreshToken, profile, done) => {
       const findUserQuery = `
-        SELECT email FROM  users WHERE email = '${profile._json.email}'
+        SELECT
+          email
+        FROM
+          users
+        WHERE
+          email = '${profile._json.email}'
       `;
       //check if user already exists in the db
-      con.query(findUserQuery, (err, queryResult) => {
-        if (err) throw err;
-        console.log("length: " + queryResult.length);
+      pool.getConnection((err, connection) => {
+        connection.query(findUserQuery, (err, queryResult) => {
+          connection.release(); //release the connection
+          if (err) throw err;
+          console.log("length: " + queryResult.length);
 
-        if(queryResult.length == 1){
-          console.log("User already exists");
-          const currentUser = {"email": queryResult[0].email };
-          done(null, currentUser);
-        } else if(queryResult.length == 0){
-            const createUserQuery = `
-            INSERT INTO users VALUES('${profile._json.email}',
-                                     '${profile._json.first_name}',
-                                     '${profile._json.last_name}')
-            `;
-          //creates a new user
-          con.query(createUserQuery, (err, result) => {
-            if (err) throw err
-            console.log("A new user has been created");
-            const newUser = {"email": profile._json.email};
-            done(null, newUser);
-          });
-        } else{
-          throw "Duplicated users";
-        }
+          if(queryResult.length == 1){
+            console.log("User already exists");
+            const currentUser = {"email": queryResult[0].email };
+            done(null, currentUser);
+          } else if(queryResult.length == 0){
+              const createUserQuery = `
+              INSERT INTO users VALUES('${profile._json.email}',
+                                       '${profile._json.first_name}',
+                                       '${profile._json.last_name}')
+              `;
+            //creates a new user
+            pool.getConnection((err, connection) => {
+
+              connection.query(createUserQuery, (err, result) => {
+                connection.release(); //release the connection
+                if (err) throw err;
+                console.log("A new user has been created");
+                const newUser = {"email": profile._json.email};
+                done(null, newUser);
+              });
+
+            });
+
+          } else{
+            throw "Duplicated users";
+          }
+
+        });
       });
 }));
 
@@ -147,7 +164,7 @@ app.use('/auth', require('./lib/auth_manager.js'));
 app.use('/sim', require('./lib/simulation_manager.js'));
 
 // Create model route
-//app.use('/model', require('./lib/model_manager.js'));
+app.use('/model', require('./lib/model_manager.js')(pool));
 
 app.get('/api/session', (req, res) => {
   const session = {auth: req.isAuthenticated()};
