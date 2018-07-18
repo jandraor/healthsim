@@ -1,8 +1,6 @@
 import * as Handlebars from '../node_modules/handlebars/dist/handlebars.js';
 const logo = require('./img/logo.svg');
 
-
-
 export const main = Handlebars.compile(`
   <nav class = "navbar navbar-expand-lg navbar-dark bg-secondary">
     <div class = "container">
@@ -16,19 +14,19 @@ export const main = Handlebars.compile(`
      <div class = "collapse navbar-collapse dual-collapse2" id = "mainNav">
         <ul class ="navbar-nav mx-auto" >
           <li class="nav-item active">
-            <a class="nav-link" href = "#Welcome">Home</a>
+            <a class="nav-link" href = "#welcome">Home</a>
           </li>
           <li class="nav-item">
-            <a class = "nav-link" href = "#List-models">Explore</a>
+            <a class = "nav-link" href = "#explore">Explore</a>
           </li>
           <li class="nav-item">
             <a class = "nav-link" href = "#play">Play</a>
           </li>
           <li class="nav-item">
-            <a class = "nav-link" href = "#Resources">Resources</a>
+            <a class = "nav-link" href = "#resources">Resources</a>
           </li>
           <li class="nav-item">
-            <a class = "nav-link" href = "#About">About</a>
+            <a class = "nav-link" href = "#about">About</a>
           </li>
           <li class="nav-item">
             <a class = "nav-link" href = "#Contact">Contact</a>
@@ -110,5 +108,35 @@ export const interfaceLayout = Handlebars.compile(`
     </p>
     <button id= "run" type="button"> Run </button>
     <button id = "step" type="button"> Step </button>
+  </div>
+`);
+
+export const availableModelsLayout = Handlebars.compile(`
+  <div class = "models py-4">
+    <p class = "my-1"> SINGLE-REGION MODELS</p>
+    <hr class = "my-1 border-primary" />
+
+    <div class = "container py-5 text-muted">
+      <!-- cards -->
+      <div class = "row">
+
+      </div>
+    </div>
+
+  </div>
+`);
+
+export const modelCard = Handlebars.compile(`
+  <div class = "col-md-6 col-lg-4">
+    <div class = "card">
+      <h4 class="card-header">{{title}}</h4>
+      <div class = "card-body">
+        <h5 class="card-title">Description</h5>
+        <p class="card-text">
+          Difficulty, description, learning outcomes
+        </p>
+        <a href="#" class="btn btn-primary">Learn more</a>
+      </div>
+    </div>
   </div>
 `);

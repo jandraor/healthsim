@@ -20,6 +20,29 @@ try {
 }
 };
 
+const getAvailableModels = async () => {
+  const models = await fetchJSON('/api/list-available-models');
+  if (models.error) {
+    throw models.error;
+  }
+  return models;
+};
+
+const listAvailableModels = models => {
+  const mainElement = document.body.querySelector('.hs-main');
+  mainElement.innerHTML = templates.availableModelsLayout();
+  const length = models.length;
+  console.log(models[0].model_name);
+  const rowElement = document.body.querySelector('.row');
+
+  for (let i = 0; i < length; i++) {
+    let title = models[i].model_name;
+    console.log("this is i: " + i);
+    let html = templates.modelCard({title});
+    rowElement.insertAdjacentHTML('beforeend', html);
+  }
+};
+
 /**
  * Show an alert to the user.
  */
@@ -47,6 +70,17 @@ const showView = async() => {
       }
       break;
 
+    case '#explore':
+      try {
+        const availableModels = await getAvailableModels();
+        console.log(availableModels);
+        listAvailableModels(availableModels);
+      } catch (err) {
+        showAlert(err);
+        window.location.hash = '#welcome';
+      }
+      break;
+
     case '#interface':
       const session1 = await fetchJSON('/api/session');
       console.log(session1);
@@ -62,21 +96,21 @@ const showView = async() => {
         }
       }
 
-        const arrayLength = dataset.length;
+      const arrayLength = dataset.length;
 
-        for (let i = 0; i < arrayLength; i++) {
-          dataset[i] = rowConverter(dataset[i]);
-        }
+      for (let i = 0; i < arrayLength; i++) {
+        dataset[i] = rowConverter(dataset[i]);
+      }
 
-        const w = 800; //Width
-        const h = 500; //Heigth
-        const padding = 40;
-        //var stepFlag = false;
+      const w = 800; //Width
+      const h = 500; //Heigth
+      const padding = 40;
+      //var stepFlag = false;
 
-        var xScale = d3.scaleLinear()
-                       .domain([0,
-                         d3.max(dataset, d => { return d.time; })])
-                       .range([0 + padding, w - padding]);
+      var xScale = d3.scaleLinear()
+                     .domain([0,
+                       d3.max(dataset, d => { return d.time; })])
+                     .range([0 + padding, w - padding]);
 
         var yScale = d3.scaleLinear()
                        .domain([0,
@@ -136,10 +170,10 @@ const showView = async() => {
 
         var UpdateTimeSeries = (dataset) => {
 
-                  for(let i in dataset){
-                     dataset[i] = rowConverter(dataset[i]);
-                  }
-/*
+          for(let i in dataset){
+            dataset[i] = rowConverter(dataset[i]);
+          }
+          /*
                   console.log("stepFlag:" + stepFlag);
 
                   if(stepFlag == true){
@@ -152,7 +186,7 @@ const showView = async() => {
                     dataset = response;
                     stepFlag = true;
                   }
-*/
+           */
                   svg.selectAll("circle").remove();
 
                   //Update scale domains

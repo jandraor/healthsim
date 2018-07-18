@@ -164,7 +164,7 @@ app.use('/auth', require('./lib/auth_manager.js'));
 app.use('/sim', require('./lib/simulation_manager.js'));
 
 // Create model route
-app.use('/model', require('./lib/model_manager.js')(pool));
+app.use('/api', require('./lib/model_manager.js')(pool));
 
 app.get('/api/session', (req, res) => {
   const session = {auth: req.isAuthenticated()};
