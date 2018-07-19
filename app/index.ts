@@ -36,9 +36,10 @@ const listAvailableModels = models => {
   const rowElement = document.body.querySelector('.row');
 
   for (let i = 0; i < length; i++) {
+    let model_id = models[i].model_id;
     let title = models[i].model_name;
     console.log("this is i: " + i);
-    let html = templates.modelCard({title});
+    let html = templates.modelCard({model_id, title});
     rowElement.insertAdjacentHTML('beforeend', html);
   }
 };
@@ -58,6 +59,7 @@ const showAlert = (message, type = 'danger') => {
 const showView = async() => {
   const mainElement = document.body.querySelector('.hs-main');
   const [view, ...params] = window.location.hash.split('/');
+
 
   switch(view) {
     case '#welcome':
