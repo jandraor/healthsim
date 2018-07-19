@@ -90,7 +90,7 @@ export const welcome = Handlebars.compile(`
 `);
 
 export const alert = Handlebars.compile(`
-  <div class="alert alert-{{type}} alert-dismissible fade in" role="alert">
+  <div class="alert alert-{{type}} alert-dismissible fade show" role="alert">
     <button class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -135,7 +135,7 @@ export const modelCard = Handlebars.compile(`
         <p class="card-text">
           Difficulty, description, learning outcomes
         </p>
-        <a href="#" class="btn btn-primary">Learn more</a>
+        <a href="#interface/{{model_id}}" class="btn btn-primary">Learn more</a>
       </div>
     </div>
   </div>
