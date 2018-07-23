@@ -90,7 +90,7 @@ export const runButton = (model_id, fetchJSON)  => {
       const i = document.getElementById("lInfectivity").textContent;
       const rd = document.getElementById("lRecoveryDelay").textContent;
       const params = `?I=${I}&cr=${cr}&i=${i}&rd=${rd}`;
-      const url = `api/simulate/${model_id}/${params}`;
+      const url = `/simulate/model/${model_id}/${params}`;
       const dataset = await fetchJSON(url);
 
       const rowConverter = d => {

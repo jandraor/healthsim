@@ -21,7 +21,7 @@ try {
 };
 
 const getAvailableModels = async () => {
-  const models = await fetchJSON('/api/list-available-models');
+  const models = await fetchJSON('/model-info/available');
   if (models.error) {
     throw models.error;
   }
@@ -95,10 +95,11 @@ const showView = async() => {
 
     case '#interface':
       const modelId = params;
-      const result_query = await fetchJSON('/api/model_name/' + modelId);
+      const result_query = await fetchJSON('/model-info/model_name/' + modelId);
       const modelName = result_query[0].model_name;
       document.body.innerHTML = templates.interfaceLayout({modelName});
       drawInterface(modelId);
+      break;
 
     default:
       // Unrecognised view.

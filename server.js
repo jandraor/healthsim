@@ -172,10 +172,10 @@ app.use(passport.session());
 app.use('/auth', require('./lib/auth_manager.js'));
 
 // Create sim route
-app.use('/api', require('./lib/simulation_manager.js')(pool2));
+app.use('/simulate', require('./lib/simulation_manager.js')(pool2));
 
 // Create model route
-app.use('/api', require('./lib/model_manager.js')(pool));
+app.use('/model-info', require('./lib/model_manager.js')(pool));
 
 app.get('/api/session', (req, res) => {
   const session = {auth: req.isAuthenticated()};
