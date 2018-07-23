@@ -4,7 +4,7 @@
     "sourceMap": true,
     "module": "CommonJS",
     "target": "ES5",
-    "lib": ["DOM", "ES2015.Promise", "ES5"],
+    "lib": ["DOM", "ES2015.Promise", "ES5", "es2015.collection"],
     "allowJs": true,
     "alwaysStrict": true
   }

@@ -1,5 +1,6 @@
 import * as Handlebars from '../node_modules/handlebars/dist/handlebars.js';
 const logo = require('./img/logo.svg');
+const logo2 = require('./img/logo2.svg')
 
 export const main = Handlebars.compile(`
   <nav class = "navbar navbar-expand-lg navbar-dark bg-secondary">
@@ -99,15 +100,39 @@ export const alert = Handlebars.compile(`
 `);
 
 export const interfaceLayout = Handlebars.compile(`
-  <div class = "interface">
-    <h1> Model 1 </h1>
-    <div class = "time-series"></div>
-    <p>
-      <input id = "slider" type = "range"
-        min = "0" max = "0.15" step = "0.01" value = "0.05">
-    </p>
-    <button id= "run" type="button"> Run </button>
-    <button id = "step" type="button"> Step </button>
+  <nav class = "navbar navbar-expand-lg navbar-light bg-white">
+    <div class = "container-fluid">
+      <a class = "navbar-brand" href = "#welcome">
+        <img src = ${logo2} width = "30" height = "30" alt="">
+        HealthSim
+      </a>
+    </div>
+  </nav>
+  <div class="row hs-alerts"></div>
+  <div class="container-fluid hs-interface">
+
+    <div class="row my-3">
+      <div class = "col-12">
+        <h3> {{modelName}} </h3>
+      </div>
+    </div>
+    <div class="row my-2 controls">
+      <div class = "col-12">
+        <button id = "run" class = "btn btn-outline-primary mx-1 px-15" type="button"> Run </button>
+        <button id = "step" class = "btn btn-outline-primary mx-1 px-15" type="button"> Step </button>
+      </div>
+    </div>
+    <div class = "row my-3">
+      <div id = "mainTS" class = "col-4 bg-light"></div>
+      <div id = "auxTS" class = "col-2"></div>
+      <div id = "why" class = "col-6 text-center">Why is that going on</div>
+    </div>
+    <div class = "row ">
+      <div class = "col-12 text-muted">
+        <h5 = "my-1 text-muted"> Your decisions</h5>
+        <hr class = "my-1 border-info" />
+      </div>
+    </div>
   </div>
 `);
 
@@ -140,3 +165,59 @@ export const modelCard = Handlebars.compile(`
     </div>
   </div>
 `);
+
+//Parameters
+export const parameters = Handlebars.compile(`
+  <!-- First group of parameters -->
+  <div class = "row py-3">
+    <div class = "col-3 mx-2">
+      <span class = "d-block my-2">
+        <b>Infected [People]:</b>
+        <span id="lInfected">1</span>
+      </span>
+      <div class = "form-group">
+        <span class = "mx-2">0</span>
+        <input id = "slInfected" data-slider-id='Infected-Slider' type="text" data-slider-min="0" data-slider-max="10000" data-slider-step="1" data-slider-value="1"/>
+        <span class = "mx-2">10.000</span>
+      </div>
+    </div>
+    <div class = "col-3 mx-2">
+      <span class = "d-block my-2">
+        <b>Contact rate [People per person per day]:</b>
+        <span id="lContactRate">8</span>
+      </span>
+      <div class = "form-group">
+        <span class = "mx-2">0</span>
+        <input id = "slContactRate" data-slider-id='ContactRate-Slider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="8"/>
+        <span class = "mx-2">100</span>
+      </div>
+    </div>
+  </div>
+  <!-- Second group of parameters -->
+  <div class = "row py-3">
+    <div class = "col-3 mx-2">
+      <span class = "d-block my-2">
+        <b>Infectivity [%]:</b>
+        <span id="lInfectivity">0.25</span>
+      </span>
+      <div class = "form-group">
+        <span class = "mx-2">0</span>
+        <input id = "slInfectivity" data-slider-id='Infectivity-Slider' type="text" data-slider-min="0" data-slider-max="1" data-slider-step="0.05" data-slider-value="0.25"/>
+        <span class = "mx-2">1</span>
+      </div>
+    </div>
+    <div class = "col-3 mx-2">
+      <span class = "d-block my-2">
+        <b>Time to recover [days]:</b>
+        <span id="lRecoveryDelay">2</span>
+      </span>
+      <div class = "form-group">
+        <span class = "mx-2">1</span>
+        <input class = "ModelParameter" id = "slRecoveryDelay" data-slider-id ='RecoveryDelay-Slider'
+          type = "text" data-slider-min = "1" data-slider-max = "100"
+          data-slider-step = "1" data-slider-value = "2"/>
+        <span class = "mx-2">100</span>
+      </div>
+    </div>
+  </div>
+  `);

@@ -54,6 +54,17 @@ const pool = mysql.createPool({
   connectionLimit: 10
 });
 
+// Connect to mysql database using mysql-promise
+const mysql2 = require('promise-mysql');
+
+const pool2 = mysql2.createPool({
+  host: nconf.get('mysql:host'),
+  user: nconf.get('mysql:user'),
+  password: nconf.get('mysql:password'),
+  database: nconf.get('mysql:database'),
+  connectionLimit: 10
+});
+
 // Setup Express sessions.
 const expressSession = require('express-session');
 if (isDev) {
@@ -161,7 +172,7 @@ app.use(passport.session());
 app.use('/auth', require('./lib/auth_manager.js'));
 
 // Create sim route
-app.use('/sim', require('./lib/simulation_manager.js'));
+app.use('/api', require('./lib/simulation_manager.js')(pool2));
 
 // Create model route
 app.use('/api', require('./lib/model_manager.js')(pool));
