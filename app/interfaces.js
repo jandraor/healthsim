@@ -143,9 +143,18 @@ export const runButton = (model_id, fetchJSON)  => {
                      .x(d => { return xScale(d.time); })
                      .y(d => { return yScale(d.sSusceptible);});
 
-      svg.append("path")
-        .datum(dataset)
-        .attr("class", "line")
-        .attr("d", line);
+      const path = svg.append("path")
+                     .datum(dataset)
+                     .attr("class", "line")
+                     .attr("d", line);
+
+       const totalLength = path.node().getTotalLength();
+
+        path.attr("stroke-dasharray", totalLength + " " + totalLength)
+         .attr("stroke-dashoffset", totalLength)
+        .transition()
+          .duration(2000)
+          .ease(d3.easeLinear)
+          .attr("stroke-dashoffset", 0);
   });
 }
