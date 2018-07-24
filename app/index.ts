@@ -5,7 +5,7 @@ import '../node_modules/bootstrap-slider/dist/css/bootstrap-slider.min.css';
 import * as d3 from 'd3';
 import 'bootstrap';
 import * as templates from './templates.ts';
-import * as interfaces from './interfaces.js';
+import * as interfaces from './interfaces/interfaces.ts';
 import './css/styles.css';
 
 /**

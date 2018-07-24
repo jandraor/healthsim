@@ -120,12 +120,17 @@ export const interfaceLayout = Handlebars.compile(`
       <div class = "col-12">
         <button id = "run" class = "btn btn-outline-primary mx-1 px-15" type="button"> Run </button>
         <button id = "step" class = "btn btn-outline-primary mx-1 px-15" type="button"> Step </button>
+        <button id = "clear" class = "btn btn-outline-primary mx-1 px-15" type="button"> Clear </button>
       </div>
     </div>
-    <div class = "row my-3">
+    <!-- Display -->
+    <div class ="row ml-2 mt-3">
+      <h5> Susceptible <h5/>
+    </div>
+    <div class = "row mb-3">
       <div id = "mainTS" class = "col-4 bg-light"></div>
-      <div id = "auxTS" class = "col-2"></div>
-      <div id = "why" class = "col-6 text-center">Why is that going on</div>
+      <div id = "auxTS" class = "col-4"></div>
+      <div id = "why" class = "col-4 text-center">Why is that going on</div>
     </div>
     <div class = "row ">
       <div class = "col-12 text-muted">
@@ -173,11 +178,11 @@ export const parameters = Handlebars.compile(`
     <div class = "col-3 mx-2">
       <span class = "d-block my-2">
         <b>Infected [People]:</b>
-        <span id="lInfected">1</span>
+        <span id="lInfected">100</span>
       </span>
       <div class = "form-group">
         <span class = "mx-2">0</span>
-        <input id = "slInfected" data-slider-id='Infected-Slider' type="text" data-slider-min="0" data-slider-max="10000" data-slider-step="1" data-slider-value="1"/>
+        <input id = "slInfected" data-slider-id='Infected-Slider' type="text" data-slider-min="0" data-slider-max="10000" data-slider-step="100" data-slider-value="100"/>
         <span class = "mx-2">10.000</span>
       </div>
     </div>

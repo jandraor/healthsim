@@ -42,8 +42,8 @@ model <- function(time, stocks, auxs){
     d_sRecovered_dt    <- fRR
 
 
-    return (list(c(d_sSusceptible_dt,d_sInfected_dt,d_sRecovered_dt),
-                 IR=fIR, RR=fRR))
+    return (list(c(d_sSusceptible_dt, d_sInfected_dt, d_sRecovered_dt),
+                 IR = fIR, RR = fRR))
   })
 }
 
@@ -51,5 +51,5 @@ model <- function(time, stocks, auxs){
 o <-data.frame(ode(y=stocks, times=simtime, func = model,
                    parms=auxs, method="euler"))
 
-output_reduced <- o %>% select(time, sSusceptible) %>% toJSON()
+output_reduced <- o %>% select(time, sSusceptible, sInfected, sRecovered) %>% toJSON()
 output_reduced
