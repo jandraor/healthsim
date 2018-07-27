@@ -44,10 +44,10 @@ const listAvailableModels = models => {
   }
 };
 
-const drawInterface = (modelId) =>{
+const drawInterface = (modelId) => {
   const interfaceElement = document.body.querySelector('.hs-interface');
-  const html = templates.parameters();
-  interfaceElement.insertAdjacentHTML('beforeend', html)
+  interfaceElement.insertAdjacentHTML('beforeend', templates.controls());
+  interfaceElement.insertAdjacentHTML('beforeend', templates.parameters());
   console.log("This is interface ID: " + modelId);
   interfaces.buildSliders();
   interfaces.drawTimeSeries();

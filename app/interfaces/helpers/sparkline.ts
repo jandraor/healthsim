@@ -3,7 +3,6 @@ import * as d3 from 'd3';
 //padding paramater must be an object with top, bottom,left and right properties
 export const createSparkline = (elemId, height, width,
                                  padding, dataset, variable) => {
-  console.log("Hola sparkline");
   const svg = d3.select("#" + elemId)
                 .append("svg")
                     .attr("class", "svgSparkline")

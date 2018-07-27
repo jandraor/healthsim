@@ -32,6 +32,8 @@ model <- function(time, stocks, auxs){
   with(as.list(c(stocks, auxs)),{
     aInfected.Contacts <- sInfected * aContact.Rate
     aSusceptible.Contact.Prob <- sSusceptible / aTotal.Population
+    aBasic.Reproduction.Number <- aContact.Rate * aInfectivity
+    aNet.Reproduction.Number <- aSusceptible.Contact.Prob * aBasic.Reproduction.Number
     aSusceptible.Contacted <- aInfected.Contacts * aSusceptible.Contact.Prob
 
     fIR <- aSusceptible.Contacted * aInfectivity
@@ -43,13 +45,17 @@ model <- function(time, stocks, auxs){
 
 
     return (list(c(d_sSusceptible_dt, d_sInfected_dt, d_sRecovered_dt),
-                 IR = fIR, RR = fRR))
+                 IR = fIR, 
+                 RR = fRR, 
+                 basicReproductionNumber = aBasic.Reproduction.Number,
+                 netReproductionNumber  = aNet.Reproduction.Number))
   })
 }
 
 # Call Solver, and store results in a data frame
-o <-data.frame(ode(y=stocks, times=simtime, func = model,
-                   parms=auxs, method="euler"))
+o <-data.frame(ode(y = stocks, times = simtime, func = model,
+                   parms = auxs, method = "euler"))
 
-output_reduced <- o %>% select(time, sSusceptible, sInfected, sRecovered) %>% toJSON()
+output_reduced <- o %>% select(time, sSusceptible, sInfected, sRecovered, basicReproductionNumber,
+                               netReproductionNumber) %>% toJSON()
 output_reduced

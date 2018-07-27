@@ -1,6 +1,7 @@
 import * as Handlebars from '../node_modules/handlebars/dist/handlebars.js';
 const logo = require('./img/logo.svg');
 const logo2 = require('./img/logo2.svg')
+const saf = require('./img/unnamed.png')
 
 export const main = Handlebars.compile(`
   <nav class = "navbar navbar-expand-lg navbar-dark bg-secondary">
@@ -110,17 +111,9 @@ export const interfaceLayout = Handlebars.compile(`
   </nav>
   <div class="row hs-alerts"></div>
   <div class="container-fluid hs-interface">
-
     <div class="row my-3">
       <div class = "col-12">
         <h3> {{modelName}} </h3>
-      </div>
-    </div>
-    <div class="row my-2 controls">
-      <div class = "col-12">
-        <button id = "run" class = "btn btn-outline-primary mx-1 px-15" type="button"> Run </button>
-        <button id = "step" class = "btn btn-outline-primary mx-1 px-15" type="button"> Step </button>
-        <button id = "clear" class = "btn btn-outline-primary mx-1 px-15" type="button"> Clear </button>
       </div>
     </div>
     <!-- Display -->
@@ -129,12 +122,71 @@ export const interfaceLayout = Handlebars.compile(`
     </div>
     <div class = "row mb-3">
       <div id = "mainTS" class = "col-4 bg-light"></div>
-      <div id = "auxTS" class = "col-4"></div>
-      <div id = "why" class = "col-4 text-center">Why is that going on</div>
+      <div id = "auxTS" class = "col-2 bg-light"></div>
+      <!-- Why -->
+      <div id = "why" class = "col-6 text-center border">
+        <!-- Modal -->
+        <div class = "modal fade" id = "exampleModal" tabindex = "-1" role = "dialog" aria-labelledby = "exampleModalLabel" aria-hidden = "true">
+          <div class = "modal-dialog modal-dialog-centered" role = "document">
+            <div class = "modal-content">
+              <div class = "modal-header">
+                <button type = "button" class = "close" data-dismiss = "modal" aria-label = "Close">
+                  <span aria-hidden = "true">&times;</span>
+                </button>
+              </div>
+              <div class = "modal-body">
+                Story telling you should be here, probably a video on Youtube or some kind of animation
+              </div>
+            </div>
+          </div>
+        </div> <!-- Ends Modal -->
+        <div id = "carouselExplanation" class="carousel slide" data-ride="carousel" data-interval = "false">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <div style = "height: 400px">
+                <span>Overview & Instructions</span>
+                <p class = "mt-5"> What users can do in the interface </p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div style = "height: 400px">
+                <span>Description of the model</span>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div style = "height: 400px">
+                <p>Stock and flow diagram</p>
+                <img src = ${saf} width = "500" height = "271" alt="">
+                <p class = "mt-4">
+                  <button type = "button" class = "btn btn-success" data-toggle = "modal" data-target = "#exampleModal"> Learn more </button>
+                </p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div style = "height: 400px">
+                <span>Feedback loops</span>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <div style = "height: 400px">
+                <span>Equations</span>
+              </div>
+            </div>
+          </div>
+          <a class = "carousel-control-prev" href = "#carouselExplanation" role = "button" data-slide = "prev">
+            <span class = "carousel-control-prev-icon" aria-hidden = "true"></span>
+            <span class = "sr-only">Previous</span>
+          </a>
+          <a class = "carousel-control-next" href = "#carouselExplanation" role = "button" data-slide = "next">
+            <span class = "carousel-control-next-icon" aria-hidden = "true"></span>
+            <span class = "sr-only">Next</span>
+          </a>
+        </div>
+      </div>
     </div>
     <div class = "row ">
-      <div class = "col-12 text-muted">
-        <h5 = "my-1 text-muted"> Your decisions</h5>
+      <div id = "controls" class = "col-12 text-muted">
+        <h5 class = "my-1 text-muted"> Your decisions:</h5>
         <hr class = "my-1 border-info" />
       </div>
     </div>
@@ -174,7 +226,7 @@ export const modelCard = Handlebars.compile(`
 //Parameters
 export const parameters = Handlebars.compile(`
   <!-- First group of parameters -->
-  <div class = "row py-3">
+  <div class = "row py-1">
     <div class = "col-3 mx-2">
       <span class = "d-block my-2">
         <b>Infected [People]:</b>
@@ -199,7 +251,7 @@ export const parameters = Handlebars.compile(`
     </div>
   </div>
   <!-- Second group of parameters -->
-  <div class = "row py-3">
+  <div class = "row py-1">
     <div class = "col-3 mx-2">
       <span class = "d-block my-2">
         <b>Infectivity [%]:</b>
@@ -225,4 +277,19 @@ export const parameters = Handlebars.compile(`
       </div>
     </div>
   </div>
+  `);
+
+export const controls = Handlebars.compile(`
+  <div class="row my-3 controls">
+    <div class = "col-12">
+      <button id = "bRun" class = "btn btn-outline-primary mx-1 px-15" type="button"> Run </button>
+      <button id = "bStep" class = "btn btn-outline-primary mx-1 px-15" type="button"> Step </button>
+      <button id = "bCaseStudy" class = "btn btn-outline-primary mx-1 px-15" type="button"> Case Study </button>
+      <button id = "bReset" class = "btn btn-outline-primary mx-1 px-15" type="button"> Reset </button>
+    </div>
+  </div>
+`);
+
+export const rule = Handlebars.compile(`
+
   `);
