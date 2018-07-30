@@ -117,12 +117,11 @@ export const interfaceLayout = Handlebars.compile(`
       </div>
     </div>
     <!-- Display -->
-    <div class ="row ml-2 mt-3">
-      <h5> Susceptible <h5/>
-    </div>
-    <div class = "row mb-3">
-      <div id = "mainTS" class = "col-4 bg-light"></div>
-      <div id = "auxTS" class = "col-2 bg-light"></div>
+    <div class = "row mb-3 border">
+      <div id = "mainTS" class = "col-4"></div>
+      <div id = "auxTS" class = "col-2">
+        <div id = "divSL" class = "mt-5"></div>
+      </div>
       <!-- Why -->
       <div id = "why" class = "col-6 text-center border">
         <!-- Modal -->

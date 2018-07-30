@@ -46,10 +46,13 @@ export const drawChart = (options) => {
     .attr("transform", "translate(" + options.padding + ", 0)")
     .call(yAxis);
 }
-
+/**
+ * Options is a JSON object with the following properties:
+ * padding, w, h, dataset, title
+ */
 export const drawLine = (options) => {
   const dataset = options.dataset;
-  console.log(dataset);
+
   const xScale = d3.scaleLinear()
                    .domain([0,
                      d3.max(dataset, d => { return d.x;})])
@@ -69,7 +72,7 @@ export const drawLine = (options) => {
                   .scale(yScale)
                   .ticks(4);
 
-  let svg = d3.select(`#${options.svgId}`)
+  const svg = d3.select(`#${options.svgId}`);
 
   //Update X axis
   svg.select(".x-axis")
@@ -83,6 +86,13 @@ export const drawLine = (options) => {
     .duration(1000)
     .call(yAxis);
 
+  const title = `<h6 class = "text-center">${options.title}</h6>`;
+  svg.append("foreignObject")
+    .attr("width", options.w)
+    .attr("height", options.padding)
+    .append("xhtml:body")
+    .html(title)
+
   const line = d3.line()
                  .x(d => { return xScale(d.x); })
                  .y(d => { return yScale(d.y);});
@@ -91,6 +101,7 @@ export const drawLine = (options) => {
                  .datum(dataset)
                  .attr("class", "tsline")
                  .attr("d", line);
+
 
   const totalLength = path.node().getTotalLength();
 

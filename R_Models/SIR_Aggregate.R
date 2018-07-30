@@ -32,7 +32,7 @@ model <- function(time, stocks, auxs){
   with(as.list(c(stocks, auxs)),{
     aInfected.Contacts <- sInfected * aContact.Rate
     aSusceptible.Contact.Prob <- sSusceptible / aTotal.Population
-    aBasic.Reproduction.Number <- aContact.Rate * aInfectivity
+    aBasic.Reproduction.Number <- aContact.Rate * aInfectivity * aRecovery.Delay
     aNet.Reproduction.Number <- aSusceptible.Contact.Prob * aBasic.Reproduction.Number
     aSusceptible.Contacted <- aInfected.Contacts * aSusceptible.Contact.Prob
 
@@ -57,5 +57,5 @@ o <-data.frame(ode(y = stocks, times = simtime, func = model,
                    parms = auxs, method = "euler"))
 
 output_reduced <- o %>% select(time, sSusceptible, sInfected, sRecovered, basicReproductionNumber,
-                               netReproductionNumber) %>% toJSON()
+                               netReproductionNumber, IR, RR) %>% toJSON()
 output_reduced

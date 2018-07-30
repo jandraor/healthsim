@@ -28,8 +28,8 @@ export const buildSliders = () => {
   });
 }
 
-export const drawTimeSeries = () => {
-  //parameters timeseries
+export const drawBlankChart = () => {
+  //parameters blank chart
   let options = {
     'xmin': 0,
     'xmax': 100,
@@ -39,11 +39,11 @@ export const drawTimeSeries = () => {
     'h': h,
     'padding': padding,
     'parentId': 'mainTS',
-    'elemId': 'tsSF'
+    'elemId': 'tsSF',
   }
   timeseries.drawChart(options);
 
-  //parameters timeseries
+  //parameters blank chart
   options = {
     'xmin': 0,
     'xmax': 100,
@@ -53,8 +53,9 @@ export const drawTimeSeries = () => {
     'h': h / 2,
     'padding': padding,
     'parentId': 'mainTS',
-    'elemId': 'tsPar'
+    'elemId': 'tsPar',
   }
+
   timeseries.drawChart(options);
 }
 
@@ -78,11 +79,13 @@ export const runButton = (model_id, fetchJSON)  => {
             sInfected: parseFloat(d.sInfected),
             sRecovered: parseFloat(d.sRecovered),
             basicReproductionNumber: parseFloat(d.basicReproductionNumber),
-            netReproductionNumber: parseFloat(d.netReproductionNumber)
+            netReproductionNumber: parseFloat(d.netReproductionNumber),
+            IR: parseFloat(d.IR),
+            RR: parseFloat(d.RR)
           }
       }
 
-      const arrayLength = dataset.length;
+      let arrayLength = dataset.length;
 
       for (let i = 0; i < arrayLength; i++) {
         dataset[i] = rowConverter(dataset[i]);
@@ -107,7 +110,8 @@ export const runButton = (model_id, fetchJSON)  => {
         'svgId': "tsSF",
         'padding': padding,
         'w': w,
-        'h': h
+        'h': h,
+        'title': 'Susceptible'
       }
       timeseries.drawLine(options);
 
@@ -130,17 +134,17 @@ export const runButton = (model_id, fetchJSON)  => {
         'svgId': "tsPar",
         'padding': padding,
         'w': w,
-        'h': h / 2
+        'h': h / 2,
+        'title': 'Net reproduction number'
       }
       timeseries.drawLine(options);
 
       /*
       Sparklines
       */
-
       d3.selectAll(".svgSparkline").remove();
-      const elemId = 'auxTS';
-      //Infected sparkline
+      const parentId = 'divSL';
+
       let slWidth = 250;
       let slHeight = 25
       let slPadding = {
@@ -149,56 +153,45 @@ export const runButton = (model_id, fetchJSON)  => {
         'right': 130,
         'bottom': 2
        }
-      //Susceptible sparkline
-      let slVariable = "Susceptible";
-      x = dataset.map(d => d.time);
-      y = dataset.map(d => d.sSusceptible);
-      length = x.length;
 
-      let slDataset = [];
-      for (let i = 0; i < length; i++) {
-        let temp = {
-          'x' : x[i],
-          'y' : y[i]
-        };
-        slDataset.push(temp);
+       const variableList = [
+         {'name': 'sSusceptible', 'display': 'Susceptible'},
+         {'name': 'sInfected', 'display': 'Infected'},
+         {'name': 'sRecovered', 'display': 'Recovered'},
+         {'name': 'IR', 'display': 'Infection-Rate'},
+         {'name': 'RR', 'display': 'Recovery-Rate'}]
+
+      arrayLength = variableList.length;
+
+      for (let i = 0; i < arrayLength; i++) {
+        let slVariable = variableList[i].display;
+        x = dataset.map(d => d.time);
+        y = dataset.map(d => d[variableList[i].name]);
+        length = x.length;
+        let slDataset = [];
+
+        for (let i = 0; i < length; i++) {
+          let temp = {
+            'x' : x[i],
+            'y' : y[i]
+          };
+          slDataset.push(temp);
+        }
+
+        let svgSparkLineId = `sl${slVariable}`;
+        sl.createSparkline(parentId, slHeight, slWidth,
+          slPadding, slDataset, slVariable, svgSparkLineId);
+
+        let optionsClickEvent = {
+          'dataset': slDataset,
+          'svgId': "tsSF",
+          'padding': padding,
+          'w': w,
+          'h': h,
+          'title': slVariable
+        }
+        sl.addOnClickEvent(svgSparkLineId, timeseries.drawLine,
+          optionsClickEvent);
       }
-
-      sl.createSparkline(elemId, slHeight, slWidth,
-                           slPadding, slDataset, slVariable);
-
-      //Infected sparkline
-      slVariable = "Infected";
-      x = dataset.map(d => d.time);
-      y = dataset.map(d => d.sInfected);
-      length = x.length;
-
-      slDataset = [];
-      for (let i = 0; i < length; i++) {
-        let temp = {
-          'x' : x[i],
-          'y' : y[i]
-        };
-        slDataset.push(temp);
-      }
-
-      sl.createSparkline(elemId, slHeight, slWidth,
-                           slPadding, slDataset, slVariable);
-      //Recovered sparkline
-
-      slVariable = "Recovered";
-      x = dataset.map(d => d.time);
-      y = dataset.map(d => d.sRecovered);
-      length = x.length;
-      slDataset = [];
-      for (let i = 0; i < length; i++) {
-        let temp = {
-          'x' : x[i],
-          'y' : y[i]
-         };
-        slDataset.push(temp);
-      }
-      sl.createSparkline(elemId, slHeight, slWidth,
-                           slPadding, slDataset, slVariable);
     });
 }

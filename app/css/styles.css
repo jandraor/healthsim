@@ -17,12 +17,17 @@
 
 .text-value {
   color: #f00;
+  font-size: 14px
 }
 
 .svgSparkline{
   display: block;
-  margin-bottom: 50px;
+  margin-bottom: 25px;
   cursor: pointer;
+}
+
+.slBackground{
+  fill: #FBFBFB;
 }
 
 .carousel-control-prev-icon {

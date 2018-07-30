@@ -50,7 +50,7 @@ const drawInterface = (modelId) => {
   interfaceElement.insertAdjacentHTML('beforeend', templates.parameters());
   console.log("This is interface ID: " + modelId);
   interfaces.buildSliders();
-  interfaces.drawTimeSeries();
+  interfaces.drawBlankChart();
   interfaces.runButton(modelId, fetchJSON);
 
 };
