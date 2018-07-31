@@ -101,21 +101,20 @@ export const alert = Handlebars.compile(`
 `);
 
 export const interfaceLayout = Handlebars.compile(`
-  <nav class = "navbar navbar-expand-lg navbar-light bg-white">
-    <div class = "container-fluid">
-      <a class = "navbar-brand" href = "#welcome">
-        <img src = ${logo2} width = "30" height = "30" alt="">
-        HealthSim
-      </a>
-    </div>
-  </nav>
-  <div class="row hs-alerts"></div>
-  <div class="container-fluid hs-interface">
-    <div class="row my-3">
-      <div class = "col-12">
+  <div class = "container-fluid pt-2">
+    <div class = "row">
+      <div class = "col-6">
         <h3> {{modelName}} </h3>
       </div>
+      <div class = "d-flex col-6 justify-content-end">
+        <a class = "navbar-brand" href = "#welcome">
+          <img src = ${logo2} width = "30" height = "30" alt="">
+        </a>
+      </div>
     </div>
+  </div>
+  <div class="row hs-alerts"></div>
+  <div class="container-fluid hs-interface">
     <!-- Display -->
     <div class = "row mb-3 border">
       <div id = "mainTS" class = "col-4"></div>
@@ -123,65 +122,7 @@ export const interfaceLayout = Handlebars.compile(`
         <div id = "divSL" class = "mt-5"></div>
       </div>
       <!-- Why -->
-      <div id = "why" class = "col-6 text-center border">
-        <!-- Modal -->
-        <div class = "modal fade" id = "exampleModal" tabindex = "-1" role = "dialog" aria-labelledby = "exampleModalLabel" aria-hidden = "true">
-          <div class = "modal-dialog modal-dialog-centered" role = "document">
-            <div class = "modal-content">
-              <div class = "modal-header">
-                <button type = "button" class = "close" data-dismiss = "modal" aria-label = "Close">
-                  <span aria-hidden = "true">&times;</span>
-                </button>
-              </div>
-              <div class = "modal-body">
-                Story telling you should be here, probably a video on Youtube or some kind of animation
-              </div>
-            </div>
-          </div>
-        </div> <!-- Ends Modal -->
-        <div id = "carouselExplanation" class="carousel slide" data-ride="carousel" data-interval = "false">
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <div style = "height: 400px">
-                <span>Overview & Instructions</span>
-                <p class = "mt-5"> What users can do in the interface </p>
-              </div>
-            </div>
-            <div class="carousel-item">
-              <div style = "height: 400px">
-                <span>Description of the model</span>
-              </div>
-            </div>
-            <div class="carousel-item">
-              <div style = "height: 400px">
-                <p>Stock and flow diagram</p>
-                <img src = ${saf} width = "500" height = "271" alt="">
-                <p class = "mt-4">
-                  <button type = "button" class = "btn btn-success" data-toggle = "modal" data-target = "#exampleModal"> Learn more </button>
-                </p>
-              </div>
-            </div>
-            <div class="carousel-item">
-              <div style = "height: 400px">
-                <span>Feedback loops</span>
-              </div>
-            </div>
-            <div class="carousel-item">
-              <div style = "height: 400px">
-                <span>Equations</span>
-              </div>
-            </div>
-          </div>
-          <a class = "carousel-control-prev" href = "#carouselExplanation" role = "button" data-slide = "prev">
-            <span class = "carousel-control-prev-icon" aria-hidden = "true"></span>
-            <span class = "sr-only">Previous</span>
-          </a>
-          <a class = "carousel-control-next" href = "#carouselExplanation" role = "button" data-slide = "next">
-            <span class = "carousel-control-next-icon" aria-hidden = "true"></span>
-            <span class = "sr-only">Next</span>
-          </a>
-        </div>
-      </div>
+      <div id = "why" class = "col-6 text-center border"></div>
     </div>
     <div class = "row ">
       <div id = "controls" class = "col-12 text-muted">
@@ -289,6 +230,55 @@ export const controls = Handlebars.compile(`
   </div>
 `);
 
-export const rule = Handlebars.compile(`
-
-  `);
+export const complementaryInfo = Handlebars.compile(`
+  <ul class = "nav nav-tabs" id = "myTab" role = "tablist">
+    <li class = "nav-item">
+      <a class ="nav-link active" id = "home-tab" data-toggle = "tab"
+        href = "#pHome" role = "tab" aria-controls = "home" aria-selected = "true">
+        Home
+      </a>
+    </li>
+    <li class = "nav-item">
+      <a class ="nav-link disabled" id = "description-tab" data-toggle = "tab"
+        href = "#pDescription" role = "tab" aria-controls = "description"  aria-selected = "false">
+        Description
+      </a>
+    </li>
+    <li class = "nav-item">
+      <a class ="nav-link" id = "stocksAndFlows-tab" data-toggle = "tab"
+        href = "#pStocksAndFlows" role = "tab" aria-controls = "stocksAndFlows"  aria-selected = "false">
+        Stocks & Flows
+      </a>
+    </li>
+    <li class = "nav-item">
+      <a class ="nav-link disabled" id = "feedbackLoops-tab" data-toggle = "tab"
+        href = "#pFeedbackLoops" role = "tab" aria-controls = "feedbackLoops"  aria-selected = "false">
+        Feeback Loops
+      </a>
+    </li>
+    <li class = "nav-item">
+      <a class ="nav-link disabled" id = "equations-tab" data-toggle = "tab"
+        href = "#pEquations" role = "tab" aria-controls = "equations"  aria-selected = "false">
+        Equations
+      </a>
+    </li>
+    <li class = "nav-item">
+      <a class ="nav-link disabled" id = "caseStudies-tab" data-toggle = "tab"
+        href = "#pCaseStudies" role = "tab" aria-controls = "caseStudies"  aria-selected = "false">
+        Case Studies
+      </a>
+    </li>
+  </ul>
+  <div class = "tab-content" id = "myTabContent">
+    <div class = "tab-pane fade show active" id = "pHome" role = "tabpanel" arial-labelledby = "home-tab">
+    </div>
+    <div class = "tab-pane fade" id = "pDescription" role = "tabpanel" arial-labelledby = "description-tab">
+    </div>
+    <div class = "tab-pane fade" id = "pStocksAndFlows" role = "tabpanel" arial-labelledby = "description-tab">
+    </div>
+    <div class = "tab-pane fade" id = "pFeedbackLoops" role = "tabpanel" arial-labelledby = "description-tab">
+    </div>
+    <div class = "tab-pane fade" id = "pCaseStudies" role = "tabpanel" arial-labelledby = "description-tab">
+    </div>
+  </div>
+`);

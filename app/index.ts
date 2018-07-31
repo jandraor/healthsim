@@ -48,11 +48,11 @@ const drawInterface = (modelId) => {
   const interfaceElement = document.body.querySelector('.hs-interface');
   interfaceElement.insertAdjacentHTML('beforeend', templates.controls());
   interfaceElement.insertAdjacentHTML('beforeend', templates.parameters());
-  console.log("This is interface ID: " + modelId);
   interfaces.buildSliders();
   interfaces.drawBlankChart();
   interfaces.runButton(modelId, fetchJSON);
-
+  const complementaryElement = document.body.querySelector('#why');
+  complementaryElement.insertAdjacentHTML('beforeend', templates.complementaryInfo());
 };
 
 /**
