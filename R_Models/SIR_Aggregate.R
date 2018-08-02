@@ -3,28 +3,32 @@ suppressMessages(library(tidyverse))
 suppressMessages(library(jsonlite))
 
 args <- commandArgs(trailingOnly = TRUE)
-I   <- as.numeric(args[1]) # Infected
-cr  <- as.numeric(args[2]) # Contact rate
-i   <- as.numeric(args[3]) # Infectivity
-rd  <- as.numeric(args[4]) # Recovery delay
+S     <- as.numeric(args[1]) # Susceptible  
+I     <- as.numeric(args[2]) # Infected
+R     <- as.numeric(args[3]) # Recovered
+cr    <- as.numeric(args[4]) # Contact rate
+ift   <- as.numeric(args[5]) # Infectivity
+rd    <- as.numeric(args[6]) # Recovery delay
+startArg   <- as.numeric(args[7]) # Start time
+finishArg  <- as.numeric(args[8]) # Finish time
 
 # Create the start time, finish time, and time step
-START <- 0
-FINISH <- 20
+START  <- startArg 
+FINISH <- finishArg
 STEP <- 1/4
 
 # Create time vector
 simtime <- seq(START, FINISH, by = STEP)
 
 # Create stocks vector, with initial values
-stocks  <- c(sSusceptible = 10000 - I,
+stocks  <- c(sSusceptible = S,
              sInfected = I,
-             sRecovered = 0)
+             sRecovered = R)
 
 # Create auxiliaries vector, with values
-auxs    <- c(aTotal.Population = 10000,
+auxs    <- c(aTotal.Population = sum(stocks),
              aContact.Rate = cr,
-             aInfectivity = i,
+             aInfectivity = ift,
              aRecovery.Delay = rd)
 
 # Write callback function (model equations)

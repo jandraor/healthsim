@@ -48,14 +48,14 @@ export const drawChart = (options) => {
 }
 /**
  * Options is a JSON object with the following properties:
- * padding, w, h, dataset, title
+ * padding, w, h, dataset, title, finishTime
  */
 export const drawLine = (options) => {
   const dataset = options.dataset;
-
+  const xmax = Math.max(options.finishTime,
+    d3.max(dataset, d => { return d.x;}));
   const xScale = d3.scaleLinear()
-                   .domain([0,
-                     d3.max(dataset, d => { return d.x;})])
+                   .domain([0, xmax])
                    .range([0 + options.padding, options.w - options.padding]);
 
   const yScale = d3.scaleLinear()
@@ -99,16 +99,16 @@ export const drawLine = (options) => {
 
   const path = svg.append("path")
                  .datum(dataset)
+                 .attr('id', options.idLine)
                  .attr("class", "tsline")
                  .attr("d", line);
-
 
   const totalLength = path.node().getTotalLength();
 
   path.attr("stroke-dasharray", totalLength + " " + totalLength)
     .attr("stroke-dashoffset", totalLength)
     .transition()
-      .duration(2000)
+      .duration(options.lineDuration)
       .ease(d3.easeLinear)
       .attr("stroke-dashoffset", 0);
 }

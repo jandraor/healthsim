@@ -51,6 +51,7 @@ const drawInterface = (modelId) => {
   interfaces.buildSliders();
   interfaces.drawBlankChart();
   interfaces.runButton(modelId, fetchJSON);
+  interfaces.stepButton(modelId, fetchJSON);
   const complementaryElement = document.body.querySelector('#why');
   complementaryElement.insertAdjacentHTML('beforeend', templates.complementaryInfo());
 };

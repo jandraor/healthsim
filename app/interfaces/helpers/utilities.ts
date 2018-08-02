@@ -1,0 +1,81 @@
+import * as d3 from 'd3';
+
+export const concatenateParameters = parametersObject => {
+  let params = "";
+  for (let key in parametersObject) {
+    if (parametersObject.hasOwnProperty(key)) {
+      params += `${key}=${parametersObject[key]}&`;
+    }
+  }
+  params = params.replace(/&$/, "");
+  const urlParams = `?${params}`;
+  return (urlParams)
+}
+
+export const parseDataset = (rawDataset, model_id) => {
+  let parsedDataset = [];
+  switch(model_id) {
+    case '1':
+
+    const rowConverter = d => {
+        return {
+          time: parseFloat(d.time),
+          sSusceptible: parseFloat(d.sSusceptible),
+          sInfected: parseFloat(d.sInfected),
+          sRecovered: parseFloat(d.sRecovered),
+          basicReproductionNumber: parseFloat(d.basicReproductionNumber),
+          netReproductionNumber: parseFloat(d.netReproductionNumber),
+          IR: parseFloat(d.IR),
+          RR: parseFloat(d.RR)
+        }
+    }
+
+    let arrayLength = rawDataset.length;
+    for (let i = 0; i < arrayLength; i++) {
+      parsedDataset[i] = rowConverter(rawDataset[i]);
+    }
+    break;
+
+    default:
+      throw(`Model ${model_id} not found`);
+  }
+  return(parsedDataset);
+}
+
+export const getParameters = (modelId, step = false,
+  startTime = 0, finishTime = 20) => {
+    let parametersObject;
+
+    switch(modelId){
+      case '1':
+        let susceptible, infected, recovered;
+        if(step === true && startTime > 0){
+          const susceptibleDataset = d3.select('#splSusceptible').datum();
+          susceptible = susceptibleDataset[susceptibleDataset.length - 1].y
+          const infectedDataset = d3.select('#splInfected').datum();
+          infected = infectedDataset[infectedDataset.length - 1].y
+          const recoveredDataset = d3.select('#splRecovered').datum();
+          recovered = recoveredDataset[recoveredDataset.length - 1].y
+        } else {
+          infected = document.getElementById("lInfected").textContent;
+          susceptible = 10000 - infected;
+          recovered = 0
+        }
+
+        parametersObject = {
+         'S': susceptible,
+         'I': infected,
+         'R': recovered,
+         'cr': document.getElementById("lContactRate").textContent,
+         'ift': document.getElementById("lInfectivity").textContent,
+         'rd': document.getElementById("lRecoveryDelay").textContent,
+         'startTime': startTime,
+         'finishTime': finishTime
+        }
+        break;
+
+      default:
+        throw `Model ${modelId} not found`;
+  }
+  return (parametersObject);
+}
