@@ -99,7 +99,7 @@ export const addOnClickEvent = (svgId, drawline, options) => {
         .remove();
 
       tsSVG
-        .select('.tsline')
+        .select('.tsLine')
         .remove();
 
       drawline(options);

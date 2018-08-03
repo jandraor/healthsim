@@ -3,14 +3,18 @@ import * as d3 from 'd3';
 import * as sl from "./helpers/sparkline.ts";
 import * as timeseries from "./helpers/timeseries.ts";
 import * as ut from "./helpers/utilities.ts";
+const $ = require('jquery');
+
+
 const w = 800 * (2 / 3); //Width
 const h = 500 * (2 / 3); //Heigth
 const padding = 40;
 
 export const buildSliders = () => {
-  const InfectedSlider = new Slider("#slInfected");
-  InfectedSlider.on("slide", sliderValue => {
-    document.getElementById("lInfected").textContent = sliderValue;
+
+  $("#slInfected").slider();
+  $("#slInfected").on("slide", function(slideEvt) {
+ 	$("#lInfected").text(slideEvt.value);
   });
 
   const ContactRateSlider = new Slider("#slContactRate");
@@ -63,7 +67,7 @@ export const drawBlankChart = () => {
 export const runButton = (model_id, fetchJSON)  => {
   d3.select("#bRun")
     .on("click", async() => {
-      const tslines = d3.selectAll(".tsline")
+      const tslines = d3.selectAll(".tsLine")
       tslines.remove();
       const params = ut.getParameters(String(model_id));
       const paramsUrl = ut.concatenateParameters(params);
@@ -94,7 +98,8 @@ export const runButton = (model_id, fetchJSON)  => {
         'title': 'Susceptible',
         'finishTime': 20,
         'lineDuration': 2000,
-        'idLine': 'SFline'
+        'idLine': 'SFline',
+        'classLine': 'tsLine',
       }
       timeseries.drawLine(options);
 
@@ -121,7 +126,8 @@ export const runButton = (model_id, fetchJSON)  => {
         'title': 'Net reproduction number',
         'finishTime': 20,
         'lineDuration': 2000,
-        'idLine': 'parLine'
+        'idLine': 'parLine',
+        'classLine': 'tsLine',
       }
       timeseries.drawLine(options);
 
@@ -175,7 +181,7 @@ export const runButton = (model_id, fetchJSON)  => {
           'svgId'    : svgSparkLineId,
           'duration' : 1,
           'delay'    : 2000,
-          'finishTime': 20
+          'finishTime': 20,
         };
 
         sl.createSparkline(optionsCrtSpl);
@@ -189,7 +195,8 @@ export const runButton = (model_id, fetchJSON)  => {
           'title': splVariable,
           'finishTime': 20,
           'lineDuration': 2000,
-          'idLine': 'SFline'
+          'idLine': 'SFline',
+          'classLine': 'tsLine',
         }
         sl.addOnClickEvent(svgSparkLineId, timeseries.drawLine,
           optionsClickEvent);
@@ -252,7 +259,8 @@ export const stepButton = (model_id, fetchJSON) => {
         'title': 'Susceptible',
         'finishTime': 20,
         'lineDuration': 0,
-        'idLine': 'SFline'
+        'idLine': 'SFline',
+        'classLine': 'tsLine',
       }
       d3.select('#SFline').remove();
       timeseries.drawLine(options);
@@ -296,7 +304,8 @@ export const stepButton = (model_id, fetchJSON) => {
         'title': 'Net reproduction number',
         'finishTime': 20,
         'lineDuration': 0,
-        'idLine': 'parline'
+        'idLine': 'parline',
+        'classLine': 'tsLine',
       }
       d3.select('#parline').remove();
       timeseries.drawLine(options);
@@ -381,10 +390,72 @@ export const stepButton = (model_id, fetchJSON) => {
          'title': splVariable,
          'finishTime': 20,
          'lineDuration': 2000,
-         'idLine': 'SFline'
+         'idLine': 'SFline',
+         'classLine': 'tsLine',
       }
       sl.addOnClickEvent(svgSparkLineId, timeseries.drawLine,
          optionsClickEvent);
       }
     });
+}
+
+const caseStudyData = [
+  {'x': 0, 'y': 1},
+  {'x': 1, 'y': 3},
+  {'x': 2, 'y': 25},
+  {'x': 3, 'y': 72},
+  {'x': 4, 'y': 222},
+  {'x': 5, 'y': 282},
+  {'x': 6, 'y': 256},
+  {'x': 7, 'y': 233},
+  {'x': 8, 'y': 189},
+  {'x': 9, 'y': 123},
+  {'x': 10, 'y': 70},
+  {'x': 11, 'y': 25},
+  {'x': 12, 'y': 11},
+  {'x': 13, 'y': 4},
+];
+
+export const drawButton = () => {
+
+  d3.select('#bDraw')
+    .on('click', () => {
+      d3.selectAll('.tsLine').remove();
+      d3.selectAll('.caseStudyLine').remove();
+      d3.selectAll('.tsPoint').remove();
+      $('#slInfected').slider('disable');
+      $('#slInfected').slider('setValue', caseStudyData[0].y, false);
+      $("#lInfected").text(String(caseStudyData[0].y));
+      const options = {
+        'dataset': caseStudyData,
+        'svgId': "tsSF",
+        'padding': padding,
+        'w': w,
+        'h': h,
+        'title': 'Infected',
+        'finishTime': 20,
+        'lineDuration': 2000,
+        'idLine': 'caseStudyInfluenza',
+        'classLine': 'caseStudyLine',
+        'circles': true,
+      }
+      timeseries.drawLine(options);
+    });
+}
+
+export const caseStudyTable = () => {
+  const keys = Object.keys(caseStudyData[0]);
+  const table = d3.select('#caseStudyTable')
+                  .append('table')
+                  .attr('class', 'mx-auto tblCaseStudy');
+  const rows = 2;
+  let tr;
+  for(let i = 0; i < rows; i++){
+    tr = table.append('tr');
+    for(let j = 0; j < caseStudyData.length; j++){
+      tr.append('td')
+        .attr('class', 'px-2')
+        .text(caseStudyData[j][keys[i]]);
+    }
+  }
 }

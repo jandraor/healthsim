@@ -51,6 +51,22 @@ export const drawChart = (options) => {
  * padding, w, h, dataset, title, finishTime
  */
 export const drawLine = (options) => {
+  if (typeof options.circles === 'undefined') {
+    options.circle = false;
+  }
+
+  if (options.circles === true){
+    const optionsCircles = {
+      'dataset': options.dataset,
+      'finishTime': options.finishTime,
+      'padding': options.padding,
+      'w': options.w,
+      'h': options.h,
+      'svgId': options.svgId,
+    }
+    drawCircles(optionsCircles);
+  }
+
   const dataset = options.dataset;
   const xmax = Math.max(options.finishTime,
     d3.max(dataset, d => { return d.x;}));
@@ -100,7 +116,7 @@ export const drawLine = (options) => {
   const path = svg.append("path")
                  .datum(dataset)
                  .attr('id', options.idLine)
-                 .attr("class", "tsline")
+                 .attr("class", options.classLine)
                  .attr("d", line);
 
   const totalLength = path.node().getTotalLength();
@@ -111,4 +127,35 @@ export const drawLine = (options) => {
       .duration(options.lineDuration)
       .ease(d3.easeLinear)
       .attr("stroke-dashoffset", 0);
+}
+
+export const drawCircles = options => {
+  console.log("hola circles");
+  console.log(options.dataset);
+  const dataset = options.dataset;
+  const xmax = Math.max(options.finishTime,
+    d3.max(dataset, d => { return d.x;}));
+  const xScale = d3.scaleLinear()
+                   .domain([0, xmax])
+                   .range([0 + options.padding, options.w - options.padding]);
+
+  const yScale = d3.scaleLinear()
+                   .domain([0,
+                     d3.max(dataset, d => { return d.y;})])
+                   .range([options.h - options.padding, 0 + options.padding]);
+
+  const svg = d3.select(`#${options.svgId}`);
+
+  const circle = svg.selectAll('.tsPoints')
+                   .data(dataset)
+                   .enter()
+                   .append('circle')
+                   .attr('class', 'tsPoint')
+                   .attr("cx", d => {
+                     return(xScale(d.x));
+                   })
+                   .attr("cy", d => {
+                     return(yScale(d.y));
+                   })
+                   .attr("r", 2);
 }

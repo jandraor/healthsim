@@ -4,7 +4,7 @@ import '../node_modules/font-awesome/css/font-awesome.min.css';
 import '../node_modules/bootstrap-slider/dist/css/bootstrap-slider.min.css';
 import * as d3 from 'd3';
 import 'bootstrap';
-import * as templates from './templates.ts';
+import * as templates from './templates/templates.ts';
 import * as interfaces from './interfaces/interfaces.ts';
 import './css/styles.css';
 
@@ -44,16 +44,14 @@ const listAvailableModels = models => {
   }
 };
 
-const drawInterface = (modelId) => {
-  const interfaceElement = document.body.querySelector('.hs-interface');
-  interfaceElement.insertAdjacentHTML('beforeend', templates.controls());
-  interfaceElement.insertAdjacentHTML('beforeend', templates.parameters());
+const drawInterface = (modelId, modelName) => {
+  templates.getTemplate(modelId, modelName);
   interfaces.buildSliders();
   interfaces.drawBlankChart();
   interfaces.runButton(modelId, fetchJSON);
   interfaces.stepButton(modelId, fetchJSON);
-  const complementaryElement = document.body.querySelector('#why');
-  complementaryElement.insertAdjacentHTML('beforeend', templates.complementaryInfo());
+  interfaces.drawButton();
+  interfaces.caseStudyTable();
 };
 
 /**
@@ -98,8 +96,7 @@ const showView = async() => {
       const modelId = params;
       const result_query = await fetchJSON('/model-info/model_name/' + modelId);
       const modelName = result_query[0].model_name;
-      document.body.innerHTML = templates.interfaceLayout({modelName});
-      drawInterface(modelId);
+      drawInterface(modelId, modelName);
       break;
 
     default:
