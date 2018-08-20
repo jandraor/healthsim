@@ -6,14 +6,14 @@ export const parameters = Handlebars.compile(`
     <div class = "col-3 mx-2">
       <span class = "d-block my-2">
         <b>Infected [People]:</b>
-        <span id="lInfected">100</span>
+        <span id="lInfected">{{initial}}</span>
       </span>
       <div class = "form-group">
         <span class = "mx-2">0</span>
         <input id = "slInfected" data-slider-id='Infected-Slider' type="text"
-          data-slider-min="0" data-slider-max="10000" data-slider-step="100"
-          data-slider-value="100"/>
-        <span class = "mx-2">10.000</span>
+          data-slider-min = "0" data-slider-max = {{totalPop}}
+          data-slider-step = {{step}} data-slider-value = {{initial}} />
+        <span class = "mx-2">{{totalPop}}</span>
       </div>
     </div>
     <div class = "col-3 mx-2">
@@ -23,7 +23,9 @@ export const parameters = Handlebars.compile(`
       </span>
       <div class = "form-group">
         <span class = "mx-2">0</span>
-        <input id = "slContactRate" data-slider-id='ContactRate-Slider' type="text" data-slider-min="0" data-slider-max="100" data-slider-step="1" data-slider-value="8"/>
+        <input id = "slContactRate" data-slider-id='ContactRate-Slider'
+          type="text" data-slider-min = "0" data-slider-max = "100"
+          data-slider-step="1" data-slider-value="8"/>
         <span class = "mx-2">100</span>
       </div>
     </div>

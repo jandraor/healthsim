@@ -1,4 +1,5 @@
 import * as d3 from 'd3';
+const $ = require('jquery');
 
 export const concatenateParameters = parametersObject => {
   let params = "";
@@ -48,6 +49,7 @@ export const getParameters = (modelId, step = false,
 
     switch(modelId){
       case '1':
+        const totalPop = parseInt($('#varValueTotalPop').text())
         let susceptible, infected, recovered;
         if(step === true && startTime > 0){
           const susceptibleDataset = d3.select('#splSusceptible').datum();
@@ -58,7 +60,7 @@ export const getParameters = (modelId, step = false,
           recovered = recoveredDataset[recoveredDataset.length - 1].y
         } else {
           infected = document.getElementById("lInfected").textContent;
-          susceptible = 10000 - infected;
+          susceptible = totalPop - infected;
           recovered = 0
         }
 

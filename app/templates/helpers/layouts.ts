@@ -27,7 +27,9 @@ export const simulationInterface = Handlebars.compile(`
     </div>
     <div class = "row ">
       <div id = "controls" class = "col-12 text-muted">
-        <h5 class = "my-1 text-muted"> Your decisions:</h5>
+        <h5 class = "d-inline my-1 text-muted"> Your decisions</h5>
+        <span>Mode:</span> <span> run </span>
+        <span>Total population:</span> <span id = "varValueTotalPop">1000</span>
         <hr class = "my-1 border-info" />
       </div>
     </div>
@@ -57,7 +59,7 @@ export const complementaryInfo = Handlebars.compile(`
     <li class = "nav-item">
       <a class ="nav-link disabled" id = "feedbackLoops-tab" data-toggle = "tab"
         href = "#pFeedbackLoops" role = "tab" aria-controls = "feedbackLoops"  aria-selected = "false">
-        Feeback Loops
+        Feedback Loops
       </a>
     </li>
     <li class = "nav-item">
@@ -79,6 +81,7 @@ export const complementaryInfo = Handlebars.compile(`
     <div class = "tab-pane fade" id = "pDescription" role = "tabpanel" arial-labelledby = "description-tab">
     </div>
     <div class = "tab-pane fade" id = "pStocksAndFlows" role = "tabpanel" arial-labelledby = "description-tab">
+      <div id = "stockFlowDiagram" class = "d-flex justify-content-center pt-5 mt-5"> </div>
     </div>
     <div class = "tab-pane fade" id = "pFeedbackLoops" role = "tabpanel" arial-labelledby = "description-tab">
     </div>

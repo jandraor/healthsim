@@ -46,10 +46,7 @@ const listAvailableModels = models => {
 
 const drawInterface = (modelId, modelName) => {
   templates.getTemplate(modelId, modelName);
-  interfaces.buildSliders();
-  interfaces.drawBlankChart();
-  interfaces.runButton(modelId, fetchJSON);
-  interfaces.stepButton(modelId, fetchJSON);
+  interfaces.getContent(modelId, fetchJSON);
   interfaces.drawButton();
   interfaces.caseStudyTable();
 };

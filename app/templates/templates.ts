@@ -1,11 +1,12 @@
+const $ = require('jquery');
 import * as Handlebars from '../../node_modules/handlebars/dist/handlebars.js';
 import * as layouts from './helpers/layouts.ts';
 import * as ctrl from './helpers/controls.ts';
 import * as inputs from './helpers/inputs.ts';
 import * as cmpContent from './helpers/complementaryContent.ts';
 const logo = require('../img/logo.svg');
-const logo2 = require('../img/logo2.svg')
-const saf = require('../img/unnamed.png')
+const logo2 = require('../img/logo2.svg');
+const saf = require('../img/unnamed.png');
 
 export const main = Handlebars.compile(`
   <nav class = "navbar navbar-expand-lg navbar-dark bg-secondary">
@@ -138,7 +139,11 @@ export const getTemplate = (modelId, modelName) => {
   document.body.innerHTML = layouts.simulationInterface({modelName});
   const interfaceElement = document.body.querySelector('.hs-interface');
   interfaceElement.insertAdjacentHTML('beforeend', ctrl.buttons());
-  interfaceElement.insertAdjacentHTML('beforeend', inputs.parameters());
+  const totalPop = $('#varValueTotalPop').text();
+  const initial = String(parseFloat(totalPop) / 100);
+  const step = String(parseFloat(totalPop) / 100);
+  interfaceElement.insertAdjacentHTML('beforeend',
+    inputs.parameters({totalPop, initial, step}));
   const complementaryElement = document.body.querySelector('#why');
   complementaryElement.insertAdjacentHTML('beforeend', layouts.complementaryInfo());
   const caseStudyElement = document.body.querySelector('#pCaseStudies');
