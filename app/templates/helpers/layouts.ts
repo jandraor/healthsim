@@ -28,7 +28,7 @@ export const simulationInterface = Handlebars.compile(`
     <div class = "row ">
       <div id = "controls" class = "col-12 text-muted">
         <h5 class = "d-inline my-1 text-muted"> Your decisions</h5>
-        <span>Mode:</span> <span> run </span>
+        <span>Mode:</span> <span id = "varValueMode"> run </span>
         <span>Total population:</span> <span id = "varValueTotalPop">1000</span>
         <hr class = "my-1 border-info" />
       </div>
@@ -51,7 +51,7 @@ export const complementaryInfo = Handlebars.compile(`
       </a>
     </li>
     <li class = "nav-item">
-      <a class ="nav-link" id = "stocksAndFlows-tab" data-toggle = "tab"
+      <a class ="nav-link active" id = "stocksAndFlows-tab" data-toggle = "tab"
         href = "#pStocksAndFlows" role = "tab" aria-controls = "stocksAndFlows"  aria-selected = "false">
         Stocks & Flows
       </a>
@@ -69,7 +69,7 @@ export const complementaryInfo = Handlebars.compile(`
       </a>
     </li>
     <li class = "nav-item">
-      <a class ="nav-link active" id = "caseStudies-tab" data-toggle = "tab"
+      <a class ="nav-link" id = "caseStudies-tab" data-toggle = "tab"
         href = "#pCaseStudies" role = "tab" aria-controls = "caseStudies"  aria-selected = "false">
         Case Study
       </a>
@@ -80,12 +80,12 @@ export const complementaryInfo = Handlebars.compile(`
     </div>
     <div class = "tab-pane fade" id = "pDescription" role = "tabpanel" arial-labelledby = "description-tab">
     </div>
-    <div class = "tab-pane fade" id = "pStocksAndFlows" role = "tabpanel" arial-labelledby = "description-tab">
+    <div class = "tab-pane fade show active" id = "pStocksAndFlows" role = "tabpanel" arial-labelledby = "description-tab">
       <div id = "stockFlowDiagram" class = "d-flex justify-content-center pt-5 mt-5"> </div>
     </div>
     <div class = "tab-pane fade" id = "pFeedbackLoops" role = "tabpanel" arial-labelledby = "description-tab">
     </div>
-    <div class = "tab-pane fade show active" id = "pCaseStudies" role = "tabpanel" arial-labelledby = "description-tab">
+    <div class = "tab-pane fade" id = "pCaseStudies" role = "tabpanel" arial-labelledby = "description-tab">
     </div>
   </div>
 `);

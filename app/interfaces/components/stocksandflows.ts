@@ -1,4 +1,5 @@
 //Stocks and stocksAndFlows
+const $ = require('jquery');
 import * as d3 from 'd3';
 
 export const drawStock = (options) => {
@@ -107,11 +108,12 @@ export const animateFlow = (options) => {
               .on("end", function() {
                 d3.select(this)
                   .attr('r', 1)
-                  .attr('class', `${options.to}`)
-              })
+                  .attr('class', `${options.to}`);
+              });
             path.remove();
         }
       });
+    //  $('#bRun').prop("disabled", false);;
 
 }
 

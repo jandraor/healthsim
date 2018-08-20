@@ -1,3 +1,4 @@
+const $ = require('jquery');
 import * as d3 from 'd3';
 import * as ut from "../utilities.ts";
 import * as timeseries from "../timeseries.ts";
@@ -11,6 +12,15 @@ export const build = (model_id, fetchJSON) => {
 
   d3.select('#bStep')
     .on("click", async() => {
+      // $('#bStep').prop("disabled", true);
+      // $('#bRun').prop("disabled", true);
+      const currentMode = $('#varValueMode').text().trim();
+      if(currentMode !== 'step') {
+        d3.selectAll(".tsLine").remove();
+        d3.selectAll(".svgSparkline").remove();
+        //initialiseStockAndFlow();
+      }
+      $('#varValueMode').text('step');
       let isEmpty = d3.select('#SFline').empty();
       let currentDataset = []; //
       let tsDataset = [];

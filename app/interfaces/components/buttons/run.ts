@@ -10,6 +10,7 @@ export const build = (model_id, fetchJSON)  => {
 
   d3.select("#bRun")
     .on("click", async() => {
+      $('#varValueMode').text('run');
       const tslines = d3.selectAll(".tsLine")
       tslines.remove();
       const params = ut.getParameters(String(model_id));
