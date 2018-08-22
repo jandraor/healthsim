@@ -1,4 +1,5 @@
 import * as d3 from 'd3';
+import * as ut from "./utilities.ts";
 
 export const drawChart = (options) => {
   const xScale = d3.scaleLinear()
@@ -20,7 +21,7 @@ export const drawChart = (options) => {
   //Create SVG element
   const svg = d3.select(`#${options.parentId}`)
                 .append("svg")
-                .attr("id", options.elemId)
+                .attr("id", options.svgId)
                 .attr("class", "ts-chart")
                 .attr("width", options.w)
                 .attr("height", options.h);
@@ -64,19 +65,18 @@ export const drawLine = (options) => {
       'h': options.h,
       'svgId': options.svgId,
     }
-    drawCircles(optionsCircles);
+    drawDataPoints(optionsCircles);
   }
 
-  const dataset = options.dataset;
-  const xmax = Math.max(options.finishTime,
-    d3.max(dataset, d => { return d.x;}));
+  const superDataset = options.dataset;
+  const extremePoints = ut.findExtremePoints(superDataset);
+  const xmax = Math.max(options.finishTime, extremePoints.xmax);
   const xScale = d3.scaleLinear()
                    .domain([0, xmax])
                    .range([0 + options.padding, options.w - options.padding]);
 
   const yScale = d3.scaleLinear()
-                   .domain([0,
-                     d3.max(dataset, d => { return d.y;})])
+                   .domain([0, extremePoints.ymax])
                    .range([options.h - options.padding, 0 + options.padding]);
 
   //Define X axis
@@ -109,27 +109,40 @@ export const drawLine = (options) => {
     .append("xhtml:body")
     .html(title)
 
-  const line = d3.line()
-                 .x(d => { return xScale(d.x); })
-                 .y(d => { return yScale(d.y);});
+  for(let i = 0; i < superDataset.length; i++) {
+    let durationTime, colorLine, classLine;
+    if(i === superDataset.length - 1){
+      durationTime = options.lineDuration;
+      colorLine = 'steelblue';
+      classLine = options.classLine + ' lastSF';
+    } else {
+      durationTime = 0;
+      colorLine = '#cccccc';
+      classLine = options.classLine
+    }
+    const dataset = superDataset[i];
+    const line = d3.line()
+                   .x(d => { return xScale(d.x); })
+                   .y(d => { return yScale(d.y);});
 
-  const path = svg.append("path")
-                 .datum(dataset)
-                 .attr('id', options.idLine)
-                 .attr("class", options.classLine)
-                 .attr("d", line);
+    const path = svg.append("path")
+                   .datum(dataset)
+                   .attr('id', `${options.idLine}${makeid()}`)
+                   .attr("class", classLine)
+                   .attr("d", line)
+                   .attr("stroke", colorLine);
 
-  const totalLength = path.node().getTotalLength();
-
-  path.attr("stroke-dasharray", totalLength + " " + totalLength)
-    .attr("stroke-dashoffset", totalLength)
-    .transition()
-      .duration(options.lineDuration)
-      .ease(d3.easeLinear)
-      .attr("stroke-dashoffset", 0);
+    const totalLength = path.node().getTotalLength();
+    path.attr("stroke-dasharray", totalLength + " " + totalLength)
+      .attr("stroke-dashoffset", totalLength)
+      .transition()
+        .duration(durationTime)
+        .ease(d3.easeLinear)
+        .attr("stroke-dashoffset", 0);
+  }
 }
 
-export const drawCircles = options => {
+export const drawDataPoints = options => {
   console.log("hola circles");
   console.log(options.dataset);
   const dataset = options.dataset;
@@ -158,4 +171,14 @@ export const drawCircles = options => {
                      return(yScale(d.y));
                    })
                    .attr("r", 2);
+}
+
+function makeid() {
+  let text = "";
+  const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (let i = 0; i < 5; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+  return text;
 }

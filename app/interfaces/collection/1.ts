@@ -21,7 +21,7 @@ export const buildInterface = (modelId, fetchJSON) => {
     'h': h,
     'padding': padding,
     'parentId': 'mainTS',
-    'elemId': 'tsSF',
+    'svgId': 'svgTSSF',
   }
   timeseries.drawChart(options);
 
@@ -35,7 +35,7 @@ export const buildInterface = (modelId, fetchJSON) => {
     'h': h / 2,
     'padding': padding,
     'parentId': 'mainTS',
-    'elemId': 'tsPar',
+    'svgId': 'svgTSPar',
   }
   timeseries.drawChart(options);
 

@@ -1,3 +1,4 @@
+const $ = require('jquery');
 import * as d3 from 'd3';
 import * as ut from "../utilities.ts";
 import * as timeseries from "../timeseries.ts";
@@ -11,32 +12,40 @@ export const build = (model_id, fetchJSON)  => {
   d3.select("#bRun")
     .on("click", async() => {
       $('#varValueMode').text('run');
-      const tslines = d3.selectAll(".tsLine")
-      tslines.remove();
       const params = ut.getParameters(String(model_id));
       const paramsUrl = ut.concatenateParameters(params);
       const url = `/simulate/model/${model_id}/${paramsUrl}`;
       const rawDataset = await fetchJSON(url);
       const dataset = ut.parseDataset(rawDataset, String(model_id));
-      console.table(dataset);
 
       //Draw timeseries in the stock and flow chart
       let x = dataset.map(d => d.time);
       let y = dataset.map(d => d.sSusceptible);
       let length = x.length;
 
-      let tsDataset = [];
+      let twoDimensionDataset = [];
       for (let i = 0; i < length; i++) {
         let temp = {
           'x' : x[i],
           'y' : y[i]
         };
-        tsDataset.push(temp);
+        twoDimensionDataset.push(temp);
       }
 
+      let currentDatasets = [];
+      let tsDataset = [];
+      if($('#cbComparative').is(":checked")){
+        currentDatasets = d3.selectAll('.tsSF').data();
+        currentDatasets.forEach(dataset => {
+          tsDataset.push(dataset);
+        });
+      }
+
+      d3.selectAll(".tsSF").remove();
+      tsDataset.push(twoDimensionDataset)
       let options = {
         'dataset': tsDataset,
-        'svgId': "tsSF",
+        'svgId': "svgTSSF",
         'padding': padding,
         'w': w,
         'h': h,
@@ -44,7 +53,7 @@ export const build = (model_id, fetchJSON)  => {
         'finishTime': 20,
         'lineDuration': 2000,
         'idLine': 'SFline',
-        'classLine': 'tsLine',
+        'classLine': 'tsLine tsSF',
       }
       timeseries.drawLine(options);
 
@@ -53,18 +62,31 @@ export const build = (model_id, fetchJSON)  => {
       y = dataset.map(d => d.netReproductionNumber);
       length = x.length;
 
-      tsDataset = [];
+      twoDimensionDataset = [];
       for (let i = 0; i < length; i++) {
         let temp = {
           'x' : x[i],
           'y' : y[i]
         };
-        tsDataset.push(temp);
+        twoDimensionDataset.push(temp);
       }
+
+      currentDatasets = [];
+      tsDataset = [];
+      if($('#cbComparative').is(":checked")){
+        currentDatasets = d3.selectAll('.tsPar').data();
+        console.log(currentDatasets);
+        currentDatasets.forEach(dataset => {
+          tsDataset.push(dataset);
+        });
+      }
+
+      d3.selectAll('.tsPar').remove();
+      tsDataset.push(twoDimensionDataset)
 
       options = {
         'dataset': tsDataset,
-        'svgId': "tsPar",
+        'svgId': "svgTSPar",
         'padding': padding,
         'w': w,
         'h': h / 2,
@@ -72,7 +94,7 @@ export const build = (model_id, fetchJSON)  => {
         'finishTime': 20,
         'lineDuration': 2000,
         'idLine': 'parLine',
-        'classLine': 'tsLine',
+        'classLine': 'tsLine tsPar',
       }
       timeseries.drawLine(options);
 
@@ -130,21 +152,24 @@ export const build = (model_id, fetchJSON)  => {
         };
 
         sl.createSparkline(optionsCrtSpl);
+        let superDataset = [];
+        superDataset.push(splDataset);
 
         let optionsClickEvent = {
-          'dataset': splDataset,
-          'svgId': "tsSF",
+          'dataset': superDataset,
+          'svgId': "svgTSSF",
           'padding': padding,
           'w': w,
           'h': h,
           'title': splVariable,
           'finishTime': 20,
           'lineDuration': 2000,
-          'idLine': 'SFline',
-          'classLine': 'tsLine',
+          'idLine': 'SFline1',
+          'classLine': 'tsLine tsSF',
         }
         sl.addOnClickEvent(svgSparkLineId, timeseries.drawLine,
           optionsClickEvent);
       }
+      $('#varValueCurTim').text('20');
     });
 }

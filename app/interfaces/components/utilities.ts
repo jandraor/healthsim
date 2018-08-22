@@ -81,3 +81,35 @@ export const getParameters = (modelId, step = false,
   }
   return (parametersObject);
 }
+
+/**
+ * superDataset is a vector in which each element is a
+ * two-dimension dataset.
+ * Each two-dimension dataset is a vector in which each element is a JSON object
+ */
+export const findExtremePoints = (superDataset) => {
+  let xmax = d3.max(superDataset[0], d => { return d.x;});
+  let xmin = d3.min(superDataset[0], d => { return d.x;});
+  let ymin = d3.min(superDataset[0], d => { return d.y;});
+  let ymax = d3.max(superDataset[0], d => { return d.y;});
+
+  for(let i = 1; i < superDataset.length; i++){
+    const dataset = superDataset[i]
+    const localxmin = d3.min(dataset, d => { return d.x;});
+    xmin = Math.min(xmin, localxmin);
+    const localymin = d3.min(dataset, d => { return d.y;});
+    ymin = Math.min(ymin, localymin);
+    const localxmax = d3.max(dataset, d => { return d.x;});
+    xmax = Math.max(xmax, localxmax);
+    const localymax = d3.max(dataset, d => { return d.y;});
+    ymax = Math.max(ymax, localymax);
+  }
+
+  const limits = {
+    'xmin': xmin,
+    'xmax': xmax,
+    'ymin': ymin,
+    'ymax': ymax
+  }
+  return(limits);
+}

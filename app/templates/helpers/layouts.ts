@@ -30,6 +30,9 @@ export const simulationInterface = Handlebars.compile(`
         <h5 class = "d-inline my-1 text-muted"> Your decisions</h5>
         <span>Mode:</span> <span id = "varValueMode"> run </span>
         <span>Total population:</span> <span id = "varValueTotalPop">1000</span>
+        <span>From:</span> <span id = "varValueFrom">0</span>
+        <span>To:</span> <span id = "varValueTo">20</span>
+        <span>Current time:</span> <span id = "varValueCurTim">0</span>
         <hr class = "my-1 border-info" />
       </div>
     </div>

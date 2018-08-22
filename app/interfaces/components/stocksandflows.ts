@@ -118,10 +118,8 @@ export const animateFlow = (options) => {
 }
 
 export const drawFlow = (options) => {
-  console.log(options);
   const svg = d3.select(`#${options.svgId}`);
   const midpoint = (2 * options.yMin + options.yLength) / 2
-  console.log(`yLength: ${options.yLength} + yMin: ${options.yMin} and midpoint: ${midpoint}`)
   svg.append('line') // Upper horizontal line
     .attr('x1', options.xStart) //155
     .attr('y1', midpoint - 10)
