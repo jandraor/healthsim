@@ -3,7 +3,7 @@ import * as sl from "./components/sparkline.ts";
 import * as timeseries from "./components/timeseries.ts";
 import * as ut from "./components/utilities.ts";
 import * as saf from "./components/stocksandflows.ts";
-import * as intf1 from "./collection/1.ts";
+import * as intf1 from "./collection/1/1.ts";
 const $ = require('jquery');
 
 const w = 800 * (2 / 3); //Width

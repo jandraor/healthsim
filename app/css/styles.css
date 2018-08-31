@@ -91,3 +91,12 @@
   -webkit-transition: .4s;
   transition: .4s;
 }
+
+.link {
+  stroke: lightgrey;
+  fill: none;
+}
+.dominantLoop {
+  stroke: black;
+  fill: none;
+}

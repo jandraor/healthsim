@@ -54,13 +54,13 @@ export const complementaryInfo = Handlebars.compile(`
       </a>
     </li>
     <li class = "nav-item">
-      <a class ="nav-link active" id = "stocksAndFlows-tab" data-toggle = "tab"
+      <a class ="nav-link" id = "stocksAndFlows-tab" data-toggle = "tab"
         href = "#pStocksAndFlows" role = "tab" aria-controls = "stocksAndFlows"  aria-selected = "false">
         Stocks & Flows
       </a>
     </li>
     <li class = "nav-item">
-      <a class ="nav-link disabled" id = "feedbackLoops-tab" data-toggle = "tab"
+      <a class ="nav-link active" id = "feedbackLoops-tab" data-toggle = "tab"
         href = "#pFeedbackLoops" role = "tab" aria-controls = "feedbackLoops"  aria-selected = "false">
         Feedback Loops
       </a>
@@ -83,10 +83,11 @@ export const complementaryInfo = Handlebars.compile(`
     </div>
     <div class = "tab-pane fade" id = "pDescription" role = "tabpanel" arial-labelledby = "description-tab">
     </div>
-    <div class = "tab-pane fade show active" id = "pStocksAndFlows" role = "tabpanel" arial-labelledby = "description-tab">
+    <div class = "tab-pane fade" id = "pStocksAndFlows" role = "tabpanel" arial-labelledby = "description-tab">
       <div id = "stockFlowDiagram" class = "d-flex justify-content-center pt-5 mt-5"> </div>
     </div>
-    <div class = "tab-pane fade" id = "pFeedbackLoops" role = "tabpanel" arial-labelledby = "description-tab">
+    <div class = "tab-pane fade  show active" id = "pFeedbackLoops" role = "tabpanel" arial-labelledby = "description-tab">
+      <div id = "feedbackLoopDiagram" class = "d-flex justify-content-center pt-1 mt-1"> </div>
     </div>
     <div class = "tab-pane fade" id = "pCaseStudies" role = "tabpanel" arial-labelledby = "description-tab">
     </div>

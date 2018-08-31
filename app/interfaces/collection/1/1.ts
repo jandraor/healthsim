@@ -1,10 +1,11 @@
 const $ = require('jquery');
 import * as d3 from 'd3';
-import * as slds from "../components/sliders.ts"
-import * as timeseries from "../components/timeseries.ts";
-import * as saf from "../components/stocksandflows.ts";
-import * as runButton from '../components/buttons/run.ts';
-import * as stepButton from '../components/buttons/step.ts';
+import * as slds from "../../components/sliders.ts"
+import * as timeseries from "../../components/timeseries.ts";
+import * as saf from "../../components/stocksandflows.ts";
+import * as runButton from '../../components/buttons/run.ts';
+import * as stepButton from '../../components/buttons/step.ts';
+import * as cld from '../../components/cld.ts';
 
 export const buildInterface = (modelId, fetchJSON) => {
   const w = 800 * (2 / 3); //Width
@@ -108,4 +109,6 @@ export const buildInterface = (modelId, fetchJSON) => {
 
   runButton.build(modelId, fetchJSON);
   stepButton.build(modelId, fetchJSON);
+
+  cld.drawCLD('feedbackLoopDiagram');
 }
