@@ -4,6 +4,7 @@ import * as ut from "../utilities.ts";
 import * as timeseries from "../timeseries.ts";
 import * as sl from "../sparkline.ts";
 import * as saf from "../stocksandflows.ts";
+import * as cld from "../cld.ts";
 
 export const build = (model_id, fetchJSON) => {
   const w = 800 * (2 / 3); //Width
@@ -177,6 +178,18 @@ export const build = (model_id, fetchJSON) => {
 
        const newTime = String(currentTime + 1);
        $('#varValueCurTim').text(newTime);
+
+       const lastElement = newDataset[newDataset.length - 1];
+       const stock = $("#selLoopDominance").val()
+       cld.highlightDominantLoop(lastElement, stock);
+
+       const changeSelect = $('#selLoopDominance').change(function () {
+         const stock = $(this).val();
+         const lastElement = changeSelect.Data;
+         cld.highlightDominantLoop(lastElement, stock);
+       });
+
+       changeSelect.Data = lastElement;
     }); // Closes OnClick Event
 }
 
@@ -219,8 +232,7 @@ const updateTimeChart = (newDataset, tsClass, variableName, svgId, title, idLine
   }
 
   superDataset[superDataset.length - 1] = tsDataset;
-  console.log('superDataset:')
-  console.log(superDataset);
+
   const options = {
     'dataset': superDataset,
     'svgId': svgId,
@@ -233,8 +245,6 @@ const updateTimeChart = (newDataset, tsClass, variableName, svgId, title, idLine
     'idLine': idLine,
     'classLine': classLine,
   }
-  console.log('options:')
-  console.log(options);
   d3.selectAll(`.${tsClass}`).remove();
   timeseries.drawLine(options);
 }

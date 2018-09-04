@@ -1,4 +1,5 @@
 import * as d3 from 'd3';
+import * as ut from "./utilities.ts";
 
 export const drawCLD = (divID) => {
   const w = 750;
@@ -173,6 +174,55 @@ export const drawCLD = (divID) => {
     }
 }
 
-export const highlightDominantLoop = (stock = 'sSusceptible') => {
-  console.log('work in progress');
+export const highlightDominantLoop = (dataset, stock) => {
+  const loops = {
+    '1': 'B1',
+    '2': 'B2',
+    '3': 'R1',
+    '4': 'B1 B2'
+  }
+  const variable = `dl_${stock}`;
+  const dominantLoop = String(dataset[variable]);
+  const dlName = loops[dominantLoop];
+  const stringRegExp = ut.constructRegExp(dlName);
+  const patt = RegExp(stringRegExp);
+  d3.selectAll(".link")
+    .attr("class", d => {
+      const loops = d.fb;
+      const res = patt.test(loops);
+      let className;
+      if(res === true){
+        className = "link dominantLoop";
+      } else {
+        className = "link";
+      }
+      return(className);
+    });
+  // const variables = Object.keys(dataset);
+  // const impacts = variables.filter(elem => {
+  //   const patt = RegExp(`^imp`);
+  //   const res = patt.test(elem);
+  //   return(res);
+  // });
+  //
+  // const impOntheStock = impacts.filter(elem => {
+  //   const patt = RegExp(`${stock}$`);
+  //   const res = patt.test(elem);
+  //   return (res);
+  // });
+  //
+  // const balancingImp = impOntheStock.filter(elem => {
+  //   const patt = /imp(\w)\d+\w+/;
+  //   const result = elem.match(patt)
+  //   return(result[1] === 'B');
+  // })
+  //
+  // const reinforcingImp = impOntheStock.filter(elem => {
+  //   const patt = /imp(\w)\d+\w+/;
+  //   const result = elem.match(patt)
+  //   return(result[1] === 'R');
+  // })
+  //
+  //
+  // console.log(`impacts: ${balancingImp}`);
 }

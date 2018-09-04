@@ -27,7 +27,10 @@ export const parseDataset = (rawDataset, model_id) => {
           basicReproductionNumber: parseFloat(d.basicReproductionNumber),
           netReproductionNumber: parseFloat(d.netReproductionNumber),
           IR: parseFloat(d.IR),
-          RR: parseFloat(d.RR)
+          RR: parseFloat(d.RR),
+          dl_sSusceptible: parseFloat(d.dl_sSusceptible),
+          dl_sInfected: parseFloat(d.dl_sInfected),
+          dl_sRecovered: parseFloat(d.dl_sRecovered)
         }
     }
 
@@ -112,4 +115,24 @@ export const findExtremePoints = (superDataset) => {
     'ymax': ymax
   }
   return(limits);
+}
+
+export const constructRegExp = text => {
+  const vectorLoops = text.split(" ");
+  const length = vectorLoops.length;
+  let stringRegExp = "";
+  if(length === 1){
+    stringRegExp = vectorLoops[0];
+  }
+
+  if(length > 1) {
+    for(let i = 0; i < length; i++){
+      if(i < length - 1){
+        stringRegExp += `${vectorLoops[i]}|`;
+      } else {
+        stringRegExp += `${vectorLoops[i]}`
+      }
+    }
+  }
+  return(stringRegExp);
 }

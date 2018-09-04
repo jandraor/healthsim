@@ -2,6 +2,7 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/bootstrap-social/bootstrap-social.css';
 import '../node_modules/font-awesome/css/font-awesome.min.css';
 import '../node_modules/bootstrap-slider/dist/css/bootstrap-slider.min.css';
+import '../node_modules/bootstrap-select/dist/css/bootstrap-select.min.css';
 import * as d3 from 'd3';
 import 'bootstrap';
 import * as templates from './templates/templates.ts';

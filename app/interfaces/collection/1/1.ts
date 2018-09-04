@@ -1,6 +1,7 @@
 const $ = require('jquery');
 import * as d3 from 'd3';
 import * as slds from "../../components/sliders.ts"
+import * as select from "../../components/select.ts"
 import * as timeseries from "../../components/timeseries.ts";
 import * as saf from "../../components/stocksandflows.ts";
 import * as runButton from '../../components/buttons/run.ts';
@@ -12,6 +13,7 @@ export const buildInterface = (modelId, fetchJSON) => {
   const h = 500 * (2 / 3); //Height
   const padding = 40;
   slds.buildSliders();
+  select.buildSelects();
   //parameters blank chart
   let options = {
     'xmin': 0,
