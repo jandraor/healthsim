@@ -3,18 +3,25 @@ import * as d3 from 'd3';
 import * as slds from "../../components/sliders.ts"
 import * as select from "../../components/select.ts"
 import * as timeseries from "../../components/timeseries.ts";
+import * as tables from "../../components/table.ts";
 import * as saf from "../../components/stocksandflows.ts";
 import * as runButton from '../../components/buttons/run.ts';
 import * as stepButton from '../../components/buttons/step.ts';
 import * as cld from '../../components/cld.ts';
+import * as drawButton from '../../components/buttons/drawCaseStudy.ts';
 
 export const buildInterface = (modelId, fetchJSON) => {
   const w = 800 * (2 / 3); //Width
   const h = 500 * (2 / 3); //Height
   const padding = 40;
-  slds.buildSliders();
-  select.buildSelects();
   //parameters blank chart
+  const items = [
+  {'value': 'sSusceptible', 'text': 'Susceptible'},
+  {'value': 'sInfected', 'text': 'Infected'},
+  {'value': 'sRecovered', 'text': 'Recovered'},
+  {'value': 'IR', 'text': 'Infection rate'},
+  {'value': 'RR', 'text': 'Recovery rate'}
+  ]
   let options = {
     'xmin': 0,
     'xmax': 100,
@@ -25,6 +32,8 @@ export const buildInterface = (modelId, fetchJSON) => {
     'padding': padding,
     'parentId': 'mainTS',
     'svgId': 'svgTSSF',
+    'selectId': 'selVarSF',
+    'items': items,
   }
   timeseries.drawChart(options);
 
@@ -39,6 +48,8 @@ export const buildInterface = (modelId, fetchJSON) => {
     'padding': padding,
     'parentId': 'mainTS',
     'svgId': 'svgTSPar',
+    'selectId': 'selVarSF',
+    'items': items,
   }
   timeseries.drawChart(options);
 
@@ -111,6 +122,27 @@ export const buildInterface = (modelId, fetchJSON) => {
 
   runButton.build(modelId, fetchJSON);
   stepButton.build(modelId, fetchJSON);
-
   cld.drawCLD('feedbackLoopDiagram');
+
+  const caseStudyData = [
+    {'x': 0, 'y': 1},
+    {'x': 1, 'y': 3},
+    {'x': 2, 'y': 25},
+    {'x': 3, 'y': 72},
+    {'x': 4, 'y': 222},
+    {'x': 5, 'y': 282},
+    {'x': 6, 'y': 256},
+    {'x': 7, 'y': 233},
+    {'x': 8, 'y': 189},
+    {'x': 9, 'y': 123},
+    {'x': 10, 'y': 70},
+    {'x': 11, 'y': 25},
+    {'x': 12, 'y': 11},
+    {'x': 13, 'y': 4},
+  ];
+  tables.drawHorizontalTable(caseStudyData, 'caseStudyTable');
+  drawButton.build(caseStudyData,'bDraw');
+  slds.buildSliders();
+  select.buildSelects();
+
 }

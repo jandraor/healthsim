@@ -1,7 +1,16 @@
+const $ = require('jquery');
 import * as d3 from 'd3';
 import * as ut from "./utilities.ts";
 
 export const drawChart = (options) => {
+  console.table(options.items);
+  $.each(options.items, function (i, item) {
+    $(`#${options.selectId}`).append($('<option>', {
+        value: item.value,
+        text : item.text
+    }));
+  });
+
   const xScale = d3.scaleLinear()
                    .domain([options.xmin, options.xmax])
                    .range([0 + options.padding, options.w - options.padding]);
@@ -22,7 +31,7 @@ export const drawChart = (options) => {
   const svg = d3.select(`#${options.parentId}`)
                 .append("svg")
                 .attr("id", options.svgId)
-                .attr("class", "ts-chart")
+                .attr("class", "ts-chart border")
                 .attr("width", options.w)
                 .attr("height", options.h);
 
@@ -55,31 +64,37 @@ export const drawChart = (options) => {
  * padding, w, h, dataset, title, finishTime
  */
 export const drawLine = (options) => {
-  if (typeof options.circles === 'undefined') {
-    options.circle = false;
-  }
-
-  if (options.circles === true){
+  const svg = d3.select(`#${options.svgId}`);
+  const superDataset = options.dataset;
+  const extremePoints = ut.findExtremePoints(superDataset);
+  const csPoints = svg.selectAll(`.csPoint`); //Case study points
+  const nPoints = csPoints.size();
+  let ymax;
+  if(nPoints > 0){
+    const pointsDataset = csPoints.data();
+    csPoints.remove();
+    const localYMax = d3.max(pointsDataset, d => {return d.y});
+    ymax = Math.max(extremePoints.ymax, localYMax)
     const optionsCircles = {
-      'dataset': options.dataset,
+      'dataset': pointsDataset,
       'finishTime': options.finishTime,
       'padding': options.padding,
       'w': options.w,
       'h': options.h,
       'svgId': options.svgId,
+      'ymax': ymax
     }
     drawDataPoints(optionsCircles);
+  } else {
+    ymax = extremePoints.ymax;
   }
 
-  const superDataset = options.dataset;
-  const extremePoints = ut.findExtremePoints(superDataset);
-  const xmax = Math.max(options.finishTime, extremePoints.xmax);
   const xScale = d3.scaleLinear()
-                   .domain([0, xmax])
+                   .domain([0, options.finishTime])
                    .range([0 + options.padding, options.w - options.padding]);
 
   const yScale = d3.scaleLinear()
-                   .domain([0, extremePoints.ymax])
+                   .domain([0, ymax])
                    .range([options.h - options.padding, 0 + options.padding]);
 
   //Define X axis
@@ -91,7 +106,7 @@ export const drawLine = (options) => {
                   .scale(yScale)
                   .ticks(4);
 
-  const svg = d3.select(`#${options.svgId}`);
+
 
   //Update X axis
   svg.select(".x-axis")
@@ -105,13 +120,6 @@ export const drawLine = (options) => {
     .duration(1000)
     .call(yAxis);
 
-  const title = `<h6 class = "text-center">${options.title}</h6>`;
-  svg.append("foreignObject")
-    .attr("width", options.w)
-    .attr("height", options.padding)
-    .append("xhtml:body")
-    .html(title)
-
   for(let i = 0; i < superDataset.length; i++) {
     let durationTime, colorLine, classLine;
     const dataset = superDataset[i];
@@ -119,7 +127,7 @@ export const drawLine = (options) => {
       durationTime = options.lineDuration;
       colorLine = 'steelblue';
       classLine = options.classLine + ' lastTS';
-      addToolTip(options.svgId, options.w, options.h, options.padding, xScale, yScale, dataset);
+      addToolTip(options.svgId, options.w, options.h, options.padding, xScale, yScale, dataset, options.finishTime);
     } else {
       durationTime = 0;
       colorLine = '#cccccc';
@@ -152,12 +160,11 @@ export const drawDataPoints = options => {
   const xmax = Math.max(options.finishTime,
     d3.max(dataset, d => { return d.x;}));
   const xScale = d3.scaleLinear()
-                   .domain([0, xmax])
+                   .domain([0, options.finishTime])
                    .range([0 + options.padding, options.w - options.padding]);
 
   const yScale = d3.scaleLinear()
-                   .domain([0,
-                     d3.max(dataset, d => { return d.y;})])
+                   .domain([0, options.ymax])
                    .range([options.h - options.padding, 0 + options.padding]);
 
   const svg = d3.select(`#${options.svgId}`);
@@ -166,7 +173,7 @@ export const drawDataPoints = options => {
                    .data(dataset)
                    .enter()
                    .append('circle')
-                   .attr('class', 'tsPoint')
+                   .attr('class', 'csPoint')
                    .attr("cx", d => {
                      return(xScale(d.x));
                    })
@@ -186,7 +193,7 @@ function makeid() {
   return text;
 }
 
-export const addToolTip = (svgId, w, h, padding, xScale, yScale, dataset) => {
+export const addToolTip = (svgId, w, h, padding, xScale, yScale, dataset, endTime) => {
   const svg = d3.select(`#${svgId}`);
   const chartType = svgId.replace("svgTS", "");
   svg.selectAll('.mouse-over-effects').remove();
@@ -277,7 +284,6 @@ export const addToolTip = (svgId, w, h, padding, xScale, yScale, dataset) => {
             .datum(lineDataPoints)
             .attr('d', line);
 
-          const endTime = 20;
           const dataset = d3.select(this).datum();
           const extremePoints = ut.findExtremePoints(d3.selectAll(`.ts${typeChart}`).data());
 
@@ -306,4 +312,60 @@ export const addToolTip = (svgId, w, h, padding, xScale, yScale, dataset) => {
             .text(Math.round(valueY * 100) / 100);
         });
     })
+}
+
+export const drawLineCaseStudy = (options) => {
+  const xScale = d3.scaleLinear()
+                   .domain([0, options.finishTime])
+                   .range([0 + options.padding, options.w - options.padding]);
+
+  const ymax = d3.max(options.dataset, d => {return d.y});
+
+  const yScale = d3.scaleLinear()
+                   .domain([0, ymax])
+                   .range([options.h - options.padding, 0 + options.padding]);
+  //Define X axis
+  const xAxis = d3.axisBottom()
+                  .scale(xScale);
+  //Define Y axis
+  const yAxis = d3.axisLeft()
+                  .scale(yScale)
+                  .ticks(4);
+
+  const svg = d3.select(`#${options.svgId}`)
+
+  //Update X axis
+  svg.select(".x-axis")
+     .transition()
+     .duration(1000)
+     .call(xAxis)
+
+  //Update Y axis
+  svg.select(".y-axis")
+     .transition()
+     .duration(1000)
+     .call(yAxis)
+
+  const line = d3.line()
+                 .x(d => { return xScale(d.x)})
+                 .y(d => { return yScale(d.y)})
+
+  const path = svg.select('.gTS')
+                  .append('path')
+                  .datum(options.dataset)
+                  .attr('class', 'tsLine tsSF tsCaseStudy')
+                  .attr('d', line);
+
+
+
+    const optionsCircles = {
+      'dataset': options.dataset,
+      'finishTime': options.finishTime,
+      'padding': options.padding,
+      'w': options.w,
+      'h': options.h,
+      'svgId': options.svgId,
+      'ymax': ymax,
+    }
+    drawDataPoints(optionsCircles);
 }

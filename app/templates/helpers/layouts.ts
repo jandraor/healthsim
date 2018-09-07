@@ -17,8 +17,11 @@ export const simulationInterface = Handlebars.compile(`
   <div class="row hs-alerts"></div>
   <div class="container-fluid hs-interface">
     <!-- Display -->
-    <div class = "row mb-3 border">
-      <div id = "mainTS" class = "col-4"></div>
+    <div class = "row mb-3 ml-0 border">
+      <div align = 'center' id = "mainTS" class = "col-4">
+        <select id = "selVarSF" class = "pt-2 selectpicker show-tick" data-width="fit">
+        </select>
+      </div>
       <div id = "auxTS" class = "col-2">
         <div id = "divSL" class = "mt-5"></div>
       </div>

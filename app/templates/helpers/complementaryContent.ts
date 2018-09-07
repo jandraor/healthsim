@@ -9,7 +9,7 @@ export const caseStudy = Handlebars.compile(`
       regularly interact with people not in the boarding school community. During
       January 1978 an epidemic of influenza occurred in a boarding school in the
       north of England. A total of 763 boys between the ages of 10 and 18 were at
-      risk. The table below shows the number of individuals confined bo bed each day
+      risk. The table below shows the number of individuals confined to bed each day
       since the start of the epidemic.
     </p>
     <div id = "caseStudyTable"></div>

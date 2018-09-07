@@ -47,10 +47,37 @@ export const build = (model_id, fetchJSON) => {
       const oldRecoveredValue = Math.round(params.R)
       const newRecoveredValue = Math.round(newDataset[newDataset.length - 1].sRecovered)
       const netFlowRecovered  = newRecoveredValue - oldRecoveredValue;
-      updateTimeChart(newDataset, 'tsSF', 'sSusceptible', 'svgTSSF',
-      'Susceptible','SFLine','tsLine tsSF', w, h);
-      updateTimeChart(newDataset, 'tsPar', 'netReproductionNumber', 'svgTSPar',
-      'Net reproduction number','parLine','tsLine tsPar', w, h / 2);
+      //Draw timeseries on each chart
+      const stopTime = parseInt($("#varValueTo").text());
+      const currentSelectedVar = $(`#selVarSF`).val();
+      const currentVarDisplay = $('#selVarSF option:selected').text();
+      let optionsUTC = {
+        'newDataset': newDataset,
+        'tsClass': 'tsSF',
+        'variable': currentSelectedVar,
+        'svgId': 'svgTSSF',
+        'title': currentVarDisplay,
+        'idLine': 'SFline',
+        'classLine': 'tsLine tsSF',
+        'w': w,
+        'h': h,
+        'stopTime': stopTime,
+      }
+      updateTimeChart(optionsUTC);
+
+      optionsUTC = {
+        'newDataset': newDataset,
+        'tsClass': 'tsPar',
+        'variable': 'netReproductionNumber',
+        'svgId': 'svgTSPar',
+        'title': 'Net reproduction number',
+        'idLine': 'parline',
+        'classLine': 'tsLine tsPar',
+        'w': w,
+        'h': h / 2,
+        'stopTime': stopTime,
+      }
+      updateTimeChart(optionsUTC);
 
       /**
        Step button Sparklines
@@ -189,15 +216,16 @@ export const build = (model_id, fetchJSON) => {
          cld.highlightDominantLoop(lastElement, stock);
        });
 
-       changeSelect.Data = lastElement;
+       changeSelect.Data = lastElement; //Binds data to the function
     }); // Closes OnClick Event
 }
 
-const updateTimeChart = (newDataset, tsClass, variableName, svgId, title, idLine, classLine, w, h) => {
+const updateTimeChart = (options) => {
+  const newDataset = options.newDataset;
   const padding = 40;
   // Extract datasets from the lines in the chart
   let superDataset = [];
-  const currentDatasets = d3.selectAll(`.${tsClass}`).data();
+  const currentDatasets = d3.selectAll(`.${options.tsClass}`).data();
   currentDatasets.forEach(dataset => {
     superDataset.push(dataset);
   });
@@ -216,7 +244,7 @@ const updateTimeChart = (newDataset, tsClass, variableName, svgId, title, idLine
   }
 
   let x = newDataset.map(d => d.time);
-  let y = newDataset.map(d => d[variableName]);
+  let y = newDataset.map(d => d[options.variable]);
   let length = x.length;
   let twoDimensionDataset = [];
   for (let i = 0; i < length; i++) {
@@ -233,18 +261,18 @@ const updateTimeChart = (newDataset, tsClass, variableName, svgId, title, idLine
 
   superDataset[superDataset.length - 1] = tsDataset;
 
-  const options = {
+  const optionsTS = {
     'dataset': superDataset,
-    'svgId': svgId,
+    'svgId': options.svgId,
     'padding': padding,
-    'w': w,
-    'h': h,
-    'title': title,
-    'finishTime': 20,
+    'w': options.w,
+    'h': options.h,
+    'title': options.title,
+    'finishTime': options.stopTime,
     'lineDuration': 0,
-    'idLine': idLine,
-    'classLine': classLine,
+    'idLine': options.idLine,
+    'classLine': options.classLine,
   }
-  d3.selectAll(`.${tsClass}`).remove();
-  timeseries.drawLine(options);
+  d3.selectAll(`.${options.tsClass}`).remove();
+  timeseries.drawLine(optionsTS);
 }

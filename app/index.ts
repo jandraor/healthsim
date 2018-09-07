@@ -48,8 +48,6 @@ const listAvailableModels = models => {
 const drawInterface = (modelId, modelName) => {
   templates.getTemplate(modelId, modelName);
   interfaces.getContent(modelId, fetchJSON);
-  interfaces.drawButton();
-  interfaces.caseStudyTable();
 };
 
 /**

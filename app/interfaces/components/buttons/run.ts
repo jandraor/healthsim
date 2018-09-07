@@ -12,15 +12,20 @@ export const build = (model_id, fetchJSON)  => {
   d3.select("#bRun")
     .on("click", async() => {
       $('#varValueMode').text('run');
-      const params = ut.getParameters(String(model_id));
+      const startTime = parseInt($("#varValueFrom").text());
+      const finishTime = parseInt($("#varValueTo").text());
+      const params = ut.getParameters(String(model_id), false,
+      startTime, finishTime);
       const paramsUrl = ut.concatenateParameters(params);
       const url = `/simulate/model/${model_id}/${paramsUrl}`;
       const rawDataset = await fetchJSON(url);
       const dataset = ut.parseDataset(rawDataset, String(model_id));
-
+      const newCurrentTime = String(d3.max(dataset, d => {return d.time}));
       //Draw timeseries in the stock and flow chart
+      const currentSelectedVar = $(`#selVarSF`).val();
+      const currentVarDisplay = $('#selVarSF option:selected').text();
       let x = dataset.map(d => d.time);
-      let y = dataset.map(d => d.sSusceptible);
+      let y = dataset.map(d => d[currentSelectedVar]);
       let length = x.length;
 
       let twoDimensionDataset = [];
@@ -49,8 +54,8 @@ export const build = (model_id, fetchJSON)  => {
         'padding': padding,
         'w': w,
         'h': h,
-        'title': 'Susceptible',
-        'finishTime': 20,
+        'title': currentVarDisplay,
+        'finishTime': finishTime,
         'lineDuration': 2000,
         'idLine': 'SFline',
         'classLine': 'tsLine tsSF',
@@ -75,13 +80,13 @@ export const build = (model_id, fetchJSON)  => {
       tsDataset = [];
       if($('#cbComparative').is(":checked")){
         currentDatasets = d3.selectAll('.tsPar').data();
-        console.log(currentDatasets);
         currentDatasets.forEach(dataset => {
           tsDataset.push(dataset);
         });
       }
 
       d3.selectAll('.tsPar').remove();
+
       tsDataset.push(twoDimensionDataset)
 
       options = {
@@ -91,7 +96,7 @@ export const build = (model_id, fetchJSON)  => {
         'w': w,
         'h': h / 2,
         'title': 'Net reproduction number',
-        'finishTime': 20,
+        'finishTime': finishTime,
         'lineDuration': 2000,
         'idLine': 'parLine',
         'classLine': 'tsLine tsPar',
@@ -148,7 +153,7 @@ export const build = (model_id, fetchJSON)  => {
           'svgId'    : svgSparkLineId,
           'duration' : 1,
           'delay'    : 2000,
-          'finishTime': 20,
+          'finishTime': finishTime,
         };
 
         sl.createSparkline(optionsCrtSpl);
@@ -162,7 +167,7 @@ export const build = (model_id, fetchJSON)  => {
           'w': w,
           'h': h,
           'title': splVariable,
-          'finishTime': 20,
+          'finishTime': finishTime,
           'lineDuration': 2000,
           'idLine': 'SFline1',
           'classLine': 'tsLine tsSF',
@@ -170,6 +175,6 @@ export const build = (model_id, fetchJSON)  => {
         sl.addOnClickEvent(svgSparkLineId, timeseries.drawLine,
           optionsClickEvent);
       }
-      $('#varValueCurTim').text('20');
+      $('#varValueCurTim').text(newCurrentTime);
     });
 }

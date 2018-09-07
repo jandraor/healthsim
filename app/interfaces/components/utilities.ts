@@ -47,7 +47,7 @@ export const parseDataset = (rawDataset, model_id) => {
 }
 
 export const getParameters = (modelId, step = false,
-  startTime = 0, finishTime = 20) => {
+  startTime, finishTime) => {
     let parametersObject;
 
     switch(modelId){
