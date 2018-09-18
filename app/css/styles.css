@@ -78,3 +78,16 @@
   stroke: black;
   fill: none;
 }
+
+.divPar {
+  width: 48%;
+}
+
+.clickable-icon {
+  cursor: pointer;
+}
+
+.divScroll{
+  overflow-y: scroll;
+  height: 200px;
+}

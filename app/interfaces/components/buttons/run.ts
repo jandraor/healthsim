@@ -3,6 +3,7 @@ import * as d3 from 'd3';
 import * as ut from "../utilities.ts";
 import * as timeseries from "../timeseries.ts";
 import * as sl from "../sparkline.ts";
+import * as tables from "../table.ts";
 
 export const build = (model_id, fetchJSON)  => {
   const w = 800 * (2 / 3); //Width
@@ -176,5 +177,22 @@ export const build = (model_id, fetchJSON)  => {
           optionsClickEvent);
       }
       $('#varValueCurTim').text(newCurrentTime);
+      const totalPop = parseInt(params.S) + parseInt(params.I) +
+        parseInt(params.R);
+      const paramsTbl = {
+        'modelId': model_id,
+        'tableId': 'tblCurrentSim',
+        'rowElements': {
+          'Population': totalPop,
+          'Initial_infected': params.I,
+          'Infectivity': params.ift,
+          'Contact_rate': params.cr,
+          'Time_to_recover': params.rd,
+          'startTime': params.startTime,
+          'stopTime': params.stopTime
+        }
+      }
+
+      tables.addRowCurrentSim(paramsTbl);
     });
 }

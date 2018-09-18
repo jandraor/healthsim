@@ -9,8 +9,9 @@ import * as runButton from '../../components/buttons/run.ts';
 import * as stepButton from '../../components/buttons/step.ts';
 import * as cld from '../../components/cld.ts';
 import * as drawButton from '../../components/buttons/drawCaseStudy.ts';
+import * as ut from '../../../helpers/utilities.ts';
 
-export const buildInterface = (modelId, fetchJSON) => {
+export const buildInterface = async (modelId, fetchJSON) => {
   const w = 800 * (2 / 3); //Width
   const h = 500 * (2 / 3); //Height
   const padding = 40;
@@ -144,5 +145,15 @@ export const buildInterface = (modelId, fetchJSON) => {
   drawButton.build(caseStudyData,'bDraw');
   slds.buildSliders();
   select.buildSelects();
+  // Insert comment here
+  const res = await ut.fetchJSON('/api/user');
+  const user = res.user;
+  const url = `/scenario/${user}/${modelId}`
+  const response = await ut.fetchJSON(url);
+  const optionsRtvSvdScn = {
+    'tableId': 'tblSavedSim',
+    'data': response
+  }
+  tables.retrieveSavedScenarios(optionsRtvSvdScn);
 
 }

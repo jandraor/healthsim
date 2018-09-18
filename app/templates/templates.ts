@@ -137,15 +137,20 @@ export const modelCard = Handlebars.compile(`
 
 export const getTemplate = (modelId, modelName) => {
   document.body.innerHTML = layouts.simulationInterface({modelName});
-  const interfaceElement = document.body.querySelector('.hs-interface');
-  interfaceElement.insertAdjacentHTML('beforeend', ctrl.buttons());
+  const controlsElement = document.body.querySelector('#divControls');
+  controlsElement.insertAdjacentHTML('beforeend', ctrl.buttons());
   const totalPop = $('#varValueTotalPop').text();
   const initial = String(parseFloat(totalPop) / 100);
   const step = String(parseFloat(totalPop) / 100);
-  interfaceElement.insertAdjacentHTML('beforeend',
+  const slidersElement = document.body.querySelector('#divSliders');
+  slidersElement.insertAdjacentHTML('beforeend',
     inputs.parameters({totalPop, initial, step}));
   const complementaryElement = document.body.querySelector('#why');
   complementaryElement.insertAdjacentHTML('beforeend', layouts.complementaryInfo());
   const caseStudyElement = document.body.querySelector('#pCaseStudies');
   caseStudyElement.insertAdjacentHTML('beforeend', cmpContent.caseStudy());
+  const simulationsElement = document.body.querySelector('#divSimulations');
+  simulationsElement.insertAdjacentHTML('beforeend', layouts.simulationsInfo());
+  const descriptionElement = document.body.querySelector('#pDescription');
+  descriptionElement.insertAdjacentHTML('beforeend', cmpContent.description());
 }

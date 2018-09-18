@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/jandraor/HealthSim#readme",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "bootstrap-select": "^1.13.2",
     "bootstrap-slider": "^10.0.2",
     "bootstrap-social": "5.1.1",

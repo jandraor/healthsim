@@ -1,14 +1,14 @@
 import * as Handlebars from '../../../node_modules/handlebars/dist/handlebars.js';
 
 export const parameters = Handlebars.compile(`
-  <!-- First group of parameters -->
-  <div class = "row py-1">
-    <div class = "col-3 mx-2">
+  <!-- First group of parameters-->
+  <div id ="firstGroupPar" class = "d-block ml-3">
+    <div class = "d-inline-block divPar" id = "divInfected">
       <span class = "d-block my-2">
         <b>Infected [People]:</b>
         <span id="lInfected">{{initial}}</span>
       </span>
-      <div class = "form-group">
+      <div>
         <span class = "mx-2">0</span>
         <input id = "slInfected" data-slider-id='Infected-Slider' type="text"
           data-slider-min = "0" data-slider-max = {{totalPop}}
@@ -16,10 +16,10 @@ export const parameters = Handlebars.compile(`
         <span class = "mx-2">{{totalPop}}</span>
       </div>
     </div>
-    <div class = "col-3 mx-2">
+    <div class = "d-inline-block divPar" id = "divContacts">
       <span class = "d-block my-2">
         <b>Contact rate [People per person per day]:</b>
-        <span id="lContactRate">8</span>
+        <span id = "lContactRate">8</span>
       </span>
       <div class = "form-group">
         <span class = "mx-2">0</span>
@@ -30,9 +30,10 @@ export const parameters = Handlebars.compile(`
       </div>
     </div>
   </div>
+
   <!-- Second group of parameters -->
-  <div class = "row py-1">
-    <div class = "col-3 mx-2">
+  <div id ="secondGroupPar" class = "d-block ml-3">
+    <div class = "d-inline-block divPar" id= "divInfectivity">
       <span class = "d-block my-2">
         <b>Infectivity [%]:</b>
         <span id="lInfectivity">0.25</span>
@@ -43,7 +44,7 @@ export const parameters = Handlebars.compile(`
         <span class = "mx-2">1</span>
       </div>
     </div>
-    <div class = "col-3 mx-2">
+    <div class = "d-inline-block divPar" id = "divRecoveryDelay">
       <span class = "d-block my-2">
         <b>Time to recover [days]:</b>
         <span id="lRecoveryDelay">2</span>
@@ -57,4 +58,24 @@ export const parameters = Handlebars.compile(`
       </div>
     </div>
   </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   `);

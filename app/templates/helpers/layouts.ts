@@ -16,30 +16,38 @@ export const simulationInterface = Handlebars.compile(`
   </div>
   <div class="row hs-alerts"></div>
   <div class="container-fluid hs-interface">
-    <!-- Display -->
+    <!-- Display row -->
     <div class = "row mb-3 ml-0 border">
-      <div align = 'center' id = "mainTS" class = "col-4">
+      <div align = 'center' id = "mainTS" class = "col-lg-4 col-md-6 col-sm-12">
         <select id = "selVarSF" class = "pt-2 selectpicker show-tick" data-width="fit">
         </select>
       </div>
-      <div id = "auxTS" class = "col-2">
+      <div id = "auxTS" class = "col-lg-2 col-sm-12">
         <div id = "divSL" class = "mt-5"></div>
       </div>
       <!-- Why -->
-      <div id = "why" class = "col-6 text-center border"></div>
+      <div id = "why" class = "col-lg-6 col-sm-12 text-center border"></div>
     </div>
-    <div class = "row ">
-      <div id = "controls" class = "col-12 text-muted">
-        <h5 class = "d-inline my-1 text-muted"> Your decisions</h5>
-        <span>Mode:</span> <span id = "varValueMode"> run </span>
-        <span>Total population:</span> <span id = "varValueTotalPop">1000</span>
-        <span>From:</span> <span id = "varValueFrom">0</span>
-        <span>To:</span> <span id = "varValueTo">20</span>
-        <span>Current time:</span> <span id = "varValueCurTim">0</span>
-        <hr class = "my-1 border-info" />
+    <!-- Last row -->
+    <div class = "row border ml-0">
+      <div class = "border col-lg-6 col-sm-12">
+        <div id = "divControls" class = "col-12 text-muted">
+          <h5 class = "d-inline my-1 text-muted"> Your decisions</h5>
+          <span>Mode:</span> <span id = "varValueMode"> run </span>
+          <span>Total population:</span> <span id = "varValueTotalPop">1000</span>
+          <span>From:</span> <span id = "varValueFrom">0</span>
+          <span>To:</span> <span id = "varValueTo">20</span>
+          <span>Current time:</span> <span id = "varValueCurTim">0</span>
+          <hr class = "my-1 border-info" />
+        </div>
+        <div id = "divSliders"></div>
+      </div>
+      <div class = "col-lg-6 col-sm-12 border">
+        <div id = "divSimulations"></div>
       </div>
     </div>
   </div>
+
 `);
 
 export const complementaryInfo = Handlebars.compile(`
@@ -51,9 +59,15 @@ export const complementaryInfo = Handlebars.compile(`
       </a>
     </li>
     <li class = "nav-item">
-      <a class ="nav-link disabled" id = "description-tab" data-toggle = "tab"
+      <a class ="nav-link" id = "description-tab" data-toggle = "tab"
         href = "#pDescription" role = "tab" aria-controls = "description"  aria-selected = "false">
         Description
+      </a>
+    </li>
+    <li class = "nav-item">
+      <a class ="nav-link disabled" id = "equations-tab" data-toggle = "tab"
+        href = "#pEquations" role = "tab" aria-controls = "equations"  aria-selected = "false">
+        Equations
       </a>
     </li>
     <li class = "nav-item">
@@ -69,12 +83,6 @@ export const complementaryInfo = Handlebars.compile(`
       </a>
     </li>
     <li class = "nav-item">
-      <a class ="nav-link disabled" id = "equations-tab" data-toggle = "tab"
-        href = "#pEquations" role = "tab" aria-controls = "equations"  aria-selected = "false">
-        Equations
-      </a>
-    </li>
-    <li class = "nav-item">
       <a class ="nav-link" id = "caseStudies-tab" data-toggle = "tab"
         href = "#pCaseStudies" role = "tab" aria-controls = "caseStudies"  aria-selected = "false">
         Case Study
@@ -84,8 +92,7 @@ export const complementaryInfo = Handlebars.compile(`
   <div class = "tab-content" id = "myTabContent">
     <div class = "tab-pane fade " id = "pHome" role = "tabpanel" arial-labelledby = "home-tab">
     </div>
-    <div class = "tab-pane fade" id = "pDescription" role = "tabpanel" arial-labelledby = "description-tab">
-    </div>
+    <div class = "tab-pane fade" id = "pDescription" role = "tabpanel" arial-labelledby = "description-tab"></div>
     <div class = "tab-pane fade" id = "pStocksAndFlows" role = "tabpanel" arial-labelledby = "description-tab">
       <div id = "stockFlowDiagram" class = "d-flex justify-content-center pt-5 mt-5"> </div>
     </div>
@@ -101,6 +108,101 @@ export const complementaryInfo = Handlebars.compile(`
       </div>
     </div>
     <div class = "tab-pane fade" id = "pCaseStudies" role = "tabpanel" arial-labelledby = "description-tab">
+    </div>
+  </div>
+`);
+
+export const simulationsInfo = Handlebars.compile(`
+  <ul class = "nav  nav-tabs" id = "tabSimulations" role = "tablist">
+    <li class = "nav-item">
+      <a class = "nav-link active" id = "currentSim-tab" data-toggle = "tab"
+       href = "#pCurrentSim" role = "tab" aria-controls = "home" aria-selected = "true">
+       Current Simulations
+      </a>
+    </li>
+    <li class = "nav-item">
+      <a class = "nav-link" id = "savedSim-tab" data-toggle = "tab"
+       href = "#pSavedSim" role = "tab" aria-controls = "home" aria-selected = "true">
+       Saved Simulations
+      </a>
+    </li>
+  </ul>
+  <div class = "tab-content" id = "simTabContent">
+    <div class = "tab-pane fade show active" id = "pCurrentSim" role = "tabpanel" aria-labelledby = "currentSim-tab">
+      <div id = "divTblCurrentSim" class = "mt-3 d-block divScroll">
+        <table id = "tblCurrentSim" class = "border mx-auto">
+          <thead>
+            <tr>
+              <th class = "border px-1">
+                Run
+              </th>
+              <th class = "border px-1">
+                Population
+              </th>
+              <th class = "border px-1">
+                Initial infected
+              </th>
+              <th class = "border px-1">
+                Infectivity
+              </th>
+              <th class = "border px-1">
+                Contact rate
+              </th>
+              <th class = "border px-1">
+                Time to recover
+              </th>
+              <th class = "border px-1">
+                Start time
+              </th>
+              <th class = "border px-1">
+                Stop time
+              </th>
+              <th class = "border px-1">
+                Save
+              </th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+
+      </div>
+    </div>
+    <div class = "tab-pane fade " id = "pSavedSim" role = "tabpanel" arial-labelledby = "savedSim-tab">
+    <div id = "divTblSavedSim" class = "mt-3 d-block divScroll">
+      <table id = "tblSavedSim" class = "border mx-auto">
+        <thead>
+          <tr>
+            <th class = "border px-1">
+              sim_id
+            </th>
+            <th class = "border px-1">
+              Start time
+            </th>
+            <th class = "border px-1">
+              Stop time
+            </th>
+            <th class = "border px-1">
+              Population
+            </th>
+            <th class = "border px-1">
+              Initial infected
+            </th>
+            <th class = "border px-1">
+              Infectivity
+            </th>
+            <th class = "border px-1">
+              Contact rate
+            </th>
+            <th class = "border px-1">
+              Time to recover
+            </th>
+            <th class = "border px-1">
+              Play
+            </th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
     </div>
   </div>
 `);

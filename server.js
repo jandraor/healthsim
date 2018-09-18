@@ -3,7 +3,6 @@ const pkg = require('./package.json');
 const {URL} = require('url');
 const path = require('path');
 
-
 // nconf configuration.
 const nconf = require('nconf');
 nconf
@@ -23,11 +22,13 @@ const servicePort =
 
 // Express and middleware.
 const express = require('express');
+const bodyParser = require('body-parser');
 const morgan = require('morgan');
 
 const app = express();
 
 app.use(morgan('dev'));
+app.use(bodyParser.json());
 
 // Serve webpack assets.
 // Must come before passport.session()
@@ -177,9 +178,17 @@ app.use('/simulate', require('./lib/simulation_manager.js')(pool2));
 // Create model route
 app.use('/model-info', require('./lib/model_manager.js')(pool));
 
+// Create scenario route
+app.use('/scenario', require('./lib/scenario_manager.js')(pool2));
+
 app.get('/api/session', (req, res) => {
   const session = {auth: req.isAuthenticated()};
   res.status(200).json(session);
+});
+
+app.get('/api/user', (req, res) => {
+  const user = {user: req.user.email};
+  res.status(200).json(user);
 });
 
 // Creates a http secure server with the Express app as a parameter

@@ -31,7 +31,7 @@ export const drawChart = (options) => {
   const svg = d3.select(`#${options.parentId}`)
                 .append("svg")
                 .attr("id", options.svgId)
-                .attr("class", "ts-chart border")
+                .attr("class", "ts-chart")
                 .attr("width", options.w)
                 .attr("height", options.h);
 

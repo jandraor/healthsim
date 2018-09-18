@@ -7,22 +7,11 @@ import * as d3 from 'd3';
 import 'bootstrap';
 import * as templates from './templates/templates.ts';
 import * as interfaces from './interfaces/interfaces.ts';
+import * as ut from './helpers/utilities.ts';
 import './css/styles.css';
 
-/**
-* Convenience method to fetch and decode JSON.
-*/
-const fetchJSON = async (url, method = 'GET') => {
-try {
-  const response = await fetch(url, {method, credentials: 'same-origin'});
-  return response.json();
-} catch (error) {
-  return {error};
-}
-};
-
 const getAvailableModels = async () => {
-  const models = await fetchJSON('/model-info/available');
+  const models = await ut.fetchJSON('/model-info/available');
   if (models.error) {
     throw models.error;
   }
@@ -47,7 +36,7 @@ const listAvailableModels = models => {
 
 const drawInterface = (modelId, modelName) => {
   templates.getTemplate(modelId, modelName);
-  interfaces.getContent(modelId, fetchJSON);
+  interfaces.getContent(modelId, ut.fetchJSON);
 };
 
 /**
@@ -69,7 +58,7 @@ const showView = async() => {
 
   switch(view) {
     case '#welcome':
-      const session = await fetchJSON('/api/session');
+      const session = await ut.fetchJSON('/api/session');
       mainElement.innerHTML = templates.welcome({session});
 
       if (session.error) {
@@ -90,7 +79,7 @@ const showView = async() => {
 
     case '#interface':
       const modelId = params;
-      const result_query = await fetchJSON('/model-info/model_name/' + modelId);
+      const result_query = await ut.fetchJSON('/model-info/model_name/' + modelId);
       const modelName = result_query[0].model_name;
       drawInterface(modelId, modelName);
       break;
@@ -103,7 +92,7 @@ const showView = async() => {
 
 // Page setup.
 (async () => {
-  const session = await fetchJSON('/api/session');
+  const session = await ut.fetchJSON('/api/session');
   document.body.innerHTML = templates.main({session});
   window.addEventListener('hashchange', showView);
   showView().catch(err => window.location.hash = '#welcome');

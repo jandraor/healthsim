@@ -75,7 +75,7 @@ export const getParameters = (modelId, step = false,
          'ift': document.getElementById("lInfectivity").textContent,
          'rd': document.getElementById("lRecoveryDelay").textContent,
          'startTime': startTime,
-         'finishTime': finishTime
+         'stopTime': finishTime
         }
         break;
 
