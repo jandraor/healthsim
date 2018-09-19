@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 import * as ut from "./utilities.ts";
 
 export const drawChart = (options) => {
-  console.table(options.items);
+  
   $.each(options.items, function (i, item) {
     $(`#${options.selectId}`).append($('<option>', {
         value: item.value,

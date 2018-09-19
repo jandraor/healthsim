@@ -1,15 +1,26 @@
 const $ = require('jquery');
 import * as d3 from 'd3';
-import * as slds from "../../components/sliders.ts"
 import * as select from "../../components/select.ts"
 import * as timeseries from "../../components/timeseries.ts";
 import * as tables from "../../components/table.ts";
-import * as saf from "../../components/stocksandflows.ts";
+import * as sfd from "./sf.ts";
+import * as sliders from "./slds.ts"
 import * as runButton from '../../components/buttons/run.ts';
 import * as stepButton from '../../components/buttons/step.ts';
 import * as cld from '../../components/cld.ts';
 import * as drawButton from '../../components/buttons/drawCaseStudy.ts';
 import * as ut from '../../../helpers/utilities.ts';
+// the MathJax core
+const MathJax = require("../../../../node_modules/mathjax3/mathjax3/mathjax.js").MathJax;
+// Tex input
+const TeX = require("../../../../node_modules/mathjax3/mathjax3/input/tex.js").TeX;
+// HTML output
+const CHTML = require("../../../../node_modules/mathjax3/mathjax3/output/chtml.js").CHTML;
+// Use browser DOM
+const adaptor = require("../../../../node_modules/mathjax3/mathjax3/adaptors/browserAdaptor").browserAdaptor();
+// Register the HTML document handler
+require("../../../../node_modules/mathjax3/mathjax3/handlers/html.js").RegisterHTMLHandler(adaptor);
+
 
 export const buildInterface = async (modelId, fetchJSON) => {
   const w = 800 * (2 / 3); //Width
@@ -54,72 +65,8 @@ export const buildInterface = async (modelId, fetchJSON) => {
   }
   timeseries.drawChart(options);
 
-  /*
-   * Build stock and flow diagram
-   */
-  const population = parseFloat($('#varValueTotalPop').text());
-  const svg = d3.select('#stockFlowDiagram')
-                .append('svg')
-                .attr('width', 700)
-                .attr('height', 250)
-                .attr('id', 'svgSAF')
 
-  const nInfected = parseFloat(document.getElementById("lInfected").textContent);
 
-  //Susceptible
-  let stockOptions = {
-    'xmin': 5,
-    'ymin': 20,
-    'ylength': 100,
-    'xlength': 150,
-    'svgId': 'svgSAF',
-    'classFilling': 'crcSusceptible',
-    'initialValue': population - nInfected,
-    'idStock': 'stcSusceptible'
-  }
-  saf.drawStock(stockOptions);
-  //Infected
-  stockOptions = {
-    'xmin': 255,
-    'ymin': 20,
-    'ylength': 100,
-    'xlength': 150,
-    'svgId': 'svgSAF',
-    'classFilling': 'crcInfected',
-    'initialValue': nInfected,
-    'idStock': 'stcInfected'
-  }
-  saf.drawStock(stockOptions);
-  //Recovered
-  stockOptions = {
-    'xmin': 505,
-    'ymin': 20,
-    'ylength': 100,
-    'xlength': 150,
-    'svgId': 'svgSAF',
-    'classFilling': 'crcRecovered',
-    'initialValue': 0,
-    'idStock': 'stcRecovered'
-  }
-  saf.drawStock(stockOptions);
-
-  let flowOptions = {
-    'svgId': 'svgSAF',
-    'yLength': 100,
-    'yMin': 20,
-    'xStart': 155,
-    'xEnd': 255
-  }
-  saf.drawFlow(flowOptions);
-
-  flowOptions = {
-    'svgId': 'svgSAF',
-    'yLength': 100,
-    'yMin': 20,
-    'xStart': 405,
-    'xEnd': 505
-  }
-  saf.drawFlow(flowOptions);
 
   runButton.build(modelId, fetchJSON);
   stepButton.build(modelId, fetchJSON);
@@ -143,8 +90,9 @@ export const buildInterface = async (modelId, fetchJSON) => {
   ];
   tables.drawHorizontalTable(caseStudyData, 'caseStudyTable');
   drawButton.build(caseStudyData,'bDraw');
-  slds.buildSliders();
+  sfd.buildStockAndFlow();
   select.buildSelects();
+  sliders.buildSliders();
   // Insert comment here
   const res = await ut.fetchJSON('/api/user');
   const user = res.user;
@@ -156,4 +104,20 @@ export const buildInterface = async (modelId, fetchJSON) => {
   }
   tables.retrieveSavedScenarios(optionsRtvSvdScn);
 
+
+  // initialize mathjax with with the browser DOM document; other documents are possible
+  const html = MathJax.document(document, {
+    InputJax: new TeX(),
+    OutputJax: new CHTML({
+    fontURL: 'https://cdn.rawgit.com/mathjax/mathjax-v3/3.0.0-alpha.4/mathjax2/css/'
+    })
+   });
+   console.time('wrapper');
+   // process the document
+   html.findMath()
+       .compile()
+       .getMetrics()
+       .typeset()
+       .updateDocument();
+   console.timeEnd('wrapper');
 }

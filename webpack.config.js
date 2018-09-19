@@ -43,5 +43,11 @@ module.exports = {
       $: 'jquery',
       jQuery: 'jquery'
     }),
+    new webpack.NormalModuleReplacementPlugin(
+      /AsyncLoad\.js/,
+      function (resource) {
+        resource.request = resource.request.replace(/AsyncLoad/,"AsyncLoad-disabled");
+      }
+    )
   ],
 };

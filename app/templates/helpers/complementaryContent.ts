@@ -51,7 +51,7 @@ export const description = Handlebars.compile(`
     Contact between people is also modeled to be <strong>random</strong>.
   </p>
   <p>
-    The rate that people become infected is <strong>proportional</strong> to 
+    The rate that people become infected is <strong>proportional</strong> to
     the number of people who are infected, and the number of people who are
     susceptible.
 
@@ -61,5 +61,42 @@ export const description = Handlebars.compile(`
     with an infected is lower (since most of the contact would be between
     either infected or recovered).
   </p>
+  </div>
+`);
+
+export const equations = Handlebars.compile(`
+  <div class = "mt-2 mx-4">
+    <h4> Differential equations</h4>
+    <p class = "text-justify textCaseStudy">
+      The SIR model consists of a system of three coupled <strong>nonlinear</strong>
+      ordinary differential equations:</p>
+      \\begin{equation}
+        \\frac{dS}{dt} = -\\beta SI
+      \\end{equation}
+      \\begin{equation}
+        \\frac{dI}{dt} = \\beta SI - \\frac{I}{rd}
+      \\end{equation}
+      \\begin{equation}
+        \\frac{dR}{dt} = \\frac{I}{rd}
+      \\end{equation}
+      \\begin{equation}
+        \\beta = \\frac{ce}{n}
+      \\end{equation}
+      \\begin{equation}
+        ce = c * i
+      \\end{equation}
+      <div class = "text-muted text-left">
+        <p class = "my-1">
+          <strong>S</strong> = Susceptible;
+          <strong>I</strong> = Infected;
+          <strong>R</strong> = Recovered</p>
+        <p class = "my-1"><strong>n</strong> = total population </p>
+        <p class = "my-1"><strong>&Beta;</strong> = Per capita rate at which two specific individuals come into effective contact per unit time</p>
+        <p class = "my-1">
+          <strong>ce</strong> = effective contacts per infected individual;
+          <strong>c</strong> = contact per person per unit time;
+          <strong>i</strong> = infectivity </p>
+        <p class = "my-1"> <strong>rd</strong> = Time to recover from the disease </p>
+      </div>
   </div>
 `);

@@ -65,7 +65,7 @@ export const complementaryInfo = Handlebars.compile(`
       </a>
     </li>
     <li class = "nav-item">
-      <a class ="nav-link disabled" id = "equations-tab" data-toggle = "tab"
+      <a class ="nav-link" id = "equations-tab" data-toggle = "tab"
         href = "#pEquations" role = "tab" aria-controls = "equations"  aria-selected = "false">
         Equations
       </a>
@@ -93,6 +93,7 @@ export const complementaryInfo = Handlebars.compile(`
     <div class = "tab-pane fade " id = "pHome" role = "tabpanel" arial-labelledby = "home-tab">
     </div>
     <div class = "tab-pane fade" id = "pDescription" role = "tabpanel" arial-labelledby = "description-tab"></div>
+    <div class = "tab-pane fade" id = "pEquations" role = "tabpanel" arial-labelledby = "equations-tab"></div>
     <div class = "tab-pane fade" id = "pStocksAndFlows" role = "tabpanel" arial-labelledby = "description-tab">
       <div id = "stockFlowDiagram" class = "d-flex justify-content-center pt-5 mt-5"> </div>
     </div>

@@ -15,23 +15,7 @@ export const drawStock = (options) => {
     .attr('id', options.idStock);
 
   const n = options.initialValue;
-  const dataset = [];
-  for(let i = 0; i < n; i++){
-    let x = Math.random() * options.xlength + options.xmin;
-    let y = Math.random() * options.ylength + options.ymin;
-    let pair = [x, y];
-    dataset[i] = pair
-  }
-
-  svg.selectAll(`#${options.classFilling}`)
-    .data(dataset)
-    .enter()
-    .append('circle')
-    .attr('class', options.classFilling)
-    .attr('cx', d => d[0])
-    .attr('cy', d => d[1])
-    .attr('r', 1)
-    .attr('opacity', 0.25)
+  fillStock(options.svgId, options.label, options.initialValue);
 }
 /**
  * options is an object
@@ -68,7 +52,7 @@ export const animateFlow = (options) => {
   const padding = 3;
   const svg = d3.select(`#${options.svgId}`);
   const nTransition = options.totalFlow;
-  d3.selectAll(`.${options.from}`)
+  d3.selectAll(`.crc${options.from}`)
       .each(function (d, i) {
         if(i < nTransition){
             const xStart = parseFloat(d3.select(this).attr('cx'));
@@ -108,7 +92,12 @@ export const animateFlow = (options) => {
               .on("end", function() {
                 d3.select(this)
                   .attr('r', 1)
-                  .attr('class', `${options.to}`);
+                  .attr('class', `crc${options.to}`);
+                d3.select(`#lblStc${options.from}`)
+                  .text(`${options.from}: ${options.newValueFrom}`);
+                  d3.select(`#lblStc${options.to}`)
+                    .text(`${options.to}: ${options.newValueTo}`);
+
               });
             path.remove();
         }
@@ -149,4 +138,47 @@ export const drawFlow = (options) => {
     .attr('y2', midpoint + 10)
     .style("stroke", "white")
     .style("stroke-width", 1.5);
+}
+
+/**
+ * Fill a stock with circles.
+ * @param {string} svgId - The id the svg element where the stock is located.
+ * @param {string} variable - The name of the stock.
+ * @param {number} n - The number of circles.
+ */
+
+export const fillStock = (svgId, variable, n) => {
+  const dataset = [];
+  const stock = d3.select(`#stc${variable}`);
+  const xlength = parseFloat(stock.attr('width'));
+  const ylength = parseFloat(stock.attr('height'));
+  const xmin = parseFloat(stock.attr('x'));
+  const ymin = parseFloat(stock.attr('y'));
+  for(let i = 0; i < n; i++){
+    let randomNumber = Math.random();
+    let x = randomNumber * xlength + xmin;
+    let randomNumber2 = Math.random();
+    let y = randomNumber2 * ylength + ymin;
+    let pair = [x, y];
+    dataset[i] = pair
+  }
+
+  const svg = d3.select(`#${svgId}`);
+
+  svg.selectAll(`.crc${variable}`)
+    .data(dataset)
+    .enter()
+    .append('circle')
+    .attr('class', `crc${variable}`)
+    .attr('cx', d => d[0])
+    .attr('cy', d => d[1])
+    .attr('r', 1)
+    .attr('opacity', 0.25)
+
+  svg.append('text')
+     .attr('id', `lblStc${variable}`)
+     .attr('class', 'lblStc')
+     .attr('x', xmin + 5)
+     .attr('y', ymin - 15)
+     .text(`${variable}: ${n}`);
 }

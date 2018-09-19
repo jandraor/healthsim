@@ -153,4 +153,6 @@ export const getTemplate = (modelId, modelName) => {
   simulationsElement.insertAdjacentHTML('beforeend', layouts.simulationsInfo());
   const descriptionElement = document.body.querySelector('#pDescription');
   descriptionElement.insertAdjacentHTML('beforeend', cmpContent.description());
+  const equationElement = document.body.querySelector('#pEquations');
+  equationElement.insertAdjacentHTML('beforeend', cmpContent.equations());
 }
