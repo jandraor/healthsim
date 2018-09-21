@@ -1,10 +1,11 @@
 const $ = require('jquery');
 import * as d3 from 'd3';
-import * as ut from "../utilities.ts";
-import * as tsline from "../tsLine.ts";
-import * as sl from "../sparkline.ts";
-import * as saf from "../stocksandflows.ts";
-import * as cld from "../cld.ts";
+import * as ut from "../../../../components/utilities.ts";
+import * as tsline from "../../../../components/tsLine.ts";
+import * as sl from "../../../../components/sparkline.ts";
+import * as saf from "../../../../components/stocksandflows.ts";
+import * as cld from "../../../../components/cld.ts";
+import * as slBuilder from "../../sparklines.ts";
 
 export const build = (model_id, fetchJSON) => {
   const w = 800 * (2 / 3); //Width
@@ -39,6 +40,38 @@ export const build = (model_id, fetchJSON) => {
       const url = `/simulate/model/${model_id}/${paramsUrl}`;
       const rawDataset = await fetchJSON(url);
       const newDataset = ut.parseDataset(rawDataset, String(model_id));
+      const selSF = d3.select('#selVarSF');
+      if($('#cbComparative').is(":checked")){
+        if(!selSF.datum()){
+          selSF.datum([newDataset]);
+        } else {
+          if(startTime === 0) {
+            const currentData = selSF.datum();
+            currentData.push(newDataset);
+            selSF.datum(currentData);
+          } else {
+            const currentData = selSF.datum();
+            const length = currentData.length;
+            const lastElement = currentData[length - 1];
+            for(let i = 1; i < newDataset.length; i++) {
+              lastElement.push(newDataset[i]);
+              currentData[length - 1] = lastElement;
+              selSF.datum(currentData);
+            }
+          }
+        }
+      } else { //if checkbox is not ticked
+        if(!selSF.datum() || startTime === 0){
+          selSF.datum([newDataset]);
+        } else {
+          const currentData = selSF.datum()[0];
+          for(let i = 1; i < newDataset.length; i++) {
+            currentData.push(newDataset[i]);
+            selSF.datum([currentData]);
+          }
+        }
+      }
+
       //Net flows for transitions in a discrete form
       const oldSusceptibleValue = Math.round(params.S)
       const newSusceptibleValue = Math.round(newDataset[newDataset.length - 1].sSusceptible)
@@ -80,94 +113,9 @@ export const build = (model_id, fetchJSON) => {
       updateTimeChart(optionsUTC);
 
       /**
-       Step button Sparklines
+       * Step button Sparklines
        */
-      //d3.selectAll(".svgSparkline").remove();
-      const parentId = 'divSL';
-      let splWidth = 250;
-      let splHeight = 25
-      let splPadding = {
-        'top': 2,
-        'left': 0,
-        'right': 130,
-        'bottom': 2
-       }
-
-       const variableList = [
-         {'name': 'sSusceptible', 'display': 'Susceptible'},
-         {'name': 'sInfected', 'display': 'Infected'},
-         {'name': 'sRecovered', 'display': 'Recovered'},
-         {'name': 'IR', 'display': 'Infection-Rate'},
-         {'name': 'RR', 'display': 'Recovery-Rate'}]
-
-      let arrayLength = variableList.length;
-      let isEmpty, loopStart, x, y;
-      for (let i = 0; i < arrayLength; i++) {
-        let splDataset = [];
-        let splVariable = variableList[i].display;
-        isEmpty = d3.select(`#spl${splVariable}`).empty();
-
-        if(!isEmpty){
-          splDataset = d3.select(`#spl${splVariable}`)
-                             .datum();
-          loopStart = 1;
-        } else {
-          loopStart = 0;
-        }
-
-        x = newDataset.map(d => d.time);
-        y = newDataset.map(d => d[variableList[i].name]);
-        length = x.length;
-
-        let twoDimensionDataset = [];
-
-        for (let i = 0; i < length; i++) {
-          let temp = {
-            'x' : x[i],
-            'y' : y[i]
-          };
-          twoDimensionDataset.push(temp);
-       }
-
-       for(let i = loopStart; i < twoDimensionDataset.length; i++){
-                splDataset.push(twoDimensionDataset[i]);
-       }
-
-       let svgSparkLineId = `splSVG${splVariable}`;
-       d3.select(`#splSVG${splVariable}`).remove();
-
-       const optionsCrtSpl = {
-         'parentId' : parentId,
-         'height'   : splHeight,
-         'width'    : splWidth,
-         'padding'  : splPadding,
-         'dataset'  : splDataset,
-         'variable' : splVariable,
-         'svgId'    : svgSparkLineId,
-         'duration' : 1,
-         'delay'    : 0,
-         'finishTime': 20
-       };
-
-       sl.createSparkline(optionsCrtSpl);
-       let superDataset = [];
-       superDataset.push(splDataset);
-       let optionsClickEvent = {
-         'dataset': superDataset,
-         'svgId': "tsSF",
-         'padding': padding,
-         'w': w,
-         'h': h,
-         'title': splVariable,
-         'finishTime': 20,
-         'lineDuration': 2000,
-         'idLine': 'SFline',
-         'classLine': 'tsLine tsSF',
-      }
-      sl.addOnClickEvent(svgSparkLineId, tsline.drawLine,
-         optionsClickEvent);
-      }
-
+      slBuilder.buildSparklines(newDataset, stopTime, padding, w, h, true);
       /*
        * Transitions in the Stock & Flow Diagram
        */
@@ -209,6 +157,9 @@ export const build = (model_id, fetchJSON) => {
 
        const newTime = String(currentTime + 1);
        $('#varValueCurTim').text(newTime);
+       if(currentTime + 1  === stopTime) {
+         $('#slInfected').slider('enable');
+       }
 
        const lastElement = newDataset[newDataset.length - 1];
        const stock = $("#selLoopDominance").val()

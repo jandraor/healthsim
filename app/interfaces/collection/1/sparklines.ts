@@ -4,13 +4,13 @@ import * as tsline from "../../components/tsLine.ts";
 /**
  * Create sparklines in the auxTS div.
  * @param {Object} dataset - Data produced by the simulated SD model.
- * @param {Number} stopTime - The time that the simulation stops.
- * @param {Number} padding - Horinzontal & vertical padding of the SVG.
- * @param {Number} w - SVG's width of the timeseries stock & flow chart.
- * @param {Number} h - SVG's height of the timeseries stock & flow chart.
+ * @param {number} stopTime - The time that the simulation stops.
+ * @param {number} p - Horinzontal & vertical padding of the SVG.
+ * @param {number} w - SVG's width of the timeseries stock & flow chart.
+ * @param {number} h - SVG's height of the timeseries stock & flow chart.
+ * @param {boolean} step - Indicates whether the simulation is run in step mode.
  */
-export const buildSparklines = (dataset, stopTime, padding, w, h) => {
-  d3.selectAll(".svgSparkline").remove();
+export const buildSparklines = (dataset, stopTime, p, w, h, step = false) => {
   const parentId = 'divSL';
   let splWidth = 250;
   let splHeight = 25
@@ -28,16 +28,27 @@ export const buildSparklines = (dataset, stopTime, padding, w, h) => {
      {'name': 'IR', 'display': 'Infection-Rate'},
      {'name': 'RR', 'display': 'Recovery-Rate'}]
 
-  let arrayLength = variableList.length;
+  const arrayLength = variableList.length;
 
   for (let i = 0; i < arrayLength; i++) {
-    let splVariable = variableList[i].display;
+    const splVariable = variableList[i].display;
+    let splDataset = [];
     let x = dataset.map(d => d.time);
     let y = dataset.map(d => d[variableList[i].name]);
     let length = x.length;
-    let splDataset = [];
+    let loopStart = 0;
+    const isEmpty = d3.select(`#spl${splVariable}`).empty()
+    if(step && !isEmpty){
+      loopStart = 1;
+      splDataset = d3.select(`#spl${splVariable}`)
+                     .datum();
+    }
+    let delay = 2000;
+    if(step){
+      delay = 0
+    }
 
-    for (let i = 0; i < length; i++) {
+    for (let i = loopStart; i < length; i++) {
       let temp = {
         'x' : x[i],
         'y' : y[i]
@@ -46,6 +57,7 @@ export const buildSparklines = (dataset, stopTime, padding, w, h) => {
     }
 
     let svgSparkLineId = `splSVG${splVariable}`;
+    d3.select(`#${svgSparkLineId}`).remove();
     const optionsCrtSpl = {
       'parentId' : parentId,
       'height'   : splHeight,
@@ -55,7 +67,7 @@ export const buildSparklines = (dataset, stopTime, padding, w, h) => {
       'variable' : splVariable,
       'svgId'    : svgSparkLineId,
       'duration' : 1,
-      'delay'    : 2000,
+      'delay'    : delay,
       'finishTime': stopTime,
     };
 
@@ -66,7 +78,7 @@ export const buildSparklines = (dataset, stopTime, padding, w, h) => {
     let optionsClickEvent = {
       'dataset': superDataset,
       'svgId': "svgTSSF",
-      'padding': padding,
+      'padding': p,
       'w': w,
       'h': h,
       'title': splVariable,

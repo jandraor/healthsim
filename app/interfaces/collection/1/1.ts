@@ -6,7 +6,7 @@ import * as tables from "../../components/table.ts";
 import * as sfd from "./sf.ts";
 import * as sliders from "./slds.ts"
 import * as runButton from './buttons/simulate/run.ts';
-import * as stepButton from '../../components/buttons/step.ts';
+import * as stepButton from './buttons/simulate/step.ts';
 import * as cld from '../../components/cld.ts';
 import * as drawButton from '../../components/buttons/drawCaseStudy.ts';
 import * as ut from '../../../helpers/utilities.ts';

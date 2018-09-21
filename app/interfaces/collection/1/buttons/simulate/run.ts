@@ -96,7 +96,7 @@ export const build = (model_id, fetchJSON)  => {
         'classLine': 'tsLine tsPar',
       }
       tsline.drawLine(options);
-
+      //Sparklines
       slBuilder.buildSparklines(dataset, finishTime, padding, w, h);
 
       $('#varValueCurTim').text(newCurrentTime);
