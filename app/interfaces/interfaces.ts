@@ -1,8 +1,3 @@
-import * as d3 from 'd3';
-import * as sl from "./components/sparkline.ts";
-import * as timeseries from "./components/timeseries.ts";
-import * as ut from "./components/utilities.ts";
-import * as saf from "./components/stocksandflows.ts";
 import * as intf1 from "./collection/1/1.ts";
 const $ = require('jquery');
 

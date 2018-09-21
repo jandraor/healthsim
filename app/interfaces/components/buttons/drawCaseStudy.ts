@@ -1,6 +1,6 @@
 const $ = require('jquery');
 import * as d3 from 'd3';
-import * as timeseries from "../timeseries.ts";
+import * as tsline from "../tsLine.ts";
 
 export const build = (dataset, idButton) => {
   const w = 800 * (2 / 3); //Width
@@ -31,6 +31,6 @@ export const build = (dataset, idButton) => {
         'h': h,
         'finishTime': 13,
       }
-      timeseries.drawLineCaseStudy(options);
+      tsline.drawLineCaseStudy(options);
     });
 }

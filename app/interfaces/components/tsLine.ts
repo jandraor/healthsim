@@ -3,13 +3,15 @@ import * as d3 from 'd3';
 import * as ut from "./utilities.ts";
 
 export const drawChart = (options) => {
-  
-  $.each(options.items, function (i, item) {
-    $(`#${options.selectId}`).append($('<option>', {
-        value: item.value,
-        text : item.text
-    }));
-  });
+  if(options.items){
+    $.each(options.items, function (i, item) {
+      $(`#${options.selectId}`).append($('<option>', {
+          value: item.value,
+          text : item.text
+      }));
+    });
+  }
+
 
   const xScale = d3.scaleLinear()
                    .domain([options.xmin, options.xmax])
@@ -105,8 +107,6 @@ export const drawLine = (options) => {
   const yAxis = d3.axisLeft()
                   .scale(yScale)
                   .ticks(4);
-
-
 
   //Update X axis
   svg.select(".x-axis")

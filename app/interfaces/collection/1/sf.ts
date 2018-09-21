@@ -6,7 +6,6 @@ import * as saf from "../../components/stocksandflows.ts";
  * Build stock and flow diagram
  */
 export const buildStockAndFlow = () => {
-  console.log('Hola Milu y hola Uki');
   const population = parseFloat($('#varValueTotalPop').text());
   const nInfected = parseFloat(document.getElementById("lInfected").textContent);
   const svg = d3.select('#stockFlowDiagram')

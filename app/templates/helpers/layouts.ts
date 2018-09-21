@@ -19,8 +19,13 @@ export const simulationInterface = Handlebars.compile(`
     <!-- Display row -->
     <div class = "row mb-3 ml-0 border">
       <div align = 'center' id = "mainTS" class = "col-lg-4 col-md-6 col-sm-12">
-        <select id = "selVarSF" class = "pt-2 selectpicker show-tick" data-width="fit">
-        </select>
+        <div id = "divTSSF">
+          <select id = "selVarSF" class = "pt-2 selectpicker show-tick" data-width="fit">
+          </select>
+        </div>
+        <div id = 'divParTS'>
+          <span class = "text-center">Net reproduction number</span>
+        </div>
       </div>
       <div id = "auxTS" class = "col-lg-2 col-sm-12">
         <div id = "divSL" class = "mt-5"></div>

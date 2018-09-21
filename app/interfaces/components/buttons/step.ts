@@ -1,7 +1,7 @@
 const $ = require('jquery');
 import * as d3 from 'd3';
 import * as ut from "../utilities.ts";
-import * as timeseries from "../timeseries.ts";
+import * as tsline from "../tsLine.ts";
 import * as sl from "../sparkline.ts";
 import * as saf from "../stocksandflows.ts";
 import * as cld from "../cld.ts";
@@ -164,7 +164,7 @@ export const build = (model_id, fetchJSON) => {
          'idLine': 'SFline',
          'classLine': 'tsLine tsSF',
       }
-      sl.addOnClickEvent(svgSparkLineId, timeseries.drawLine,
+      sl.addOnClickEvent(svgSparkLineId, tsline.drawLine,
          optionsClickEvent);
       }
 
@@ -278,5 +278,5 @@ const updateTimeChart = (options) => {
     'classLine': options.classLine,
   }
   d3.selectAll(`.${options.tsClass}`).remove();
-  timeseries.drawLine(optionsTS);
+  tsline.drawLine(optionsTS);
 }

@@ -1,15 +1,16 @@
 const $ = require('jquery');
 import * as d3 from 'd3';
 import * as select from "../../components/select.ts"
-import * as timeseries from "../../components/timeseries.ts";
+import * as tsline from "../../components/tsLine.ts";
 import * as tables from "../../components/table.ts";
 import * as sfd from "./sf.ts";
 import * as sliders from "./slds.ts"
-import * as runButton from '../../components/buttons/run.ts';
+import * as runButton from './buttons/simulate/run.ts';
 import * as stepButton from '../../components/buttons/step.ts';
 import * as cld from '../../components/cld.ts';
 import * as drawButton from '../../components/buttons/drawCaseStudy.ts';
 import * as ut from '../../../helpers/utilities.ts';
+import * as events from './events.ts';
 // the MathJax core
 const MathJax = require("../../../../node_modules/mathjax3/mathjax3/mathjax.js").MathJax;
 // Tex input
@@ -42,15 +43,15 @@ export const buildInterface = async (modelId, fetchJSON) => {
     'w': w,
     'h': h,
     'padding': padding,
-    'parentId': 'mainTS',
+    'parentId': 'divTSSF',
     'svgId': 'svgTSSF',
     'selectId': 'selVarSF',
     'items': items,
   }
-  timeseries.drawChart(options);
+  tsline.drawChart(options);
 
   //parameters blank chart
-  options = {
+  const options2 = {
     'xmin': 0,
     'xmax': 100,
     'ymin': 0,
@@ -58,14 +59,12 @@ export const buildInterface = async (modelId, fetchJSON) => {
     'w': w,
     'h': h / 2,
     'padding': padding,
-    'parentId': 'mainTS',
+    'parentId': 'divParTS',
     'svgId': 'svgTSPar',
     'selectId': 'selVarSF',
-    'items': items,
+
   }
-  timeseries.drawChart(options);
-
-
+  tsline.drawChart(options2);
 
 
   runButton.build(modelId, fetchJSON);
@@ -104,6 +103,8 @@ export const buildInterface = async (modelId, fetchJSON) => {
   }
   tables.retrieveSavedScenarios(optionsRtvSvdScn);
 
+  //****************
+  events.changeSelectSF();
 
   // initialize mathjax with with the browser DOM document; other documents are possible
   const html = MathJax.document(document, {
