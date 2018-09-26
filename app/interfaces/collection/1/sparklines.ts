@@ -1,6 +1,28 @@
 import * as d3 from 'd3';
 import * as sl from "../../components/sparkline.ts";
 import * as tsline from "../../components/tsLine.ts";
+
+
+export const buildCharts = () => {
+  const variableList = [
+    {'name': 'sSusceptible', 'display': 'Susceptible'},
+    {'name': 'sInfected', 'display': 'Infected'},
+    {'name': 'sRecovered', 'display': 'Recovered'},
+    {'name': 'IR', 'display': 'Infection-Rate'},
+    {'name': 'RR', 'display': 'Recovery-Rate'}]
+
+  for (let i = 0; i < variableList.length; i++) {
+    const options = {
+      'height': 30,
+      'width': 120,
+      'variable': variableList[i].display,
+      'tableId': 'tblSparklines',
+      'circleRadius': 2
+    }
+    sl.drawChart(options);
+   }
+
+}
 /**
  * Create sparklines in the auxTS div.
  * @param {Object} dataset - Data produced by the simulated SD model.
@@ -57,7 +79,8 @@ export const buildSparklines = (dataset, stopTime, p, w, h, step = false) => {
     }
 
     let svgSparkLineId = `splSVG${splVariable}`;
-    d3.select(`#${svgSparkLineId}`).remove();
+    d3.select(`#spl${splVariable}`).remove();
+    d3.select(`#sc${splVariable}`).remove();
     const optionsCrtSpl = {
       'parentId' : parentId,
       'height'   : splHeight,
@@ -68,7 +91,8 @@ export const buildSparklines = (dataset, stopTime, p, w, h, step = false) => {
       'svgId'    : svgSparkLineId,
       'duration' : 1,
       'delay'    : delay,
-      'finishTime': stopTime,
+      'stopTime': stopTime,
+      'radius'    : 2,
     };
 
     sl.createSparkline(optionsCrtSpl);

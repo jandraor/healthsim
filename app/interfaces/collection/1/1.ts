@@ -1,7 +1,8 @@
 const $ = require('jquery');
 import * as d3 from 'd3';
 import * as select from "../../components/select.ts"
-import * as tsline from "../../components/tsLine.ts";
+import * as ts from './timeseries.ts';
+import * as sl from './sparklines.ts'
 import * as tables from "../../components/table.ts";
 import * as sfd from "./sf.ts";
 import * as sliders from "./slds.ts"
@@ -22,50 +23,12 @@ const adaptor = require("../../../../node_modules/mathjax3/mathjax3/adaptors/bro
 // Register the HTML document handler
 require("../../../../node_modules/mathjax3/mathjax3/handlers/html.js").RegisterHTMLHandler(adaptor);
 
-
 export const buildInterface = async (modelId, fetchJSON) => {
   const w = 800 * (2 / 3); //Width
   const h = 500 * (2 / 3); //Height
   const padding = 40;
-  //parameters blank chart
-  const items = [
-  {'value': 'sSusceptible', 'text': 'Susceptible'},
-  {'value': 'sInfected', 'text': 'Infected'},
-  {'value': 'sRecovered', 'text': 'Recovered'},
-  {'value': 'IR', 'text': 'Infection rate'},
-  {'value': 'RR', 'text': 'Recovery rate'}
-  ]
-  let options = {
-    'xmin': 0,
-    'xmax': 100,
-    'ymin': 0,
-    'ymax': 8,
-    'w': w,
-    'h': h,
-    'padding': padding,
-    'parentId': 'divTSSF',
-    'svgId': 'svgTSSF',
-    'selectId': 'selVarSF',
-    'items': items,
-  }
-  tsline.drawChart(options);
-
-  //parameters blank chart
-  const options2 = {
-    'xmin': 0,
-    'xmax': 100,
-    'ymin': 0,
-    'ymax': 8,
-    'w': w,
-    'h': h / 2,
-    'padding': padding,
-    'parentId': 'divParTS',
-    'svgId': 'svgTSPar',
-    'selectId': 'selVarSF',
-
-  }
-  tsline.drawChart(options2);
-
+  ts.buildCharts(w, h, padding);
+  sl.buildCharts();
 
   runButton.build(modelId, fetchJSON);
   stepButton.build(modelId, fetchJSON);

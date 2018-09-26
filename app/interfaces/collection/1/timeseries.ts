@@ -22,3 +22,45 @@ export const drawTimeseriesSF = superDataset => {
   }
   tsline.drawLine(options);
 }
+
+export const buildCharts = (w, h, padding) => {
+  //parameters blank chart
+  const items = [
+  {'value': 'sSusceptible', 'text': 'Susceptible'},
+  {'value': 'sInfected', 'text': 'Infected'},
+  {'value': 'sRecovered', 'text': 'Recovered'},
+  {'value': 'IR', 'text': 'Infection rate'},
+  {'value': 'RR', 'text': 'Recovery rate'}
+  ]
+  const options = {
+    'xmin': 0,
+    'xmax': 100,
+    'ymin': 0,
+    'ymax': 8,
+    'w': w,
+    'h': h,
+    'padding': padding,
+    'parentId': 'divTSSF',
+    'svgId': 'svgTSSF',
+    'selectId': 'selVarSF',
+    'items': items,
+  }
+  tsline.drawChart(options);
+
+  //parameters blank chart
+  const options2 = {
+    'xmin': 0,
+    'xmax': 100,
+    'ymin': 0,
+    'ymax': 8,
+    'w': w,
+    'h': h / 2,
+    'padding': padding,
+    'parentId': 'divParTS',
+    'svgId': 'svgTSPar',
+    'selectId': 'selVarSF',
+
+  }
+  tsline.drawChart(options2);
+
+}

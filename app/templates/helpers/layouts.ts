@@ -28,7 +28,45 @@ export const simulationInterface = Handlebars.compile(`
         </div>
       </div>
       <div id = "auxTS" class = "col-lg-2 col-sm-12">
-        <div id = "divSL" class = "mt-5"></div>
+        <div id = "divSL" class = "mt-5">
+          <table id = "tblSparklines">
+            <thead>
+              <tr class = "border-bottom">
+                <th>
+                  <small>Key metrics</small>
+                </th>
+                <th>
+                  <small>Behaviour over time</small>
+                </th>
+                <th>
+                  <small>Current</small>
+                </th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class = "mt-5 py-2 border border-light">
+          <p class = "ml-4 my-1">
+            <span>Current time:</span> <span id = "varValueCurTim">0</span>
+          </p>
+          <p class = "ml-4 my-1">
+            <span class = "text-secondary"><small>Population:</small></span>
+            <span id = "varValueTotalPop"><small>1000</small></span>
+          </p>
+          <p class = "ml-4 my-1">
+            <span class = "text-secondary"><small>Basic reproduction number:</small></span>
+            <span id = "varValueBasRepNum"><small>4</small></span>
+          </p>
+          <p class = "ml-4 my-1">
+            <span class = "text-secondary"><small>&beta;:</small></span>
+            <span id = "varValueBeta"><small>0.002</small></span>
+          </p>
+          <p class = "ml-4 my-1">
+            <span class = "text-secondary"><small>Effective contact rate:</small></span>
+            <span id = "varValueEftCtcRte"><small>2</small></span>
+          </p>
+        </div>
       </div>
       <!-- Why -->
       <div id = "why" class = "col-lg-6 col-sm-12 text-center border"></div>
@@ -38,11 +76,8 @@ export const simulationInterface = Handlebars.compile(`
       <div class = "border col-lg-6 col-sm-12">
         <div id = "divControls" class = "col-12 text-muted">
           <h5 class = "d-inline my-1 text-muted"> Your decisions</h5>
-          <span>Mode:</span> <span id = "varValueMode"> run </span>
-          <span>Total population:</span> <span id = "varValueTotalPop">1000</span>
           <span>From:</span> <span id = "varValueFrom">0</span>
           <span>To:</span> <span id = "varValueTo">20</span>
-          <span>Current time:</span> <span id = "varValueCurTim">0</span>
           <hr class = "my-1 border-info" />
         </div>
         <div id = "divSliders"></div>
@@ -52,6 +87,7 @@ export const simulationInterface = Handlebars.compile(`
       </div>
     </div>
   </div>
+
 
 `);
 

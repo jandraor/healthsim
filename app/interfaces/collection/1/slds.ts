@@ -19,6 +19,20 @@ export const buildSliders = () => {
     saf.fillStock('svgSAF', 'Recovered', nRecovered)
   }
 
+  const callbackParameters = () => {
+    const infectivity = parseFloat($('#lInfectivity').text());
+    const contactRate = parseFloat($('#lContactRate').text());
+    const effectiveContact = infectivity * contactRate;
+    $('#varValueEftCtcRte').html(`<small>${effectiveContact}</small>`);
+    const population = parseFloat($('#varValueTotalPop').text());
+    const beta = effectiveContact / population;
+    $('#varValueBeta').html(`<small>${beta}</small>`);
+    const recoveryDelay = parseFloat($('#lRecoveryDelay').text());
+    const basicReproductionNumber = effectiveContact * recoveryDelay;
+    $('#varValueBasRepNum').html(`<small>${basicReproductionNumber}</small>`);
+  }
+
+
   const sliderObject = [
     {
       'sliderId': 'slInfected',
@@ -27,15 +41,18 @@ export const buildSliders = () => {
     },
     {
       'sliderId': 'slContactRate',
-      'labelId': 'lContactRate'
+      'labelId': 'lContactRate',
+      'callback': callbackParameters
     },
     {
       'sliderId': 'slInfectivity',
-      'labelId': 'lInfectivity'
+      'labelId': 'lInfectivity',
+      'callback': callbackParameters
     },
     {
       'sliderId': 'slRecoveryDelay',
-      'labelId': 'lRecoveryDelay'
+      'labelId': 'lRecoveryDelay',
+      'callback': callbackParameters
     },
   ]
 

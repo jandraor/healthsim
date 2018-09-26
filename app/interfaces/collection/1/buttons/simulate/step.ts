@@ -25,10 +25,12 @@ export const build = (model_id, fetchJSON) => {
         currentTime = 0;
         //initialiseStockAndFlow();
       }
+
       if(currentTime === minTime){
+        d3.selectAll(".sparkline").remove();
+        d3.selectAll('.sparkcircle').remove();
         if(!$('#cbComparative').is(":checked")){
           d3.selectAll(".tsLine").remove();
-          d3.selectAll(".svgSparkline").remove();
         }
       }
 

@@ -1,36 +1,60 @@
 import * as d3 from 'd3';
 
 /**
+ * Add rows of sparkline charts in the auxTS div.
+ * @param {Object} options - Function's parameters.
+ * @param {string} options.tableId - Id of the table that contains sparklines.
+ * @param {number} options.height - SVG's height.
+ * @param {number} options.width - SVG's width.
+ * @param {string} options.variable - Variable's display name.
+ */
+export const drawChart = (options) => {
+  const tbody = d3.select(`#${options.tableId}`).select('tbody')
+  const tr = tbody.append('tr')
+               .attr('class', 'py-5')
+               .attr('id', `trSL${options.variable}`);
+  tr.append('td')
+    .html(`<small>${options.variable}</small>`)
+    .attr('class', 'border-0 py-2');
+
+  const td = tr.append('td').attr('class', 'border-0 py-2');
+
+  const svg = td.append('svg')
+                .attr('class', 'svgSparkline')
+                .attr('id', `svgSL${options.variable}`)
+                .attr('height', options.height)
+                .attr('width', options.width)
+                .attr('class', 'mx-0 px-0')
+
+  svg.append('rect')
+     .attr("x", 0)
+     .attr("y", 0)
+     .attr("width", options.width)
+     .attr("height", options.height)
+     .attr("id", `b${options.variable}`)
+     .attr("class", "splBackground");
+  tr.append('td')
+    .text('---')
+    .attr('class', 'tdCurVal border-0 text-right');
+}
+
+/**
  *options is a JSON object that must have parentId, height, width,
  * padding, dataset, variable, svgId, duration, delay
  *padding paramater must be a JSON object with top, bottom,left and right
  */
 export const createSparkline = options => {
-  const svg = d3.select(`#${options.parentId}`)
-                .append('svg')
-                .attr("class", "svgSparkline")
-                .attr('id', options.svgId)
-                .attr("height", options.height)
-                .attr("width", options.width);
+  const svg = d3.select(`#svgSL${options.variable}`);
+  const rectWidth = parseFloat(svg.select('rect').attr('width'));
+  const rectHeight = parseFloat(svg.select('rect').attr('height'));
   const dataset = options.dataset;
-  const xmax = Math.max(options.finishTime,
-    d3.max(dataset, d => { return d.x;}));
   const xScale = d3.scaleLinear()
-                   .domain([0, xmax])
-                   .range([0, options.width - options.padding.right]);
+                   .domain([0, options.stopTime])
+                   .range([0, rectWidth - options.radius]);
 
   const yScale = d3.scaleLinear()
                   .domain(d3.extent(options.dataset, d => { return d.y}))
-                  .range([options.height - options.padding.bottom, 0 + options.padding.top]);
-  const r = 2;
-  svg.append('rect')
-    .attr("x", 0)
-    .attr("y", 0)
-    .attr("width", options.width - options.padding.right + r)
-    .attr("height", options.height)
-    .attr("id", `b${options.variable}`)
-    .attr("class", "splBackground")
-    .style("opacity", 0);
+                  .range([rectHeight - 2, 0 + 2]);
 
   const sparkline = d3.line()
                       .x(d => { return xScale(d.x)})
@@ -44,23 +68,7 @@ export const createSparkline = options => {
 
   const totalLength = path.node().getTotalLength();
 
-  svg.append('circle')
-    .attr('id', `sc${options.variable}`)
-    .attr('class', 'sparkcircle')
-    .attr('cx', xScale(options.dataset[options.dataset.length - 1].x))
-    .attr('cy', yScale(options.dataset[options.dataset.length - 1].y))
-    .attr('r', r)
-    .style("opacity", 0);
 
-  const lastValue = Math.round(options.dataset[options.dataset.length - 1].y);
-
-  svg.append("text")
-    .attr('id', `t${options.variable}`)
-    .attr("class", "text-value")
-    .attr("x", options.width - options.padding.right + 10)
-    .attr("y", ((0 + options.padding.top + 25 - options.padding.bottom) / 2) + 5)
-    .style("opacity", 0)
-    .text(`${lastValue} ${options.variable}`);
 
   path.attr("stroke-dasharray", totalLength + " " + totalLength)
     .attr("stroke-dashoffset", totalLength)
@@ -70,23 +78,23 @@ export const createSparkline = options => {
       .ease(d3.easeLinear)
       .attr("stroke-dashoffset", 0);
 
-  d3.select(`#sc${options.variable}`)
-    .transition()
-    .delay(options.delay)
-    .duration(options.duration)
-    .style("opacity", 1);
-
-  d3.select(`#t${options.variable}`)
-    .transition()
+  const lastValue = Math.round(options.dataset[options.dataset.length - 1].y);
+  d3.select(`#trSL${options.variable}`)
+      .select('.tdCurVal')
+      .transition()
         .delay(options.delay)
         .duration(options.duration)
-        .style("opacity", 1);
+        .text(lastValue);
 
-  d3.select(`#b${options.variable}`)
-    .transition()
-    .delay(options.delay)
-    .duration(options.duration)
-    .style("opacity", 1);
+    svg.append('circle')
+       .transition()
+       .delay(options.delay)
+       .duration(options.duration)
+         .attr('cx', xScale(options.dataset[options.dataset.length - 1].x))
+         .attr('cy', yScale(options.dataset[options.dataset.length - 1].y))
+         .attr('r', options.radius)
+         .attr('class', 'sparkcircle')
+         .attr('id', `sc${options.variable}`)
 }
 
 export const addOnClickEvent = (svgId, drawline, options) => {

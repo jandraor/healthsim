@@ -19,8 +19,12 @@
 }
 
 .sparkcircle{
-  fill: #f00;
+  fill: #cc4c02;
   stroke: none;
+}
+
+.tdCurVal {
+  color: #cc4c02;
 }
 
 .csPoint{
