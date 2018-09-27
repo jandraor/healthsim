@@ -68,8 +68,11 @@ const showView = async() => {
 
     case '#explore':
       try {
+        if(params[0] === 'r'){ //reconstruct
+          const session = await ut.fetchJSON('/api/session');
+          document.body.innerHTML = templates.main({session});
+        }
         const availableModels = await getAvailableModels();
-        console.log(availableModels);
         listAvailableModels(availableModels);
       } catch (err) {
         showAlert(err);

@@ -8,7 +8,7 @@ export const simulationInterface = Handlebars.compile(`
         <h3> {{modelName}} </h3>
       </div>
       <div class = "d-flex col-6 justify-content-end">
-        <a class = "navbar-brand" href = "#welcome">
+        <a class = "navbar-brand" href = "#explore/r">
           <img src = ${logo2} width = "30" height = "30" alt="">
         </a>
       </div>

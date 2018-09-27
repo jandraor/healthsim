@@ -8,8 +8,8 @@ import * as sfd from "./sf.ts";
 import * as sliders from "./slds.ts"
 import * as runButton from './buttons/simulate/run.ts';
 import * as stepButton from './buttons/simulate/step.ts';
+import * as drawButton from './buttons/simulate/drawCS.ts';
 import * as cld from '../../components/cld.ts';
-import * as drawButton from '../../components/buttons/drawCaseStudy.ts';
 import * as ut from '../../../helpers/utilities.ts';
 import * as events from './events.ts';
 // the MathJax core
@@ -50,7 +50,11 @@ export const buildInterface = async (modelId, fetchJSON) => {
     {'x': 12, 'y': 11},
     {'x': 13, 'y': 4},
   ];
-  tables.drawHorizontalTable(caseStudyData, 'caseStudyTable');
+  const headers = {
+    'x': 'Time (days)',
+    'y': 'Infected'
+  }
+  tables.drawHorizontalTable(caseStudyData, headers, 'caseStudyTable');
   drawButton.build(caseStudyData,'bDraw');
   sfd.buildStockAndFlow();
   select.buildSelects();

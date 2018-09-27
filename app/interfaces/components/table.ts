@@ -2,18 +2,21 @@ const $ = require('jquery');
 import * as d3 from 'd3';
 import * as ut from '../../helpers/utilities.ts';
 
-export const drawHorizontalTable = (dataset, divId) => {
+export const drawHorizontalTable = (dataset, headers, divId) => {
   const keys = Object.keys(dataset[0]);
   const table = d3.select(`#${divId}`)
                   .append('table')
-                  .attr('class', 'mx-auto tblCaseStudy');
+                  .attr('class', 'mx-auto tblCaseStudy border-0');
   const rows = 2;
   let tr;
   for(let i = 0; i < rows; i++){
     tr = table.append('tr');
+    tr.append('td')
+      .text(headers[keys[i]])
+      .attr('class', 'border-0 pr-2 text-secondary');
     for(let j = 0; j < dataset.length; j++){
       tr.append('td')
-        .attr('class', 'px-2')
+        .attr('class', 'px-2 border-light')
         .text(dataset[j][keys[i]]);
     }
   }
