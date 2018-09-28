@@ -74,3 +74,13 @@ export const buildStockAndFlow = () => {
   }
   saf.drawFlow(flowOptions);
 }
+
+export const update = (dataset, delay) => {
+  d3.selectAll(`.crcSusceptible`).remove();
+  d3.selectAll(`.crcInfected`).remove();
+  d3.selectAll(`.crcRecovered`).remove();
+  d3.selectAll('.lblStc').remove();
+  saf.fillStock('svgSAF', 'Susceptible', Math.round(dataset.sSusceptible), delay);
+  saf.fillStock('svgSAF', 'Infected', Math.round(dataset.sInfected), delay);
+  saf.fillStock('svgSAF', 'Recovered',Math.round(dataset.sRecovered), delay);
+}

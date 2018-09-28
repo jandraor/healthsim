@@ -6,6 +6,7 @@ import * as sl from "../../../../components/sparkline.ts";
 import * as tables from "../../../../components/table.ts";
 import * as slBuilder from "../../sparklines.ts";
 import * as ts from '../../timeseries.ts';
+import * as sfd from "../../sf.ts";
 
 export const build = (model_id, fetchJSON)  => {
   const w = 800 * (2 / 3); //Width
@@ -22,6 +23,7 @@ export const build = (model_id, fetchJSON)  => {
       const url = `/simulate/model/${model_id}/${paramsUrl}`;
       const rawDataset = await fetchJSON(url);
       const dataset = ut.parseDataset(rawDataset, String(model_id));
+      const lastElement = dataset[dataset.length - 1];
       const newCurrentTime = String(d3.max(dataset, d => {return d.time}));
       const selSF = d3.select('#selVarSF');
       if($('#cbComparative').is(":checked") && selSF.datum()){
@@ -98,6 +100,9 @@ export const build = (model_id, fetchJSON)  => {
       tsline.drawLine(options);
       //Sparklines
       slBuilder.buildSparklines(dataset, finishTime, padding, w, h);
+      //Update stock & flow
+      sfd.update(lastElement, 2000);
+
 
       $('#varValueCurTim').text(newCurrentTime);
       //Put the recent simulation parameters in the current simulations tab

@@ -145,9 +145,10 @@ export const drawFlow = (options) => {
  * @param {string} svgId - The id the svg element where the stock is located.
  * @param {string} variable - The name of the stock.
  * @param {number} n - The number of circles.
+ * @param {number} delay - Time to circles to appear.
  */
 
-export const fillStock = (svgId, variable, n) => {
+export const fillStock = (svgId, variable, n, delay = 0) => {
   const dataset = [];
   const stock = d3.select(`#stc${variable}`);
   const xlength = parseFloat(stock.attr('width'));
@@ -169,16 +170,20 @@ export const fillStock = (svgId, variable, n) => {
     .data(dataset)
     .enter()
     .append('circle')
-    .attr('class', `crc${variable}`)
     .attr('cx', d => d[0])
     .attr('cy', d => d[1])
-    .attr('r', 1)
-    .attr('opacity', 0.25)
+    .transition()
+      .delay(delay)
+      .attr('class', `crc${variable}`)
+      .attr('r', 1)
+      .attr('opacity', 0.25);
 
   svg.append('text')
      .attr('id', `lblStc${variable}`)
      .attr('class', 'lblStc')
      .attr('x', xmin + 5)
      .attr('y', ymin - 15)
-     .text(`${variable}: ${n}`);
+     .transition()
+       .delay(delay)
+       .text(`${variable}: ${n}`);
 }

@@ -6,6 +6,7 @@ import * as sl from "../../../../components/sparkline.ts";
 import * as saf from "../../../../components/stocksandflows.ts";
 import * as cld from "../../../../components/cld.ts";
 import * as slBuilder from "../../sparklines.ts";
+import * as sfd from "../../sf.ts";
 
 export const build = (model_id, fetchJSON) => {
   const w = 800 * (2 / 3); //Width
@@ -23,7 +24,15 @@ export const build = (model_id, fetchJSON) => {
       if(currentTime === maxTime) {
         $('#varValueCurTim').text('0');
         currentTime = 0;
-        //initialiseStockAndFlow();
+        ;
+        const infected = parseInt($('#lInfected').text());
+        const population = parseInt($('#varValueTotalPop').text())
+        const stockValues = {
+          'sSusceptible': population - infected,
+          'sInfected': infected,
+          'sRecovered': 0
+        }
+        sfd.update(stockValues, 0);
       }
 
       if(currentTime === minTime){
