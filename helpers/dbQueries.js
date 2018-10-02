@@ -1,6 +1,42 @@
 'use strict';
 
 module.exports = {
+  insertUser: async(pool, email, firstName, lastName) =>{
+    try {
+      const query = `
+      INSERT INTO users VALUES('${email}',
+                               '${firstName}',
+                               '${lastName}')
+
+      `;
+      const connection = await pool.getConnection();
+      const result = await connection.query(query);
+      connection.release();
+      return(result);
+    } catch(error){
+      console.log(error);
+      throw error;
+    }
+  },
+  getUser: async(pool, email) => {
+    try {
+      const query = `
+        SELECT
+          email
+        FROM
+          users
+        WHERE
+          email = '${email}'
+      `;
+      const connection = await pool.getConnection();
+      const result = await connection.query(query);
+      connection.release();
+      return(result);
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
   getModelName : async(pool, modelId) => {
     try {
       const query = `
@@ -11,13 +47,13 @@ module.exports = {
         WHERE
           model_id = ${modelId}
       `;
-
       const connection = await pool.getConnection();
       const result = await connection.query(query);
       connection.release();
       return(result);
     } catch (err) {
       console.log(err);
+      throw error;
     }
   },
   getModels: async(pool) => {

@@ -9,7 +9,8 @@ export const simulationInterface = Handlebars.compile(`
       </div>
       <div class = "d-flex col-6 justify-content-end">
         <a class = "navbar-brand" href = "#explore/r">
-          <img src = ${logo2} width = "30" height = "30" alt="">
+          <!--<img src = ${logo2} width = "30" height = "30" alt="">-->
+          HealthSim
         </a>
       </div>
     </div>

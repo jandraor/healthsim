@@ -44,17 +44,6 @@ if (isDev) {
     app.use(express.static('dist'));
   }
 
-// Connect to mysql database
-const mysql = require('mysql');
-
-const pool = mysql.createPool({
-  host: nconf.get('mysql:host'),
-  user: nconf.get('mysql:user'),
-  password: nconf.get('mysql:password'),
-  database: nconf.get('mysql:database'),
-  connectionLimit: 10
-});
-
 // Connect to mysql database using mysql-promise
 const mysql2 = require('promise-mysql');
 
@@ -83,34 +72,25 @@ if (isDev) {
 
 // Passport Authentication.
 const passport = require('passport');
+const dbQueries = require('./helpers/dbQueries.js');
 
 passport.serializeUser((user, done) => {
-  console.log("serialising: " + done);
   done(null, user.email);
 });
 
-passport.deserializeUser((email, done) => {
-  const findUserQuery = `
-    SELECT
-      email
-    FROM
-      users
-    WHERE
-      email = '${email}'
-  `;
-
-  pool.getConnection((err, connection) => {
-    connection.query(findUserQuery, (err, queryResult) => {
-      connection.release(); //release the connection
-      if (err) throw err;
-
-      if(queryResult.length == 1){
-        const user = {"email": queryResult[0].email};
-        done(err, user);
-      }
-
-    });
-  });
+passport.deserializeUser( async(email, done) => {
+  try {
+    const userQuery = await dbQueries.getUser(pool2, email);
+    if(userQuery.length == 1){
+      const user = {"email": userQuery[0].email};
+      done(null, user);
+    } else {
+      throw "Somethig went wrong deserialising"
+    }
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
 });
 
 const FacebookStrategy = require('passport-facebook').Strategy;
@@ -119,51 +99,37 @@ passport.use(new FacebookStrategy({
   clientSecret: nconf.get('auth:facebook:appSecret'),
   callbackURL: new URL('/auth/facebook/callback', serviceUrl).href,
   profileFields: ['id', 'displayName', 'email', 'first_name', 'last_name'],
-}, (accessToken, refreshToken, profile, done) => {
-      const findUserQuery = `
-        SELECT
-          email
-        FROM
-          users
-        WHERE
-          email = '${profile._json.email}'
-      `;
-      //check if user already exists in the db
-      pool.getConnection((err, connection) => {
-        connection.query(findUserQuery, (err, queryResult) => {
-          connection.release(); //release the connection
-          if (err) throw err;
-          console.log("length: " + queryResult.length);
+}, async (accessToken, refreshToken, profile, done) => {
+      try {
+        const userQuery = await dbQueries.getUser(pool2, profile._json.email);
 
-          if(queryResult.length == 1){
-            console.log("User already exists");
-            const currentUser = {"email": queryResult[0].email };
-            done(null, currentUser);
-          } else if(queryResult.length == 0){
-              const createUserQuery = `
-              INSERT INTO users VALUES('${profile._json.email}',
-                                       '${profile._json.first_name}',
-                                       '${profile._json.last_name}')
-              `;
-            //creates a new user
-            pool.getConnection((err, connection) => {
+        if(userQuery.length > 1) {
+          throw "Duplicated users";
+        }
 
-              connection.query(createUserQuery, (err, result) => {
-                connection.release(); //release the connection
-                if (err) throw err;
+        if(userQuery.length == 1){
+          console.log("User already exists");
+          const currentUser = {"email": userQuery[0].email };
+          done(null, currentUser);
+        }
+
+        if(userQuery.length == 0){
+            const resultInsertion = await dbQueries.insertUser(pool2,
+              profile._json.email,
+              profile._json.first_name,
+              profile._json.last_name);
+              if(resultInsertion.affectedRows === 1) {
                 console.log("A new user has been created");
                 const newUser = {"email": profile._json.email};
                 done(null, newUser);
-              });
-
-            });
-
-          } else{
-            throw "Duplicated users";
-          }
-
-        });
-      });
+              } else {
+                throw "Insertion failed";
+              }
+        }
+      } catch (error) {
+        console.log(error);
+        throw error;
+      }
 }));
 
 app.use(passport.initialize());
