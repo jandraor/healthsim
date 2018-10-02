@@ -176,7 +176,7 @@ app.use('/auth', require('./lib/auth_manager.js'));
 app.use('/simulate', require('./lib/simulation_manager.js')(pool2));
 
 // Create model route
-app.use('/model-info', require('./lib/model_manager.js')(pool));
+app.use('/model-info', require('./lib/model_manager.js')(pool2));
 
 // Create scenario route
 app.use('/scenario', require('./lib/scenario_manager.js')(pool2));

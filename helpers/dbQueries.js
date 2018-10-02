@@ -1,6 +1,44 @@
 'use strict';
 
 module.exports = {
+  getModelName : async(pool, modelId) => {
+    try {
+      const query = `
+        SELECT
+          model_name
+        FROM
+          models
+        WHERE
+          model_id = ${modelId}
+      `;
+
+      const connection = await pool.getConnection();
+      const result = await connection.query(query);
+      connection.release();
+      return(result);
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  getModels: async(pool) => {
+    try {
+      const query = `
+        SELECT
+          model_id, model_name, level, description
+        FROM
+          models
+        WHERE
+          availability = 1
+      `;
+      const connection = await pool.getConnection();
+      const result = await connection.query(query);
+      connection.release();
+      return(result);
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
   getFileName: async (pool, modelId) => {
     try {
       const query = `
@@ -12,7 +50,6 @@ module.exports = {
           model_id = ${modelId}
       `;
 
-      console.log("Model ID: " + "modelID");
       const connection = await pool.getConnection();
       const result = await connection.query(query);
       connection.release();

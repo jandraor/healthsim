@@ -5,7 +5,7 @@ export const caseStudy = Handlebars.compile(`
     <h5 class = "text-left font-weight-bold">Influenza in a boarding school</h5>
     <p class = "text-justify font-weight-light textCaseStudy my-4">
       In 1978 in the British medical journal, The Lancet, there was a
-      <a href = "https://www.bmj.com/content/1/6112/586">report</a> with
+      <a href = "https://www.bmj.com/content/1/6112/586" target = "_blank">report</a> with
       detailed statistics of an epidemic of influenza occurred in a boarding
       school in the north of England. A boarding school is a relative
       <span class = "font-weight-bold">closed community </span>

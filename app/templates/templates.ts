@@ -4,15 +4,18 @@ import * as layouts from './helpers/layouts.ts';
 import * as ctrl from './helpers/controls.ts';
 import * as inputs from './helpers/inputs.ts';
 import * as cmpContent from './helpers/complementaryContent.ts';
+import * as homeContent from './helpers/home.ts';
 const logo = require('../img/logo.svg');
 const logo2 = require('../img/logo2.svg');
 const saf = require('../img/unnamed.png');
+const modelimg = require('../img/SIR.png');
+const logoNUIG = require('../img/logo_nuig.jpg');
 
 export const main = Handlebars.compile(`
   <nav class = "navbar navbar-expand-lg navbar-dark bg-secondary">
     <div class = "container">
       <a class = "navbar-brand" href = "#welcome">
-        <img src = ${logo} width = "30" height = "30" alt="">
+        <!--<img src = ${logo} width = "30" height = "30" alt="">-->
         HealthSim
       </a>
       <button class = "navbar-toggler" type = "button" data-toggle = "collapse" data-target = ".dual-collapse2">
@@ -60,21 +63,30 @@ export const main = Handlebars.compile(`
   </div>
     </div>
   </nav>
-<div class="container">
+  <div class="container">
   <div class="hs-alerts"></div>
   <div class="hs-main"></div>
-</div>
+  </div>
 `);
 
 export const welcome = Handlebars.compile(`
-  <div class="jumbotron">
-    <h1>Welcome!</h1>
-    <p>HealthSim is an open source and cloud-based public health supply chain simulator.</p>
+  <div class = "mt-5">
+    <h3 class = "mb-3">Welcome!</h3>
+    <p class = "text-justify">HealthSim is an <strong>open source</strong> and cloud-based application
+      in which public health stakeholders can <strong>interact</strong> with
+      mathematical models of infectious diseases through an
+      <strong> user-friendly </strong> environment to gain deep understanding of
+      the factors which influence the transmission of diseases and
+      <strong>test</strong> the likely effects of various
+      <strong>control strategies </strong> so that <strong>effective</strong>
+      and <strong>sustainable</strong> policies can be identified, designed
+      and implemented.
+    </p>
 
     {{#if session.auth}}
-    <p>Go to <a href="#interface">interface</a>.</p>
+    <p class = "mb-4">Click <a href="#explore">here</a> to explore simulation models.</p>
     {{else}}
-    <p>Sign in with any of these services to begin.</p>
+    <p class = "mb-4">Sign in with any of these services to begin.</p>
 		<div class="row">
 		  <div class="col-sm-6">
       	<a href="/auth/facebook" class="btn btn-block btn-social btn-facebook">
@@ -92,6 +104,12 @@ export const welcome = Handlebars.compile(`
 			</div>
     </div>
     {{/if}}
+    <p class = "mt-3">
+      HealthSim is a project developed at the
+      <strong>National University of Ireland Galway</strong>
+      and funded by the <strong>Bill & Melinda Gates Foundation</strong>
+      – Grand Challenges Explorations Initiative.
+    </p>
 
   </div>
 `);
@@ -107,27 +125,28 @@ export const alert = Handlebars.compile(`
 
 export const availableModelsLayout = Handlebars.compile(`
   <div class = "models py-4">
-    <p class = "my-1"> SINGLE-REGION MODELS</p>
-    <hr class = "my-1 border-primary" />
-
+    <p class = "my-1"> SIMULATION MODELS</p>
+    <hr class = "my-1" />
     <div class = "container py-5 text-muted">
       <!-- cards -->
-      <div class = "row">
-
-      </div>
+      <div class = "row"></div>
     </div>
-
   </div>
 `);
 
 export const modelCard = Handlebars.compile(`
-  <div class = "col-md-6 col-lg-4">
+  <div class = "col-5">
     <div class = "card">
-      <h4 class="card-header">{{title}}</h4>
-      <div class = "card-body">
-        <h5 class="card-title">Description</h5>
-        <p class="card-text">
-          Difficulty, description, learning outcomes
+      <h5 class="card-header text-dark">
+        {{title}}
+      </h5>
+      <img class = "card-img-top" src = ${modelimg}>
+      <div class = "card-body pt-0">
+        <p class="card-text text-justify">
+          <span class = "d-block mb-1">
+            <strong>Difficulty: </strong> Beginner
+          </span>
+          <strong>Description: </strong> {{description}}
         </p>
         <a href="#interface/{{model_id}}" class="btn btn-primary">Learn more</a>
       </div>
@@ -155,4 +174,6 @@ export const getTemplate = (modelId, modelName) => {
   descriptionElement.insertAdjacentHTML('beforeend', cmpContent.description());
   const equationElement = document.body.querySelector('#pEquations');
   equationElement.insertAdjacentHTML('beforeend', cmpContent.equations());
+  const homeElement = document.body.querySelector('#pHome');
+  homeElement.insertAdjacentHTML('beforeend', homeContent.instructions());
 }

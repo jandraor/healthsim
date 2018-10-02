@@ -5,7 +5,7 @@ export const simulationInterface = Handlebars.compile(`
   <div class = "container-fluid pt-2">
     <div class = "row">
       <div class = "col-6">
-        <h3> {{modelName}} </h3>
+        <h3 class = "text-muted"> {{modelName}} </h3>
       </div>
       <div class = "d-flex col-6 justify-content-end">
         <a class = "navbar-brand" href = "#explore/r">
@@ -94,7 +94,7 @@ export const simulationInterface = Handlebars.compile(`
 export const complementaryInfo = Handlebars.compile(`
   <ul class = "nav nav-tabs" id = "myTab" role = "tablist">
     <li class = "nav-item">
-      <a class ="nav-link" id = "home-tab" data-toggle = "tab"
+      <a class ="nav-link active" id = "home-tab" data-toggle = "tab"
         href = "#pHome" role = "tab" aria-controls = "home" aria-selected = "true">
         Home
       </a>
@@ -118,7 +118,7 @@ export const complementaryInfo = Handlebars.compile(`
       </a>
     </li>
     <li class = "nav-item">
-      <a class ="nav-link active" id = "feedbackLoops-tab" data-toggle = "tab"
+      <a class ="nav-link" id = "feedbackLoops-tab" data-toggle = "tab"
         href = "#pFeedbackLoops" role = "tab" aria-controls = "feedbackLoops"  aria-selected = "false">
         Feedback Loops
       </a>
@@ -131,14 +131,14 @@ export const complementaryInfo = Handlebars.compile(`
     </li>
   </ul>
   <div class = "tab-content" id = "myTabContent">
-    <div class = "tab-pane fade " id = "pHome" role = "tabpanel" arial-labelledby = "home-tab">
+    <div class = "tab-pane fade show active" id = "pHome" role = "tabpanel" arial-labelledby = "home-tab">
     </div>
     <div class = "tab-pane fade" id = "pDescription" role = "tabpanel" arial-labelledby = "description-tab"></div>
     <div class = "tab-pane fade" id = "pEquations" role = "tabpanel" arial-labelledby = "equations-tab"></div>
     <div class = "tab-pane fade" id = "pStocksAndFlows" role = "tabpanel" arial-labelledby = "description-tab">
       <div id = "stockFlowDiagram" class = "d-flex justify-content-center pt-5 mt-5"> </div>
     </div>
-    <div class = "tab-pane fade  show active" id = "pFeedbackLoops" role = "tabpanel" arial-labelledby = "description-tab">
+    <div class = "tab-pane fade" id = "pFeedbackLoops" role = "tabpanel" arial-labelledby = "description-tab">
       <div id = "feedbackLoopDiagram" class = "d-flex justify-content-center pt-1 mt-1"> </div>
       <div id = "infoLoopDominance" class = "d-flex justify-content-left">
         <label class = "text-left my-auto">Loop dominance on: </label>

@@ -26,10 +26,12 @@ const listAvailableModels = models => {
   const rowElement = document.body.querySelector('.row');
 
   for (let i = 0; i < length; i++) {
-    let model_id = models[i].model_id;
-    let title = models[i].model_name;
+    const model_id = models[i].model_id;
+    const title = models[i].model_name;
+    const description = models[i].description;
+    console.log(description);
     console.log("this is i: " + i);
-    let html = templates.modelCard({model_id, title});
+    const html = templates.modelCard({model_id, title, description});
     rowElement.insertAdjacentHTML('beforeend', html);
   }
 };
