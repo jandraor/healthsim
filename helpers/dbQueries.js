@@ -15,6 +15,7 @@ module.exports = {
       return(result);
     } catch(error){
       console.log(error);
+      connection.release();
       throw error;
     }
   },
@@ -34,6 +35,7 @@ module.exports = {
       return(result);
     } catch (error) {
       console.log(error);
+      connection.release();
       throw error;
     }
   },
@@ -53,6 +55,7 @@ module.exports = {
       return(result);
     } catch (err) {
       console.log(err);
+      connection.release();
       throw error;
     }
   },
@@ -72,6 +75,7 @@ module.exports = {
       return(result);
     } catch (error) {
       console.log(error);
+      connection.release();
       throw error;
     }
   },
@@ -92,6 +96,7 @@ module.exports = {
       return(result);
 
     } catch (error){
+      connection.release();
       throw error;
     }
   },
@@ -124,6 +129,7 @@ module.exports = {
 
       return returnValue;
     } catch (error) {
+      connection.release();
       throw error;
     }
   },
@@ -155,6 +161,7 @@ module.exports = {
       }
       return returnValue;
     } catch (error) {
+      connection.release();
       throw error;
     }
   },
@@ -189,6 +196,7 @@ module.exports = {
       return {'found': returnValue, 'parameterId': parameterId};
 
     } catch (error) {
+      connection.release();
       throw error
     }
   },
@@ -209,6 +217,7 @@ module.exports = {
     }
     catch (error) {
       console.log(error);
+      connection.release();
       throw error;
     }
   },
@@ -238,6 +247,7 @@ module.exports = {
       return(result.insertId);
     } catch (error) {
       console.log(error);
+      connection.release();
       throw error;
     }
   },
@@ -316,6 +326,7 @@ module.exports = {
       return(result);
     } catch (err) {
       console.log(error);
+      connection.release();
       throw error;
     }
 

@@ -136,9 +136,7 @@ export const complementaryInfo = Handlebars.compile(`
     </div>
     <div class = "tab-pane fade" id = "pDescription" role = "tabpanel" arial-labelledby = "description-tab"></div>
     <div class = "tab-pane fade" id = "pEquations" role = "tabpanel" arial-labelledby = "equations-tab"></div>
-    <div class = "tab-pane fade" id = "pStocksAndFlows" role = "tabpanel" arial-labelledby = "description-tab">
-      <div id = "stockFlowDiagram" class = "d-flex justify-content-center pt-5 mt-5"> </div>
-    </div>
+    <div class = "tab-pane fade" id = "pStocksAndFlows" role = "tabpanel" arial-labelledby = "description-tab"></div>
     <div class = "tab-pane fade" id = "pFeedbackLoops" role = "tabpanel" arial-labelledby = "description-tab">
       <div id = "feedbackLoopDiagram" class = "d-flex justify-content-center pt-1 mt-1"> </div>
       <div id = "infoLoopDominance" class = "d-flex justify-content-left">

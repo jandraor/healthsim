@@ -9,6 +9,7 @@ import * as sliders from "./slds.ts"
 import * as runButton from './buttons/simulate/run.ts';
 import * as stepButton from './buttons/simulate/step.ts';
 import * as drawButton from './buttons/simulate/drawCS.ts';
+import * as replayButton from './buttons/simulate/replay.ts';
 import * as cld from '../../components/cld.ts';
 import * as ut from '../../../helpers/utilities.ts';
 import * as events from './events.ts';
@@ -32,6 +33,7 @@ export const buildInterface = async (modelId, fetchJSON) => {
 
   runButton.build(modelId, fetchJSON);
   stepButton.build(modelId, fetchJSON);
+  replayButton.build();
   cld.drawCLD('feedbackLoopDiagram');
 
   const caseStudyData = [

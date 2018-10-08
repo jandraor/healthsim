@@ -71,69 +71,9 @@ if (isDev) {
 }
 
 // Passport Authentication.
-const passport = require('passport');
-const dbQueries = require('./helpers/dbQueries.js');
+const passportConfig = require('./config/passport.js');
+passportConfig(app, pool2, nconf, serviceUrl);
 
-passport.serializeUser((user, done) => {
-  done(null, user.email);
-});
-
-passport.deserializeUser( async(email, done) => {
-  try {
-    const userQuery = await dbQueries.getUser(pool2, email);
-    if(userQuery.length == 1){
-      const user = {"email": userQuery[0].email};
-      done(null, user);
-    } else {
-      throw "Somethig went wrong deserialising"
-    }
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-});
-
-const FacebookStrategy = require('passport-facebook').Strategy;
-passport.use(new FacebookStrategy({
-  clientID: nconf.get('auth:facebook:appID'),
-  clientSecret: nconf.get('auth:facebook:appSecret'),
-  callbackURL: new URL('/auth/facebook/callback', serviceUrl).href,
-  profileFields: ['id', 'displayName', 'email', 'first_name', 'last_name'],
-}, async (accessToken, refreshToken, profile, done) => {
-      try {
-        const userQuery = await dbQueries.getUser(pool2, profile._json.email);
-
-        if(userQuery.length > 1) {
-          throw "Duplicated users";
-        }
-
-        if(userQuery.length == 1){
-          console.log("User already exists");
-          const currentUser = {"email": userQuery[0].email };
-          done(null, currentUser);
-        }
-
-        if(userQuery.length == 0){
-            const resultInsertion = await dbQueries.insertUser(pool2,
-              profile._json.email,
-              profile._json.first_name,
-              profile._json.last_name);
-              if(resultInsertion.affectedRows === 1) {
-                console.log("A new user has been created");
-                const newUser = {"email": profile._json.email};
-                done(null, newUser);
-              } else {
-                throw "Insertion failed";
-              }
-        }
-      } catch (error) {
-        console.log(error);
-        throw error;
-      }
-}));
-
-app.use(passport.initialize());
-app.use(passport.session());
 
 // Create auth route
 app.use('/auth', require('./lib/auth_manager.js'));

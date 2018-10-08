@@ -84,3 +84,45 @@ export const update = (dataset, delay) => {
   saf.fillStock('svgSAF', 'Infected', Math.round(dataset.sInfected), delay);
   saf.fillStock('svgSAF', 'Recovered',Math.round(dataset.sRecovered), delay);
 }
+
+export const animate = (oldSusceptible, newSusceptible, newInfected,
+  oldRecovered, newRecovered, duration) => {
+  const netFlowSus = newSusceptible - oldSusceptible;
+  let optionsTransition = {
+    'from': 'Susceptible',
+    'to': 'Infected',
+    'newValueFrom': newSusceptible,
+    'newValueTo': newInfected,
+    'totalFlow': Math.abs(netFlowSus),
+    'xDestStcStart': 255,
+    'xDestStcLength': 150,
+    'yDestStcStart': 30,
+    'yDestStcLength': 100,
+    'xOrgnStcEnd': 155,
+    'yOrgnStcStart': 30,
+    'svgId': 'svgSAF',
+    'flowyStart' : 70,
+    'flowHeight' : 20,
+    'duration': duration
+  }
+  saf.animateFlow(optionsTransition);
+  const netFlowRec = newRecovered - oldRecovered
+  optionsTransition = {
+    'from': 'Infected',
+    'to': 'Recovered',
+    'newValueFrom': newInfected,
+    'newValueTo': newRecovered,
+    'totalFlow': Math.abs(netFlowRec),
+    'xDestStcStart': 505,
+    'xDestStcLength': 150,
+    'yDestStcStart': 30,
+    'yDestStcLength': 100,
+    'xOrgnStcEnd': 405,
+    'yOrgnStcStart': 30,
+    'svgId': 'svgSAF',
+    'flowyStart' : 70,
+    'flowHeight' : 20,
+    'duration': duration
+  }
+  saf.animateFlow(optionsTransition);
+}

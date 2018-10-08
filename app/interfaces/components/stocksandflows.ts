@@ -81,8 +81,9 @@ export const animateFlow = (options) => {
 
             d3.select(this)
               .transition()
+              .ease(d3.easeCubicInOut)
               .delay(500)
-              .duration(2500)
+              .duration(options.duration)
               .on("start", function() {
                 d3.select(this)
                   .attr('r', 3)

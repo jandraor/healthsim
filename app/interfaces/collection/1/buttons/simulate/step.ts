@@ -84,13 +84,11 @@ export const build = (model_id, fetchJSON) => {
       }
 
       //Net flows for transitions in a discrete form
-      const oldSusceptibleValue = Math.round(params.S)
-      const newSusceptibleValue = Math.round(newDataset[newDataset.length - 1].sSusceptible)
-      const netFlowSusceptibles = newSusceptibleValue - oldSusceptibleValue;
-      const oldRecoveredValue = Math.round(params.R)
-      const newRecoveredValue = Math.round(newDataset[newDataset.length - 1].sRecovered)
-      const netFlowRecovered  = newRecoveredValue - oldRecoveredValue;
-      const newInfectedValue = Math.round(newDataset[newDataset.length - 1].sInfected)
+      const oldS = Math.round(params.S)
+      const newS = Math.round(newDataset[newDataset.length - 1].sSusceptible)
+      const oldR = Math.round(params.R)
+      const newR = Math.round(newDataset[newDataset.length - 1].sRecovered)
+      const newI = Math.round(newDataset[newDataset.length - 1].sInfected)
       //Draw timeseries on each chart
       const stopTime = parseInt($("#varValueTo").text());
       const currentSelectedVar = $(`#selVarSF`).val();
@@ -130,41 +128,43 @@ export const build = (model_id, fetchJSON) => {
       /*
        * Transitions in the Stock & Flow Diagram
        */
-       let optionsTransition = {
-         'from': 'Susceptible',
-         'to': 'Infected',
-         'newValueFrom': newSusceptibleValue,
-         'newValueTo': newInfectedValue,
-         'totalFlow': Math.abs(netFlowSusceptibles),
-         'xDestStcStart': 255,
-         'xDestStcLength': 150,
-         'yDestStcStart': 30,
-         'yDestStcLength': 100,
-         'xOrgnStcEnd': 155,
-         'yOrgnStcStart': 30,
-         'svgId': 'svgSAF',
-         'flowyStart' : 70,
-         'flowHeight' : 20
-       }
-       saf.animateFlow(optionsTransition);
+       // let optionsTransition = {
+       //   'from': 'Susceptible',
+       //   'to': 'Infected',
+       //   'newValueFrom': newSusceptibleValue,
+       //   'newValueTo': newInfectedValue,
+       //   'totalFlow': Math.abs(netFlowSusceptibles),
+       //   'xDestStcStart': 255,
+       //   'xDestStcLength': 150,
+       //   'yDestStcStart': 30,
+       //   'yDestStcLength': 100,
+       //   'xOrgnStcEnd': 155,
+       //   'yOrgnStcStart': 30,
+       //   'svgId': 'svgSAF',
+       //   'flowyStart' : 70,
+       //   'flowHeight' : 20
+       // }
+       // saf.animateFlow(optionsTransition);
+       //
+       // optionsTransition = {
+       //   'from': 'Infected',
+       //   'to': 'Recovered',
+       //   'newValueFrom': newInfectedValue,
+       //   'newValueTo': newRecoveredValue,
+       //   'totalFlow': Math.abs(netFlowRecovered),
+       //   'xDestStcStart': 505,
+       //   'xDestStcLength': 150,
+       //   'yDestStcStart': 30,
+       //   'yDestStcLength': 100,
+       //   'xOrgnStcEnd': 405,
+       //   'yOrgnStcStart': 30,
+       //   'svgId': 'svgSAF',
+       //   'flowyStart' : 70,
+       //   'flowHeight' : 20
+       // }
+       // saf.animateFlow(optionsTransition);
 
-       optionsTransition = {
-         'from': 'Infected',
-         'to': 'Recovered',
-         'newValueFrom': newInfectedValue,
-         'newValueTo': newRecoveredValue,
-         'totalFlow': Math.abs(netFlowRecovered),
-         'xDestStcStart': 505,
-         'xDestStcLength': 150,
-         'yDestStcStart': 30,
-         'yDestStcLength': 100,
-         'xOrgnStcEnd': 405,
-         'yOrgnStcStart': 30,
-         'svgId': 'svgSAF',
-         'flowyStart' : 70,
-         'flowHeight' : 20
-       }
-       saf.animateFlow(optionsTransition);
+       sfd.animate(oldS, newS, newI, oldR, newR, 2000);
 
        const newTime = String(currentTime + 1);
        $('#varValueCurTim').text(newTime);

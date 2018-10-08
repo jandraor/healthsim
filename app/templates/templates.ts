@@ -5,6 +5,7 @@ import * as ctrl from './helpers/controls.ts';
 import * as inputs from './helpers/inputs.ts';
 import * as cmpContent from './helpers/complementaryContent.ts';
 import * as homeContent from './helpers/home.ts';
+import * as sfdContent from './helpers/sfd.ts';
 const logo = require('../img/logo.svg');
 const logo2 = require('../img/logo2.svg');
 const saf = require('../img/unnamed.png');
@@ -71,7 +72,7 @@ export const main = Handlebars.compile(`
 
 export const welcome = Handlebars.compile(`
   <div class = "mt-5">
-    <h3 class = "mb-3">Welcome!</h3>
+    <h3 class = "mb-3">Welcome! - This site is under development</h3>
     <p class = "text-justify">HealthSim is an <strong>open source</strong> and cloud-based application
       in which public health stakeholders can <strong>interact</strong> with
       mathematical models of infectious diseases through an
@@ -93,9 +94,9 @@ export const welcome = Handlebars.compile(`
       	  Sign in with Facebook
       	  <span class="fa fa-facebook"></span>
       	</a>
-      	<a href="/auth/twitter" class="btn btn-block btn-social btn-twitter">
-      	  Sign in with Twitter
-      	  <span class="fa fa-twitter"></span>
+      	<a href="/auth/linkedin" class="btn btn-block btn-social btn-linkedin">
+      	  Sign in with LinkedIn
+      	  <span class="fa fa-linkedin"></span>
       	</a>
       	<a href="/auth/google" class="btn btn-block btn-social btn-google">
       	  Sign in with Google
@@ -168,6 +169,8 @@ export const getTemplate = (modelId, modelName) => {
   complementaryElement.insertAdjacentHTML('beforeend', layouts.complementaryInfo());
   const caseStudyElement = document.body.querySelector('#pCaseStudies');
   caseStudyElement.insertAdjacentHTML('beforeend', cmpContent.caseStudy());
+  const sfdElement = document.body.querySelector('#pStocksAndFlows');
+  sfdElement.insertAdjacentHTML('beforeend', sfdContent.layout());
   const simulationsElement = document.body.querySelector('#divSimulations');
   simulationsElement.insertAdjacentHTML('beforeend', layouts.simulationsInfo());
   const descriptionElement = document.body.querySelector('#pDescription');
