@@ -102,6 +102,7 @@ export const build = (model_id, fetchJSON)  => {
       slBuilder.buildSparklines(dataset, finishTime, padding, w, h);
       //Update stock & flow
       sfd.update(lastElement, 2000);
+      $('#bReplay').prop('disabled', false);
 
 
       $('#varValueCurTim').text(newCurrentTime);

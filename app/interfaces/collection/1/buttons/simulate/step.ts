@@ -36,6 +36,7 @@ export const build = (model_id, fetchJSON) => {
       }
 
       if(currentTime === minTime){
+        $('#bReplay').prop('disabled', true);
         d3.selectAll(".sparkline").remove();
         d3.selectAll('.sparkcircle').remove();
         if(!$('#cbComparative').is(":checked")){
@@ -128,48 +129,13 @@ export const build = (model_id, fetchJSON) => {
       /*
        * Transitions in the Stock & Flow Diagram
        */
-       // let optionsTransition = {
-       //   'from': 'Susceptible',
-       //   'to': 'Infected',
-       //   'newValueFrom': newSusceptibleValue,
-       //   'newValueTo': newInfectedValue,
-       //   'totalFlow': Math.abs(netFlowSusceptibles),
-       //   'xDestStcStart': 255,
-       //   'xDestStcLength': 150,
-       //   'yDestStcStart': 30,
-       //   'yDestStcLength': 100,
-       //   'xOrgnStcEnd': 155,
-       //   'yOrgnStcStart': 30,
-       //   'svgId': 'svgSAF',
-       //   'flowyStart' : 70,
-       //   'flowHeight' : 20
-       // }
-       // saf.animateFlow(optionsTransition);
-       //
-       // optionsTransition = {
-       //   'from': 'Infected',
-       //   'to': 'Recovered',
-       //   'newValueFrom': newInfectedValue,
-       //   'newValueTo': newRecoveredValue,
-       //   'totalFlow': Math.abs(netFlowRecovered),
-       //   'xDestStcStart': 505,
-       //   'xDestStcLength': 150,
-       //   'yDestStcStart': 30,
-       //   'yDestStcLength': 100,
-       //   'xOrgnStcEnd': 405,
-       //   'yOrgnStcStart': 30,
-       //   'svgId': 'svgSAF',
-       //   'flowyStart' : 70,
-       //   'flowHeight' : 20
-       // }
-       // saf.animateFlow(optionsTransition);
-
        sfd.animate(oldS, newS, newI, oldR, newR, 2000);
 
        const newTime = String(currentTime + 1);
        $('#varValueCurTim').text(newTime);
        if(currentTime + 1  === stopTime) {
          $('#slInfected').slider('enable');
+         $('#bReplay').prop('disabled', false);
        }
 
        const lastElement = newDataset[newDataset.length - 1];
