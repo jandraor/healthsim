@@ -97,6 +97,19 @@ app.get('/api/user', (req, res) => {
   res.status(200).json(user);
 });
 
+const dbQueries = require('./helpers/dbQueries.js');
+app.get('/api/instructor', (req, res) => {
+  const resultQuery = dbQueries.checkInstructor(pool2,req.user.email);
+  let result;
+  if (resultQuery.length === 1){
+    result = {'value': true};
+  }
+  if (resultQuery.length !== 1){
+    result = {'value': false};
+  }
+  res.status(200).json(result);
+});
+
 // Creates a http secure server with the Express app as a parameter
 const fs = require('fs');
 const https = require('https');

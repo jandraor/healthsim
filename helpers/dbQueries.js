@@ -39,6 +39,42 @@ module.exports = {
       throw error;
     }
   },
+  insertUserRole:async(pool, email, role_id) => {
+    try {
+      const query = `
+        INSERT INTO users_roles (email, role_id) VALUES
+          ('${email}', '${role_id}')
+      `;
+      const connection = await pool.getConnection();
+      const result = await connection.query(query);
+      connection.release();
+      return(result);
+    } catch (err) {
+      console.log(err);
+      connection.release();
+      throw error;
+    }
+  },
+  checkInstructor: async(pool, email) => {
+    try {
+      const query = `
+      SELECT
+        user_role_id
+      FROM
+        users_roles
+      WHERE
+        email = '${email}' AND role_id = 2
+      `;
+      const connection = await pool.getConnection();
+      const result = await connection.query(query);
+      connection.release();
+      return(result);
+    } catch (err) {
+      console.log(err);
+      connection.release();
+      throw error;
+    }
+  },
   getModelName : async(pool, modelId) => {
     try {
       const query = `

@@ -7,6 +7,7 @@ import * as d3 from 'd3';
 import 'bootstrap';
 import * as templates from './templates/templates.ts';
 import * as interfaces from './interfaces/interfaces.ts';
+import * as display from './helpers/display.ts'
 import * as ut from './helpers/utilities.ts';
 import './css/styles.css';
 
@@ -18,36 +19,9 @@ const getAvailableModels = async () => {
   return models;
 };
 
-const listAvailableModels = models => {
-  const mainElement = document.body.querySelector('.hs-main');
-  mainElement.innerHTML = templates.availableModelsLayout();
-  const length = models.length;
-  console.log(models[0].model_name);
-  const rowElement = document.body.querySelector('.row');
-
-  for (let i = 0; i < length; i++) {
-    const model_id = models[i].model_id;
-    const title = models[i].model_name;
-    const description = models[i].description;
-    console.log(description);
-    console.log("this is i: " + i);
-    const html = templates.modelCard({model_id, title, description});
-    rowElement.insertAdjacentHTML('beforeend', html);
-  }
-};
-
 const drawInterface = (modelId, modelName) => {
   templates.getTemplate(modelId, modelName);
   interfaces.getContent(modelId, ut.fetchJSON);
-};
-
-/**
- * Show an alert to the user.
- */
-const showAlert = (message, type = 'danger') => {
-  const alertsElement = document.body.querySelector('.hs-alerts');
-  const html = templates.alert({type, message});
-  alertsElement.insertAdjacentHTML('beforeend', html);
 };
 
 /**
@@ -56,7 +30,6 @@ const showAlert = (message, type = 'danger') => {
 const showView = async() => {
   const mainElement = document.body.querySelector('.hs-main');
   const [view, ...params] = window.location.hash.split('/');
-  console.log("This is the view: " + view);
 
   switch(view) {
     case '#welcome':
@@ -64,7 +37,7 @@ const showView = async() => {
       mainElement.innerHTML = templates.welcome({session});
 
       if (session.error) {
-        showAlert(session.error);
+        ut.showAlert(session.error);
       }
       break;
 
@@ -75,19 +48,34 @@ const showView = async() => {
           document.body.innerHTML = templates.main({session});
         }
         const availableModels = await getAvailableModels();
-        listAvailableModels(availableModels);
+        display.listAvailableModels(templates, availableModels);
       } catch (err) {
-        showAlert(err);
+        ut.showAlert(err);
+        window.location.hash = '#welcome';
+      }
+      break;
+
+    case '#play':
+      try {
+        display.listPlayOptions();
+      } catch (err) {
+        ut.showAlert(err);
         window.location.hash = '#welcome';
       }
       break;
 
     case '#interface':
-      const modelId = params;
-      const result_query = await ut.fetchJSON('/model-info/model_name/' + modelId);
-      const modelName = result_query[0].model_name;
-      drawInterface(modelId, modelName);
+      try {
+        const modelId = params;
+        const result_query = await ut.fetchJSON('/model-info/model_name/' + modelId);
+        const modelName = result_query[0].model_name;
+        drawInterface(modelId, modelName);
+      } catch(err) {
+        ut.showAlert(err);
+        window.location.hash = '#welcome';
+      }
       break;
+
 
     default:
       // Unrecognised view.

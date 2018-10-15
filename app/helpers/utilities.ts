@@ -1,3 +1,4 @@
+import * as templates from '../templates/templates.ts';
 /**
 * Convenience method to fetch and decode JSON.
 */
@@ -48,3 +49,12 @@ export const create2DSuperset = (superDataset, xLabel, yLabel) => {
   });
   return twoDSuperset;
 }
+
+/**
+ * Show an alert to the user.
+ */
+export const showAlert = (message, type = 'danger') => {
+  const alertsElement = document.body.querySelector('.hs-alerts');
+  const html = templates.alert({type, message});
+  alertsElement.insertAdjacentHTML('beforeend', html);
+};
