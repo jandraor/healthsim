@@ -98,8 +98,8 @@ app.get('/api/user', (req, res) => {
 });
 
 const dbQueries = require('./helpers/dbQueries.js');
-app.get('/api/instructor', (req, res) => {
-  const resultQuery = dbQueries.checkInstructor(pool2,req.user.email);
+app.get('/api/instructor', async (req, res) => {
+  const resultQuery = await dbQueries.checkInstructor(pool2,req.user.email);
   let result;
   if (resultQuery.length === 1){
     result = {'value': true};

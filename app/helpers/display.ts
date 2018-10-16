@@ -1,4 +1,6 @@
 import * as ut from '../helpers/utilities.ts';
+import * as templates from '../templates/templates.ts';
+const $ = require('jquery');
 
 export const listAvailableModels = (templates, models) => {
   const mainElement = document.body.querySelector('.hs-main');
@@ -21,8 +23,12 @@ export const listPlayOptions = async() => {
       if(!session.auth) {
         throw `You must sign in to use this service`;
       }
-    const is_Instructor = await ut.fetchJSON('/api/instructor');
-    window.alert(`Is instructor?: ${is_Instructor.value}`);
+    const response = await ut.fetchJSON('/api/instructor');
+    const is_Instructor = response.value;
+    console.log(is_Instructor);
+    const mainElement = $('.hs-main');
+    const html = templates.roleLayout({is_Instructor})
+    mainElement.html(html);
   } catch(err) {
     ut.showAlert(err);
     window.location.hash = '#welcome';

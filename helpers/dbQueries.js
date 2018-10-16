@@ -63,7 +63,7 @@ module.exports = {
       FROM
         users_roles
       WHERE
-        email = '${email}' AND role_id = 2
+        email = '${email}' AND role_id = '2'
       `;
       const connection = await pool.getConnection();
       const result = await connection.query(query);

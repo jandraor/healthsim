@@ -55,14 +55,14 @@ const showView = async() => {
       }
       break;
 
-    case '#play':
-      try {
-        display.listPlayOptions();
-      } catch (err) {
-        ut.showAlert(err);
-        window.location.hash = '#welcome';
-      }
-      break;
+    // case '#play':
+    //   try {
+    //     display.listPlayOptions();
+    //   } catch (err) {
+    //     ut.showAlert(err);
+    //     window.location.hash = '#welcome';
+    //   }
+    //   break;
 
     case '#interface':
       try {

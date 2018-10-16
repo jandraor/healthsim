@@ -155,6 +155,48 @@ export const modelCard = Handlebars.compile(`
   </div>
 `);
 
+export const roleLayout = Handlebars.compile(`
+  <div id = "divRoles" class = "mt-3">
+    <p class = "my-1"> ROLES</p>
+    <hr class = "my-1" />
+    <div class = "container py-5 text-muted">
+      <!-- role cards -->
+      <div class = "row">
+        {{#if is_Instructor}}
+        <div class = "col-5">
+          <div class = 'card'>
+            <div class="card-header">
+              <span class = 'text-dark'>Instructor</span>
+            </div>
+            <div class = 'card-body'>
+              <p>
+                Description of what a instructor is & can do
+              </p>
+              <a href="#"
+                class="btn btn-primary">Create game</a>
+            </div>
+          </div>
+        </div>
+        {{/if}}
+        <div class = "col-5">
+          <div class = 'card'>
+            <div class="card-header">
+              <span class = 'text-dark'>Player</span>
+            </div>
+            <div class = 'card-body'>
+              <p>
+                Description of what a player is & can do
+              </p>
+              <a href="#"
+                class="btn btn-primary">Join game</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+`);
+
 export const getTemplate = (modelId, modelName) => {
   document.body.innerHTML = layouts.simulationInterface({modelName});
   const controlsElement = document.body.querySelector('#divControls');
