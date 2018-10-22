@@ -1,5 +1,6 @@
 import * as ut from '../helpers/utilities.ts';
 import * as templates from '../templates/templates.ts';
+import * as sckt from '../sockets/sockets.ts';
 const $ = require('jquery');
 
 export const listAvailableModels = (templates, models) => {
@@ -17,7 +18,7 @@ export const listAvailableModels = (templates, models) => {
   }
 };
 
-export const listPlayOptions = async() => {
+export const listPlayOptions = async(socket) => {
   try {
     const session = await ut.fetchJSON('/api/session');
       if(!session.auth) {
@@ -29,6 +30,9 @@ export const listPlayOptions = async() => {
     const mainElement = $('.hs-main');
     const html = templates.roleLayout({is_Instructor})
     mainElement.html(html);
+    $('#bCreateGame').click( () => {
+      sckt.sendGame(socket);
+    });
   } catch(err) {
     ut.showAlert(err);
     window.location.hash = '#welcome';

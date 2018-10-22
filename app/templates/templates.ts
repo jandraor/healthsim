@@ -173,7 +173,7 @@ export const roleLayout = Handlebars.compile(`
                 Description of what a instructor is & can do
               </p>
               <a href="#"
-                class="btn btn-primary">Create game</a>
+                class = "btn btn-primary" id = 'bCreateGame'>Create game</a>
             </div>
           </div>
         </div>

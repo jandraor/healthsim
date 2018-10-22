@@ -55,14 +55,23 @@ const showView = async() => {
       }
       break;
 
-    // case '#play':
-    //   try {
-    //     display.listPlayOptions();
-    //   } catch (err) {
-    //     ut.showAlert(err);
-    //     window.location.hash = '#welcome';
-    //   }
-    //   break;
+    case '#play':
+      try {
+        const io = require('socket.io-client');
+        const socket = io();
+        display.listPlayOptions(socket);
+        const credentials = {
+          'email': 'jair.albert.andrade',
+          'first_name': 'Jair',
+          'last_name': 'Andrade'
+        }
+        socket.emit('assign username', credentials);
+        console.log(socket);
+      } catch (err) {
+        ut.showAlert(err);
+        window.location.hash = '#welcome';
+      }
+      break;
 
     case '#interface':
       try {

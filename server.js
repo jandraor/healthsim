@@ -118,6 +118,33 @@ key: fs.readFileSync(nconf.get('privateKey')),
 cert: fs.readFileSync(nconf.get('certificatePem'))
 };
 
-https.createServer(httpsOptions, app)
+const server = https.createServer(httpsOptions, app)
   .listen(servicePort, () => console.log('Secure Server Ready on port: ' +
                                             servicePort));
+
+const gameCollection = {
+  totalGameCount: 0,
+  gameList: []
+}
+
+const io = require('socket.io')(server);
+
+io.on('connection', function (socket) {
+  console.log('A user has connected');
+
+  socket.on('assign username', credentials => {
+    console.log(credentials.email);
+    socket.credentials = credentials;
+    console.log(socket.credentials);
+  });
+
+  socket.on('makeGame', () => {
+    console.log(`${socket.credentials.first_name} has requested to create a game`);
+    gameCollection.gameList[0] = '1';
+    console.log(gameCollection.gameList[0]);
+  });
+
+  socket.on('disconnect', () => {
+    console.log(`User ${socket.credentials.first_name} ${socket.credentials.last_name} has disconnected`);
+  });
+});
