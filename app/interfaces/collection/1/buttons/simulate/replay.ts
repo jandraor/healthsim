@@ -15,25 +15,29 @@ export const build = ()  => {
       });
       //Set initial values of stock & flow
       const firstRow = datasetDiscrete[0];
-      d3.select('#svgSAF')
-        .transition()
+
+      const repeat = function repeat() {
+        if(datasetDiscrete.length > 1) {
+          const oldS = parseInt(datasetDiscrete[0].sSusceptible);
+          const newS = parseInt(datasetDiscrete[1].sSusceptible);
+          const newI = parseInt(datasetDiscrete[1].sInfected);
+          const oldR = parseInt(datasetDiscrete[0].sRecovered);
+          const newR = parseInt(datasetDiscrete[1].sRecovered);
+          const duration = 2000;
+          const delay = 0;
+          sfd.animate(oldS, newS, newI, oldR, newR, duration, delay);
+          datasetDiscrete.shift();
+          d3.active(this)
+            .transition()
+              .duration(duration + delay + 100) // Allow to finish the transition
+              .on('end', repeat)
+        }
+      }
+      d3.select('#svgSAF').transition()
           .duration(0)
-            .on("start", sfd.update(firstRow, 0))
-        .transition()
-          .duration(2600) //2000 duration + 500 delay + 100 arbitrary for avoiding transition overlaping
-            .on("start", function repeat()  {
-                if(datasetDiscrete.length > 1) {
-                  const oldS = parseInt(datasetDiscrete[0].sSusceptible);
-                  const newS = parseInt(datasetDiscrete[1].sSusceptible);
-                  const newI = parseInt(datasetDiscrete[1].sInfected);
-                  const oldR = parseInt(datasetDiscrete[0].sRecovered);
-                  const newR = parseInt(datasetDiscrete[1].sRecovered);
-                  sfd.animate(oldS, newS, newI, oldR, newR, 2000);
-                  datasetDiscrete.shift();
-                  d3.active(this)
-                    .transition()
-                      .on("start", repeat);
-                }
-            });
-    });
+          .on("start", function(){
+            sfd.update(firstRow, 0);
+          })
+          .on('end', repeat)
+    }); // closes on click event
 }

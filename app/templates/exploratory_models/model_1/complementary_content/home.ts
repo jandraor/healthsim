@@ -1,6 +1,6 @@
-import * as Handlebars from '../../../node_modules/handlebars/dist/handlebars.js';
+import * as Handlebars from '../../../../../node_modules/handlebars/dist/handlebars.js';
 
-export const instructions = Handlebars.compile(`
+export const html = Handlebars.compile(`
   <div class = "mt-2 ml-4 mr-4">
     <h5>SIR simulator</h5>
     <p class = "text-justify textCaseStudy">

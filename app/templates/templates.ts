@@ -1,13 +1,6 @@
 const $ = require('jquery');
 import * as Handlebars from '../../node_modules/handlebars/dist/handlebars.js';
-import * as layouts from './helpers/layouts.ts';
-import * as ctrl from './helpers/controls.ts';
-import * as inputs from './helpers/inputs.ts';
-import * as cmpContent from './helpers/complementaryContent.ts';
-import * as homeContent from './helpers/home.ts';
-import * as sfdContent from './helpers/sfd.ts';
-
-
+import * as tmplt1 from './exploratory_models/model_1/main.ts';
 const logo = require('../img/logo.svg');
 const logo2 = require('../img/logo2.svg');
 const saf = require('../img/unnamed.png');
@@ -206,27 +199,11 @@ export const instructorLayout = () => {
 }
 
 export const getTemplate = (modelId, modelName) => {
-  document.body.innerHTML = layouts.simulationInterface({modelName});
-  const controlsElement = document.body.querySelector('#divControls');
-  controlsElement.insertAdjacentHTML('beforeend', ctrl.buttons());
-  const totalPop = $('#varValueTotalPop').text();
-  const initial = String(parseFloat(totalPop) / 100);
-  const step = String(parseFloat(totalPop) / 100);
-  const slidersElement = document.body.querySelector('#divSliders');
-  slidersElement.insertAdjacentHTML('beforeend',
-    inputs.parameters({totalPop, initial, step}));
-  const complementaryElement = document.body.querySelector('#why');
-  complementaryElement.insertAdjacentHTML('beforeend', layouts.complementaryInfo());
-  const caseStudyElement = document.body.querySelector('#pCaseStudies');
-  caseStudyElement.insertAdjacentHTML('beforeend', cmpContent.caseStudy());
-  const sfdElement = document.body.querySelector('#pStocksAndFlows');
-  sfdElement.insertAdjacentHTML('beforeend', sfdContent.layout());
-  const simulationsElement = document.body.querySelector('#divSimulations');
-  simulationsElement.insertAdjacentHTML('beforeend', layouts.simulationsInfo());
-  const descriptionElement = document.body.querySelector('#pDescription');
-  descriptionElement.insertAdjacentHTML('beforeend', cmpContent.description());
-  const equationElement = document.body.querySelector('#pEquations');
-  equationElement.insertAdjacentHTML('beforeend', cmpContent.equations());
-  const homeElement = document.body.querySelector('#pHome');
-  homeElement.insertAdjacentHTML('beforeend', homeContent.instructions());
+  const id = String(modelId)
+
+  switch(id){
+    case '1':
+     tmplt1.drawLayout(modelName);
+    break;
+  }
 }

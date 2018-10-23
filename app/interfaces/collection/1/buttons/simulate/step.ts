@@ -129,7 +129,7 @@ export const build = (model_id, fetchJSON) => {
       /*
        * Transitions in the Stock & Flow Diagram
        */
-       sfd.animate(oldS, newS, newI, oldR, newR, 2000);
+       sfd.animate(oldS, newS, newI, oldR, newR, 2000, 500);
 
        const newTime = String(currentTime + 1);
        $('#varValueCurTim').text(newTime);

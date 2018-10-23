@@ -86,7 +86,7 @@ export const update = (dataset, delay) => {
 }
 
 export const animate = (oldSusceptible, newSusceptible, newInfected,
-  oldRecovered, newRecovered, duration) => {
+  oldRecovered, newRecovered, duration, delay) => {
   const netFlowSus = newSusceptible - oldSusceptible;
   let optionsTransition = {
     'from': 'Susceptible',
@@ -103,7 +103,8 @@ export const animate = (oldSusceptible, newSusceptible, newInfected,
     'svgId': 'svgSAF',
     'flowyStart' : 70,
     'flowHeight' : 20,
-    'duration': duration
+    'duration': duration,
+    'delay': delay
   }
   saf.animateFlow(optionsTransition);
   const netFlowRec = newRecovered - oldRecovered
@@ -122,7 +123,8 @@ export const animate = (oldSusceptible, newSusceptible, newInfected,
     'svgId': 'svgSAF',
     'flowyStart' : 70,
     'flowHeight' : 20,
-    'duration': duration
+    'duration': duration,
+    'delay': delay
   }
   saf.animateFlow(optionsTransition);
 }

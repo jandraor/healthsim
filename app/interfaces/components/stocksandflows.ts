@@ -82,7 +82,7 @@ export const animateFlow = (options) => {
             d3.select(this)
               .transition()
               .ease(d3.easeCubicInOut)
-              .delay(500)
+              .delay(options.delay)
               .duration(options.duration)
               .on("start", function() {
                 d3.select(this)
@@ -174,6 +174,7 @@ export const fillStock = (svgId, variable, n, delay = 0) => {
     .attr('cx', d => d[0])
     .attr('cy', d => d[1])
     .transition()
+      .duration(0)
       .delay(delay)
       .attr('class', `crc${variable}`)
       .attr('r', 1)
@@ -185,6 +186,7 @@ export const fillStock = (svgId, variable, n, delay = 0) => {
      .attr('x', xmin + 5)
      .attr('y', ymin - 15)
      .transition()
+       .duration(0)
        .delay(delay)
        .text(`${variable}: ${n}`);
 }
