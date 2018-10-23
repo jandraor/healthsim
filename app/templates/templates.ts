@@ -6,6 +6,8 @@ import * as inputs from './helpers/inputs.ts';
 import * as cmpContent from './helpers/complementaryContent.ts';
 import * as homeContent from './helpers/home.ts';
 import * as sfdContent from './helpers/sfd.ts';
+
+
 const logo = require('../img/logo.svg');
 const logo2 = require('../img/logo2.svg');
 const saf = require('../img/unnamed.png');
@@ -172,7 +174,7 @@ export const roleLayout = Handlebars.compile(`
               <p>
                 Description of what a instructor is & can do
               </p>
-              <a href="#"
+              <a href="#instructor"
                 class = "btn btn-primary" id = 'bCreateGame'>Create game</a>
             </div>
           </div>
@@ -196,6 +198,12 @@ export const roleLayout = Handlebars.compile(`
     </div>
   </div>
 `);
+
+import * as instructor from './instructor/main.ts';
+export const instructorLayout = () => {
+  const layout = instructor.layout;
+  return layout;
+}
 
 export const getTemplate = (modelId, modelName) => {
   document.body.innerHTML = layouts.simulationInterface({modelName});

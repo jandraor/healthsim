@@ -140,8 +140,13 @@ io.on('connection', function (socket) {
 
   socket.on('makeGame', () => {
     console.log(`${socket.credentials.first_name} has requested to create a game`);
-    gameCollection.gameList[0] = '1';
+    gameCollection.gameList[0] = {
+      'id': (Math.random() + 1).toString(36).slice(2, 18),
+      'instructor': socket.credentials.email,
+      'players': [] //emails
+    };
     console.log(gameCollection.gameList[0]);
+    socket.emit('game created');
   });
 
   socket.on('disconnect', () => {

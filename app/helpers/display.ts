@@ -18,7 +18,7 @@ export const listAvailableModels = (templates, models) => {
   }
 };
 
-export const listPlayOptions = async(socket) => {
+export const listPlayOptions = async() => {
   try {
     const session = await ut.fetchJSON('/api/session');
       if(!session.auth) {
@@ -26,15 +26,24 @@ export const listPlayOptions = async(socket) => {
       }
     const response = await ut.fetchJSON('/api/instructor');
     const is_Instructor = response.value;
-    console.log(is_Instructor);
     const mainElement = $('.hs-main');
     const html = templates.roleLayout({is_Instructor})
     mainElement.html(html);
+    const io = require('socket.io-client');
+    const socket = io();
+    sckt.sendCredentials(socket);
     $('#bCreateGame').click( () => {
       sckt.sendGame(socket);
     });
+    sckt.onGameCreated(socket);
   } catch(err) {
     ut.showAlert(err);
     window.location.hash = '#welcome';
   }
 };
+
+export const instructorInterface = () => {
+  const mainElement = $('.hs-main');
+  const html = templates.instructorLayout();
+  mainElement.html(html);
+}

@@ -39,7 +39,7 @@ const showView = async() => {
       if (session.error) {
         ut.showAlert(session.error);
       }
-      break;
+    break;
 
     case '#explore':
       try {
@@ -53,25 +53,16 @@ const showView = async() => {
         ut.showAlert(err);
         window.location.hash = '#welcome';
       }
-      break;
+    break;
 
     case '#play':
       try {
-        const io = require('socket.io-client');
-        const socket = io();
-        display.listPlayOptions(socket);
-        const credentials = {
-          'email': 'jair.albert.andrade',
-          'first_name': 'Jair',
-          'last_name': 'Andrade'
-        }
-        socket.emit('assign username', credentials);
-        console.log(socket);
+        display.listPlayOptions();
       } catch (err) {
         ut.showAlert(err);
         window.location.hash = '#welcome';
       }
-      break;
+    break;
 
     case '#interface':
       try {
@@ -83,8 +74,16 @@ const showView = async() => {
         ut.showAlert(err);
         window.location.hash = '#welcome';
       }
-      break;
+    break;
 
+    case '#instructor':
+      try {
+        display.instructorInterface();
+      } catch (err) {
+        ut.showAlert(err);
+        window.location.hash = '#welcome';
+      }
+    break;
 
     default:
       // Unrecognised view.
