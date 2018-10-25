@@ -19,7 +19,6 @@ export const build = (model_id, fetchJSON) => {
       let currentTime =  parseInt($('#varValueCurTim').text());
       const maxTime = parseInt($('#varValueTo').text());
       const minTime = parseInt($('#varValueFrom').text());
-      const currentMode = $('#varValueMode').text().trim();
       // Reset time
       if(currentTime === maxTime) {
         $('#varValueCurTim').text('0');
@@ -129,7 +128,7 @@ export const build = (model_id, fetchJSON) => {
       /*
        * Transitions in the Stock & Flow Diagram
        */
-       sfd.animate(oldS, newS, newI, oldR, newR, 2000, 500);
+       sfd.animate(oldS, newS, newI, oldR, newR, 2000, 500, currentTime + 1);
 
        const newTime = String(currentTime + 1);
        $('#varValueCurTim').text(newTime);

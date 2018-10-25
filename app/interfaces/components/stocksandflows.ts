@@ -30,9 +30,10 @@ export const drawStock = (options) => {
  */
 export const animateFlow = (options) => {
   // The function that actually does the moving:
-  const translateX = function(path){
-   const l = path.getTotalLength();
+  const translateX = function(classPath){
    return function(d, i, a){
+     const path = d3.select(`#${classPath}${i}`).node();
+     const l = path.getTotalLength();
      return function(t){
        const p = path.getPointAtLength(t * l);
        return p.x;
@@ -40,70 +41,86 @@ export const animateFlow = (options) => {
    }
   }
 
-  const translateY = function(path){
-   const l = path.getTotalLength();
-   return function(d, i, a){
-     return function(t){
-       const p = path.getPointAtLength(t * l);
-       return p.y;
+  const translateY = function(classPath){
+    return function(d, i, a){
+      const path = d3.select(`#${classPath}${i}`).node();
+      const l = path.getTotalLength();
+      return function(t){
+        const p = path.getPointAtLength(t * l);
+        return p.y;
      }
    }
   }
   const padding = 3;
   const svg = d3.select(`#${options.svgId}`);
   const nTransition = options.totalFlow;
-  d3.selectAll(`.crc${options.from}`)
-      .each(function (d, i) {
-        if(i < nTransition){
-            const xStart = parseFloat(d3.select(this).attr('cx'));
-            const yStart = parseFloat(d3.select(this).attr('cy'));
-            const startingPoint = {'x':xStart, 'y': yStart};
-            const xIntmdt1 = options.xOrgnStcEnd;
-            //const yIntmdt1 = options.yOrgnStcStart;
-            const yIntmdt1 = options.flowyStart + padding  + Math.random() * (options.flowHeight - (2 * padding))
-            const intmdtPoint1 = {'x':xIntmdt1, 'y': yIntmdt1};
-            const xIntmdt2 = options.xDestStcStart;
-            const yIntmdt2 = yIntmdt1;
-            const intmdtPoint2 = {'x':xIntmdt2, 'y': yIntmdt2};
-            const xEnd = Math.random() * options.xDestStcLength + options.xDestStcStart;
-            const yEnd = Math.random() * options.yDestStcLength + options.yDestStcStart;
-            const endPoint = {'x':xEnd, 'y': yEnd};
-            const points = [startingPoint, intmdtPoint1, intmdtPoint2, endPoint];
-            const line = d3.line()
-                           .x(d => { return d.x })
-                           .y(d => { return d.y });
-
-            const path = svg.append("path")
-                           .datum(points)
-                           .attr("d", line)
-                           .attr("fill", "none");
-                           //.attr("stroke", "black");
-
-            d3.select(this)
-              .transition()
-              .ease(d3.easeCubicInOut)
-              .delay(options.delay)
-              .duration(options.duration)
-              .on("start", function() {
-                d3.select(this)
-                  .attr('r', 3)
-              })
-              .attrTween("cx", translateX(path.node()))
-              .attrTween("cy", translateY(path.node()))
-              .on("end", function() {
-                d3.select(this)
-                  .attr('r', 1)
-                  .attr('class', `crc${options.to}`);
-                d3.select(`#lblStc${options.from}`)
-                  .text(`${options.from}: ${options.newValueFrom}`);
-                  d3.select(`#lblStc${options.to}`)
-                    .text(`${options.to}: ${options.newValueTo}`);
-
-              });
-            path.remove();
-        }
-      });
-    //  $('#bRun').prop("disabled", false);;
+  const circles = d3.selectAll(`.crc${options.from}`)
+    .filter((d, i) => {
+      return i < nTransition;
+    });
+  if(circles.size() > 0) {
+    circles
+      .each(function (d,i) { //Creates paths
+        const xStart = parseFloat(d3.select(this).attr('cx'));
+        const yStart = parseFloat(d3.select(this).attr('cy'));
+        const startingPoint = {'x':xStart, 'y': yStart};
+        const xIntmdt1 = options.xOrgnStcEnd;
+        const yIntmdt1 = options.flowyStart + padding  + Math.random() * (options.flowHeight - (2 * padding))
+        const intmdtPoint1 = {'x':xIntmdt1, 'y': yIntmdt1};
+        const xIntmdt2 = options.xDestStcStart;
+        const yIntmdt2 = yIntmdt1;
+        const intmdtPoint2 = {'x':xIntmdt2, 'y': yIntmdt2};
+        const xEnd = Math.random() * options.xDestStcLength + options.xDestStcStart;
+        const yEnd = Math.random() * options.yDestStcLength + options.yDestStcStart;
+        const endPoint = {'x':xEnd, 'y': yEnd};
+        const points = [startingPoint, intmdtPoint1, intmdtPoint2, endPoint];
+        const line = d3.line()
+          .x(d => { return d.x })
+          .y(d => { return d.y });
+        const path = svg.append("path")
+          .datum(points)
+          .attr("d", line)
+          .attr("fill", "none")
+          .attr('id', `pathCircle${options.from}${options.to}${i}`)
+          .attr('class', `pathCircle${options.from}${options.to}`)
+          //.attr('stroke', 'black');
+      })
+      .transition()
+        .duration(options.duration)
+        .delay(options.delay)
+        .on('start', function() {
+          d3.select(this)
+            .attr('r', 3);
+        })
+        .on("end", function() {
+          d3.select(this)
+            .attr('r', 1)
+            .attr('class', `crc${options.to}`);
+          d3.select(`#lblStc${options.from}`)
+            .text(`${options.from}: ${options.newValueFrom}`);
+          d3.select(`#lblStc${options.to}`)
+            .text(`${options.to}: ${options.newValueTo}`);
+          d3.selectAll(`.pathCircle${options.from}${options.to}`).remove();
+          d3.select('#indTime').text(options.time);
+        })
+        .attrTween("cx", translateX(`pathCircle${options.from}${options.to}`))
+        .attrTween("cy", translateY(`pathCircle${options.from}${options.to}`))
+        // This code is only for verification
+        // Works with div 'verificationSF'
+        // .transition()
+        //   .duration(0)
+        //   .on('start', () => {
+        //     d3.select('#lCntSusceptible').text(d3.selectAll('.crcSusceptible').size());
+        //     d3.select('#lCntInfected').text(d3.selectAll('.crcInfected').size());
+        //     d3.select('#lCntRecovered').text(d3.selectAll('.crcRecovered').size());
+          // });
+  }
+  if(circles.size() === 0) {
+    d3.select('#indTime')
+      .transition()
+        .duration(options.duration)
+        .text(options.time);
+  }
 
 }
 

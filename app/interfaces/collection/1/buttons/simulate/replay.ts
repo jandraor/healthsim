@@ -16,6 +16,8 @@ export const build = ()  => {
       //Set initial values of stock & flow
       const firstRow = datasetDiscrete[0];
 
+      const duration = 2000;
+
       const repeat = function repeat() {
         if(datasetDiscrete.length > 1) {
           const oldS = parseInt(datasetDiscrete[0].sSusceptible);
@@ -23,18 +25,19 @@ export const build = ()  => {
           const newI = parseInt(datasetDiscrete[1].sInfected);
           const oldR = parseInt(datasetDiscrete[0].sRecovered);
           const newR = parseInt(datasetDiscrete[1].sRecovered);
-          const duration = 2000;
-          const delay = 0;
-          sfd.animate(oldS, newS, newI, oldR, newR, duration, delay);
+          const time = parseInt(datasetDiscrete[1].time);
+          const delay = 100;
+          sfd.animate(oldS, newS, newI, oldR, newR, duration, delay, time);
           datasetDiscrete.shift();
           d3.active(this)
             .transition()
               .duration(duration + delay + 100) // Allow to finish the transition
+              .delay(delay)
               .on('end', repeat)
         }
       }
       d3.select('#svgSAF').transition()
-          .duration(0)
+          .duration(2000)
           .on("start", function(){
             sfd.update(firstRow, 0);
           })

@@ -11,7 +11,7 @@ export const buildStockAndFlow = () => {
   const svg = d3.select('#stockFlowDiagram')
                 .append('svg')
                 .attr('width', 700)
-                .attr('height', 250)
+                .attr('height', 150)
                 .attr('id', 'svgSAF')
 
   const yStart = 30;
@@ -86,7 +86,7 @@ export const update = (dataset, delay) => {
 }
 
 export const animate = (oldSusceptible, newSusceptible, newInfected,
-  oldRecovered, newRecovered, duration, delay) => {
+  oldRecovered, newRecovered, duration, delay, time) => {
   const netFlowSus = newSusceptible - oldSusceptible;
   let optionsTransition = {
     'from': 'Susceptible',
@@ -104,7 +104,8 @@ export const animate = (oldSusceptible, newSusceptible, newInfected,
     'flowyStart' : 70,
     'flowHeight' : 20,
     'duration': duration,
-    'delay': delay
+    'delay': delay,
+    'time': time
   }
   saf.animateFlow(optionsTransition);
   const netFlowRec = newRecovered - oldRecovered
@@ -124,7 +125,8 @@ export const animate = (oldSusceptible, newSusceptible, newInfected,
     'flowyStart' : 70,
     'flowHeight' : 20,
     'duration': duration,
-    'delay': delay
+    'delay': delay,
+    'time': time
   }
   saf.animateFlow(optionsTransition);
 }
