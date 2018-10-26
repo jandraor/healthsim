@@ -102,6 +102,9 @@ export const animateFlow = (options) => {
             .text(`${options.to}: ${options.newValueTo}`);
           d3.selectAll(`.pathCircle${options.from}${options.to}`).remove();
           d3.select('#indTime').text(options.time);
+          if (options.callback){
+            options.callback();
+          }
         })
         .attrTween("cx", translateX(`pathCircle${options.from}${options.to}`))
         .attrTween("cy", translateY(`pathCircle${options.from}${options.to}`))
@@ -120,6 +123,9 @@ export const animateFlow = (options) => {
       .transition()
         .duration(options.duration)
         .text(options.time);
+    if (options.callback){
+      options.callback();
+    }
   }
 
 }

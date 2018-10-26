@@ -15,6 +15,8 @@ export const build = (model_id, fetchJSON) => {
 
   d3.select('#bStep')
     .on("click", async() => {
+      $('#bStep').html('<i class="fa fa-spinner fa-spin"></i>')
+      $('#bStep').prop('disabled', true);
       $('#slInfected').slider('disable');
       let currentTime =  parseInt($('#varValueCurTim').text());
       const maxTime = parseInt($('#varValueTo').text());
@@ -128,7 +130,12 @@ export const build = (model_id, fetchJSON) => {
       /*
        * Transitions in the Stock & Flow Diagram
        */
-       sfd.animate(oldS, newS, newI, oldR, newR, 2000, 500, currentTime + 1);
+       const callback = () => {
+         $('#bStep').html('Step');
+         $('#bStep').prop('disabled', false);
+       }
+       sfd.animate(oldS, newS, newI, oldR, newR, 2000, 500, currentTime + 1,
+         callback);
 
        const newTime = String(currentTime + 1);
        $('#varValueCurTim').text(newTime);

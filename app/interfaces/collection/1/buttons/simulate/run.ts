@@ -15,6 +15,7 @@ export const build = (model_id, fetchJSON)  => {
 
   d3.select("#bRun")
     .on("click", async() => {
+      $('#bRun').html('<i class="fa fa-spinner fa-spin"></i>')
       const startTime = parseInt($("#varValueFrom").text());
       const finishTime = parseInt($("#varValueTo").text());
       const params = ut.getParameters(String(model_id), false,
@@ -22,6 +23,7 @@ export const build = (model_id, fetchJSON)  => {
       const paramsUrl = ut.concatenateParameters(params);
       const url = `/simulate/model/${model_id}/${paramsUrl}`;
       const rawDataset = await fetchJSON(url);
+      $('#bRun').html('Run')
       const dataset = ut.parseDataset(rawDataset, String(model_id));
       const lastElement = dataset[dataset.length - 1];
       const newCurrentTime = String(d3.max(dataset, d => {return d.time}));
