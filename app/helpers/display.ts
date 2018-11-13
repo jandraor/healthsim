@@ -1,6 +1,6 @@
 import * as ut from '../helpers/utilities.ts';
-import * as templates from '../templates/templates.ts';
-import * as sckt from '../sockets/sockets.ts';
+import * as templates from '../templates/main.ts';
+import * as gameEvents from '../game_events/main.ts';
 const $ = require('jquery');
 
 export const listAvailableModels = (templates, models) => {
@@ -18,7 +18,7 @@ export const listAvailableModels = (templates, models) => {
   }
 };
 
-export const listPlayOptions = async() => {
+export const listPlayOptions = async(socket) => {
   try {
     const session = await ut.fetchJSON('/api/session');
       if(!session.auth) {
@@ -27,23 +27,30 @@ export const listPlayOptions = async() => {
     const response = await ut.fetchJSON('/api/instructor');
     const is_Instructor = response.value;
     const mainElement = $('.hs-main');
-    const html = templates.roleLayout({is_Instructor})
+    const html = templates.getRolesLayout(is_Instructor);
     mainElement.html(html);
-    const io = require('socket.io-client');
-    const socket = io();
-    sckt.sendCredentials(socket);
-    $('#bCreateGame').click( () => {
-      sckt.sendGame(socket);
+    gameEvents.sendCredentials(socket);
+    $('#bConfirmCG').click( () => {
+      const name = $('#iptGameName').val();
+      const nTeams = parseInt($('#inputNTeams').val());
+      console.log(nTeams);
+      gameEvents.sendGame(socket, name, nTeams);
     });
-    sckt.onGameCreated(socket);
+    gameEvents.instructorListeners(socket);
+    gameEvents.playerListeners(socket);
+
+    $('#bJoinGame').click(() => {
+      gameEvents.getAvailableGames(socket);
+    });
   } catch(err) {
     ut.showAlert(err);
     window.location.hash = '#welcome';
   }
 };
 
-export const instructorInterface = () => {
+
+export const playerInterface = () => {
   const mainElement = $('.hs-main');
-  const html = templates.instructorLayout();
+  const html = templates.playerLayout();
   mainElement.html(html);
 }

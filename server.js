@@ -114,42 +114,19 @@ app.get('/api/instructor', async (req, res) => {
 const fs = require('fs');
 const https = require('https');
 const httpsOptions = {
-key: fs.readFileSync(nconf.get('privateKey')),
-cert: fs.readFileSync(nconf.get('certificatePem'))
+  key: fs.readFileSync(nconf.get('privateKey')),
+  cert: fs.readFileSync(nconf.get('certificatePem')),
+  ca:
+  [
+    fs.readFileSync(nconf.get('CARoot')),
+    fs.readFileSync(nconf.get('TrustCA')),
+    fs.readFileSync(nconf.get('SecureServerCA'))
+  ]
 };
 
 const server = https.createServer(httpsOptions, app)
   .listen(servicePort, () => console.log('Secure Server Ready on port: ' +
                                             servicePort));
 
-const gameCollection = {
-  totalGameCount: 0,
-  gameList: []
-}
-
-const io = require('socket.io')(server);
-
-io.on('connection', function (socket) {
-  console.log('A user has connected');
-
-  socket.on('assign username', credentials => {
-    console.log(credentials.email);
-    socket.credentials = credentials;
-    console.log(socket.credentials);
-  });
-
-  socket.on('makeGame', () => {
-    console.log(`${socket.credentials.first_name} has requested to create a game`);
-    gameCollection.gameList[0] = {
-      'id': (Math.random() + 1).toString(36).slice(2, 18),
-      'instructor': socket.credentials.email,
-      'players': [] //emails
-    };
-    console.log(gameCollection.gameList[0]);
-    socket.emit('game created');
-  });
-
-  socket.on('disconnect', () => {
-    console.log(`User ${socket.credentials.first_name} ${socket.credentials.last_name} has disconnected`);
-  });
-});
+const socketConfig = require('./config/sockets.js');
+socketConfig(server);

@@ -1,4 +1,4 @@
-import * as templates from '../templates/templates.ts';
+import * as templates from '../templates/main.ts';
 /**
 * Convenience method to fetch and decode JSON.
 */

@@ -1,69 +1,9 @@
 const $ = require('jquery');
 import * as Handlebars from '../../node_modules/handlebars/dist/handlebars.js';
-import * as tmplt1 from './exploratory_models/model_1/main.ts';
-const logo = require('../img/logo.svg');
 const logo2 = require('../img/logo2.svg');
 const saf = require('../img/unnamed.png');
 const modelimg = require('../img/SIR.png');
 const logoNUIG = require('../img/logo_nuig.jpg');
-
-export const main = Handlebars.compile(`
-  <nav class = "navbar navbar-expand-lg navbar-dark bg-secondary">
-    <div class = "container">
-      <a class = "navbar-brand" href = "#welcome">
-        <!--<img src = ${logo} width = "30" height = "30" alt="">-->
-        HealthSim
-      </a>
-      <button class = "navbar-toggler" type = "button" data-toggle = "collapse" data-target = ".dual-collapse2">
-        <span class = "navbar-toggler-icon"></span>
-      </button>
-     <div class = "collapse navbar-collapse dual-collapse2" id = "mainNav">
-        <ul class ="navbar-nav mx-auto" >
-          <li class="nav-item active">
-            <a class="nav-link" href = "#welcome">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class = "nav-link" href = "#explore">Explore</a>
-          </li>
-          <li class="nav-item">
-            <a class = "nav-link" href = "#play">Play</a>
-          </li>
-          <li class="nav-item">
-            <a class = "nav-link" href = "#resources">Resources</a>
-          </li>
-          <li class="nav-item">
-            <a class = "nav-link" href = "#about">About</a>
-          </li>
-          <li class="nav-item">
-            <a class = "nav-link" href = "#Contact">Contact</a>
-          </li>
-
-       </ul>
-      </div>
-      <div class="collapse navbar-collapse dual-collapse2">
-      <ul class="navbar-nav ml-auto">
-        {{#if session.auth}}
-          <li class="nav-item">
-            <a class="nav-link" href="#models">My models</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/auth/signout">Sign out</a>
-          </li>
-        {{else}}
-          <li class="nav-item">
-            <a class="nav-link" href="#welcome">Sign in</a>
-          </li>
-        {{/if}}
-      </ul>
-    </div>
-  </div>
-    </div>
-  </nav>
-  <div class="container">
-  <div class="hs-alerts"></div>
-  <div class="hs-main"></div>
-  </div>
-`);
 
 export const welcome = Handlebars.compile(`
   <div class = "mt-5">
@@ -150,54 +90,26 @@ export const modelCard = Handlebars.compile(`
   </div>
 `);
 
-export const roleLayout = Handlebars.compile(`
-  <div id = "divRoles" class = "mt-3">
-    <p class = "my-1"> ROLES</p>
-    <hr class = "my-1" />
-    <div class = "container py-5 text-muted">
-      <!-- role cards -->
-      <div class = "row">
-        {{#if is_Instructor}}
-        <div class = "col-5">
-          <div class = 'card'>
-            <div class="card-header">
-              <span class = 'text-dark'>Instructor</span>
-            </div>
-            <div class = 'card-body'>
-              <p>
-                Description of what a instructor is & can do
-              </p>
-              <a href="#instructor"
-                class = "btn btn-primary" id = 'bCreateGame'>Create game</a>
-            </div>
-          </div>
-        </div>
-        {{/if}}
-        <div class = "col-5">
-          <div class = 'card'>
-            <div class="card-header">
-              <span class = 'text-dark'>Player</span>
-            </div>
-            <div class = 'card-body'>
-              <p>
-                Description of what a player is & can do
-              </p>
-              <a href="#"
-                class="btn btn-primary">Join game</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-`);
+import * as main from './mainLayout.ts'
+export const mainLayout = (session) => {
+  const html = main.html({session});
+  return html;
+}
 
-import * as instructor from './instructor/main.ts';
-export const instructorLayout = () => {
-  const layout = instructor.layout;
+import * as inst from './instructor/main.ts';
+export const instructor = {
+  'setup': nTeams => {
+    inst.drawSetupInterface(nTeams);
+  }
+}
+
+import * as player from './player/main.ts';
+export const playerLayout = () => {
+  const layout = player.layout;
   return layout;
 }
 
+import * as tmplt1 from './exploratory_models/model_1/main.ts';
 export const getTemplate = (modelId, modelName) => {
   const id = String(modelId)
 
@@ -206,4 +118,10 @@ export const getTemplate = (modelId, modelName) => {
      tmplt1.drawLayout(modelName);
     break;
   }
+}
+
+import * as roles from './roles.ts';
+export const getRolesLayout = (is_Instructor) => {
+  const html = roles.html({is_Instructor});
+  return html;
 }
