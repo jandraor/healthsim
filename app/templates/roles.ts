@@ -78,7 +78,7 @@ export const html = Handlebars.compile(`
               </p>
               <button class = "btn btn-primary" id = 'bCreateGame'
                 data-toggle = "modal" data-target = "#instructorModal">
-                Setup game
+                Create game
               </button>
             </div>
           </div>

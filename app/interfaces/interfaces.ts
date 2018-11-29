@@ -1,4 +1,6 @@
 import * as intf1 from "./collection/1/1.ts";
+import * as inst from "./instructor/main.ts";
+import * as plyr from "./player/main.ts";
 const $ = require('jquery');
 
 export const getContent = (modelId, fetchJSON) => {
@@ -9,4 +11,12 @@ export const getContent = (modelId, fetchJSON) => {
      intf1.buildInterface(modelId, fetchJSON);
     break;
   }
+}
+
+export const instructor = () => {
+  return inst;
+}
+
+export const player = () => {
+  return plyr;
 }

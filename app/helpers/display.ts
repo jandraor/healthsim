@@ -30,16 +30,20 @@ export const listPlayOptions = async(socket) => {
     const html = templates.getRolesLayout(is_Instructor);
     mainElement.html(html);
     gameEvents.sendCredentials(socket);
+
+    $('#bCreateGame').click(() => {
+      gameEvents.instructorListeners(socket);
+    })
+
     $('#bConfirmCG').click( () => {
       const name = $('#iptGameName').val();
       const nTeams = parseInt($('#inputNTeams').val());
       console.log(nTeams);
       gameEvents.sendGame(socket, name, nTeams);
     });
-    gameEvents.instructorListeners(socket);
-    gameEvents.playerListeners(socket);
 
     $('#bJoinGame').click(() => {
+      gameEvents.playerListeners(socket);
       gameEvents.getAvailableGames(socket);
     });
   } catch(err) {
@@ -47,10 +51,3 @@ export const listPlayOptions = async(socket) => {
     window.location.hash = '#welcome';
   }
 };
-
-
-export const playerInterface = () => {
-  const mainElement = $('.hs-main');
-  const html = templates.playerLayout();
-  mainElement.html(html);
-}

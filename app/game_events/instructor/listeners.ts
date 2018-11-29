@@ -1,9 +1,10 @@
 const $ = require('jquery');
 import * as templates from '../../templates/main.ts'
+import * as interfaces from '../../interfaces/interfaces.ts'
 
 export const onGameCreated = (socket) => {
-  socket.on('game created', message => {
-    const gameId = message.gameId;
+  socket.on('game created', payload => {
+    const gameId = payload.gameId;
     console.log('The game has been created');
     $('#instructorModal').modal('hide');
     $('#instructorModal').on('hidden.bs.modal', e => {
@@ -13,17 +14,38 @@ export const onGameCreated = (socket) => {
 }
 
 export const onDescriptionGiven = (socket) => {
-  socket.on('team details sent', teams => {
+  socket.on('game details sent', payload => {
     console.log('Team names have been sent');
-    console.log(teams);
-    templates.instructor.setup(teams);
+    console.log(payload);
+    templates.instructor.setup(payload);
+    const intInstructor = interfaces.instructor();
+    intInstructor.clickStartGame(socket);
   });
 }
 
 export const onPlayerAdded = (socket) => {
-  socket.on('update setup interface', teams => {
+  socket.on('update setup interface', payload => {
     console.log('Received message: update setup interface')
-    console.log(teams);
-    templates.instructor.setup(teams);
+    console.log(payload);
+    templates.instructor.setup(payload);
+    const intInstructor = interfaces.instructor();
+    intInstructor.clickStartGame(socket);
+  });
+}
+
+export const onGameStarted = (socket) => {
+  socket.on('game started', payload => {
+    console.log('game has started');
+    templates.instructor.controlInterface();
+    const intInstructor = interfaces.instructor();
+    intInstructor.clickSendMessage(socket);
+    intInstructor.pressAnyKey();
+  })
+}
+
+export const onMessage = (socket) => {
+  socket.on('message', payload => {
+    console.log(payload);
+    templates.instructor.chatMessage(payload);
   })
 }

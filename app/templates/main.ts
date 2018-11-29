@@ -100,13 +100,26 @@ import * as inst from './instructor/main.ts';
 export const instructor = {
   'setup': nTeams => {
     inst.drawSetupInterface(nTeams);
+  },
+  'controlInterface': () => {
+    inst.drawControlInterface();
+  },
+  'chatMessage': (message) => {
+    inst.addMessage(message);
   }
 }
 
-import * as player from './player/main.ts';
-export const playerLayout = () => {
-  const layout = player.layout;
-  return layout;
+import * as plyr from './player/main.ts';
+export const player =  {
+  'waitingInterface': () => {
+    plyr.drawWaitingInterface();
+  },
+  'gameInterface': () => {
+    plyr.drawGameInterface();
+  },
+  'chatMessage': (message) => {
+    plyr.addMessage(message);
+  }
 }
 
 import * as tmplt1 from './exploratory_models/model_1/main.ts';

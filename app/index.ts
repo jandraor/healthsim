@@ -93,7 +93,7 @@ const showView = async() => {
 
     case '#player':
       try {
-        display.playerInterface();
+        templates.player.waitingInterface();
       } catch (err) {
         ut.showAlert(err);
         window.location.hash = '#welcome';

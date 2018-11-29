@@ -128,5 +128,5 @@ const server = https.createServer(httpsOptions, app)
   .listen(servicePort, () => console.log('Secure Server Ready on port: ' +
                                             servicePort));
 
-const socketConfig = require('./config/sockets.js');
+const socketConfig = require('./config/sockets/main.js');
 socketConfig(server);

@@ -21,11 +21,17 @@ export const sendCredentials = (socket) => {
 }
 
 export const getAvailableGames = (socket) => {
-  socket.emit('are there games');
+  socket.emit('send available games');
 }
 
 export const playerListeners = (socket) => {
   player.listeners(socket);
+}
+
+export const playerEmitters = {
+  'sendMessage': (socket, payload) => {
+    player.emitters.sendMessage(socket, payload);
+  }
 }
 
 export const instructorListeners = (socket) => {
@@ -33,7 +39,13 @@ export const instructorListeners = (socket) => {
 }
 
 export const instructorEmitters = {
-  'getGameDescription': (socket,gameId) => {
+  'getGameDescription': (socket, gameId) => {
     instructor.emitters.getGameDescription(socket, gameId);
+  },
+  'startGame': (socket, gameId) => {
+    instructor.emitters.startGame(socket, gameId);
+  },
+  'sendMessage': (socket, payload) => {
+    instructor.emitters.sendMessage(socket, payload);
   }
 }
