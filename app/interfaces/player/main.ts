@@ -1,6 +1,7 @@
 const $ = require('jquery');
 import * as gameEvents from '../../game_events/main.ts';
 
+
 export const clickSendMessage = (socket) =>{
   $('#bSendMessage').click(() => {
     const message = {
@@ -19,4 +20,11 @@ export const pressAnyKey = () => {
       }
     }
   });
+}
+
+import * as sliders from "./slds.ts"
+import * as timers from "./timers.ts"
+export const buildGameInterface = (teams) => {
+  timers.countdown();
+  sliders.buildSliders(teams);
 }

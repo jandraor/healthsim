@@ -72,12 +72,17 @@ export const onPlayerAdded = (socket)=> {
 }
 
 export const onGameStarted = (socket) => {
-  socket.on('game started', () => {
+  socket.on('game started', message => {
     console.log('received message: game started');
-    templates.player.gameInterface();
+    console.log('hola message');
+    console.log(message);
+    templates.player.gameInterface(message);
     const intPlayer = interfaces.player();
+    // Must update to make only one funcion-------------------------------------
     intPlayer.clickSendMessage(socket);
     intPlayer.pressAnyKey();
+    intPlayer.buildGameInterface(message);
+    //--------------------------------------------------------------------------
   });
 }
 

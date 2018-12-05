@@ -10,6 +10,7 @@ import * as display from './helpers/display.ts'
 import * as ut from './helpers/utilities.ts';
 import * as gameEvents from './game_events/main.ts'
 import './css/styles.css';
+import './css/player.css';
 
 const getAvailableModels = async () => {
   const models = await ut.fetchJSON('/model-info/available');

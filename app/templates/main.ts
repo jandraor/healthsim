@@ -114,8 +114,8 @@ export const player =  {
   'waitingInterface': () => {
     plyr.drawWaitingInterface();
   },
-  'gameInterface': () => {
-    plyr.drawGameInterface();
+  'gameInterface': (teams) => {
+    plyr.drawGameInterface(teams);
   },
   'chatMessage': (message) => {
     plyr.addMessage(message);

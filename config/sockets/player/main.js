@@ -50,13 +50,14 @@ const joinGame = (socket, gameCollection, io, data) => {
   console.log(gameCollection.gameList[gamePos].teams[teamPos].players);
   console.log('==========================================================');
   socket.emit('player added');
-  socket.join(gameId, () => {
+  socket.join(`${team}_${gameId}`, () => {
     console.log("========================================================");
     console.log(`A player has joined room ${gameId}`);
     console.log("========================================================");
     socket.room = gameId;
     socket.team = team;
   });
+  socket.join(gameId);
   const teamsObject = gameCollection.gameList[gamePos].teams;
   io.to(gameId).emit('update setup interface', teamsObject);
 }

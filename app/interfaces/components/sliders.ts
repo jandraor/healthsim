@@ -5,8 +5,8 @@ export const build = slidersObject => {
   slidersObject.forEach(elem => {
     $(`#${elem.sliderId}`)
     .slider()
-    .on("slide", (slideEvt) => {
-      $(`#${elem.labelId}`).text(slideEvt.value);
+    .on("change", function() {
+      $(`#${elem.labelId}`).text($(this).val());
       if(elem.callback){
         elem.callback();
       }

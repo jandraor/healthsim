@@ -30,6 +30,8 @@ const createGame = (socket, gameCollection, data) => {
     socket.team = 'instructor'
   });
 
+  socket.join(`instructor_${newGame.id}`);
+
   console.log(gameCollection.gameList[gameCollection.gameList.length - 1]);
   const reply = {'gameId': newGame.id}
   socket.emit('game created', reply);
@@ -66,7 +68,26 @@ const startGame = (socket, gameCollection, io, message) => {
   //it might be replaced by
   //gamePos = findGamePos(gameId);
   gameCollection.gameList[gamePos].status = 'on flight';
-  io.to(gameId).emit('game started');
+  const teamNames = gameCollection.gameList[gamePos].teams.map(elem => {
+    return elem.name;
+  });
+
+  teamNames.forEach(elem => {
+    const recipientTeam = elem;
+    const otherTeams = teamNames.filter(elem2 => {
+      return elem2 != recipientTeam;
+    });
+    const message = {
+      'yourTeam': recipientTeam,
+      'otherTeams': otherTeams
+    }
+    console.log('==========================Object teams======================');
+    console.log(message);
+    console.log('============================================================');
+    io.to(`${recipientTeam}_${gameId}`).emit('game started', message);
+  });
+
+  io.to(`instructor_${gameId}`).emit('game started');
   console.log('=========================Game===============================');
   gameCollection.gameList[gamePos]
   console.log('============================================================');

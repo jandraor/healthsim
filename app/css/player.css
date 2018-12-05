@@ -1,0 +1,27 @@
+#deploy-antivirals-slider .slider-selection {
+	background: #BABABA;
+	width: 1000px;
+}
+
+#deploy-vaccines-slider .slider-selection {
+	background: #BABABA;
+}
+
+#deploy-ventilators-slider .slider-selection {
+	background: #BABABA;
+}
+
+#antivirals-orders-slider .slider-selection {
+	background: #BABABA;
+}
+
+#vaccines-orders-slider .slider-selection {
+	background: #BABABA;
+}
+#ventilators-orders-slider .slider-selection {
+	background: #BABABA;
+}
+
+.slider.slider-horizontal{
+  width:10vw; /* sample value - set it as you like*/
+}
