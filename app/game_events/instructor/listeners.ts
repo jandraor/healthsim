@@ -19,17 +19,16 @@ export const onDescriptionGiven = (socket) => {
     console.log(payload);
     templates.instructor.setup(payload);
     const intInstructor = interfaces.instructor();
-    intInstructor.clickStartGame(socket);
+    //Must combine into one function
+    intInstructor.build.setupScreen(socket);
   });
 }
 
 export const onPlayerAdded = (socket) => {
-  socket.on('update setup interface', payload => {
-    console.log('Received message: update setup interface')
+  socket.on('player added', payload => {
+    console.log('Received message: player added');
     console.log(payload);
-    templates.instructor.setup(payload);
-    const intInstructor = interfaces.instructor();
-    intInstructor.clickStartGame(socket);
+    templates.instructor.addPlayer(payload);
   });
 }
 

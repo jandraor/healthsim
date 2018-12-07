@@ -12,3 +12,7 @@ export const startGame = (socket, gameId) => {
 export const sendMessage = (socket, payload) => {
   socket.emit('message', payload);
 }
+
+export const setInitConditions = (socket, payload) => {
+  socket.emit('set initial conditions', payload);
+}

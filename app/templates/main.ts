@@ -104,8 +104,11 @@ export const instructor = {
   'controlInterface': () => {
     inst.drawControlInterface();
   },
-  'chatMessage': (message) => {
-    inst.addMessage(message);
+  'chatMessage': (payload) => {
+    inst.addMessage(payload);
+  },
+  'addPlayer': (payload) => {
+    inst.addPlayer(payload);
   }
 }
 

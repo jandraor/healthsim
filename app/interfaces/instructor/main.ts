@@ -1,13 +1,6 @@
 const $ = require('jquery');
 import * as gameEvents from '../../game_events/main.ts';
-
-export const clickStartGame = (socket) => {
-  $('#bStartGame').click(() => {
-    const [view, ...params] = window.location.hash.split('/');
-    const gameId = params[0];
-    gameEvents.instructorEmitters.startGame(socket, gameId);
-  });
-}
+import * as setupScreen from './setupInterface/main.ts';
 
 export const clickSendMessage = (socket) =>{
   $('#bSendMessage').click(() => {
@@ -27,4 +20,10 @@ export const pressAnyKey = () => {
       }
     }
   });
+}
+
+export const build = {
+  'setupScreen':  (socket) => {
+    setupScreen.build(socket);
+  },
 }

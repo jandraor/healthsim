@@ -14,7 +14,7 @@ export const drawSetupInterface = (teams) => {
       const markup = `<li>${elem}</li`;
       console.log('players:')
       console.log(elem);
-      $(`#card${teams[i].name} .playerList`).append(markup);
+      $(`#playerList-${teams[i].name}`).append(markup);
     });
   }
 }
@@ -30,4 +30,11 @@ export const addMessage = (message) => {
   const messageHtml = mssg.html({author, messageText});
   console.log(messageHtml);
   $('#divChatBoard').append(messageHtml);
+}
+
+export const addPlayer = (payload) => {
+  const team = payload.team;
+  const player = payload.player;
+  const markup = `<li>${player}</li`;
+  $(`#playerList-${team}`).append(markup)
 }

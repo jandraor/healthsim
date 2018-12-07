@@ -17,6 +17,9 @@ export const emitters = {
     emtr.startGame(socket, gameId);
   },
   'sendMessage': (socket, payload) => {
-    emtr.sendMessage(socket, payload)
+    emtr.sendMessage(socket, payload);
+  },
+  'setInitConditions': (socket, payload) => {
+    emtr.setInitConditions(socket, payload);
   }
 }

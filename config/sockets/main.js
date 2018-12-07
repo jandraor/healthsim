@@ -19,14 +19,14 @@ const socketConfig = (server) => {
       console.log(socket.credentials);
     });
     //Instructor messages
-    socket.on('makeGame', (data) => {
+    socket.on('makeGame', (payload) => {
       console.log('=====================Socket before========================');
       console.log(socket.room)
       console.log('==========================================================');
       console.log('========Before========Game Collection=====================');
       console.log(gameCollection);
       console.log('==========================================================');
-      instructor.createGame(socket, gameCollection, data);
+      instructor.createGame(socket, gameCollection, payload);
       console.log('=======After==========Game Collection=====================');
       console.log(gameCollection);
       console.log('==========================================================');
@@ -35,18 +35,18 @@ const socketConfig = (server) => {
       console.log('==========================================================');
     });
 
-    socket.on('send game details', message => {
+    socket.on('send game details', payload => {
       console.log('==========================================================');
       console.log('Received message for sending game details');
       console.log('==========================================================');
-      instructor.sendGameDetails(socket, gameCollection, message);
+      instructor.sendGameDetails(socket, gameCollection, payload);
     });
 
-    socket.on('start game', (message) => {
-      console.log('======================start game: message==================');
-      console.log(message);
+    socket.on('start game', (payload) => {
+      console.log('======================start game: payload==================');
+      console.log(payload);
       console.log('==========================================================');
-      instructor.startGame(socket, gameCollection, io, message);
+      instructor.startGame(socket, gameCollection, io, payload);
       console.log('================After==Game Collection=====================');
       console.log(gameCollection.gameList[0]);
       console.log('==========================================================');
@@ -71,6 +71,13 @@ const socketConfig = (server) => {
       console.log(payload);
       io.to(socket.room).emit('message', payload);
     });
+
+    socket.on('set initial conditions', payload => {
+      console.log('=========initial conditions payload========================');
+      console.log(payload)
+      console.log('==========================================================');
+      instructor.setInitConditions(payload);
+    })
 
 
     socket.on('disconnect', () => {

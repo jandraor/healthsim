@@ -25,6 +25,7 @@ const summariseGames = (gameCollection) => {
 const joinGame = (socket, gameCollection, io, data) => {
   const gameId = data.id;
   const team = data.team;
+  const player = data.email;
   console.log('====================Join game data========================');
   console.log(data);
   console.log('==========================================================');
@@ -45,11 +46,11 @@ const joinGame = (socket, gameCollection, io, data) => {
   console.log('=========================Team position====================');
   console.log(teamPos);
   console.log('==========================================================');
-  gameCollection.gameList[gamePos].teams[teamPos].players.push(data.email);
+  gameCollection.gameList[gamePos].teams[teamPos].players.push(player);
   console.log('=========================Players==========================');
   console.log(gameCollection.gameList[gamePos].teams[teamPos].players);
   console.log('==========================================================');
-  socket.emit('player added');
+  socket.emit('player added'); // Message to the player just added
   socket.join(`${team}_${gameId}`, () => {
     console.log("========================================================");
     console.log(`A player has joined room ${gameId}`);
@@ -58,8 +59,11 @@ const joinGame = (socket, gameCollection, io, data) => {
     socket.team = team;
   });
   socket.join(gameId);
-  const teamsObject = gameCollection.gameList[gamePos].teams;
-  io.to(gameId).emit('update setup interface', teamsObject);
+  const payload = {
+    'player': player,
+    'team': team,
+  };
+  io.to(`instructor_${gameId}`).emit('player added', payload);
 }
 
 const player = {
