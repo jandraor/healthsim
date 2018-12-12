@@ -48,7 +48,7 @@ build_model <- function (g_countries, SECTORS_INFECTED = 1 ){
 
   # Return variables as a list
   list(g_stocks=stocks,
-       #g_init_cond=init_cond,
+       g_init_cond=init_cond,
        g_NUM_SECTORS=NUM_SECTORS,
        g_NUM_STOCKS=NUM_STOCKS,
        g_sector_names=g_countries$Name,

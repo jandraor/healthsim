@@ -1,5 +1,6 @@
 #----------------------------------------------------------------------------------------------------
-initialise <- function(SAMPLE           = T,
+initialise <- function(g_auxs,
+                       SAMPLE           = F,
                        SAMPLE_SIZE      = 2,
                        SECTORS_INFECTED = 1,
                        TEST_RUN         = T, 
@@ -19,13 +20,14 @@ initialise <- function(SAMPLE           = T,
   model_data$g_NUM_STOCKS   <- sd_model$g_NUM_STOCKS
   model_data$g_sector_names <- sd_model$g_sector_names
   model_data$g_stock_names  <- sd_model$g_stock_names 
+  model_data$g_init_conds   <- sd_model$g_init_cond
+  model_data$g_auxs         <- g_auxs
 
   model_data
 }
 
 #----------------------------------------------------------------------------------------------------
-run_simulation <- function(g_auxs, 
-                           sim_data, 
+run_simulation <- function(sim_data, 
                            START=0, 
                            FINISH=10, 
                            STEP=0.125){
@@ -45,13 +47,13 @@ run_simulation <- function(g_auxs,
   o<-data.frame(ode(y      = sim_data$g_stocks, 
                     times  = simtime, 
                     func   = healthsim_model, 
-                    parms  = g_auxs, 
+                    parms  = sim_data$g_auxs, 
                     method = "euler")) 
 
   sim_data$g_final_stocks <- unlist(o[nrow(o),
                                     2:(sim_data$g_NUM_STOCKS*sim_data$g_NUM_SECTORS+1)])
   
-  #sim_data$sim_output   <- o
+  sim_data$sim_output   <- dplyr::as_data_frame(o)
   
   # remove the simulation environment
   rm(list=ls(envir = simd),envir = simd)

@@ -1,7 +1,7 @@
-source("ModelV1.1/DataF.R")
-source("ModelV1.1/BuildModelF.R")
-source("ModelV1.1/ModelAPI.R")
-source("ModelV1.1/SIRModelF.R")
+source("model/DataF.R")
+source("model/BuildModelF.R")
+source("model/ModelAPI.R")
+source("model/SIRModelF.R")
 
 
 g_auxs            <- c(VirusSeverityProportion=0.0,
@@ -11,11 +11,10 @@ g_auxs            <- c(VirusSeverityProportion=0.0,
                        InfectedQ_MULT=0.0,
                        InfectedS_MULT=1.0)
 
-# With SAMPLE=F, all of the countries are initialised.
-sim_data <- initialise(SAMPLE=F)
+sim_data <- initialise(g_auxs)
 
 # sim_data also contains g_policy_matrix, and this can be updated before a call.
-sim_data <- run_simulation(g_auxs, sim_data, START = 2, FINISH = 10, STEP = 0.125)
+sim_data <- run_simulation(sim_data, START = 0, FINISH = 5, STEP = 0.125)
 
 
 

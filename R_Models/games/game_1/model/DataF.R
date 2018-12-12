@@ -15,9 +15,9 @@ get_data <- function(SAMPLE=T,
   #---------------------------------------------------------------------
   # STEP (1) - Get the model data
   #---------------------------------------------------------------------
-  all_countries <- read_csv("ModelV1.1/data/Countries.csv")
+  all_countries <- read_csv("model/data/Countries.csv")
 
-  params        <- read_csv("ModelV1.1/data/CountryParameters.csv")
+  params        <- read_csv("model/data/CountryParameters.csv")
 
   # For benchmarking against Vensim 1-sector model
   if(TEST_RUN){
@@ -28,9 +28,9 @@ get_data <- function(SAMPLE=T,
                             Susceptible=10000)
   }
 
-  params_info  <- read_csv("ModelV1.1/data/ParamDescriptions.csv")
+  params_info  <- read_csv("model/data/ParamDescriptions.csv")
 
-  policies     <- read_csv("ModelV1.1/data/PolicyFlags.csv")
+  policies     <- read_csv("model/data/PolicyFlags.csv")
 
   if(SAMPLE==T){
     countries <- sample_n(all_countries,SAMPLE_SIZE) %>% arrange(Number)
