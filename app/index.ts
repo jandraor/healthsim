@@ -1,6 +1,6 @@
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/bootstrap-social/bootstrap-social.css';
-import '../node_modules/font-awesome/css/font-awesome.min.css';
+import '../node_modules/@fortawesome/fontawesome-free/css/all.css';
 import '../node_modules/bootstrap-slider/dist/css/bootstrap-slider.min.css';
 import '../node_modules/bootstrap-select/dist/css/bootstrap-select.min.css';
 import 'bootstrap';
@@ -11,6 +11,8 @@ import * as ut from './helpers/utilities.ts';
 import * as gameEvents from './game_events/main.ts'
 import './css/styles.css';
 import './css/player.css';
+import './css/instructor.css';
+import '../node_modules/@fortawesome/fontawesome-free/css/all.css';
 
 const getAvailableModels = async () => {
   const models = await ut.fetchJSON('/model-info/available');

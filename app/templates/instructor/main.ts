@@ -1,8 +1,9 @@
 const $ = require('jquery');
 import * as setup from './setup.ts';
 import * as teamCard from './teamCard.ts';
-import * as ctrlIntrf from './controlInterface.ts';
-import * as mssg from './message.ts';
+import * as controlInterface from './control_interface/main.ts'
+import * as incMssg from './control_interface/incomingMessage.ts'; //must change
+import * as outMssg from './control_interface/outgoingMessage.ts'; //must change
 
 export const drawSetupInterface = (teams) => {
   const setupHtml = setup.html();
@@ -19,15 +20,24 @@ export const drawSetupInterface = (teams) => {
   }
 }
 
-export const drawControlInterface = () => {
-  const controlInterfaceHTML = ctrlIntrf.html();
-  $('.hs-main').html(controlInterfaceHTML);
+export const drawControlInterface = (teams) => {
+  controlInterface.build(teams);
 }
 
 export const addMessage = (message) => {
   const author = message.author;
   const messageText = message.text;
-  const messageHtml = mssg.html({author, messageText});
+  const identity = $('#bSendMessage').data().team;
+  const self = (author === identity) ? true : false;
+  console.log(`self: ${self}`);
+  let messageHtml;
+  if(self){
+    messageHtml = incMssg.html({author, messageText}); //must change
+  } else {
+    messageHtml = incMssg.html({author, messageText});
+  }
+
+
   console.log(messageHtml);
   $('#divChatBoard').append(messageHtml);
 }

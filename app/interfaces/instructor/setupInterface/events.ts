@@ -13,14 +13,14 @@ export const clickStartGame = (socket) => {
       const income = $(`#selIncSize-${teamName}`).val();
       //Must validate popSelection & income;
       const team = {
-        'number': teamNumber,
-        'name': $(`#${this.id}`).find('.card-header').text().trim(),
-        'population': population,
-        'infected': infected,
-        'susceptible': population - infected,
+        'Number': teamNumber,
+        'Name': $(`#${this.id}`).find('.card-header').text().trim(),
+        'Population': population,
+        'Infected': infected,
+        'Susceptible': population - infected,
         'xloc': Math.ceil(teamNumber / 3),
         'yloc': (teamNumber % 3 === 0) ? 3 : teamNumber % 3,
-        'category': income,
+        'Category': income,
       }
       initConditions.push(team);
     });
@@ -28,5 +28,25 @@ export const clickStartGame = (socket) => {
     const [view, ...params] = window.location.hash.split('/');
     const gameId = params[0];
     gameEvents.instructorEmitters.startGame(socket, gameId);
+  });
+}
+
+export const clickSendMessage = (socket) =>{
+  $('#bSendMessage').click(() => {
+    const message = {
+      'text': $('#iptMessage').val()
+    }
+    $('#iptMessage').val('');
+    gameEvents.instructorEmitters.sendMessage(socket, message);
+  });
+}
+
+export const pressAnyKey = () => {
+  $(document).keypress(e => {
+    if(e.which == 13) {
+      if($('#iptMessage').is(":focus")){
+        $('#bSendMessage').click();
+      }
+    }
   });
 }

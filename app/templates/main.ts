@@ -27,15 +27,15 @@ export const welcome = Handlebars.compile(`
 		  <div class="col-sm-6">
       	<a href="/auth/facebook" class="btn btn-block btn-social btn-facebook">
       	  Sign in with Facebook
-      	  <span class="fa fa-facebook"></span>
+      	  <span class="fab fa-facebook"></span>
       	</a>
       	<a href="/auth/linkedin" class="btn btn-block btn-social btn-linkedin">
       	  Sign in with LinkedIn
-      	  <span class="fa fa-linkedin"></span>
+      	  <span class="fab fa-linkedin"></span>
       	</a>
       	<a href="/auth/google" class="btn btn-block btn-social btn-google">
       	  Sign in with Google
-      	  <span class="fa fa-google"></span>
+      	  <span class="fab fa-google"></span>
       	</a>
 			</div>
     </div>
@@ -101,8 +101,8 @@ export const instructor = {
   'setup': nTeams => {
     inst.drawSetupInterface(nTeams);
   },
-  'controlInterface': () => {
-    inst.drawControlInterface();
+  'controlInterface': (teams) => {
+    inst.drawControlInterface(teams);
   },
   'chatMessage': (payload) => {
     inst.addMessage(payload);

@@ -25,17 +25,17 @@ const startGame = (socket, gameCollection, io, message) => {
     const otherTeams = teamNames.filter(elem2 => {
       return elem2 != recipientTeam;
     });
-    const message = {
+    const playerPayload = {
       'yourTeam': recipientTeam,
       'otherTeams': otherTeams
     }
     console.log('==========================Object teams======================');
     console.log(message);
     console.log('============================================================');
-    io.to(`${recipientTeam}_${gameId}`).emit('game started', message);
+    io.to(`${recipientTeam}_${gameId}`).emit('game started', playerPayload);
   });
-
-  io.to(`instructor_${gameId}`).emit('game started');
+  const instructorPayload = {'teams': teamNames}
+  io.to(`instructor_${gameId}`).emit('game started', instructorPayload);
   console.log('=========================Game===============================');
   gameCollection.gameList[gamePos]
   console.log('============================================================');

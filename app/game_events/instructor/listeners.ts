@@ -35,16 +35,26 @@ export const onPlayerAdded = (socket) => {
 export const onGameStarted = (socket) => {
   socket.on('game started', payload => {
     console.log('game has started');
-    templates.instructor.controlInterface();
+    const teams = payload.teams;
+    templates.instructor.controlInterface(teams);
     const intInstructor = interfaces.instructor();
-    intInstructor.clickSendMessage(socket);
-    intInstructor.pressAnyKey();
-  })
+    intInstructor.build.controlScreen(socket);
+  });
 }
 
 export const onMessage = (socket) => {
   socket.on('message', payload => {
     console.log(payload);
     templates.instructor.chatMessage(payload);
-  })
+    const intInstructor = interfaces.instructor();
+    //Must change
+    $('#divChatBoard').animate({scrollTop: 999999}, 250);
+  });
+}
+
+export const onSimulationResults = (socket) => {
+  socket.on('simulation results', payload => {
+    console.log('simulation results');
+    console.log(payload);
+  });
 }
