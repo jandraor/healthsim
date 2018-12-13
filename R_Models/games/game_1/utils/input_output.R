@@ -4,7 +4,7 @@ library(stringr)
 library(purrr)
 
 #-------------------------------------------------------------
-create_dir_archive <- function(root_dir="/Users/jim/Dropbox/HealthSim/R_Models/games/game_1/sim_data/archive/"){
+create_dir_archive <- function(root_dir=ARCHIVE_DIR){
   f <- list.files(root_dir)
   fname <- paste(fixed_number(length(f)+1),"HealthSIM",
                  str_replace_all(str_replace_all(str_replace_all(now()," ","_"),"-","_"),":","_"),sep="_")
@@ -14,7 +14,7 @@ create_dir_archive <- function(root_dir="/Users/jim/Dropbox/HealthSim/R_Models/g
 }
 
 #-------------------------------------------------------------
-move_files <- function(old_dir="/Users/jim/Dropbox/HealthSim/R_Models/games/game_1/sim_data/current/", 
+move_files <- function(old_dir=CURRENT_DIR, 
                        new_dir){
   f_rel <- list.files(old_dir)
   f_abs <- paste0(old_dir,list.files(old_dir))

@@ -2,7 +2,7 @@
 # Script to run a simulation. Initially should be called as
 # Rscript srv_run.R <START_TIME> <FINISH_TIME>
 #=======================================================================================
-
+source("srv_constants.R")
 source("model/DataF.R")
 source("model/BuildModelF.R")
 source("model/ModelAPI.R")
@@ -16,7 +16,7 @@ finish_time   <- as.numeric(cmd_args[2])  # 2nd parameter from command line
 
 #start_time <- 0; finish_time <- 1
 
-sim_data <- read_sim_data("sim_data/current/")
+sim_data <- read_sim_data(CURRENT_DIR)
 
 # get the final stocks from the previous simulation
 sim_data$g_stocks <- sim_data$g_final_stocks
@@ -26,4 +26,4 @@ sim_data$g_stocks <- sim_data$g_final_stocks
 
 sim_data <- run_simulation(sim_data, START = start_time, FINISH = finish_time)
 
-write_sim_data(sim_data, "sim_data/current/")
+write_sim_data(sim_data, CURRENT_DIR)

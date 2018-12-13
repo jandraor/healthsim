@@ -2,6 +2,7 @@
 # FIRST script to be called
 # Script to initialise the simulation
 #=======================================================================================
+source("srv_constants.R")
 source("model/DataF.R")
 source("model/BuildModelF.R")
 source("model/ModelAPI.R")
@@ -17,7 +18,7 @@ g_auxs            <- c(VirusSeverityProportion=0.0,
 
 # With SAMPLE=F, all of the countries are initialised.
 
-initialise_sim_data("sim_data/current/")
+initialise_sim_data(CURRENT_DIR)
 
 sim_data <- initialise(g_auxs)
 
