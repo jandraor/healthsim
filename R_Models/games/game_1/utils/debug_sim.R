@@ -2,6 +2,6 @@
 
 source("utils/input_output.R")
 
-dirs <- "sim_data/current/"
+dirs <- CURRENT_DIR
 
 all <- load_all_data(dirs)
