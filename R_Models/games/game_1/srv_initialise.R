@@ -24,5 +24,5 @@ sim_data <- initialise(g_auxs)
 
 sim_data$g_final_stocks <- sim_data$g_stocks
 
-write_sim_data(sim_data, "sim_data/current/")
+write_sim_data(sim_data, CURRENT_DIR)
 
