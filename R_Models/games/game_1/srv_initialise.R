@@ -2,12 +2,10 @@
 # FIRST script to be called
 # Script to initialise the simulation
 #=======================================================================================
-source("srv_constants.R")
-source("model/DataF.R")
-source("model/BuildModelF.R")
-source("model/ModelAPI.R")
-source("model/SIRModelF.R")
-source("utils/input_output.R")
+source("./R_Models/games/game_1/utils/initialise_sim_data.R")
+source("./R_Models/games/game_1/utils/write_sim_data.R")
+source("./R_Models/games/game_1/model/API/initialise.R")
+source("./R_Models/games/game_1/getDirectory.R")
 
 g_auxs            <- c(VirusSeverityProportion=0.0,
                        Infected1_MULT=1.0,
@@ -17,6 +15,7 @@ g_auxs            <- c(VirusSeverityProportion=0.0,
                        InfectedS_MULT=1.0)
 
 # With SAMPLE=F, all of the countries are initialised.
+CURRENT_DIR <- get_Directory('current')
 
 initialise_sim_data(CURRENT_DIR)
 

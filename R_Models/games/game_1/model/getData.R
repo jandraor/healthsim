@@ -9,15 +9,14 @@ get_data <- function(SAMPLE=T,
                      SAMPLE_SIZE = 2,
                      TEST_RUN = T, 
                      ALPHA = 1,
-                     seed=200)
-{
+                     seed=200){
   set.seed(seed)
   #---------------------------------------------------------------------
   # STEP (1) - Get the model data
   #---------------------------------------------------------------------
-  all_countries <- read_csv("model/data/Countries.csv")
+  all_countries <- read_csv("./R_Models/games/game_1/model/data/Countries.csv")
 
-  params        <- read_csv("model/data/CountryParameters.csv")
+  params        <- read_csv("./R_Models/games/game_1/model/data/CountryParameters.csv")
 
   # For benchmarking against Vensim 1-sector model
   if(TEST_RUN){
@@ -28,9 +27,9 @@ get_data <- function(SAMPLE=T,
                             Susceptible=10000)
   }
 
-  params_info  <- read_csv("model/data/ParamDescriptions.csv")
+  params_info  <- read_csv("./R_Models/games/game_1/model/data/ParamDescriptions.csv")
 
-  policies     <- read_csv("model/data/PolicyFlags.csv")
+  policies     <- read_csv("./R_Models/games/game_1/model/data/PolicyFlags.csv")
 
   if(SAMPLE==T){
     countries <- sample_n(all_countries,SAMPLE_SIZE) %>% arrange(Number)
