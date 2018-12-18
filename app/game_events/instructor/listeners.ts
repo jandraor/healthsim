@@ -19,8 +19,7 @@ export const onDescriptionGiven = (socket) => {
     console.log(payload);
     templates.instructor.setup(payload);
     const intInstructor = interfaces.instructor();
-    //Must combine into one function
-    intInstructor.build.setupScreen(socket);
+    intInstructor.setupInterface.build(socket);
   });
 }
 
@@ -38,7 +37,7 @@ export const onGameStarted = (socket) => {
     const teams = payload.teams;
     templates.instructor.controlInterface(teams);
     const intInstructor = interfaces.instructor();
-    intInstructor.build.controlScreen(socket);
+    intInstructor.controlInterface.build(socket, payload);
   });
 }
 
@@ -55,6 +54,7 @@ export const onMessage = (socket) => {
 export const onSimulationResults = (socket) => {
   socket.on('simulation results', payload => {
     console.log('simulation results');
-    console.log(payload);
+    const intInstructor = interfaces.instructor();
+    intInstructor.controlInterface.updateDashboard(payload);
   });
 }

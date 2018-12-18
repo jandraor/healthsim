@@ -1,5 +1,5 @@
-library(stringr)
-library(lubridate)
+suppressMessages(library(stringr))
+suppressMessages(library(lubridate))
 source('./R_Models/games/game_1/utils/fixed_number.R')
 write_sim_data <- function(sim_data, dirs){
   f <- list.files(dirs)

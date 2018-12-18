@@ -24,10 +24,19 @@ export const clickStartGame = (socket) => {
       }
       initConditions.push(team);
     });
-    gameEvents.instructorEmitters.setInitConditions(socket, initConditions);
+    const nRounds = parseInt($('#lRounds').text());
+    const payload = {
+      'rounds': nRounds,
+      'initConditions': initConditions,
+    }
+    gameEvents.instructorEmitters.setInitConditions(socket, payload);
     const [view, ...params] = window.location.hash.split('/');
     const gameId = params[0];
-    gameEvents.instructorEmitters.startGame(socket, gameId);
+    const startGamePayload = {
+      'gameId': gameId,
+      'rounds': nRounds
+    }
+    gameEvents.instructorEmitters.startGame(socket, startGamePayload);
   });
 }
 

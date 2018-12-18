@@ -9,6 +9,8 @@ export const html = Handlebars.compile(`
         <div class = "my-3">
           <span class = "text-secondary">Round:</span>
           <span id = 'roundNumber'>1</span>
+          of
+          <label id = "lStopTime">20 </label>
         </div>
         <div id = 'divTeams'></div>
       </div>

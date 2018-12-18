@@ -14,8 +14,8 @@ export const emitters = {
   'getGameDescription': (socket, gameId) => {
     emtr.getGameDescription(socket, gameId)
   },
-  'startGame': (socket, gameId) => {
-    emtr.startGame(socket, gameId);
+  'startGame': (socket, payload) => {
+    emtr.startGame(socket, payload);
   },
   'sendMessage': (socket, payload) => {
     emtr.sendMessage(socket, payload);

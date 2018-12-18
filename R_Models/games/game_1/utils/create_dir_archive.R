@@ -1,5 +1,5 @@
-library(lubridate)
-library(stringr)
+suppressMessages(library(lubridate))
+suppressMessages(library(stringr))
 source('./R_Models/games/game_1/utils/fixed_number.R')
 create_dir_archive <- function(root_dir=ARCHIVE_DIR){
   f <- list.files(root_dir)

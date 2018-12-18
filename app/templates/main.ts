@@ -99,16 +99,16 @@ export const mainLayout = (session) => {
 import * as inst from './instructor/main.ts';
 export const instructor = {
   'setup': nTeams => {
-    inst.drawSetupInterface(nTeams);
+    inst.setupInterface.build(nTeams);
   },
   'controlInterface': (teams) => {
-    inst.drawControlInterface(teams);
+    inst.controlInterface.build(teams);
   },
   'chatMessage': (payload) => {
-    inst.addMessage(payload);
+    inst.controlInterface.addMessage(payload);
   },
   'addPlayer': (payload) => {
-    inst.addPlayer(payload);
+    inst.setupInterface.addPlayer(payload);
   }
 }
 

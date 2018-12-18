@@ -5,6 +5,9 @@ import * as simBut from './simulateButton.ts';
 import * as tblTms from './teams.ts';
 import * as rowTms from './teamRow.ts';
 import * as chat from './chat.ts';
+import * as incMssg from './incomingMessage.ts';
+import * as outMssg from './outgoingMessage.ts';
+import * as dashboard from './dashboard.ts';
 
 export const build = (teams) => {
   const layoutHtml = layout.html();
@@ -19,7 +22,23 @@ export const build = (teams) => {
     const rowTeamHtml = rowTms.html({teamName});
     $('.tblTeams').append(rowTeamHtml);
   });
+  const dashboardHtml = dashboard.html();
+  $('#dashboard').append(dashboardHtml);
   const chatHtml = chat.html();
   $('.instructorChat').html(chatHtml);
 
+}
+
+export const addMessage = (message) => {
+  const author = message.author;
+  const messageText = message.text;
+  const identity = $('#bSendMessage').data().team;
+  const self = (author === identity) ? true : false;
+  let messageHtml;
+  if(self){
+    messageHtml = outMssg.html({author, messageText});
+  } else {
+    messageHtml = incMssg.html({author, messageText});
+  }
+  $('#divChatBoard').append(messageHtml);
 }

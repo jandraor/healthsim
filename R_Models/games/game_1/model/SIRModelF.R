@@ -1,5 +1,3 @@
-library(deSolve)
-
 zidz <- function(num, denom){
   sapply(1:length(num), function(i){
     if(denom[i] == 0)

@@ -136,3 +136,20 @@ export const constructRegExp = text => {
   }
   return(stringRegExp);
 }
+
+import {Library} from '@observablehq/stdlib/dist/stdlib.js';
+
+export const ramp = (color, n = 512) => {
+  const library = new Library();
+  const canvas = library.DOM.canvas(n, 1);
+  const context = canvas.getContext("2d");
+  canvas.style.margin = "0 -14px";
+  canvas.style.width = "calc(100% + 28px)";
+  canvas.style.height = "40px";
+  canvas.style.imageRendering = "pixelated";
+  for (let i = 0; i < n; ++i) {
+    context.fillStyle = color(i / (n - 1));
+    context.fillRect(i, 0, 1, 1);
+  }
+  return canvas;
+}

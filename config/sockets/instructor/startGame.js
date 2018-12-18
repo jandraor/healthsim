@@ -1,14 +1,14 @@
 'use strict';
 
-const startGame = (socket, gameCollection, io, message) => {
+const startGame = (socket, gameCollection, io, payload) => {
   console.log('======================Game Collection=========================');
   console.log(gameCollection);
   console.log('==============================================================');
   console.log('==============================================================');
   console.log('The instructor wants to start the game');
-  console.log(message);
+  console.log(payload);
   console.log('==========================================================');
-  const gameId = message.gameId;
+  const gameId = payload.gameId;
   const ids = gameCollection.gameList.map(elem => {
     return elem.id;
   });
@@ -30,11 +30,14 @@ const startGame = (socket, gameCollection, io, message) => {
       'otherTeams': otherTeams
     }
     console.log('==========================Object teams======================');
-    console.log(message);
+    console.log(playerPayload);
     console.log('============================================================');
     io.to(`${recipientTeam}_${gameId}`).emit('game started', playerPayload);
   });
-  const instructorPayload = {'teams': teamNames}
+  const instructorPayload = {
+    'teams': teamNames,
+    'rounds': payload.rounds
+  }
   io.to(`instructor_${gameId}`).emit('game started', instructorPayload);
   console.log('=========================Game===============================');
   gameCollection.gameList[gamePos]

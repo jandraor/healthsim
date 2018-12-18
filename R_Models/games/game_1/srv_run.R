@@ -2,7 +2,8 @@
 # Script to run a simulation. Initially should be called as
 # Rscript srv_run.R <START_TIME> <FINISH_TIME>
 #=======================================================================================
-#source("srv_constants.R")
+suppressMessages(library(jsonlite))
+suppressMessages(library(dplyr))
 source("./R_Models/games/game_1/getDirectory.R")
 source("./R_Models/games/game_1/utils/read_sim_data.R")
 source("./R_Models/games/game_1/utils/write_sim_data.R")
@@ -24,6 +25,5 @@ sim_data$g_stocks <- sim_data$g_final_stocks
 # sim_data$g_policy_matrix <- sim_data$g_policy_matrix
 
 sim_data <- run_simulation(sim_data, START = start_time, FINISH = finish_time)
-sim_data
-
 write_sim_data(sim_data, CURRENT_DIR)
+toJSON(sim_data$sim_output) # output sent to browser

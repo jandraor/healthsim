@@ -1,5 +1,0 @@
-﻿Number,Name,Population,Susceptible,Infected,xloc,yloc,Category
-1,Alpha,10000,10000,1,2,2,High
-2,Beta,30000,30000,0,4,8,Middle
-3,Gamma,25000,25000,0,10,11,Low
-4,Delta,10000,10000,0,2,5,High

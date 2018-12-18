@@ -1,4 +1,4 @@
-library(deSolve)
+suppressMessages(library(deSolve))
 run_simulation <- function(sim_data,
                            START=0,
                            FINISH=10,

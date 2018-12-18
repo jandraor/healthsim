@@ -1,5 +1,5 @@
-library(dplyr)
-library(readr)
+suppressMessages(library(dplyr))
+suppressMessages(library(readr))
 # This function prepares the model data
 # Important outputs are:
 #     g_countries      : a tibble with the country info
