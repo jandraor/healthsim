@@ -3,8 +3,8 @@ source('./R_Models/games/game_1/model/BuildModelF.R')
 initialise <- function(g_auxs,
                        SAMPLE           = F,
                        SAMPLE_SIZE      = 2,
-                       SECTORS_INFECTED = 1,
-                       TEST_RUN         = T, 
+                       SECTORS_INFECTED = 0,
+                       TEST_RUN         = F, 
                        ALPHA            = 1, 
                        seed             = 200){
   
