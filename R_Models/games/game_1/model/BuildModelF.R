@@ -1,4 +1,4 @@
-build_model <- function (g_countries, SECTORS_INFECTED = 1 ){
+build_model <- function (g_countries, SAMPLE, SECTORS_INFECTED = 0 ){
   
   tm_model_stocks <- c("_TM_S","_TM_I1","_TM_I2","_TM_IQ","_TM_IAV","_TM_IS","_TM_RV","_TM_RAV","_TM_RQ","_TM_RNI",
                        "_TM_RAR","_TM_RS","_TM_NRR","_TM_LTM", "_TM_RIR")
@@ -25,9 +25,15 @@ build_model <- function (g_countries, SECTORS_INFECTED = 1 ){
   init_cond[,"_TM_S"] <- g_countries$Susceptible
 
   # INITIALISE patient 0 to infected sectors
-  patient_0_name <- sample_n(g_countries,SECTORS_INFECTED)$Name
-  init_cond[patient_0_name,"_TM_S"]  <- init_cond[patient_0_name,"_TM_S"]  - 1
-  init_cond[patient_0_name,"_TM_I1"] <- init_cond[patient_0_name,"_TM_I1"] + 1
+  if(SAMPLE){
+     patient_0_name <- sample_n(g_countries,SECTORS_INFECTED)$Name
+     init_cond[patient_0_name,"_TM_S"]  <- init_cond[patient_0_name,"_TM_S"]  - 1
+     init_cond[patient_0_name,"_TM_I1"] <- init_cond[patient_0_name,"_TM_I1"] + 1
+  }
+  else{
+    # INITIALISE suceptible values
+    init_cond[,"_TM_I1"] <- g_countries$Infected
+  }
 
   # INITIALISE financial resources
   init_cond[,"_FM_R"]  <- g_countries$InitialFinancialResources
