@@ -7,8 +7,18 @@ zidz <- function(num, denom){
   })
 }
 
+get_total_population <- function(stocks) {
+  varNames <- names(stocks)
+  transmissionModelVars <- varNames[str_detect(varNames, '_TM_')]
+  populationVars <- transmissionModelVars[!str_detect(transmissionModelVars, 'RIR')]
+  totalPopulations <- sum(stocks[populationVars])
+}
+
 healthsim_model <- function(time, stocks, auxs){
-  with(as.list(c(stocks, auxs)),{ 
+  with(as.list(c(stocks, auxs)),{
+    # Validation variables
+    TotalPopulation <- get_total_population(stocks) # it should be constant
+    
     #convert the stocks vector to a 2 dimensional matrix
     states<-matrix(stocks,nrow=simd$g_NUM_SECTORS,ncol=simd$g_NUM_STOCKS)
     rownames(states) <- simd$g_sector_names

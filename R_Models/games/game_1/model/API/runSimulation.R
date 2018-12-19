@@ -2,7 +2,7 @@ suppressMessages(library(deSolve))
 run_simulation <- function(sim_data,
                            START=0,
                            FINISH=10,
-                           STEP=0.125){
+                           STEP=0.05){
   source('./R_Models/games/game_1/model/SIRModelF.R') #loads healthsim_model 
   # create a temporary global environment for the simulation data
   simd <<- new.env()
