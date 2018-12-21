@@ -8,12 +8,12 @@ export const draw = (data, divId, legend = false) => {
                   .domain([0, d3.max(data.values, d => d3.max(d))])
 
   if (legend === true) {
-    const widthLegend =  50;
+    const widthLegend =  500;
     const svgLegend = d3.select(`#${divId}`)
       .append('svg')
-      .attr('class', 'd-block my-5')
-      .style('width', widthLegend)
-      .style('height', '10')
+      .attr('class', 'd-block mb-4')
+      .attr('width', widthLegend)
+      .attr('height', '45')
       .style('overflow', 'visible');
 
     const gLegend = svgLegend.append("g")
@@ -34,13 +34,13 @@ export const draw = (data, divId, legend = false) => {
       .attr("fill", "#000")
       .attr("text-anchor", "start")
       .attr("font-weight", "bold")
-      .text("Any variable");
+      .text("Infected");
   }
 
-  const cellHeight = 50;
-  const cellWidth = 50;
+  const cellHeight = 40;
+  const cellWidth = 40;
   const width = cellWidth * data.time.length ;
-  
+
   const svg = d3.select(`#${divId}`)
                 .append('svg')
                 .attr('width', width)

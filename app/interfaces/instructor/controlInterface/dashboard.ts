@@ -31,6 +31,7 @@ export const build = options => {
 }
 
 export const update = results => {
+  $('#bSimulate').html('Simulate')
   $('#divHeatMap').html('');
   const stopTime = parseInt($('#lStopTime').text());
   const simulationTime = d3.range(0, stopTime + 1);
@@ -45,7 +46,14 @@ export const update = results => {
     let valueVector = [];
     results.forEach(elem => {
       if(simulationTime.indexOf(elem.time) > -1) {
-        valueVector.push(elem[`${teamName}_TM_I1`]);
+        const I1 = parseFloat(elem[`${teamName}_TM_I1`])
+        const I2 = parseFloat(elem[`${teamName}_TM_I2`])
+        const IQ = parseFloat(elem[`${teamName}_TM_IQ`])
+        const IAV = parseFloat(elem[`${teamName}_TM_IAV`])
+        const IS = parseFloat(elem[`${teamName}_TM_IS`])
+        const infected = I1 + I2 + IQ + IAV + IS
+
+        valueVector.push(infected);
       }
     })
     return valueVector
@@ -60,5 +68,5 @@ export const update = results => {
    console.log(data);
    console.log('==============================================================');
 
-  hm.draw(data, 'divHeatMap');
+  hm.draw(data, 'divHeatMap', true);
 }

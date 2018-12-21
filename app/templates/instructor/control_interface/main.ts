@@ -9,8 +9,10 @@ import * as incMssg from './incomingMessage.ts';
 import * as outMssg from './outgoingMessage.ts';
 import * as dashboard from './dashboard.ts';
 
-export const build = (teams) => {
-  const layoutHtml = layout.html();
+export const build = (payload) => {
+  const stopTime = payload.rounds;
+  const teams = payload.teams
+  const layoutHtml = layout.html({stopTime});
   $('body').html(layoutHtml);
   const progressBarHtml = prgBar.html();
   $('#divProgress').html(progressBarHtml);

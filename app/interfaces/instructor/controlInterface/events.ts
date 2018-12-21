@@ -3,6 +3,7 @@ import * as gameEvents from '../../../game_events/main.ts';
 
 export const clickSimulate = (socket) => {
   $('#bSimulate').click(() => {
+    $('#bSimulate').html('<i class="fa fa-spinner fa-spin"></i>')
     const payload = {'hola': 'perro'}
     gameEvents.instructorEmitters.simulate(socket, payload);
   });

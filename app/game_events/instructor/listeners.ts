@@ -34,8 +34,7 @@ export const onPlayerAdded = (socket) => {
 export const onGameStarted = (socket) => {
   socket.on('game started', payload => {
     console.log('game has started');
-    const teams = payload.teams;
-    templates.instructor.controlInterface(teams);
+    templates.instructor.controlInterface(payload);
     const intInstructor = interfaces.instructor();
     intInstructor.controlInterface.build(socket, payload);
   });

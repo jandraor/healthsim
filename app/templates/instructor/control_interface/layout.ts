@@ -6,11 +6,11 @@ export const html = Handlebars.compile(`
       <div class = "col-3">
         <div id = "divProgress"></div>
         <div id = "divSimulateButton" class = "d-block my-3"></div>
-        <div class = "my-3">
-          <span class = "text-secondary">Round:</span>
-          <span id = 'roundNumber'>1</span>
+        <div class = "my-3 text-secondary">
+          <span>Round:</span>
+          <span class = 'text-dark' id = 'lCurrentRound'>1</span>
           of
-          <label id = "lStopTime">20 </label>
+          <span id = "lStopTime">{{stopTime}} </label>
         </div>
         <div id = 'divTeams'></div>
       </div>
