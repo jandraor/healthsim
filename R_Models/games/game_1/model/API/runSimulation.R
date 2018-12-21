@@ -26,8 +26,16 @@ run_simulation <- function(sim_data,
   sim_data$g_final_stocks <- unlist(o[nrow(o),
                                     2:(sim_data$g_NUM_STOCKS*sim_data$g_NUM_SECTORS+1)])
 
-  sim_data$sim_output   <- dplyr::as_data_frame(o)
-
+  tbl_o <- dplyr::as_data_frame(o)
+  
+  if(!exists("sim_data$sim_output")){
+     sim_data$sim_output   <- tbl_o
+  }
+  else{
+     sim_data$sim_output   <- dplyr::add_row(sim_data$sim_output,
+                                             tbl_o[2:nrow(tbl_o)])
+  }
+  
   # remove the simulation environment
   rm(list=ls(envir = simd),envir = simd)
   rm("simd",envir = globalenv())

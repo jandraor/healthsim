@@ -15,7 +15,7 @@ cmd_args <- commandArgs(TRUE)
 start_time    <- as.numeric(cmd_args[1])  # 1st parameter from command line
 finish_time   <- as.numeric(cmd_args[2])  # 2nd parameter from command line
 
-#start_time <- 0; finish_time <- 20
+start_time <- 2; finish_time <- 3
 CURRENT_DIR <- get_Directory('current')
 sim_data <- read_sim_data(CURRENT_DIR)
 

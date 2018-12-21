@@ -26,7 +26,7 @@ sim_data$g_final_stocks <- sim_data$g_stocks
 
 write_sim_data(sim_data, CURRENT_DIR)
 
-start_time <- 0; finish_time <- 20
+start_time <- 0; finish_time <- 5
 CURRENT_DIR <- get_Directory('current')
 sim_data <- read_sim_data(CURRENT_DIR)
 
