@@ -7,6 +7,7 @@ suppressMessages(library(dplyr))
 source("./R_Models/games/game_1/getDirectory.R")
 source("./R_Models/games/game_1/utils/read_sim_data.R")
 source("./R_Models/games/game_1/utils/write_sim_data.R")
+source("./R_Models/games/game_1/utils/get_policy_matrix.R")
 source("./R_Models/games/game_1/model/API/runSimulation.R")
 
 cmd_args <- commandArgs(TRUE)
@@ -14,7 +15,7 @@ cmd_args <- commandArgs(TRUE)
 start_time    <- as.numeric(cmd_args[1])  # 1st parameter from command line
 finish_time   <- as.numeric(cmd_args[2])  # 2nd parameter from command line
 
-# start_time <- 0; finish_time <- 20
+#start_time <- 0; finish_time <- 20
 CURRENT_DIR <- get_Directory('current')
 sim_data <- read_sim_data(CURRENT_DIR)
 
@@ -23,6 +24,9 @@ sim_data$g_stocks <- sim_data$g_final_stocks
 
 # would also need to set the policy matrix here based on further command line inputs
 # sim_data$g_policy_matrix <- sim_data$g_policy_matrix
+
+# load the policy matrix from PolicyMatrix.csv
+sim_data$g_policy_matrix <- get_policy_matrix(rownames(sim_data$g_policy_matrix))
 
 sim_data <- run_simulation(sim_data, START = start_time, FINISH = finish_time, STEP = 0.05)
 write_sim_data(sim_data, CURRENT_DIR)

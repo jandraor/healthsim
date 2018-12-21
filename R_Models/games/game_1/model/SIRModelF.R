@@ -305,6 +305,8 @@ healthsim_model <- function(time, stocks, auxs){
            d_AVR_AVSL_dt,  d_AVR_AVS_dt,  d_AVR_TAVSHR_dt, d_AVR_TAVR_dt, 
            d_AVR_TAVD_dt,  d_AVR_TAVS_dt, d_AVR_TAO_dt,
            d_VEN_VSL_dt,   d_VEN_VS_dt,   d_VEN_VIU_dt,    d_VEN_TVR_dt,  d_VEN_TVD_dt,  
-           d_VEN_TVS_dt,   d_VEN_TVO_dt )) 
+           d_VEN_TVS_dt,   d_VEN_TVO_dt ), 
+           TotalInfected=TotalInfected, 
+           TotalPopulation=TotalPopulation) 
   })
 }
