@@ -17,8 +17,11 @@ run_simulation <- function(sim_data,
   simd$START_TIME       <- START
   simd$FINISH_TIME      <- FINISH
   simd$TIME_STEP        <- STEP
-
-
+  
+  if("sim_output" %in% names(sim_data)){
+    simd$order_history <- dplyr::select(sim_data$sim_output,time,contains("Orders."))
+  }
+  
   simtime <- seq(START, FINISH, STEP)
   o<-data.frame(ode(y      = sim_data$g_stocks,
                     times  = simtime,
