@@ -119,7 +119,7 @@ get_data <- function(SAMPLE=T,
   })
   countries$VaccineShipmentDelay <- sapply(countries$Category, function(x){
     index <- which(params$Category==x & params$Name == "VaccineShipmentDelay")
-    runif(1,min=pull(params[index,"Minimum"]),max=pull(params[index,"Maximum"]))
+    round(runif(1,min=pull(params[index,"Minimum"]),max=pull(params[index,"Maximum"])),0)
   })
   countries$VaccineSpoilageFraction <- sapply(countries$Category, function(x){
     index <- which(params$Category==x & params$Name == "VaccineSpoilageFraction")
@@ -137,7 +137,7 @@ get_data <- function(SAMPLE=T,
   })
   countries$AntiviralShipmentDelay <- sapply(countries$Category, function(x){
     index <- which(params$Category==x & params$Name == "AntiviralShipmentDelay")
-    runif(1,min=pull(params[index,"Minimum"]),max=pull(params[index,"Maximum"]))
+    round(runif(1,min=pull(params[index,"Minimum"]),max=pull(params[index,"Maximum"])),0)
   })
   countries$AntiviralSpoilageFraction <- sapply(countries$Category, function(x){
     index <- which(params$Category==x & params$Name == "AntiviralSpoilageFraction")
@@ -151,11 +151,11 @@ get_data <- function(SAMPLE=T,
   ###### Ventilator Supply Chain Model #######
   countries$VentilatorDispensingDelay <- sapply(countries$Category, function(x){
     index <- which(params$Category==x & params$Name == "VentilatorDispensingDelay")
-    runif(1,min=pull(params[index,"Minimum"]),max=pull(params[index,"Maximum"]))
+   runif(1,min=pull(params[index,"Minimum"]),max=pull(params[index,"Maximum"]))
   })
   countries$VentilatorShipmentDelay <- sapply(countries$Category, function(x){
     index <- which(params$Category==x & params$Name == "VentilatorShipmentDelay")
-    runif(1,min=pull(params[index,"Minimum"]),max=pull(params[index,"Maximum"]))
+    round(runif(1,min=pull(params[index,"Minimum"]),max=pull(params[index,"Maximum"])),0)
   })
   countries$VentilatorSpoilageFraction <- sapply(countries$Category, function(x){
     index <- which(params$Category==x & params$Name == "VentilatorSpoilageFraction")
