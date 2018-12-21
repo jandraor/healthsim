@@ -24,7 +24,6 @@ healthsim_model <- function(time, stocks, auxs){
     rownames(states) <- simd$g_sector_names
     colnames(states) <- simd$g_stock_names
     
-    
     #-----------------------------------------------------------------------------------------------
     ### GAME INPUT PARAMETER MATRIX ###
     #-----------------------------------------------------------------------------------------------
@@ -81,8 +80,10 @@ healthsim_model <- function(time, stocks, auxs){
     # Antiviral Orders=min(Maximum Antivirals Purchases Possible,Total Required Antiviral Orders)
     AntiviralOrders <- pmin(MaximumAntiviralsPurchasesPossible,TotalRequiredAntiviralOrders)
     
+    # *** (1) Change to PIPELINE DELAY ***
     # Antiviral Orders Arriving = Antiviral Supply Line/Antiviral Shipment Delay
     AntiviralOrdersArriving <- states[,"_AVR_AVSL"]/simd$g_countries$AntiviralShipmentDelay
+
     
     # Antiviral Spend=Antiviral Orders*Antiviral Cost Per Unit
     AntiviralSpend <- AntiviralOrders*simd$g_countries$AntiviralCostPerUnit
@@ -199,6 +200,7 @@ healthsim_model <- function(time, stocks, auxs){
     #Vaccination Fraction=Actual Vaccination Fraction
     VaccinationFraction <- ActualVaccinationFraction
     
+    # *** (2) Change to PIPELINE DELAY ***
     #Vaccine Orders Arriving=Vaccine Supply Line/Vaccine Shipment Delay
     VaccineOrdersArriving <- states[,"_VAC_VSL"]/simd$g_countries$VaccineShipmentDelay
     
@@ -217,6 +219,7 @@ healthsim_model <- function(time, stocks, auxs){
     #Ventilator Orders=min(Maximum Ventilators Purchases Possible,Total Required Ventilator Orders)
     VentilatorOrders <- pmin(MaximumVentilatorsPurchasesPossible,TotalRequiredVentilatorOrders)
     
+    # *** (3) Change to PIPELINE DELAY ***
     #Ventilator Orders Arriving=Ventilator Supply Line/Ventilator Shipment Delay
     VentilatorOrdersArriving <- states[,"_VEN_VSL"]/simd$g_countries$VentilatorShipmentDelay
     
@@ -307,6 +310,10 @@ healthsim_model <- function(time, stocks, auxs){
            d_VEN_VSL_dt,   d_VEN_VS_dt,   d_VEN_VIU_dt,    d_VEN_TVR_dt,  d_VEN_TVD_dt,  
            d_VEN_TVS_dt,   d_VEN_TVO_dt ), 
            TotalInfected=TotalInfected, 
-           TotalPopulation=TotalPopulation) 
+           TotalPopulation=TotalPopulation,
+           VaccineOrders= VaccineOrders,
+           AntiviralOrders=AntiviralOrders,
+           VentilatorOrders=VentilatorOrders
+         ) 
   })
 }
