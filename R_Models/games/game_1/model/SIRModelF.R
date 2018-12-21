@@ -206,7 +206,7 @@ healthsim_model <- function(time, stocks, auxs){
     VaccineSpend <- VaccineOrders*simd$g_countries$VaccineCostPerUnit
     
     #VR=Susceptible*Vaccination Fraction*Vaccination Policy
-    VR <- states[,"_TM_S"]*simd$g_policy_matrix[,"VaccinationPolicy"]*VaccineSpend
+    VR <- states[,"_TM_S"]*simd$g_policy_matrix[,"VaccinationPolicy"]*VaccinationFraction
     
     #Vaccines Dispensed=VR
     VaccinesDispensed <- VR
