@@ -14,6 +14,9 @@ run_simulation <- function(sim_data,
   simd$g_policy_matrix  <- sim_data$g_policy_matrix
   simd$g_countries      <- sim_data$g_countries
   simd$g_beta_reference <- sim_data$g_beta_reference
+  simd$START_TIME       <- START
+  simd$FINISH_TIME      <- FINISH
+  simd$TIME_STEP        <- STEP
 
 
   simtime <- seq(START, FINISH, STEP)
