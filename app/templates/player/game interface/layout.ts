@@ -15,7 +15,9 @@ export const html = Handlebars.compile(`
           </div>
         </div>
       </div>
-      <div class = "col-8"></div>
+      <div class = "col-8">
+        <div id = 'divDashboard'></div>
+      </div>
     </div>
   </div>
 `);

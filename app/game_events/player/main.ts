@@ -10,6 +10,9 @@ export const listeners = (socket) => {
 
 export const emitters = {
   'sendMessage': (socket, payload) => {
-    emtr.sendMessage(socket, payload)
+    emtr.sendMessage(socket, payload);
+  },
+  'sendDecisions': (socket, payload) => {
+    emtr.sendDecisions(socket, payload);
   }
 }

@@ -8,14 +8,18 @@ export const listeners = (socket) => {
   lstn.onGameStarted(socket);
   lstn.onMessage(socket);
   lstn.onSimulationResults(socket);
+  lstn.onPlayerDecisions(socket);
 }
 
 export const emitters = {
+  'createSession': (socket, name, nTeams) => {
+    emtr.createSession(socket, name, nTeams);
+  },
   'getGameDescription': (socket, gameId) => {
     emtr.getGameDescription(socket, gameId)
   },
-  'startGame': (socket, payload) => {
-    emtr.startGame(socket, payload);
+  'sendPolicyMatrix': (socket, payload) => {
+    emtr.sendPolicyMatrix(socket, payload);
   },
   'sendMessage': (socket, payload) => {
     emtr.sendMessage(socket, payload);
@@ -25,5 +29,8 @@ export const emitters = {
   },
   'simulate': (socket, payload) => {
     emtr.simulate(socket, payload);
-  }
+  },
+  'startGame': (socket, payload) => {
+    emtr.startGame(socket, payload);
+  },
 }

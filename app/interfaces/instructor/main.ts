@@ -15,5 +15,8 @@ export const controlInterface = {
   },
   'updateDashboard': payload => {
     ctrlInt.updateDashboard(payload);
+  },
+  'updateDecisions': payload => {
+    ctrlInt.updateDecisions(payload);
   }
 }

@@ -19,7 +19,7 @@ const socketConfig = (server) => {
       console.log(socket.credentials);
     });
     //Instructor messages
-    socket.on('makeGame', (payload) => {
+    socket.on('create game session', (payload) => {
       console.log('=====================Socket before========================');
       console.log(socket.room)
       console.log('==========================================================');
@@ -57,13 +57,19 @@ const socketConfig = (server) => {
       player.sendAvailableGames(socket, gameCollection);
     });
     socket.on('join game', (data) => {
-      console.log('=========Before========Game Collection=====================');
+      console.log('=========Before=======Game Collection=====================');
       console.log(gameCollection.gameList[0]);
       console.log('==========================================================');
       player.joinGame(socket, gameCollection, io, data);
       console.log('=========After========Game Collection=====================');
       console.log(gameCollection.gameList[0]);
       console.log('==========================================================');
+    });
+    socket.on('decisions sent', payload => {
+      console.log('========player decisions===================================');
+      console.log(payload)
+      console.log('==========================================================');
+      player.sendDecisions(socket, io, payload);
     });
     //messages from either
     socket.on('message', payload => {
@@ -84,6 +90,13 @@ const socketConfig = (server) => {
       console.log(payload)
       console.log('==========================================================');
       instructor.simulate(socket, payload);
+    });
+
+    socket.on('create policy matrix', payload => {
+      console.log('=========policy matrix====================================');
+      console.log(payload)
+      console.log('==========================================================');
+      instructor.createPolicyMatrix(payload);
     });
 
 

@@ -2,15 +2,6 @@ const $ = require('jquery');
 import * as player from './player/main.ts';
 import * as instructor from './instructor/main.ts';
 
-
-export const sendGame = (socket, name, nTeams) => {
-  const gameSetup = {
-    'name': name,
-    'nTeams': nTeams,
-  }
-  socket.emit('makeGame', gameSetup);
-}
-
 export const sendCredentials = (socket) => {
   const credentials = {
     'email': 'jair.albert.andrade',
@@ -29,21 +20,27 @@ export const playerListeners = (socket) => {
 }
 
 export const playerEmitters = {
+  'sendDecisions': (socket, payload) => {
+    player.emitters.sendDecisions(socket, payload);
+  },
   'sendMessage': (socket, payload) => {
     player.emitters.sendMessage(socket, payload);
   }
-}
 
+}
+//------------------------------------------------------------------------------
+// Instructor events
+//------------------------------------------------------------------------------
 export const instructorListeners = (socket) => {
   instructor.listeners(socket);
 }
 
 export const instructorEmitters = {
+  'createSession': (socket, name, nTeams) => {
+    instructor.emitters.createSession(socket, name, nTeams);
+  },
   'getGameDescription': (socket, gameId) => {
     instructor.emitters.getGameDescription(socket, gameId);
-  },
-  'startGame': (socket, payload) => {
-    instructor.emitters.startGame(socket, payload);
   },
   'sendMessage': (socket, payload) => {
     instructor.emitters.sendMessage(socket, payload);
@@ -53,6 +50,11 @@ export const instructorEmitters = {
   },
   'simulate': (socket, payload) => {
     instructor.emitters.simulate(socket, payload);
-  }
-
+  },
+  'sendPolicyMatrix': (socket, payload) => {
+    instructor.emitters.sendPolicyMatrix(socket, payload);
+  },
+  'startGame': (socket, payload) => {
+    instructor.emitters.startGame(socket, payload);
+  },
 }

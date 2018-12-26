@@ -12,6 +12,7 @@ import * as mdlVacDon from './vaccineDonations.ts';
 import * as mdlVenDon from './ventilatorDonations.ts';
 import * as mdlFinDon from './financialDonations.ts';
 import * as iptTm from './teamInput.ts';
+import * as dashboard from './dashboard/main.ts'
 
 export const build = (teams) => {
   const layoutHtml = layout.html();
@@ -96,4 +97,6 @@ export const build = (teams) => {
     const inputTeamHtml = iptTm.html({options});
     $('#mdlFinDonBody').append(inputTeamHtml);
   });
+  const myTeam = teams.yourTeam;
+  dashboard.build(myTeam);
 }

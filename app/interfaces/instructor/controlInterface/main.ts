@@ -1,6 +1,7 @@
 import * as domEvents from './events.ts';
 const $ = require('jquery');
 import * as dashboard from './dashboard.ts';
+import * as decisions from './decisions.ts';
 
 export const build = (socket, payload) => {
   domEvents.clickSimulate(socket);
@@ -12,5 +13,9 @@ export const build = (socket, payload) => {
 }
 
 export const updateDashboard = payload => {
-  dashboard.update(payload)
+  dashboard.update(payload);
+}
+
+export const updateDecisions = payload => {
+  decisions.update(payload);
 }

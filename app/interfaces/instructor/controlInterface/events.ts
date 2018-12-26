@@ -3,9 +3,10 @@ import * as gameEvents from '../../../game_events/main.ts';
 
 export const clickSimulate = (socket) => {
   $('#bSimulate').click(() => {
-    $('#bSimulate').html('<i class="fa fa-spinner fa-spin"></i>')
-    const payload = {'hola': 'perro'}
-    gameEvents.instructorEmitters.simulate(socket, payload);
+    $('#bSimulate').html('<i class="fa fa-spinner fa-spin"></i>');
+    const payload = brewPolicyMatrix();
+    gameEvents.instructorEmitters.sendPolicyMatrix(socket, payload);
+    //gameEvents.instructorEmitters.simulate(socket, payload);
   });
 }
 
@@ -27,4 +28,15 @@ export const pressAnyKey = () => {
       }
     }
   });
+}
+
+const brewPolicyMatrix = () => {
+  let policyMatrix = [];
+  $('.icnDecisions').each(function() {
+    policyMatrix.push($(`#${this.id}`).data());
+  })
+  console.log('Matrix2====================================');
+  console.log(policyMatrix);
+  console.log('Matrix2====================================');
+  return policyMatrix;
 }

@@ -57,3 +57,12 @@ export const onSimulationResults = (socket) => {
     intInstructor.controlInterface.updateDashboard(payload);
   });
 }
+
+export const onPlayerDecisions = (socket) => {
+  socket.on('player decisions', payload => {
+    console.log('player decisions:')
+    console.log(payload);
+    const intInstructor = interfaces.instructor();
+    intInstructor.controlInterface.updateDecisions(payload);
+  });
+}

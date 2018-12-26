@@ -39,7 +39,7 @@ export const listPlayOptions = async(socket) => {
       const name = $('#iptGameName').val();
       const nTeams = parseInt($('#inputNTeams').val());
       console.log(nTeams);
-      gameEvents.sendGame(socket, name, nTeams);
+      gameEvents.instructorEmitters.createSession(socket, name, nTeams);
     });
 
     $('#bJoinGame').click(() => {
