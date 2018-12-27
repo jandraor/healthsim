@@ -1,3 +1,5 @@
+#DEBUG_DELAYS <- list()
+#--------------------------------------------------------------------------------
 zidz <- function(num, denom){
   sapply(1:length(num), function(i){
     if(denom[i] == 0)
@@ -7,6 +9,7 @@ zidz <- function(num, denom){
   })
 }
 
+#--------------------------------------------------------------------------------
 get_total_population <- function(stocks) {
   varNames <- names(stocks)
   transmissionModelVars <- varNames[str_detect(varNames, '_TM_')]
@@ -14,6 +17,43 @@ get_total_population <- function(stocks) {
   totalPopulations <- sum(stocks[populationVars])
 }
 
+#--------------------------------------------------------------------------------
+update_sim_history <- function(simtime, var, values){
+  for(i in seq_along(values)){
+    simd$order_history <- add_row(simd$order_history,
+                                  time=simtime,
+                                  ModelVariable=paste(var,names(values[i]),sep="."),
+                                  Value=values[i])
+  }
+  
+  simd$order_history <- distinct(simd$order_history,time,ModelVariable,Value)
+}
+
+#--------------------------------------------------------------------------------
+get_delay_flows <- function(resource, simtime, sectors, delays){
+  
+  flows <- sapply(seq_along(delays),function(i){
+    if (simtime - (delays[i] + simd$ABS_START) < 0)
+       return (0.0)
+    
+    lag_time <- simtime - delays[i]
+    key <- paste(resource,sectors[i],sep=".")
+    lag_flow <- filter(simd$order_history,
+                       ModelVariable==key,
+                       near(time,lag_time,tol = 0.000000001)) %>%
+                select(Value) %>%
+                pull()
+    lag_flow
+  })
+  
+
+  names(flows) <- sectors
+  #cat("time = ", simtime, "delays = ", delays,"\n")
+  #print(flows)
+  #DEBUG_DELAYS[[length(DEBUG_DELAYS)+1]] <<- c(Time=time,flows)
+  flows
+}
+#--------------------------------------------------------------------------------
 healthsim_model <- function(time, stocks, auxs){
   with(as.list(c(stocks, auxs)),{
     # Validation variables
@@ -28,16 +68,20 @@ healthsim_model <- function(time, stocks, auxs){
     ### GAME INPUT PARAMETER MATRIX ###
     #-----------------------------------------------------------------------------------------------
     TotalRequiredAntiviralOrders    <- simd$g_policy_matrix[,"AntiviralsOrdered"]
-    AntiviralsReceived              <- simd$g_policy_matrix[,"AntiviralsReceived"]
-    AntiviralsShared                <- simd$g_policy_matrix[,"AntiviralsShared"]
-    ResourcesReceived               <- simd$g_policy_matrix[,"ResourcesReceived"]
-    ResourcesDonated                <- simd$g_policy_matrix[,"ResourcesDonated"]
     TotalRequiredVaccineOrders      <- simd$g_policy_matrix[,"VaccinesOrdered"]
     TotalRequiredVentilatorOrders   <- simd$g_policy_matrix[,"VentilatorsOrdered"]
-    VaccinesReceived                <- simd$g_policy_matrix[,"VaccinesReceived"] 
-    VaccinesShared                  <- simd$g_policy_matrix[,"VaccinesShared"] 
+    
+    AntiviralsReceived              <- simd$g_policy_matrix[,"AntiviralsReceived"]
     VentilatorsReceived             <- simd$g_policy_matrix[,"VentilatorsReceived"] 
+    VaccinesReceived                <- simd$g_policy_matrix[,"VaccinesReceived"] 
+    
+    AntiviralsShared                <- simd$g_policy_matrix[,"AntiviralsShared"]
+    VaccinesShared                  <- simd$g_policy_matrix[,"VaccinesShared"] 
     VentilatorsShared               <- simd$g_policy_matrix[,"VentilatorsShared"] 
+    
+    ResourcesReceived               <- simd$g_policy_matrix[,"ResourcesReceived"]
+    ResourcesDonated                <- simd$g_policy_matrix[,"ResourcesDonated"]
+
     
     #-----------------------------------------------------------------------------------------------
     # Equations from VENSIM
@@ -82,8 +126,15 @@ healthsim_model <- function(time, stocks, auxs){
     
     # *** (1) Change to PIPELINE DELAY ***
     # Antiviral Orders Arriving = Antiviral Supply Line/Antiviral Shipment Delay
-    AntiviralOrdersArriving <- states[,"_AVR_AVSL"]/simd$g_countries$AntiviralShipmentDelay
-
+    #FO Delay >>> AntiviralOrdersArriving <- states[,"_AVR_AVSL"]/simd$g_countries$AntiviralShipmentDelay
+    
+    AntiviralOrdersArriving <- get_delay_flows("AntiviralsOrdered",
+                                               time,
+                                               simd$g_sector_names,
+                                               simd$g_countries$AntiviralShipmentDelay)
+    #cat("Time = ", time, "\n")
+    #print(AntiviralOrdersArriving)
+    
     
     # Antiviral Spend=Antiviral Orders*Antiviral Cost Per Unit
     AntiviralSpend <- AntiviralOrders*simd$g_countries$AntiviralCostPerUnit
@@ -202,7 +253,15 @@ healthsim_model <- function(time, stocks, auxs){
     
     # *** (2) Change to PIPELINE DELAY ***
     #Vaccine Orders Arriving=Vaccine Supply Line/Vaccine Shipment Delay
-    VaccineOrdersArriving <- states[,"_VAC_VSL"]/simd$g_countries$VaccineShipmentDelay
+    #VaccineOrdersArriving <- states[,"_VAC_VSL"]/simd$g_countries$VaccineShipmentDelay
+    VaccineOrdersArriving <- get_delay_flows("VaccinesOrdered",
+                                               time,
+                                               simd$g_sector_names,
+                                               simd$g_countries$VaccineShipmentDelay)
+    #cat("VaccineOrderArriving@Time = ", time, "\n")
+    #print(VaccineOrdersArriving)
+    
+    
     
     #Vaccine Spend=Vaccine Orders*Vaccine Cost Per Unit
     VaccineSpend <- VaccineOrders*simd$g_countries$VaccineCostPerUnit
@@ -221,7 +280,14 @@ healthsim_model <- function(time, stocks, auxs){
     
     # *** (3) Change to PIPELINE DELAY ***
     #Ventilator Orders Arriving=Ventilator Supply Line/Ventilator Shipment Delay
-    VentilatorOrdersArriving <- states[,"_VEN_VSL"]/simd$g_countries$VentilatorShipmentDelay
+    #VentilatorOrdersArriving <- states[,"_VEN_VSL"]/simd$g_countries$VentilatorShipmentDelay
+    VentilatorOrdersArriving <- get_delay_flows("VentilatorsOrdered",
+                                                time,
+                                                simd$g_sector_names,
+                                                simd$g_countries$VaccineShipmentDelay)
+    cat("VentilatorOrdersArriving@Time = ", time, "\n")
+    print(VentilatorOrdersArriving)
+    
     
     #Ventilator Spend=Ventilator Orders*Ventilator Cost Per Unit
     VentilatorSpend <- VentilatorOrders*simd$g_countries$VentilatorCostPerUnit
@@ -296,7 +362,9 @@ healthsim_model <- function(time, stocks, auxs){
     d_VEN_TVS_dt     <- VentilatorsShared 
     d_VEN_TVO_dt     <- VO
     
-    #browser()
+    update_sim_history(time, "VaccinesOrdered",    VaccineOrders)
+    update_sim_history(time, "AntiviralsOrdered",  AntiviralOrders)
+    update_sim_history(time, "VentilatorsOrdered", VentilatorOrders)
     
     list(c(d_TM_S_dt,      d_TM_I1_dt,    d_TM_I2_dt,     d_TM_IQ_dt,    d_TM_IAV_dt,   d_TM_IS_dt, 
            d_TM_RV_dt,     d_TM_RAV_dt,   d_TM_RQ_dt,     d_TM_RNI_dt,   d_TM_RAR_dt,   d_TM_RS_dt,    
@@ -311,9 +379,12 @@ healthsim_model <- function(time, stocks, auxs){
            d_VEN_TVS_dt,   d_VEN_TVO_dt ), 
            TotalInfected=TotalInfected, 
            TotalPopulation=TotalPopulation,
-           VaccineOrders= VaccineOrders,
-           AntiviralOrders=AntiviralOrders,
-           VentilatorOrders=VentilatorOrders
+           AntiviralsOrdered=AntiviralOrders,
+           VaccinesOrdered= VaccineOrders,
+           VentilatorsOrdered=VentilatorOrders,
+           AntiviralOrdersArriving=AntiviralOrdersArriving,
+           VaccineOrdersArriving=VaccineOrdersArriving,
+           VentilatorOrdersArriving=VentilatorOrdersArriving
          ) 
   })
 }
