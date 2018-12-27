@@ -11,22 +11,20 @@ export const sendCredentials = (socket) => {
   socket.emit('assign username', credentials);
 }
 
-export const getAvailableGames = (socket) => {
-  socket.emit('send available games');
-}
-
 export const playerListeners = (socket) => {
   player.listeners(socket);
 }
 
 export const playerEmitters = {
+  'getAvailableGames': (socket) => {
+    player.emitters.getAvailableGames(socket);
+  },
   'sendDecisions': (socket, payload) => {
     player.emitters.sendDecisions(socket, payload);
   },
   'sendMessage': (socket, payload) => {
     player.emitters.sendMessage(socket, payload);
   }
-
 }
 //------------------------------------------------------------------------------
 // Instructor events

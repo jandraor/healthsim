@@ -10,6 +10,9 @@ export const listeners = (socket) => {
 }
 
 export const emitters = {
+  'getAvailableGames': (socket) => {
+    emtr.getAvailableGames(socket);
+  },
   'sendMessage': (socket, payload) => {
     emtr.sendMessage(socket, payload);
   },

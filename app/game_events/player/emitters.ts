@@ -1,3 +1,7 @@
+export const getAvailableGames = (socket) => {
+  socket.emit('send available games');
+}
+
 export const sendMessage = (socket, payload) => {
   socket.emit('message', payload);
 }

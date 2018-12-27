@@ -44,7 +44,7 @@ export const listPlayOptions = async(socket) => {
 
     $('#bJoinGame').click(() => {
       gameEvents.playerListeners(socket);
-      gameEvents.getAvailableGames(socket);
+      gameEvents.playerEmitters.getAvailableGames(socket);
     });
   } catch(err) {
     ut.showAlert(err);

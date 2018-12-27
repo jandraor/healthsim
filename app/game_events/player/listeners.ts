@@ -4,7 +4,7 @@ import * as templates from '../../templates/main.ts'
 import * as interfaces from '../../interfaces/interfaces.ts'
 
 export const listAvailableGames = (socket) => {
-  socket.on('current games', (gamesObject) => {
+  socket.on('available games sent', (gamesObject) => {
     console.log(gamesObject);
     if(gamesObject.n_Games === 0){
       d3.select('#divListGames')
