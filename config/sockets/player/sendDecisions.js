@@ -9,6 +9,7 @@ const sendDecisions = (socket, io, incomingPayload) => {
     'decisions': incomingPayload,
   }
   io.to(`instructor_${gameId}`).emit('player decisions', outgoingPayload);
+  io.to(`${team}_${gameId}`).emit('player decisions received');
 }
 
 module.exports = sendDecisions;

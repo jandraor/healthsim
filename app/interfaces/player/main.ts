@@ -9,3 +9,7 @@ export const buildGameInterface = (socket, teams) => {
   sliders.buildSliders(teams);
   events.add(socket);
 }
+
+export const disableSimButton = () => {
+  $('#bSbmtDcsns').prop('disabled', true);
+}

@@ -42,7 +42,7 @@ export const build = (teams) => {
   $('body').prepend(modalFinancialDonationsHtml);
   const otherTeams = teams.otherTeams
   //Label in modal with id = mdlAntDonBody
-  $('#lAntAvl').text('10000');
+  $('#lRemainingAnt').text('10000'); // this must change
   otherTeams.forEach(elem => {
     const options = {
       'name': elem,
@@ -56,7 +56,7 @@ export const build = (teams) => {
     $('#mdlAntDonBody').append(inputTeamHtml);
   });
   //Label in modal with id = mdlVacDonBody
-  $('#lVacAvl').text('10000'); //this should change
+  $('#lRemainingVac').text('10000'); //this must change
   otherTeams.forEach(elem => {
     const options = {
       'name': elem,
@@ -70,7 +70,7 @@ export const build = (teams) => {
     $('#mdlVacDonBody').append(inputTeamHtml);
   });
   //Label in modal with id = mdlVenDonBody
-  $('#lVenAvl').text('10000'); //this should change
+  $('#lRemainingVen').text('10000'); //this must change
   otherTeams.forEach(elem => {
     const options = {
       'name': elem,

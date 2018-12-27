@@ -6,6 +6,7 @@ export const listeners = (socket) => {
   lstn.onPlayerAdded(socket);
   lstn.onGameStarted(socket);
   lstn.onMessage(socket);
+  lstn.onPlayerDecisions(socket);
 }
 
 export const emitters = {

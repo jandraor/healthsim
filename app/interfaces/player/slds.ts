@@ -36,7 +36,7 @@ export const buildSliders = (teams) => {
   const otherTeams = teams.otherTeams;
   //Sliders in the modal(popup) for donation of antivirals
   const sldAntDon = otherTeams.map(elem => {
-    const callback = callbackGenerator(`slAntDon${elem}`, 'lblInvAnt', 'lAntDon', 'lAntAvl');
+    const callback = callbackGenerator(`slAntDon${elem}`, 'lblInvAnt', 'lAntDon', 'lRemainingAnt');
     const sliderObject = {
       'sliderId': `slAntDon${elem}`,
       'labelId': `lAntDon${elem}`,
@@ -47,7 +47,7 @@ export const buildSliders = (teams) => {
   slds.build(sldAntDon);
   //Sliders in the modal(popup) for donation of vaccines
   const sldVacDon = otherTeams.map(elem => {
-    const callback = callbackGenerator(`slVacDon${elem}`, 'lblInvVac', 'lVacDon', 'lVacAvl');
+    const callback = callbackGenerator(`slVacDon${elem}`, 'lblInvVac', 'lVacDon', 'lRemainingVac');
     const sliderObject = {
       'sliderId': `slVacDon${elem}`,
       'labelId': `lVacDon${elem}`,
@@ -58,7 +58,7 @@ export const buildSliders = (teams) => {
   slds.build(sldVacDon);
   //Sliders in the modal(popup) for donation of ventilators
   const sldVenDon = otherTeams.map(elem => {
-    const callback = callbackGenerator(`slVenDon${elem}`, 'lblInvVen', 'lVenDon', 'lVenAvl');
+    const callback = callbackGenerator(`slVenDon${elem}`, 'lblInvVen', 'lVenDon', 'lRemainingVen');
     const sliderObject = {
       'sliderId': `slVenDon${elem}`,
       'labelId': `lVenDon${elem}`,

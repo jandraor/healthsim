@@ -89,5 +89,12 @@ export const onMessage = (socket) => {
   socket.on('message', payload => {
     console.log(payload);
     templates.player.chatMessage(payload);
-  })
+  });
+}
+
+export const onPlayerDecisions = (socket) => {
+  socket.on('player decisions received', () => {
+    const intPlayer = interfaces.player();
+    intPlayer.disableSimButton();
+  });
 }

@@ -12,7 +12,7 @@ export const html = Handlebars.compile(`
         </div>
         <div class="modal-body" id = 'mdlAntDonBody'>
           <p class = "my-1 text-secondary">Antivirals:
-            <label id = "lAntAvl">0</label> <!-- This should be parameterised -->
+            <label id = "lRemainingAnt">0</label> <!-- This should be parameterised -->
             <label class = "invisible" id = "lblInvAnt"> 10000</label> <!-- This should be parameterised -->
           </p>
         </div>
