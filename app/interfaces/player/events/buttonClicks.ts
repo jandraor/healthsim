@@ -28,43 +28,57 @@ export const submitDecisions = socket => {
     const ventilatorsToBeUsed = parseInt($('#lDepVen').text());;
     const ventilatorsUsageFraction = ventilatorsToBeUsed / availableVentilators;
     //--------------------------------------------------------------------------
+    // Available resources
+    const avlResources = parseInt($('#lblInvFinRes').text());
+    //--------------------------------------------------------------------------
     const vaccinesOrdered = parseInt($('#lOrdVac').text());
     const vacUnitCost = 1;
     const vaccinesOrderedCost = vaccinesOrdered * vacUnitCost;
-    const vaccineBudgetProportion = vaccinesOrderedCost / 100;
+    const vaccineBudgetProportion = vaccinesOrderedCost / avlResources;
     //--------------------------------------------------------------------------
     const antiviralsOrdered = parseInt($('#lOrdAnt').text());
     const antUnitCost = 1;
     const antiviralsOrderedCost = antiviralsOrdered * antUnitCost;
-    const antiviralsBudgetProportion = antiviralsOrderedCost / 100;
+    const antiviralsBudgetProportion = antiviralsOrderedCost / avlResources;
     //--------------------------------------------------------------------------
     const ventilatorsOrdered = parseInt($('#lOrdVen').text());
     const venUnitCost = 1;
     const ventilatorsOrderedCost = ventilatorsOrdered * venUnitCost;
-    const ventilatorsBudgetProportion = ventilatorsOrderedCost / 100;
+    const ventilatorsBudgetProportion = ventilatorsOrderedCost / avlResources;
+    //--------------------------------------------------------------------------
     const payload = {
-      'VaccinationPolicy': 0,
-      'AntiviralPolicy': 0,
-      'VentilatorPolicy': 0,
-      'QuarantinePolicy': quarantinePolicy,
-      'VaccineBudgetProportion': vaccineBudgetProportion,
-      'AntiviralBudgetProportion': antiviralsBudgetProportion,
-      'VentilatorBudgetProportion': ventilatorsBudgetProportion,
-      'ResourcesDonated': 0,
-      'ResourcesReceived': 0,
-      'VaccinesShared': 0,
-      'VaccinesOrdered': vaccinesOrdered,
-      'VaccineUsageFraction': vaccineUsageFraction,
-      'VaccinesReceived': 0,
-      'AntiviralsShared': 0,
-      'AntiviralsOrdered': antiviralsOrdered,
-      'AntiviralsUsageFraction': antiviralsUsageFraction,
-      'AntiviralsReceived': 0,
-      'VentilatorsShared': 0,
-      'VentilatorsOrdered': ventilatorsOrdered,
-      'VentilatorsUsageFraction': ventilatorsUsageFraction,
-      'VentilatorsReceived': 0
+      'deployment': {
+        'VaccinationPolicy': 0,
+        'AntiviralPolicy': 0,
+        'VentilatorPolicy': 0,
+        'QuarantinePolicy': quarantinePolicy,
+        'VaccineBudgetProportion': vaccineBudgetProportion,
+        'AntiviralBudgetProportion': antiviralsBudgetProportion,
+        'VentilatorBudgetProportion': ventilatorsBudgetProportion,
+        'VaccinesOrdered': vaccinesOrdered,
+        'VaccineUsageFraction': vaccineUsageFraction,
+        'AntiviralsOrdered': antiviralsOrdered,
+        'AntiviralsUsageFraction': antiviralsUsageFraction,
+        'VentilatorsOrdered': ventilatorsOrdered,
+        'VentilatorsUsageFraction': ventilatorsUsageFraction,
+      },
+      'donations': {
+        'financialResources': donationObjectGenerator('lFinDon'),
+        'vaccines': donationObjectGenerator('lVacDon'),
+        'antivirals': donationObjectGenerator('lAntDon'),
+        'ventilators': donationObjectGenerator('lVenDon'),
+      }
     }
     gameEvents.playerEmitters.sendDecisions(socket, payload);
   });
+}
+
+const donationObjectGenerator = labelClass => {
+  const resourcesDonated = {};
+  $(`.${labelClass}`).each(function() {
+    const donationValue = parseInt($(`#${this.id}`).text());
+    const receivingTeam = this.id.replace(labelClass, "");
+    resourcesDonated[receivingTeam] = donationValue;
+  });
+  return resourcesDonated;
 }
