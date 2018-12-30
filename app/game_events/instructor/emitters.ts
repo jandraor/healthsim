@@ -12,10 +12,6 @@ export const sendMessage = (socket, payload) => {
   socket.emit('message', payload);
 }
 
-export const setInitConditions = (socket, payload) => {
-  socket.emit('set initial conditions', payload);
-}
-
 export const simulate = (socket, payload) => {
   socket.emit('simulate', payload);
 }

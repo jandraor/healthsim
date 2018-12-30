@@ -13,7 +13,6 @@ export const clickStartGame = (socket) => {
         const population = parseInt(popSelection);
         const infected = ($(`#cbInfected-${teamName}`).is(":checked")) ? 1 : 0;
         const income = $(`#selIncSize-${teamName}`).val();
-        //Must validate popSelection & income;
         const team = {
           'Number': teamNumber,
           'Name': $(`#${this.id}`).find('.card-header').text().trim(),
@@ -27,27 +26,20 @@ export const clickStartGame = (socket) => {
         initConditions.push(team);
       });
       const nRounds = parseInt($('#lRounds').text());
+      const [view, ...params] = window.location.hash.split('/');
+      const gameId = params[0];
       const payload = {
+        'gameId': gameId,
         'rounds': nRounds,
         'initConditions': initConditions,
       }
-      gameEvents.instructorEmitters.setInitConditions(socket, payload);
-      const [view, ...params] = window.location.hash.split('/');
-      const gameId = params[0];
-      const startGamePayload = {
-        'gameId': gameId,
-        'rounds': nRounds
-      }
-      gameEvents.instructorEmitters.startGame(socket, startGamePayload);
+      gameEvents.instructorEmitters.startGame(socket, payload);
     }
     if(validation > -1) {
       $('.needs-validation').submit().attr('class', 'was-validated');
     }
   });
 }
-
-
-
 
 export const clickSendMessage = (socket) =>{
   $('#bSendMessage').click(() => {
@@ -68,7 +60,11 @@ export const pressAnyKey = () => {
     }
   });
 }
-
+/**
+ * Checks for empty values in population & income selects.
+ * Returns -1 if there are empty selections
+ * Returns 0 or higher if there are no empty selections
+ */
 const validateInputs = () => {
   const popSizes = [];
   $('.selPopSize').each(function(){

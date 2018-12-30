@@ -78,13 +78,6 @@ const socketConfig = (server) => {
       io.to(socket.room).emit('message', payload);
     });
 
-    socket.on('set initial conditions', payload => {
-      console.log('=========initial conditions payload=======================');
-      console.log(payload)
-      console.log('==========================================================');
-      instructor.setInitConditions(payload);
-    });
-
     socket.on('simulate', payload => {
       console.log('=========simulate conditions payload=======================');
       console.log(payload)

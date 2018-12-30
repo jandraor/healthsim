@@ -1,4 +1,4 @@
-import * as Handlebars from '../../../../node_modules/handlebars/dist/handlebars.js';
+import * as Handlebars from '../../../../../node_modules/handlebars/dist/handlebars.js';
 
 export const html = Handlebars.compile(`
   <div class="modal fade" id="mdlAntDon" tabindex="-1" role="dialog" aria-labelledby="mdlAntDonLabel" aria-hidden="true">

@@ -24,9 +24,6 @@ export const emitters = {
   'sendMessage': (socket, payload) => {
     emtr.sendMessage(socket, payload);
   },
-  'setInitConditions': (socket, payload) => {
-    emtr.setInitConditions(socket, payload);
-  },
   'simulate': (socket, payload) => {
     emtr.simulate(socket, payload);
   },

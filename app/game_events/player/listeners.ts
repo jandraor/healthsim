@@ -77,11 +77,7 @@ export const onGameStarted = socket => {
     console.log(payload);
     templates.player.gameInterface(payload);
     const intPlayer = interfaces.player();
-    // Must update to make only one funcion-------------------------------------
-    //intPlayer.clickSendMessage(socket);
-    //intPlayer.pressAnyKey();
     intPlayer.buildGameInterface(socket, payload);
-    //--------------------------------------------------------------------------
   });
 }
 

@@ -43,9 +43,6 @@ export const instructorEmitters = {
   'sendMessage': (socket, payload) => {
     instructor.emitters.sendMessage(socket, payload);
   },
-  'setInitConditions': (socket, payload) => {
-    instructor.emitters.setInitConditions(socket, payload);
-  },
   'simulate': (socket, payload) => {
     instructor.emitters.simulate(socket, payload);
   },

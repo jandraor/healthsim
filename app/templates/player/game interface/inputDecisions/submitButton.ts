@@ -1,4 +1,4 @@
-import * as Handlebars from '../../../../node_modules/handlebars/dist/handlebars.js';
+import * as Handlebars from '../../../../../node_modules/handlebars/dist/handlebars.js';
 
 export const html = Handlebars.compile(`
   <div id = "divSubmitButton" class = "d-block my-3">
