@@ -12,13 +12,12 @@ export const html = Handlebars.compile(`
         </div>
         <div class="modal-body" id = 'mdlAntDonBody'>
           <p class = "my-1 text-secondary">Antivirals:
-            <label id = "lRemainingAnt">0</label> <!-- This should be parameterised -->
-            <label class = "invisible" id = "lblInvAnt"> 10000</label> <!-- This should be parameterised -->
+            <label id = "lRemainingAnt">{{antiviralsAvailable}}</label>
+            <label class = "invisible" id = "lblInvAnt">{{antiviralsAvailable}}</label>
           </p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Confirm</button>
         </div>
       </div>
     </div>

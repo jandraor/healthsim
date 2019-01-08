@@ -1,5 +1,5 @@
-import * as clicks from "./buttonClicks.ts"
+import * as clicks from "./clicks/main.ts"
 
 export const add = socket => {
-  clicks.submitDecisions(socket);
+  clicks.add(socket);
 }

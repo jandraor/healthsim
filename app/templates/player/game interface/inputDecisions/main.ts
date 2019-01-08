@@ -17,35 +17,17 @@ export const build = options => {
   $('#divRowIpt0').append(submitButtonHtml);
   const inputsR0Html = iptR0.html();
   $('#divRowIpt0').append(inputsR0Html);
+  //============================================================================
   //Antivirals
-  const antiviralsAvailable = options.resources.antivirals;
-  const inputDeploy1Html = iptDep1.html({antiviralsAvailable});
-  $('#divDeploy').append(inputDeploy1Html);
-  //Vaccines
-  const vaccinesAvailable = options.resources.vaccines;
-  const inputDeploy2Html = iptDep2.html({vaccinesAvailable});
-  $('#divDeploy').append(inputDeploy2Html);
-  //Ventilators
-  const ventilatorsAvailable = options.resources.ventilators;
-  const inputDeploy3Html = iptDep3.html({ventilatorsAvailable});
-  $('#divDeploy').append(inputDeploy3Html);
-  const inputFinancialHtml = iptFin.html();
-  $('#divFinance').append(inputFinancialHtml);
-  //Modals
-  const modalAntiViralDonationsHtml = mdlAntDon.html();
+  //============================================================================
+  const antiviralsAvailable = Math.floor(options.resources.antivirals);
+  //Modal
+  const modalAntiViralDonationsHtml = mdlAntDon.html({antiviralsAvailable});
   $('body').prepend(modalAntiViralDonationsHtml);
-  const modalVaccineDonationsHtml = mdlVacDon.html();
-  $('body').prepend(modalVaccineDonationsHtml);
-  const modalVentilatorDonationsHtml = mdlVenDon.html();
-  $('body').prepend(modalVentilatorDonationsHtml);
-  const modalFinancialDonationsHtml = mdlFinDon.html();
-  $('body').prepend(modalFinancialDonationsHtml);
-  //Label in modal with id = mdlAntDonBody
-  $('#lRemainingAnt').text('10000'); // this must change
   otherTeams.forEach(elem => {
     const options = {
       'name': elem,
-      'max': 10000,
+      'max': antiviralsAvailable,
       'labelClass': 'lAntDon',
       'labelName': `lAntDon${elem}`,
       'sliderClass': 'slAntDon',
@@ -54,12 +36,20 @@ export const build = options => {
     const inputTeamHtml = iptTm.html({options});
     $('#mdlAntDonBody').append(inputTeamHtml);
   });
-  //Label in modal with id = mdlVacDonBody
-  $('#lRemainingVac').text('10000'); //this must change
+  //Inputs in main screen
+  const inputDeploy1Html = iptDep1.html({antiviralsAvailable});
+  $('#divDeploy').append(inputDeploy1Html);
+  //============================================================================
+  //Vaccines
+  //============================================================================
+  const vaccinesAvailable = Math.floor(options.resources.vaccines);
+  //Modal
+  const modalVaccineDonationsHtml = mdlVacDon.html({vaccinesAvailable});
+  $('body').prepend(modalVaccineDonationsHtml);
   otherTeams.forEach(elem => {
     const options = {
       'name': elem,
-      'max': 10000,
+      'max': vaccinesAvailable,
       'labelClass': 'lVacDon',
       'labelName': `lVacDon${elem}`,
       'sliderClass': 'slVacDon',
@@ -68,12 +58,20 @@ export const build = options => {
     const inputTeamHtml = iptTm.html({options});
     $('#mdlVacDonBody').append(inputTeamHtml);
   });
-  //Label in modal with id = mdlVenDonBody
-  $('#lRemainingVen').text('10000'); //this must change
+  //Inputs in main screen
+  const inputDeploy2Html = iptDep2.html({vaccinesAvailable});
+  $('#divDeploy').append(inputDeploy2Html);
+  //============================================================================
+  //Ventilators
+  //============================================================================
+  const ventilatorsAvailable = Math.floor(options.resources.ventilators);
+  //Modal
+  const modalVentilatorDonationsHtml = mdlVenDon.html({ventilatorsAvailable});
+  $('body').prepend(modalVentilatorDonationsHtml);
   otherTeams.forEach(elem => {
     const options = {
       'name': elem,
-      'max': 10000,
+      'max': ventilatorsAvailable,
       'labelClass': 'lVenDon',
       'labelName': `lVenDon${elem}`,
       'sliderClass': 'slVenDon',
@@ -82,6 +80,14 @@ export const build = options => {
     const inputTeamHtml = iptTm.html({options});
     $('#mdlVenDonBody').append(inputTeamHtml);
   });
+  //Inputs in main screen
+  const inputDeploy3Html = iptDep3.html({ventilatorsAvailable});
+  $('#divDeploy').append(inputDeploy3Html);
+  //Financial resources
+  const inputFinancialHtml = iptFin.html();
+  $('#divFinance').append(inputFinancialHtml);
+  const modalFinancialDonationsHtml = mdlFinDon.html();
+  $('body').prepend(modalFinancialDonationsHtml);
   //Label in modal with id = mdlFinDonBody
   $('#lFinAvl').text('10000'); //this should change
   otherTeams.forEach(elem => {

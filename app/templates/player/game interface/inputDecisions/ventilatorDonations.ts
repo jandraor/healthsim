@@ -12,8 +12,8 @@ export const html = Handlebars.compile(`
         </div>
         <div class="modal-body" id = 'mdlVenDonBody'>
           <p class = "my-1 text-secondary">Antivirals:
-            <label id = "lRemainingVen">0</label> <!-- This should be parameterised -->
-            <label class = "invisible" id = "lblInvVen"> 10000</label> <!-- This should be parameterised -->
+            <label id = "lRemainingVen">{{ventilatorsAvailable}}</label>
+            <label class = "invisible" id = "lblInvVen">{{ventilatorsAvailable}}</label>
           </p>
         </div>
         <div class="modal-footer">

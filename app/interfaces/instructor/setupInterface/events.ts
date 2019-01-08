@@ -3,6 +3,7 @@ const $ = require('jquery');
 
 export const clickStartGame = (socket) => {
   $('#bStartGame').click(() => {
+    $('#bStartGame').html('<i class="fa fa-spinner fa-spin"></i>');
     const validation = validateInputs();
     if(validation === -1) {
       const initConditions = [];

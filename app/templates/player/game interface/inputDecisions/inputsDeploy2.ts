@@ -13,9 +13,11 @@ export const html = Handlebars.compile(`
     <input id = "slDepVac" data-slider-id='deploy-vaccines-slider'
       type = "text" data-slider-min = "0" data-slider-max = "{{vaccinesAvailable}}"
       data-slider-step = "1" data-slider-value = "0" />
-      <span class = "mx-2 text-secondary">{{vaccinesAvailable}}</span>
+      <span class = "mx-2 text-secondary" id = "lslDepVacMax">{{vaccinesAvailable}}</span>
       <p class = "py-3">
-        To donate: 0 <button class ="btn btn-outline-secondary btn-sm ml-2" data-toggle="modal" data-target="#mdlVacDon">...</button>
+        To donate: <span id = "lVacTotalDon">0</span>
+        <button class ="btn btn-outline-secondary btn-sm ml-2"
+          data-toggle="modal" data-target="#mdlVacDon">...</button>
       </p>
   </div>
 `);

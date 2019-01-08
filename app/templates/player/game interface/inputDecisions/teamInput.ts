@@ -11,6 +11,6 @@ export const html = Handlebars.compile(`
       data-slider-id='{{options.name}}-AntDon-slider'
       type = "text" data-slider-min = "0" data-slider-max = "{{options.max}}"
       data-slider-step = "1" data-slider-value = "0" />
-    <span class = "mx-2 text-secondary">{{options.max}}</span>
+    <span class = "mx-2 text-secondary" id = "l{{options.sliderName}}Max">{{options.max}}</span>
   </div>
 `);
