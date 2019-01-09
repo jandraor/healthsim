@@ -85,23 +85,30 @@ export const build = options => {
   const inputDeploy3Html = iptDep3.html({ventilatorsAvailable});
   $('#divDeploy').append(inputDeploy3Html);
   //Financial resources
-  const inputFinancialHtml = iptFin.html();
+  const finResources = Math.floor(options.resources.financial);
+  const inputFinancialHtml = iptFin.html({finResources});
   $('#divFinance').append(inputFinancialHtml);
+  const antiviralsCost = Math.round(options.unitCosts.antivirals);
+  const vaccineCost = Math.round(options.unitCosts.vaccines);
+  const ventilatorCost = Math.round(options.unitCosts.ventilators);
   const paramsObject = [
     {
       'resourceName': 'Antivirals',
       'idResource': 'Ant',
-      'costUnit': 0.5,
+      'costUnit': antiviralsCost,
+      'max': Math.floor(finResources / antiviralsCost),
     },
     {
       'resourceName': 'Vaccines',
       'idResource': 'Vac',
-      'costUnit': 0.1,
+      'costUnit': vaccineCost,
+      'max': Math.floor(finResources / vaccineCost),
     },
     {
       'resourceName': 'Ventilators',
       'idResource': 'Ven',
-      'costUnit': 0.2,
+      'costUnit': ventilatorCost,
+      'max': Math.floor(finResources / ventilatorCost),
     },
   ];
   paramsObject.map(params => {

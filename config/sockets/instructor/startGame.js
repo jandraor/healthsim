@@ -48,13 +48,26 @@ const startGame = (socket, gameCollection, io, payload) => {
       const otherTeams = teamNames.filter(elem2 => {
         return elem2 != recipientTeam;
       });
+
+      const teamData = initValues.filter(dataRow => {
+        return dataRow.Name === recipientTeam;
+      });
+
+      console.log(teamData);
+
       const playerPayload = {
         'yourTeam': recipientTeam,
         'otherTeams': otherTeams,
         'resources': {
-          'antivirals': initValues[`${recipientTeam}_AVR_AVS`][0],
-          'vaccines': initValues[`${recipientTeam}_VAC_VS`][0],
-          'ventilators': initValues[`${recipientTeam}_VEN_VS`][0],
+          'antivirals': teamData[0].InitAntiviralStockpile,
+          'vaccines': teamData[0].InitVaccineStockpile,
+          'ventilators': teamData[0].InitVentilatorStockpile,
+          'financial': teamData[0].InitialFinancialResources,
+        },
+        'unitCosts': {
+          'antivirals': teamData[0].AntiviralCostPerUnit,
+          'vaccines': teamData[0].VaccineCostPerUnit,
+          'ventilators': teamData[0].VentilatorCostPerUnit,
         }
       }
       console.log('==========================Object teams======================');

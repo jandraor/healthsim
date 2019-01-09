@@ -4,7 +4,8 @@ export const html = Handlebars.compile(`
   <div>
     <p class = "my-1 text-secondary">
       Financial resources: $
-      <label id = "lFinRes">100</label>
+      <label id = "lFinRes">{{finResources}}</label>
+      <span class = "d-none" id = "lblInvFinRes">{{finResources}}</span>
     </p>
     <h5>Orders</h5>
     <div id = "divOrders"></div>

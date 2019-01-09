@@ -25,4 +25,4 @@ sim_data <- initialise(g_auxs,ALPHA = 1)
 sim_data$g_final_stocks <- sim_data$g_stocks
 
 write_sim_data(sim_data, CURRENT_DIR)
-toJSON(as.list(sim_data$g_final_stocks))
+toJSON(sim_data$g_countries)

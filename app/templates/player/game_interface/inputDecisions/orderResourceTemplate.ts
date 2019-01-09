@@ -19,10 +19,10 @@ export const html = Handlebars.compile(`
       <span class = "text-secondary">Order: </span>
       <label class = "lOrd" id = "lOrd{{params.idResource}}">0</label> units
     </p>
-    <span class = "mx-2 text-secondary"> 0 </span>
+    <span class = "mx-2 text-secondary small"> 0 </span>
     <input class = "slOrd" id = "slOrd{{params.idResource}}" data-slider-id='slider-orders-{{params.resourceName}}'
-      type = "text" data-slider-min = "0" data-slider-max = "100"
+      type = "text" data-slider-min = "0" data-slider-max = "{{params.max}}"
       data-slider-step = "1" data-slider-value = "0" />
-    <span class = "mx-2 text-secondary"> 100 </span>
+    <span class = "mx-2 text-secondary small">{{params.max}}</span>
   </div>
 `)
