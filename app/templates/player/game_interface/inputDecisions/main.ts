@@ -10,6 +10,7 @@ import * as mdlVacDon from './vaccineDonations.ts';
 import * as mdlVenDon from './ventilatorDonations.ts';
 import * as mdlFinDon from './financialDonations.ts';
 import * as iptTm from './teamInput.ts';
+import * as orderTemplate from './orderResourceTemplate.ts'
 
 export const build = options => {
   const otherTeams = options.otherTeams;
@@ -86,6 +87,28 @@ export const build = options => {
   //Financial resources
   const inputFinancialHtml = iptFin.html();
   $('#divFinance').append(inputFinancialHtml);
+  const paramsObject = [
+    {
+      'resourceName': 'Antivirals',
+      'idResource': 'Ant',
+      'costUnit': 0.5,
+    },
+    {
+      'resourceName': 'Vaccines',
+      'idResource': 'Vac',
+      'costUnit': 0.1,
+    },
+    {
+      'resourceName': 'Ventilators',
+      'idResource': 'Ven',
+      'costUnit': 0.2,
+    },
+  ];
+  paramsObject.map(params => {
+    const orderTemplateHtml = orderTemplate.html({params});
+    $('#divOrders').append(orderTemplateHtml);
+  })
+  //Modal
   const modalFinancialDonationsHtml = mdlFinDon.html();
   $('body').prepend(modalFinancialDonationsHtml);
   //Label in modal with id = mdlFinDonBody
