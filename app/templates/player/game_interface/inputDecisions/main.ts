@@ -84,7 +84,9 @@ export const build = options => {
   //Inputs in main screen
   const inputDeploy3Html = iptDep3.html({ventilatorsAvailable});
   $('#divDeploy').append(inputDeploy3Html);
+  //============================================================================
   //Financial resources
+  //============================================================================
   const finResources = Math.floor(options.resources.financial);
   const inputFinancialHtml = iptFin.html({finResources});
   $('#divFinance').append(inputFinancialHtml);
@@ -116,14 +118,12 @@ export const build = options => {
     $('#divOrders').append(orderTemplateHtml);
   })
   //Modal
-  const modalFinancialDonationsHtml = mdlFinDon.html();
+  const modalFinancialDonationsHtml = mdlFinDon.html({finResources});
   $('body').prepend(modalFinancialDonationsHtml);
-  //Label in modal with id = mdlFinDonBody
-  $('#lFinAvl').text('10000'); //this should change
   otherTeams.forEach(elem => {
     const options = {
       'name': elem,
-      'max': 10000,
+      'max': finResources,
       'labelClass': 'lFinDon',
       'labelName': `lFinDon${elem}`,
       'sliderClass': 'slFinDon',

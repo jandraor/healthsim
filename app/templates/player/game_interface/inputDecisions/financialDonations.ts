@@ -12,13 +12,12 @@ export const html = Handlebars.compile(`
         </div>
         <div class="modal-body" id = 'mdlFinDonBody'>
           <p class = "my-1 text-secondary">Financial resources: $
-            <label id = "lFinAvl">0</label> <!-- This should be parameterised -->
-            <label class = "invisible" id = "lblInvFin2"> 10000</label> <!-- This should be parameterised -->
+            <label class = "lUnallocatedFin" id = "lRemainingFin">{{finResources}}</label>
+            <label class = "invisible" id = "lblInvFin2">{{finResources}}</label>
           </p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Confirm</button>
         </div>
       </div>
     </div>
