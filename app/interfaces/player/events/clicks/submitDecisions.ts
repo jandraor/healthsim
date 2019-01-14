@@ -18,21 +18,18 @@ export const build = socket => {
     const ventilatorsUsageFraction = ventilatorsToBeUsed / availableVentilators;
     //--------------------------------------------------------------------------
     // Available resources
-    const avlResources = parseInt($('#lblInvFinRes').text());
+    const avlResources = parseInt($('#lFunds').text());
     //--------------------------------------------------------------------------
     const vaccinesOrdered = parseInt($('#lOrdVac').text());
-    const vacUnitCost = 1;
-    const vaccinesOrderedCost = vaccinesOrdered * vacUnitCost;
+    const vaccinesOrderedCost = parseInt($('#lTotCostVac').text());
     const vaccineBudgetProportion = vaccinesOrderedCost / avlResources;
     //--------------------------------------------------------------------------
     const antiviralsOrdered = parseInt($('#lOrdAnt').text());
-    const antUnitCost = 1;
-    const antiviralsOrderedCost = antiviralsOrdered * antUnitCost;
+    const antiviralsOrderedCost = parseInt($('#lTotCostAnt').text());
     const antiviralsBudgetProportion = antiviralsOrderedCost / avlResources;
     //--------------------------------------------------------------------------
     const ventilatorsOrdered = parseInt($('#lOrdVen').text());
-    const venUnitCost = 1;
-    const ventilatorsOrderedCost = ventilatorsOrdered * venUnitCost;
+    const ventilatorsOrderedCost = parseInt($('#lTotCostVen').text());
     const ventilatorsBudgetProportion = ventilatorsOrderedCost / avlResources;
     //--------------------------------------------------------------------------
     const payload = {
