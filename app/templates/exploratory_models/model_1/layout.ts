@@ -23,9 +23,11 @@ export const html = Handlebars.compile(`
         <div id = "divTSSF">
           <select id = "selVarSF" class = "pt-2 selectpicker show-tick" data-width="fit">
           </select>
+          <svg id = "svgTSSF"> </svg>
         </div>
         <div id = 'divParTS'>
           <span class = "text-center">Net reproduction number</span>
+          <svg id = "svgTSPar"> </svg>
         </div>
       </div>
       <div id = "auxTS" class = "col-lg-2 col-sm-12">

@@ -5,19 +5,20 @@ import * as tsline from "../../components/tsLine.ts";
 
 export const buildCharts = () => {
   const variableList = [
-    {'name': 'sSusceptible', 'display': 'Susceptible'},
-    {'name': 'sInfected', 'display': 'Infected'},
-    {'name': 'sRecovered', 'display': 'Recovered'},
-    {'name': 'IR', 'display': 'Infection-Rate'},
-    {'name': 'RR', 'display': 'Recovery-Rate'}]
+    {'name': 'Susceptible', 'display': 'Susceptible'},
+    {'name': 'Infected', 'display': 'Infected'},
+    {'name': 'Recovered', 'display': 'Recovered'},
+    {'name': 'Infection-Rate', 'display': 'Infection Rate'},
+    {'name': 'Recovery-Rate', 'display': 'Recovery Rate'}]
 
   for (let i = 0; i < variableList.length; i++) {
     const options = {
       'height': 30,
       'width': 120,
-      'variable': variableList[i].display,
+      'variable': variableList[i].name,
       'tableId': 'tblSparklines',
-      'circleRadius': 2
+      'circleRadius': 2,
+      'display': variableList[i].display,
     }
     sl.drawChart(options);
    }

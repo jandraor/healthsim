@@ -1,12 +1,13 @@
 import * as d3 from 'd3';
 
 /**
- * Add rows of sparkline charts in the auxTS div.
+ * Add rows of sparkline charts to a table.
  * @param {Object} options - Function's parameters.
  * @param {string} options.tableId - Id of the table that contains sparklines.
  * @param {number} options.height - SVG's height.
  * @param {number} options.width - SVG's width.
- * @param {string} options.variable - Variable's display name.
+ * @param {string} options.variable - Variable's name.
+ * @param {string} options.display - Variable's name to be display in the table cell.
  */
 export const drawChart = (options) => {
   const tbody = d3.select(`#${options.tableId}`).select('tbody')
@@ -14,7 +15,7 @@ export const drawChart = (options) => {
                .attr('class', 'py-5')
                .attr('id', `trSL${options.variable}`);
   tr.append('td')
-    .html(`<small>${options.variable}</small>`)
+    .html(`<small>${options.display}</small>`)
     .attr('class', 'border-0 py-2');
 
   const td = tr.append('td').attr('class', 'border-0 py-2');

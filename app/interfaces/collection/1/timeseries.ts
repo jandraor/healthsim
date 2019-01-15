@@ -37,13 +37,10 @@ export const buildCharts = (w, h, padding) => {
     'xmax': 100,
     'ymin': 0,
     'ymax': 8,
-    'w': w,
-    'h': h,
+    'width': w,
+    'height': h,
     'padding': padding,
-    'parentId': 'divTSSF',
     'svgId': 'svgTSSF',
-    'selectId': 'selVarSF',
-    'items': items,
   }
   tsline.drawChart(options);
 
@@ -53,13 +50,10 @@ export const buildCharts = (w, h, padding) => {
     'xmax': 100,
     'ymin': 0,
     'ymax': 8,
-    'w': w,
-    'h': h / 2,
+    'width': w,
+    'height': h / 2,
     'padding': padding,
-    'parentId': 'divParTS',
     'svgId': 'svgTSPar',
-    'selectId': 'selVarSF',
-
   }
   tsline.drawChart(options2);
 

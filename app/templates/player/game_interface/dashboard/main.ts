@@ -1,9 +1,11 @@
 const $ = require('jquery');
+import * as teamInfo from './teamInfo.ts';
+import * as layout from './layout.ts';
 
 export const build = myTeam => {
-  const HtmlMarkup = `
-    <p class = "text-secondary">Team:
-      <span class = "text-dark"  id = "lTeamId">${myTeam}</span>
-    </p>`
-  $('#divDashboard').html(HtmlMarkup);
+  const dashboard = $('#divDashboard');
+  const layoutHtml = layout.html();
+  dashboard.append(layoutHtml);
+  const teamInfoHtml = teamInfo.html({myTeam})
+  $('#divTeamInfo').html(teamInfoHtml);
 }

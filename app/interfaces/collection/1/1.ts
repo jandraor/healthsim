@@ -1,6 +1,6 @@
 const $ = require('jquery');
 import * as d3 from 'd3';
-import * as select from "../../components/select.ts"
+import * as select from "./selects.ts"
 import * as ts from './timeseries.ts';
 import * as sl from './sparklines.ts'
 import * as tables from "../../components/table.ts";
@@ -59,7 +59,7 @@ export const buildInterface = async (modelId, fetchJSON) => {
   tables.drawHorizontalTable(caseStudyData, headers, 'caseStudyTable');
   drawButton.build(caseStudyData,'bDraw');
   sfd.buildStockAndFlow();
-  select.buildSelects();
+  select.build();
   sliders.buildSliders();
   // Insert comment here
   const res = await ut.fetchJSON('/api/user');
