@@ -5,11 +5,11 @@ import * as events from "./events/main.ts";
 import * as dashboard from './dashboard/main.ts';
 
 
-export const buildGameInterface = (socket, teams) => {
+export const buildGameInterface = (socket, initParams) => {
   timers.countdown();
-  sliders.build(teams);
+  sliders.build(initParams);
   events.add(socket);
-  dashboard.build();
+  dashboard.build(initParams);
 }
 
 export const disableSimButton = () => {

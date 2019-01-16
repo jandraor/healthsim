@@ -34,7 +34,7 @@ export const update = results => {
   $('#bSimulate').html('Simulate')
   $('#divHeatMap').html('');
   const stopTime = parseInt($('#lStopTime').text());
-  const simulationTime = d3.range(0, stopTime + 1);
+  const simulationTime = d3.range(0, stopTime + 1); //+ 1 to include last value
 
   let teams = [];
   $(`.tdTeamName`).each(function () {
@@ -43,17 +43,17 @@ export const update = results => {
   });
 
   const yValues = teams.map(teamName => {
-    let valueVector = [];
-    results.forEach(elem => {
-      if(simulationTime.indexOf(elem.time) > -1) {
-        const I1 = parseFloat(elem[`${teamName}_TM_I1`])
-        const I2 = parseFloat(elem[`${teamName}_TM_I2`])
-        const IQ = parseFloat(elem[`${teamName}_TM_IQ`])
-        const IAV = parseFloat(elem[`${teamName}_TM_IAV`])
-        const IS = parseFloat(elem[`${teamName}_TM_IS`])
+    let valueVector = Array(stopTime).fill(NaN);
+    results.forEach(row => {
+      if(simulationTime.indexOf(row.time) > -1) {
+        const I1 = parseFloat(row[`${teamName}_TM_I1`])
+        const I2 = parseFloat(row[`${teamName}_TM_I2`])
+        const IQ = parseFloat(row[`${teamName}_TM_IQ`])
+        const IAV = parseFloat(row[`${teamName}_TM_IAV`])
+        const IS = parseFloat(row[`${teamName}_TM_IS`])
         const infected = I1 + I2 + IQ + IAV + IS
 
-        valueVector.push(infected);
+        valueVector[row.time] = infected;
       }
     })
     return valueVector

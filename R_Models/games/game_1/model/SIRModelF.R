@@ -285,8 +285,8 @@ healthsim_model <- function(time, stocks, auxs){
                                                 time,
                                                 simd$g_sector_names,
                                                 simd$g_countries$VaccineShipmentDelay)
-    cat("VentilatorOrdersArriving@Time = ", time, "\n")
-    print(VentilatorOrdersArriving)
+    # cat("VentilatorOrdersArriving@Time = ", time, "\n")
+    # print(VentilatorOrdersArriving)
     
     
     #Ventilator Spend=Ventilator Orders*Ventilator Cost Per Unit

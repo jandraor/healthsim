@@ -68,6 +68,13 @@ const startGame = (socket, gameCollection, io, payload) => {
           'antivirals': teamData[0].AntiviralCostPerUnit,
           'vaccines': teamData[0].VaccineCostPerUnit,
           'ventilators': teamData[0].VentilatorCostPerUnit,
+        },
+        'infected': {
+          'total': teamData[0].Infected,
+          'nonSevere': teamData[0].Infected,
+          'severe': 0,
+          'quarantine': 0,
+          'antivirals': 0,
         }
       }
       console.log('==========================Object teams======================');

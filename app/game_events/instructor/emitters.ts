@@ -16,10 +16,6 @@ export const simulate = (socket, payload) => {
   socket.emit('simulate', payload);
 }
 
-export const sendPolicyMatrix = (socket, payload) => {
-  socket.emit('create policy matrix', payload);
-}
-
 export const createSession = (socket, name, nTeams) => {
   const payload = {
     'name': name,

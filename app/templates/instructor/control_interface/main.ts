@@ -1,7 +1,7 @@
 const $ = require('jquery');
 import * as layout from './layout.ts';
 import * as prgBar from './progressBar.ts';
-import * as simBut from './simulateButton.ts';
+import * as conBut from './controlButtons.ts';
 import * as tblTms from './teams.ts';
 import * as rowTms from './teamRow.ts';
 import * as chat from './chat.ts';
@@ -16,8 +16,8 @@ export const build = (payload) => {
   $('body').html(layoutHtml);
   const progressBarHtml = prgBar.html();
   $('#divProgress').html(progressBarHtml);
-  const simulateButtonHtml = simBut.html();
-  $('#divSimulateButton').html(simulateButtonHtml);
+  const controlButtonsHtml = conBut.html();
+  $('#divControlButtons').html(controlButtonsHtml);
   const tableTeamsHtml = tblTms.html();
   $('#divTeams').html(tableTeamsHtml);
   teams.map(teamName => {

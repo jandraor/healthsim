@@ -36,7 +36,8 @@ export const drawChart = (options) => {
      .attr("class", "splBackground");
   tr.append('td')
     .text('---')
-    .attr('class', 'tdCurVal border-0 text-right');
+    .attr('class', 'tdCurVal border-0 text-right')
+    .attr('id', `tdCurVal-${options.variable}`);
 }
 
 /**
@@ -113,4 +114,17 @@ export const addOnClickEvent = (svgId, drawline, options) => {
 
       drawline(options);
     });
+}
+
+/**
+ * Sets a value on the current value cell.
+ * @param {string} variable - Variable's name.
+ * @param {number} value - Value to be inserted in the current value cell.
+ */
+export const setInitValue = (variable, value) => {
+  const svg = d3.select(`#svgSL${variable}`)
+  svg.select('path').remove();
+  svg.select('circle').remove();
+  const tdCurVal = d3.select(`#tdCurVal-${variable}`);
+  tdCurVal.text(value);
 }

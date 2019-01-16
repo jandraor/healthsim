@@ -5,7 +5,7 @@ export const html = Handlebars.compile(`
     <div class = "row">
       <div class = "col-3">
         <div id = "divProgress"></div>
-        <div id = "divSimulateButton" class = "d-block my-3"></div>
+        <div id = "divControlButtons" class = "d-block my-3"></div>
         <div class = "my-3 text-secondary">
           <span>Round:</span>
           <span class = 'text-dark' id = 'lCurrentRound'>1</span>

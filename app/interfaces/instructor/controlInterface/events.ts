@@ -1,12 +1,16 @@
 const $ = require('jquery');
 import * as gameEvents from '../../../game_events/main.ts';
 
-export const clickSimulate = (socket) => {
+export const clickSimulate = socket => {
   $('#bSimulate').click(() => {
     $('#bSimulate').html('<i class="fa fa-spinner fa-spin"></i>');
-    const payload = brewPolicyMatrix();
-    gameEvents.instructorEmitters.sendPolicyMatrix(socket, payload);
-    //gameEvents.instructorEmitters.simulate(socket, payload);
+    $('#bSimulate').prop('disabled', true);
+    const payload = {
+      'startTime': 0,
+      'finishTime': 1,
+      'policyMatrix': brewPolicyMatrix(),
+    }
+    gameEvents.instructorEmitters.simulate(socket, payload);
   });
 }
 

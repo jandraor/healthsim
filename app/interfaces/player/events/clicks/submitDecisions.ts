@@ -34,9 +34,9 @@ export const build = socket => {
     //--------------------------------------------------------------------------
     const payload = {
       'deployment': {
-        'VaccinationPolicy': 0,
-        'AntiviralPolicy': 0,
-        'VentilatorPolicy': 0,
+        'VaccinationPolicy': 1,
+        'AntiviralPolicy': 1,
+        'VentilatorPolicy': 1,
         'QuarantinePolicy': quarantinePolicy,
         'VaccineBudgetProportion': vaccineBudgetProportion,
         'AntiviralBudgetProportion': antiviralsBudgetProportion,

@@ -85,14 +85,6 @@ const socketConfig = (server) => {
       instructor.simulate(socket, payload);
     });
 
-    socket.on('create policy matrix', payload => {
-      console.log('=========policy matrix====================================');
-      console.log(payload)
-      console.log('==========================================================');
-      instructor.createPolicyMatrix(payload);
-    });
-
-
     socket.on('disconnect', () => {
       console.log(`User has disconnected`);
     });
