@@ -4,7 +4,6 @@ const createGame = require('./createGame.js');
 const sendGameDetails = require('./sendGameDetails.js');
 const startGame = require('./startGame.js');
 const simulate = require('./simulate.js')
-// const createPolicyMatrix =  require('./createPolicyMatrix.js')
 
 const instructor = {
   'createGame': (socket, gameCollection, data, payload) => {
@@ -16,8 +15,8 @@ const instructor = {
   'startGame': (socket, gameCollection, io, payload) => {
     startGame(socket, gameCollection, io, payload);
   },
-  'simulate': (socket, payload) => {
-    simulate(socket, payload);
+  'simulate': (socket, payload, io, gameCollection) => {
+    simulate(socket, payload, io, gameCollection);
   },
 }
 

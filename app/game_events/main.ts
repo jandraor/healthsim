@@ -46,9 +46,6 @@ export const instructorEmitters = {
   'simulate': (socket, payload) => {
     instructor.emitters.simulate(socket, payload);
   },
-  'sendPolicyMatrix': (socket, payload) => {
-    instructor.emitters.sendPolicyMatrix(socket, payload);
-  },
   'startGame': (socket, payload) => {
     instructor.emitters.startGame(socket, payload);
   },

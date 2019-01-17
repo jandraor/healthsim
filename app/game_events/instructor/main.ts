@@ -18,9 +18,6 @@ export const emitters = {
   'getGameDescription': (socket, gameId) => {
     emtr.getGameDescription(socket, gameId)
   },
-  'sendPolicyMatrix': (socket, payload) => {
-    emtr.sendPolicyMatrix(socket, payload);
-  },
   'sendMessage': (socket, payload) => {
     emtr.sendMessage(socket, payload);
   },

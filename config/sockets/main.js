@@ -82,7 +82,7 @@ const socketConfig = (server) => {
       console.log('=========simulate conditions payload=======================');
       console.log(payload)
       console.log('==========================================================');
-      instructor.simulate(socket, payload);
+      instructor.simulate(socket, payload, io, gameCollection);
     });
 
     socket.on('disconnect', () => {

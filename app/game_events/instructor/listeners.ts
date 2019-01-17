@@ -51,7 +51,7 @@ export const onMessage = (socket) => {
 }
 
 export const onSimulationResults = (socket) => {
-  socket.on('simulation results', payload => {
+  socket.on('simulation result', payload => {
     console.log('simulation results');
     const intInstructor = interfaces.instructor();
     intInstructor.controlInterface.updateDashboard(payload);

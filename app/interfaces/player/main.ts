@@ -15,3 +15,7 @@ export const buildGameInterface = (socket, initParams) => {
 export const disableSimButton = () => {
   $('#bSbmtDcsns').prop('disabled', true);
 }
+
+export const updateDashboard = simulationResult => {
+  dashboard.update(simulationResult);
+}

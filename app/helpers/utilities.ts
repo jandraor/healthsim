@@ -58,3 +58,57 @@ export const showAlert = (message, type = 'danger') => {
   const html = templates.alert({type, message});
   alertsElement.insertAdjacentHTML('beforeend', html);
 };
+
+/**
+ * Returns an array of two-key objects from an array of n-keys object.
+ * @param {Object} dataset - Array of n-keys object.
+ * @param {string} xLabel - The name of variable x.
+ * @param {string|string[]} yLabel - The name of variable y or the names of the variables that compound it.
+ */
+export const create2DDataset = (xLabel, yLabel, dataset) => {
+  const x = dataset.map(d => d[xLabel]);
+  const length = x.length;
+
+  if(typeof(yLabel) === 'string') {
+    const y = dataset.map(d => d[yLabel]);
+
+    const twoDimensionDataset = [];
+    for (let i = 0; i < length; i++) {
+      const temp = {
+        'x' : parseFloat(x[i]),
+        'y' : parseFloat(y[i]),
+      };
+      twoDimensionDataset.push(temp);
+    }
+    return twoDimensionDataset;
+  }
+
+  if(Array.isArray(yLabel)) {
+    const twoDimensionDataset = [];
+
+    const y = dataset.map(row => {
+      const filteredRow = Object.keys(row)
+        .filter(variableName => yLabel.includes(variableName))
+        .reduce((obj, variableName) => {
+          obj[variableName] = row[variableName];
+          return obj
+        }, {});
+
+      const sum = Object.keys(filteredRow)
+        .reduce((sum, key) => {
+          return (sum + parseFloat(filteredRow[key]))
+        }, 0);
+      return sum;
+
+    });
+
+    for (let i = 0; i < length; i++) {
+      const temp = {
+        'x' : x[i],
+        'y' : y[i]
+      };
+      twoDimensionDataset.push(temp);
+    }
+    return twoDimensionDataset;
+  }
+}

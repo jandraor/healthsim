@@ -1,7 +1,7 @@
 const $ = require('jquery');
 import * as d3 from 'd3';
 import * as templates from '../../templates/main.ts'
-import * as interfaces from '../../interfaces/interfaces.ts'
+import * as interfaces from '../../interfaces/interfaces.ts';
 
 export const listAvailableGames = (socket) => {
   socket.on('available games sent', (gamesObject) => {
@@ -73,24 +73,28 @@ export const onPlayerAdded = (socket)=> {
 
 export const onGameStarted = socket => {
   socket.on('game started', payload => {
-    console.log('received message: game started');
-    console.log(payload);
     templates.player.gameInterface(payload);
     const intPlayer = interfaces.player();
     intPlayer.buildGameInterface(socket, payload);
   });
 }
 
-export const onMessage = (socket) => {
+export const onMessage = socket => {
   socket.on('message', payload => {
-    console.log(payload);
     templates.player.chatMessage(payload);
   });
 }
 
-export const onPlayerDecisions = (socket) => {
+export const onPlayerDecisions = socket => {
   socket.on('player decisions received', () => {
     const intPlayer = interfaces.player();
     intPlayer.disableSimButton();
+  });
+}
+
+export const onSimulationResults = socket => {
+  socket.on('simulation result', payload => {
+    const intPlayer = interfaces.player();
+    intPlayer.updateDashboard(payload);
   });
 }

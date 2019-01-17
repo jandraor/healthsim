@@ -1,7 +1,7 @@
 import * as d3 from 'd3';
 
 /**
- * Add rows of sparkline charts to a table.
+ * Add a row of sparkline chart to a table.
  * @param {Object} options - Function's parameters.
  * @param {string} options.tableId - Id of the table that contains sparklines.
  * @param {number} options.height - SVG's height.
@@ -40,11 +40,16 @@ export const drawChart = (options) => {
     .attr('id', `tdCurVal-${options.variable}`);
 }
 
-/**
- *options is a JSON object that must have parentId, height, width,
- * padding, dataset, variable, svgId, duration, delay
- *padding paramater must be a JSON object with top, bottom,left and right
- */
+ /**
+  * Draws a sparkline on a existing table row.
+  * @param {Object} options - Function's parameters.
+  * @param {string} options.variable - Name of the variable. There must exist an SVG with id = `svgSl'variable'`
+  * @param {Object[]} options.dataset - Array of two-key objects. Keys are x & y.
+  * @param {number} options.stopTime - Max time for an entire run or last step in a run.
+  * @param {number} options.radius - Length of circle's radius in the sparkline.
+  * @param {number} options.duration - Duration of sparkline's animation.
+  * @param {number} options.delay - Time to start animation.
+  */
 export const createSparkline = options => {
   const svg = d3.select(`#svgSL${options.variable}`);
   const rectWidth = parseFloat(svg.select('rect').attr('width'));
@@ -69,8 +74,6 @@ export const createSparkline = options => {
                  .attr('d', sparkline);
 
   const totalLength = path.node().getTotalLength();
-
-
 
   path.attr("stroke-dasharray", totalLength + " " + totalLength)
     .attr("stroke-dashoffset", totalLength)
