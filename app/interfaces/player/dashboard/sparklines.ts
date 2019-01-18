@@ -6,7 +6,7 @@ import * as ut from '../../../helpers/utilities.ts'
 const infectedVarsObj = [
   {
     'variable': 'TotalInfected',
-    'RName': '_TotalInfected',
+    'RName': ['_TM_I1', '_TM_I2', '_TM_IS', '_TM_IQ', '_TM_IAV'],
     'display': 'Total Infected'
   },
   {
@@ -29,6 +29,29 @@ const infectedVarsObj = [
     'RName': '_TM_IAV',
     'display': 'Infected in antivirals'
   }
+];
+
+const resourcesObj = [
+  {
+    'variable': 'FinancialResources',
+    'RName':'_FM_R',
+    'display': 'Financial resources'
+  },
+  {
+    'variable': 'Antivirals',
+    'RName':'_AVR_AVS',
+    'display': 'Antivirals'
+  },
+  {
+    'variable': 'Vaccines',
+    'RName':'_VAC_VS',
+    'display': 'Vaccines'
+  },
+  {
+    'variable': 'Ventilators',
+    'RName':'_VEN_VS',
+    'display': 'Ventilators'
+  },
 ]
 
 
@@ -138,8 +161,32 @@ export const draw = simulationResults => {
         return `${team}${variable}`
       })
     }
-    console.log('yVariable');
-    console.log(yVariable);
+    
+    const dataset = ut.create2DDataset('time', yVariable, simulationResults);
+
+    const options = {
+      'variable': variableObj.variable,
+      'dataset': dataset,
+      'stopTime': stopTime,
+      'radius': 2,
+      'duration': 1000,
+      'delay': 1,
+    };
+    sl.createSparkline(options);
+  })
+
+  resourcesObj.forEach(variableObj => {
+    let yVariable;
+
+    if(typeof(variableObj.RName) === 'string') {
+      yVariable = `${team}${variableObj.RName}`;
+    }
+
+    if(Array.isArray(variableObj.RName)) {
+      yVariable = variableObj.RName.map(variable => {
+        return `${team}${variable}`
+      })
+    }
 
     const dataset = ut.create2DDataset('time', yVariable, simulationResults);
 
