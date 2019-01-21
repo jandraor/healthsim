@@ -89,15 +89,14 @@ export const build = (model_id, fetchJSON)  => {
       tsDataset.push(twoDimensionDataset)
 
       const options = {
-        'dataset': tsDataset,
+        'superDataset': tsDataset,
         'svgId': "svgTSPar",
         'padding': padding,
-        'w': w,
-        'h': h / 2,
         'finishTime': finishTime,
         'lineDuration': 2000,
         'idLine': 'parLine',
         'classLine': 'tsLine tsPar',
+        'tooltip': true,
       }
       tsline.drawLine(options);
       //Sparklines

@@ -14,4 +14,5 @@ export const build = initParams => {
 
 export const update = simulationResult => {
   sparklines.draw(simulationResult);
+  timeseries.draw(simulationResult);
 }

@@ -12,7 +12,6 @@ export const buildSelects = () => {
  * @param {string} params.selectId - Id of the select which options will be added.
  */
 export const addOptions = params => {
-  console.log(params.items);
   $.each(params.items, function (i, item) {
     $(`#${params.selectId}`).append($('<option>', {
         value: item.value,
@@ -21,8 +20,8 @@ export const addOptions = params => {
   });
 }
 
-export const buildGroup = selectClass => {
-  $(`.${selectClass}`).each(function() {
+export const buildGroup = divId => {
+  $(`#${divId} .selectpicker`).each(function() {
     $(this).selectpicker();
   })
 }

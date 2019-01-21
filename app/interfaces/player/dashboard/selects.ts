@@ -1,30 +1,26 @@
-import * as select from "../../components/select.ts"
+import * as select from "../../components/select.ts";
+import * as data from "./data.ts";
 
 export const build = () => {
-  const paramsObject = [
-    {
-      'items': [
-        {'value': 'sInfected', 'text': 'Total Infected'},
-        {'value': 'sInfected', 'text': 'Non-severe Infected'},
-        {'value': 'sRecovered', 'text': 'Severe infected'},
-        {'value': 'IR', 'text': 'Infected in quarantine'},
-        {'value': 'RR', 'text': 'Infected in antivirals'}
-      ],
-      'selectId': 'selTSInfected',
-    },
-    {
-      'items': [
-        {'value': 'sResources', 'text': 'Financial resources'},
-        {'value': 'sAnt', 'text': 'Antivirals'},
-        {'value': 'sVac', 'text': 'Vaccines'},
-        {'value': 'sVen', 'text': 'Ventilators'},
-      ],
-      'selectId': 'selTSResources'
+  const paramsObject = data.sections.map(section => {
+    const items = section.variables.map(variable => {
+      const variableObject = {
+        'value': variable.id,
+        'text': variable.display
+      }
+      return variableObject
+    })
+
+    const params = {
+      'items': items,
+      'selectId': `selTS${section.id}`
     }
-  ]
+
+    return params;
+  });
 
   paramsObject.forEach(params => {
     select.addOptions(params);
   });
-  select.buildGroup('selDashboard');
+  select.buildGroup('divDashboard');
 }

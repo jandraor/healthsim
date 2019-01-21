@@ -1,60 +1,8 @@
 import * as sl from "../../components/sparkline.ts";
 const $ = require('jquery');
 import * as d3 from 'd3';
-import * as ut from '../../../helpers/utilities.ts'
-
-const infectedVarsObj = [
-  {
-    'variable': 'TotalInfected',
-    'RName': ['_TM_I1', '_TM_I2', '_TM_IS', '_TM_IQ', '_TM_IAV'],
-    'display': 'Total Infected'
-  },
-  {
-    'variable': 'NonSevereInfected',
-    'RName': ['_TM_I1', '_TM_I2'],
-    'display': 'Non-severe infected'
-  },
-  {
-    'variable': 'SevereInfected',
-    'RName': '_TM_IS',
-    'display': 'Severe infected',
-  },
-  {
-    'variable': 'QuarantineInfected',
-    'RName': '_TM_IQ',
-    'display': 'Infected in quarantine',
-  },
-  {
-    'variable': 'AntiviralsInfected',
-    'RName': '_TM_IAV',
-    'display': 'Infected in antivirals'
-  }
-];
-
-const resourcesObj = [
-  {
-    'variable': 'FinancialResources',
-    'RName':'_FM_R',
-    'display': 'Financial resources'
-  },
-  {
-    'variable': 'Antivirals',
-    'RName':'_AVR_AVS',
-    'display': 'Antivirals'
-  },
-  {
-    'variable': 'Vaccines',
-    'RName':'_VAC_VS',
-    'display': 'Vaccines'
-  },
-  {
-    'variable': 'Ventilators',
-    'RName':'_VEN_VS',
-    'display': 'Ventilators'
-  },
-]
-
-
+import * as ut from '../../../helpers/utilities.ts';
+import * as data from './data.ts'
 
 export const build = (initParams) => {
   const variableList = [
@@ -149,55 +97,32 @@ export const draw = simulationResults => {
   //----------------------------------------
   const team = $('#lTeamId').text();
   const stopTime = 20;
-  infectedVarsObj.forEach(variableObj => {
-    let yVariable;
 
-    if(typeof(variableObj.RName) === 'string') {
-      yVariable = `${team}${variableObj.RName}`;
-    }
+  data.sections.forEach(sectionObject => {
+    sectionObject.variables.forEach(variableObj => {
 
-    if(Array.isArray(variableObj.RName)) {
-      yVariable = variableObj.RName.map(variable => {
-        return `${team}${variable}`
-      })
-    }
-    
-    const dataset = ut.create2DDataset('time', yVariable, simulationResults);
+      let yVariable;
+      if(typeof(variableObj.RName) === 'string') {
+        yVariable = `${team}${variableObj.RName}`;
+      }
 
-    const options = {
-      'variable': variableObj.variable,
-      'dataset': dataset,
-      'stopTime': stopTime,
-      'radius': 2,
-      'duration': 1000,
-      'delay': 1,
-    };
-    sl.createSparkline(options);
-  })
+      if(Array.isArray(variableObj.RName)) {
+        yVariable = variableObj.RName.map(variable => {
+          return `${team}${variable}`
+        });
+      }
 
-  resourcesObj.forEach(variableObj => {
-    let yVariable;
+      const dataset = ut.create2DDataset('time', yVariable, simulationResults);
 
-    if(typeof(variableObj.RName) === 'string') {
-      yVariable = `${team}${variableObj.RName}`;
-    }
-
-    if(Array.isArray(variableObj.RName)) {
-      yVariable = variableObj.RName.map(variable => {
-        return `${team}${variable}`
-      })
-    }
-
-    const dataset = ut.create2DDataset('time', yVariable, simulationResults);
-
-    const options = {
-      'variable': variableObj.variable,
-      'dataset': dataset,
-      'stopTime': stopTime,
-      'radius': 2,
-      'duration': 1000,
-      'delay': 1,
-    };
-    sl.createSparkline(options);
-  })
+      const options = {
+        'variable': variableObj.id,
+        'dataset': dataset,
+        'stopTime': stopTime,
+        'radius': 2,
+        'duration': 1000,
+        'delay': 1,
+      };
+      sl.createSparkline(options);
+    });
+  });
 }

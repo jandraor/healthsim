@@ -158,7 +158,7 @@ export const build = (model_id, fetchJSON) => {
     }); // Closes OnClick Event
 }
 
-const updateTimeChart = (options) => {
+const updateTimeChart = options => {
   const newDataset = options.newDataset;
   const padding = 40;
   // Extract datasets from the lines in the chart
@@ -200,16 +200,15 @@ const updateTimeChart = (options) => {
   superDataset[superDataset.length - 1] = tsDataset;
 
   const optionsTS = {
-    'dataset': superDataset,
+    'superDataset': superDataset,
     'svgId': options.svgId,
     'padding': padding,
-    'w': options.w,
-    'h': options.h,
     'title': options.title,
     'finishTime': options.stopTime,
     'lineDuration': 0,
     'idLine': options.idLine,
     'classLine': options.classLine,
+    'tooltip': true,
   }
   d3.selectAll(`.${options.tsClass}`).remove();
   tsline.drawLine(optionsTS);

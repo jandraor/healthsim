@@ -30,7 +30,7 @@ export const html = Handlebars.compile(`
   <div class = "row border rounded"  id = "divResources">
     <div class = "col-5" id = "divTSResources">
       <div class = "my-1" id = "divSelResources">
-        <select id = "selTSResources" class = "selectpicker selDashboard show-tick" data-width="fit">
+        <select id = "selTSResources" class = "selDashboard selectpicker show-tick" data-width="fit">
         </select>
       </div>
       <div class = "pt-2 pl-2">

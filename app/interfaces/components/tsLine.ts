@@ -62,12 +62,20 @@ export const drawChart = (options) => {
      .attr('class', 'gTS');
 }
 /**
- * Options is a JSON object with the following properties:
- * padding, w, h, dataset, title, finishTime
+ * Draws a time series line on an existing chart & updates both axis
+ * @param {Object} options - Function's parameters.
+ * @param {string} options.svgId - Id of the svg of the existing chart
+ * @param {Array<Array<Object>>} options.superDataset - A vector of datasets. Each element is a dataset. Each dataset is an array of two-key objects.
+ * @param {number} options.padding - left, top, right & bottom paddings in the svg.
+ * @param {number} options.finishTime - Max time the entire run.
+ * @param {number} options.lineDuration - Animation time of the line.
+ * @param {string} options.idLine - Id of the path element in the DOM.
+ * @param {string} options.classLine - Class of the path element in the DOM.
+ * @param {boolean} options.tooltip - Indicates whether a tooltip will be added to the timeseries line.
  */
-export const drawLine = (options) => {
+export const drawLine = options => {
   const svg = d3.select(`#${options.svgId}`);
-  const superDataset = options.dataset;
+  const superDataset = options.superDataset;
   const extremePoints = ut.findExtremePoints(superDataset);
   const csPoints = svg.selectAll(`.csPoint`); //Case study points
   const nPoints = csPoints.size();
@@ -90,14 +98,16 @@ export const drawLine = (options) => {
   } else {
     ymax = extremePoints.ymax;
   }
+  const width = svg.attr('width');
+  const height = svg.attr('height');
 
   const xScale = d3.scaleLinear()
                    .domain([0, options.finishTime])
-                   .range([0 + options.padding, options.w - options.padding]);
+                   .range([0 + options.padding, width - options.padding]);
 
   const yScale = d3.scaleLinear()
                    .domain([0, ymax])
-                   .range([options.h - options.padding, 0 + options.padding]);
+                   .range([height - options.padding, 0 + options.padding]);
 
   //Define X axis
   const xAxis = d3.axisBottom()
@@ -127,7 +137,9 @@ export const drawLine = (options) => {
       durationTime = options.lineDuration;
       colorLine = 'steelblue';
       classLine = options.classLine + ' lastTS';
-      addToolTip(options.svgId, options.w, options.h, options.padding, xScale, yScale, dataset, options.finishTime);
+      if(options.tooltip === true) {
+        addToolTip(options.svgId, width, height, options.padding, xScale, yScale, dataset, options.finishTime);
+      }
     } else {
       durationTime = 0;
       colorLine = '#cccccc';

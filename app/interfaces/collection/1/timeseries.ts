@@ -10,15 +10,14 @@ export const drawTimeseriesSF = superDataset => {
   const stopTime = parseInt($("#varValueTo").text());
 
   const options = {
-    'dataset': superDataset,
+    'superDataset': superDataset,
     'svgId': "svgTSSF",
     'padding': padding,
-    'w': w,
-    'h': h,
     'finishTime': stopTime,
     'lineDuration': 2000,
     'idLine': 'SFline',
     'classLine': 'tsLine tsSF',
+    'tooltip': true,
   }
   tsline.drawLine(options);
 }
