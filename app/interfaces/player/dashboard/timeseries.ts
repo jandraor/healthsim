@@ -2,6 +2,7 @@ import * as tsline from "../../components/timeseries_line/main.ts";
 import * as ut from '../../../helpers/utilities.ts';
 import * as data from "./data.ts";
 const $ = require('jquery');
+import * as objectQueries from './objectQueries.ts';
 
 export const buildCharts = params => {
   const sections = ['Infected', 'Resources'];
@@ -21,47 +22,36 @@ export const buildCharts = params => {
   });
 }
 
-export const draw = simulationResults => {
+export const drawAll = simulationResults => {
   const team = $('#lTeamId').text();
   $('#divDashboard select').each(function(i) {
     const section = this.id.replace('selTS', '');
-
-    const sectionObject = data.sections.filter(sectionObject => {
-      return sectionObject.id === section;
-    });
-
     const variable = $(this).val();
-
-    const variableObject = sectionObject[0].variables.filter(variableObject => {
-      return variableObject.id === variable;
-    });
-
-    const RName = variableObject[0].RName;
-
-    let yVariable;
-    if(typeof(RName) === 'string') {
-      yVariable = `${team}${RName}`;
-    }
-
-    if(Array.isArray(RName)) {
-      yVariable = RName.map(variable => {
-        return `${team}${variable}`
-      })
-    }
-
+    const yVariable = objectQueries.getRVariables(variable, section, team);
     const dataset = ut.create2DDataset('time', yVariable, simulationResults);
     const superDataset = [dataset];
 
     const params = {
       'svgId': `svgTS${section}`,
       'superDataset': superDataset,
-      'padding': 50,
-      'finishTime': 20,
-      'lineDuration': 2000,
       'idLine': `tsLineInfected${section}`,
-      'classLine': 'tsLine',
-      'tooltip': false,
     }
-    tsline.drawLine(params);
+    draw(params);
   });
+}
+
+export const draw = params => {
+  tsline.clearChart(params.svgId);
+
+  const tsParams = {
+    'svgId': params.svgId,
+    'superDataset': params.superDataset,
+    'padding': 50,
+    'finishTime': 20,
+    'lineDuration': 2000,
+    'idLine': params.idLine,
+    'classLine': 'tsLine',
+    'tooltip': false,
+  }
+  tsline.drawLine(tsParams);
 }

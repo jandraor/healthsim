@@ -10,5 +10,9 @@ export const drawLine = options => {
 }
 
 export const drawLineCaseStudy = options => {
-  
+
+}
+
+export const clearChart = svgId => {
+  chart.clear(svgId);
 }

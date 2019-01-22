@@ -2,6 +2,6 @@ import * as Handlebars from '../../../../../node_modules/handlebars/dist/handleb
 
 export const html = Handlebars.compile(`
   <p class = "text-secondary">Team:
-    <span class = "text-dark"  id = "lTeamId">{{myTeam}}</span>
+    <span class = "text-dark" id = "lTeamId">{{myTeam}}</span>
   </p>
 `);

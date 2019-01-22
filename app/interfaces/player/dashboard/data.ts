@@ -1,3 +1,4 @@
+//This should be replaced by a database
 export const sections = [
   {
     'id': 'Infected',

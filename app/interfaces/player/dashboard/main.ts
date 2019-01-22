@@ -13,6 +13,7 @@ export const build = initParams => {
 }
 
 export const update = simulationResult => {
+  $('#lTeamId').data('data', simulationResult);
   sparklines.draw(simulationResult);
-  timeseries.draw(simulationResult);
+  timeseries.drawAll(simulationResult);
 }

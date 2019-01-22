@@ -59,3 +59,7 @@ export const draw = options => {
   svg.append('g')
      .attr('class', 'gTS');
 }
+
+export const clear = svgId => {
+  d3.select(`#${svgId}`).selectAll('path').remove();
+}
