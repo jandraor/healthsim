@@ -3,6 +3,7 @@ import * as gameEvents from '../../../game_events/main.ts';
 
 export const clickSimulate = socket => {
   $('#bSimulate').click(() => {
+    fillEmptyDecisions();
     $('#bSimulate').html('<i class="fa fa-spinner fa-spin"></i>');
     $('#bSimulate').prop('disabled', true);
     const payload = {
@@ -75,4 +76,50 @@ const calculateReceivedDonations = (team, resourceType) => {
   });
 
   return sumValue;
+}
+
+const zeroDonationObjectGenerator = team => {
+  const zeroDonationObj = {};
+  $(`.tdTeamName`).each(function() {
+    const receivingTeam = this.id.replace('tdTeamName', "");
+    if(team != receivingTeam) {
+      zeroDonationObj[receivingTeam] = 0;
+    }
+  });
+  return zeroDonationObj;
+}
+
+const fillEmptyDecisions = () => {
+  $('.icnDecisions').each(function() {
+    const decisions = $(this).data();
+
+    if($.isEmptyObject(decisions)){
+      const team = this.id.replace('icnDes', "");
+      const zeroDonationsObj = zeroDonationObjectGenerator(team);
+      const fillObject = {
+        'deployment': {
+          'VaccinationPolicy': 0,
+          'AntiviralPolicy': 0,
+          'VentilatorPolicy': 0,
+          'QuarantinePolicy': 0,
+          'VaccineBudgetProportion': 0,
+          'AntiviralBudgetProportion': 0,
+          'VentilatorBudgetProportion': 0,
+          'VaccinesOrdered': 0,
+          'VaccineUsageFraction': 0,
+          'AntiviralsOrdered': 0,
+          'AntiviralsUsageFraction': 0,
+          'VentilatorsOrdered': 0,
+          'VentilatorsUsageFraction': 0,
+        },
+        'donations': {
+          'financialResources': zeroDonationsObj,
+          'vaccines': zeroDonationsObj,
+          'antivirals': zeroDonationsObj,
+          'ventilators': zeroDonationsObj,
+        }
+      }
+      $(this).data(fillObject);
+    }
+  });
 }
