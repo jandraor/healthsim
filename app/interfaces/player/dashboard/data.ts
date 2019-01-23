@@ -2,6 +2,7 @@
 export const sections = [
   {
     'id': 'Infected',
+    'slScale': 'fixed', //sparkline scale
     'variables': [
       {
         'id': 'TotalInfected',
@@ -32,6 +33,7 @@ export const sections = [
   },
   {
     'id': 'Resources',
+    'slScale': 'free',
     'variables': [
       {
         'id': 'FinancialResources',

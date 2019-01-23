@@ -99,8 +99,8 @@ export const draw = simulationResults => {
   const stopTime = 20;
 
   data.sections.forEach(sectionObject => {
-    sectionObject.variables.forEach(variableObj => {
-
+    let superDataset = []; //Used only if scale === 'fixed'
+    const optionsObj = sectionObject.variables.map(variableObj => {
       let yVariable;
       if(typeof(variableObj.RName) === 'string') {
         yVariable = `${team}${variableObj.RName}`;
@@ -113,7 +113,7 @@ export const draw = simulationResults => {
       }
 
       const dataset = ut.create2DDataset('time', yVariable, simulationResults);
-
+      superDataset.push(dataset);
       const options = {
         'variable': variableObj.id,
         'dataset': dataset,
@@ -122,7 +122,18 @@ export const draw = simulationResults => {
         'duration': 1000,
         'delay': 1,
       };
-      sl.createSparkline(options);
+      return options
     });
+
+    optionsObj.forEach(options => {
+      if(sectionObject.slScale === 'fixed') {
+        const limits = ut.findExtremePoints(superDataset);
+        const domain = [limits.ymin, limits.ymax]
+        options['domain'] = domain;
+      }
+      sl.createSparkline(options);
+    })
+
+
   });
 }

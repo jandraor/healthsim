@@ -49,6 +49,7 @@ export const drawChart = (options) => {
   * @param {number} options.radius - Length of circle's radius in the sparkline.
   * @param {number} options.duration - Duration of sparkline's animation.
   * @param {number} options.delay - Time to start animation.
+  * @param {number[]} options.domain - An optional array of length 2 with min & max domains
   */
 export const createSparkline = options => {
   const svg = d3.select(`#svgSL${options.variable}`);
@@ -58,9 +59,15 @@ export const createSparkline = options => {
   const xScale = d3.scaleLinear()
                    .domain([0, options.stopTime])
                    .range([0, rectWidth - options.radius]);
-
+  let domain;
+  if(options.domain) {
+    domain = options.domain;
+  }
+  if(!options.domain) {
+    domain = d3.extent(options.dataset, d => { return d.y});
+  }
   const yScale = d3.scaleLinear()
-                  .domain(d3.extent(options.dataset, d => { return d.y}))
+                  .domain(domain)
                   .range([rectHeight - 2, 0 + 2]);
 
   const sparkline = d3.line()
