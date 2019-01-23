@@ -14,5 +14,5 @@ export const build = () => {
     'selectId': 'selVarSF',
   }
   select.addOptions(params);
-  select.buildGroup('selectpicker');
+  select.buildGroup('divTSSF');
 }
