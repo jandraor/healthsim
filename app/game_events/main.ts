@@ -49,4 +49,7 @@ export const instructorEmitters = {
   'startGame': (socket, payload) => {
     instructor.emitters.startGame(socket, payload);
   },
+  'newRound': (socket) => {
+    instructor.emitters.newRound(socket);
+  }
 }

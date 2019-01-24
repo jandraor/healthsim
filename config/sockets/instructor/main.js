@@ -3,7 +3,8 @@
 const createGame = require('./createGame.js');
 const sendGameDetails = require('./sendGameDetails.js');
 const startGame = require('./startGame.js');
-const simulate = require('./simulate.js')
+const simulate = require('./simulate.js');
+const startNewRound = require('./startNewRound.js');
 
 const instructor = {
   'createGame': (socket, gameCollection, data, payload) => {
@@ -12,11 +13,14 @@ const instructor = {
   'sendGameDetails': (socket, gameCollection, payload) => {
     sendGameDetails(socket, gameCollection, payload);
   },
+  'simulate': (socket, payload, io, gameCollection) => {
+    simulate(socket, payload, io, gameCollection);
+  },
   'startGame': (socket, gameCollection, io, payload) => {
     startGame(socket, gameCollection, io, payload);
   },
-  'simulate': (socket, payload, io, gameCollection) => {
-    simulate(socket, payload, io, gameCollection);
+  'startNewRound': (socket, io) => {
+    startNewRound(socket, io);
   },
 }
 

@@ -13,10 +13,13 @@ export const controlInterface = {
   'build': (socket, payload)=> {
     ctrlInt.build(socket, payload);
   },
-  'updateDashboard': payload => {
-    ctrlInt.updateDashboard(payload);
+  'update': payload => {
+    ctrlInt.update(payload);
   },
   'updateDecisions': payload => {
     ctrlInt.updateDecisions(payload);
+  },
+  'startNewRound': () => {
+    ctrlInt.startNewRound();
   }
 }

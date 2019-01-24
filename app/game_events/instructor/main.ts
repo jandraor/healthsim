@@ -9,6 +9,7 @@ export const listeners = (socket) => {
   lstn.onMessage(socket);
   lstn.onSimulationResults(socket);
   lstn.onPlayerDecisions(socket);
+  lstn.onNewRoundStarted(socket);
 }
 
 export const emitters = {
@@ -27,4 +28,7 @@ export const emitters = {
   'startGame': (socket, payload) => {
     emtr.startGame(socket, payload);
   },
+  'newRound': socket => {
+    emtr.newRound(socket);
+  }
 }

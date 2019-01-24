@@ -23,3 +23,7 @@ export const createSession = (socket, name, nTeams) => {
   }
   socket.emit('create game session', payload);
 }
+
+export const newRound = socket => {
+  socket.emit('start new round');
+}

@@ -2,9 +2,10 @@ import * as domEvents from './events.ts';
 const $ = require('jquery');
 import * as dashboard from './dashboard.ts';
 import * as decisions from './decisions.ts';
+import * as buttons from './buttons/main.ts';
 
 export const build = (socket, payload) => {
-  domEvents.clickSimulate(socket);
+  buttons.clickEvents(socket);
   domEvents.clickSendMessage(socket);
   domEvents.pressAnyKey();
   const identity = {'team': 'instructor'}
@@ -12,10 +13,25 @@ export const build = (socket, payload) => {
   dashboard.build(payload);
 }
 
-export const updateDashboard = payload => {
+export const update = payload => {
   dashboard.update(payload);
+  buttons.newRound.enable();
 }
 
 export const updateDecisions = payload => {
   decisions.update(payload);
+}
+
+export const startNewRound = () => {
+  //Reset timer
+  //Set all status of players to pending decisions(crosses) & let empty its data
+  $('.icnDecisions').each(function() {
+    $(this).removeData();
+    $(this).attr('class', 'fas fa-times icnDecisions');
+  });
+  //Change indicator of current round
+  const currentRound = parseInt($('#lCurrentRound').text());
+  const newRound = currentRound + 1;
+  $('#lCurrentRound').text(newRound);
+  buttons.simulate.enable();
 }

@@ -1,7 +1,7 @@
 const $ = require('jquery');
 import * as gameEvents from '../../../../game_events/main.ts';
 
-export const build = socket => {
+export const onClick = socket => {
   $('#bSbmtDcsns').click(function () {
     const quarantinePolicy = $('#iptQuarantine').is(":checked") ? 1 : 0;
     //--------------------------------------------------------------------------
@@ -67,4 +67,8 @@ const donationObjectGenerator = labelClass => {
     resourcesDonated[receivingTeam] = donationValue;
   });
   return resourcesDonated;
+}
+
+export const enable = ()=> {
+  $('#bSbmtDcsns').prop('disabled', false);
 }

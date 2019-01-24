@@ -63,7 +63,6 @@ export const listAvailableGames = (socket) => {
 
 export const onPlayerAdded = (socket)=> {
   socket.on('player added', () => {
-    console.log('Player has been added');
     $('#playerModal').modal('hide');
     $('#playerModal').on('hidden.bs.modal', e => {
       window.location.hash = '#player';
@@ -95,6 +94,13 @@ export const onPlayerDecisions = socket => {
 export const onSimulationResults = socket => {
   socket.on('simulation result', payload => {
     const intPlayer = interfaces.player();
-    intPlayer.updateDashboard(payload);
+    intPlayer.updateOnResults(payload);
+  });
+}
+
+export const onNewRoundStarted = socket => {
+  socket.on('new round started', () => {
+    const intPlayer = interfaces.player();
+    intPlayer.startNewRound();
   });
 }

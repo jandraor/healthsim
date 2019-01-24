@@ -8,6 +8,7 @@ export const listeners = (socket) => {
   lstn.onMessage(socket);
   lstn.onPlayerDecisions(socket);
   lstn.onSimulationResults(socket);
+  lstn.onNewRoundStarted(socket);
 }
 
 export const emitters = {

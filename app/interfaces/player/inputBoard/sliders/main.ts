@@ -1,4 +1,4 @@
-import * as slds from "../../components/sliders.ts";
+import * as slds from "../../../components/sliders.ts";
 import * as validate from "./checks/main.ts"
 
 export const build = teams => {

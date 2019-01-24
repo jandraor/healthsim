@@ -5,7 +5,6 @@ import * as interfaces from '../../interfaces/interfaces.ts'
 export const onGameCreated = (socket) => {
   socket.on('game created', payload => {
     const gameId = payload.gameId;
-    console.log('The game has been created');
     $('#instructorModal').modal('hide');
     $('#instructorModal').on('hidden.bs.modal', e => {
       window.location.hash = `#instructor/${gameId}`;
@@ -13,17 +12,15 @@ export const onGameCreated = (socket) => {
   });
 }
 
-export const onDescriptionGiven = (socket) => {
+export const onDescriptionGiven = socket => {
   socket.on('game details sent', payload => {
-    console.log('Team names have been sent');
-    console.log(payload);
     templates.instructor.setup(payload);
     const intInstructor = interfaces.instructor();
     intInstructor.setupInterface.build(socket);
   });
 }
 
-export const onPlayerAdded = (socket) => {
+export const onPlayerAdded = socket => {
   socket.on('player added', payload => {
     console.log('Received message: player added');
     console.log(payload);
@@ -31,7 +28,7 @@ export const onPlayerAdded = (socket) => {
   });
 }
 
-export const onGameStarted = (socket) => {
+export const onGameStarted = socket => {
   socket.on('game started', payload => {
     console.log('game has started');
     templates.instructor.controlInterface(payload);
@@ -50,19 +47,24 @@ export const onMessage = (socket) => {
   });
 }
 
-export const onSimulationResults = (socket) => {
+export const onSimulationResults = socket => {
   socket.on('simulation result', payload => {
-    console.log('simulation results');
     const intInstructor = interfaces.instructor();
-    intInstructor.controlInterface.updateDashboard(payload);
+    intInstructor.controlInterface.update(payload)
   });
 }
 
-export const onPlayerDecisions = (socket) => {
+export const onPlayerDecisions = socket => {
   socket.on('player decisions', payload => {
-    console.log('player decisions:')
-    console.log(payload);
     const intInstructor = interfaces.instructor();
     intInstructor.controlInterface.updateDecisions(payload);
+  });
+}
+
+export const onNewRoundStarted = socket => {
+  socket.on('new round started', () => {
+    console.log('new round started');
+    const intInstructor = interfaces.instructor();
+    intInstructor.controlInterface.startNewRound();
   });
 }

@@ -85,6 +85,11 @@ const socketConfig = (server) => {
       instructor.simulate(socket, payload, io, gameCollection);
     });
 
+    socket.on('start new round', () => {
+      console.log('hola perro new round');
+      instructor.startNewRound(socket, io);
+    })
+
     socket.on('disconnect', () => {
       console.log(`User has disconnected`);
     });
