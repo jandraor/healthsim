@@ -2,7 +2,7 @@ import * as sl from "../../components/sparkline.ts";
 const $ = require('jquery');
 import * as d3 from 'd3';
 import * as ut from '../../../helpers/utilities.ts';
-import * as data from './data.ts'
+import * as data from '../data.ts'
 
 export const build = (initParams) => {
   const variableList = [

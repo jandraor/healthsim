@@ -3,7 +3,7 @@ import * as Handlebars from '../../../../../node_modules/handlebars/dist/handleb
 export const html = Handlebars.compile(`
   <div class = "mx-0">
     <p class = "my-1 text-secondary">Antivirals:
-      <label id = "lAntAvl">{{antiviralsAvailable}}</label>
+      <label id = "lStockAnt">{{antiviralsAvailable}}</label>
       [units]
     </p>
     <p class = "my-1">To deploy:

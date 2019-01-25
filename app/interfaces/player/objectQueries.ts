@@ -2,11 +2,12 @@ import * as data from './data.ts'
 
 //This should be replaced by a database
 export const getRVariables = (variableId, section, team) => {
-  const sectionObject = data.sections.filter(sectionObject => {
-    return sectionObject.id === section;
-  });
+  // const sectionObject = data.sections.filter(sectionObject => {
+  //   return sectionObject.id === section;
+  // });
+  const sectionObject = getSectionObject(section);
 
-  const variableObject = sectionObject[0].variables.filter(variableObject => {
+  const variableObject = sectionObject.variables.filter(variableObject => {
     return variableObject.id === variableId;
   });
 
@@ -24,4 +25,11 @@ export const getRVariables = (variableId, section, team) => {
   }
 
   return yVariable;
+}
+
+export const getSectionObject = section => {
+  const sectionObject = data.sections.filter(sectionObject => {
+    return sectionObject.id === section;
+  });
+  return sectionObject[0]
 }

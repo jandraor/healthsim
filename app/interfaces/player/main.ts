@@ -16,6 +16,7 @@ export const disableSimButton = () => {
 
 export const updateOnResults = simulationResult => {
   dashboard.update(simulationResult);
+  inputBoard.update(simulationResult);
 }
 
 export const startNewRound = () => {

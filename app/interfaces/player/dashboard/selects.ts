@@ -1,9 +1,9 @@
 const $ = require('jquery');
 import * as select from "../../components/select.ts";
-import * as data from "./data.ts";
+import * as data from "../data.ts";
 import * as timeseries from "./timeseries.ts";
 import * as ut from '../../../helpers/utilities.ts';
-import * as objectQueries from './objectQueries.ts';
+import * as objectQueries from '../objectQueries.ts';
 
 export const build = () => {
   //In each section there is a select input

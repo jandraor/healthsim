@@ -86,7 +86,6 @@ const socketConfig = (server) => {
     });
 
     socket.on('start new round', () => {
-      console.log('hola perro new round');
       instructor.startNewRound(socket, io);
     })
 

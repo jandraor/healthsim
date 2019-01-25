@@ -8,4 +8,7 @@ export const submitDecisions = {
   'enable': () => {
     submitDecisionsButton.enable();
   },
+  'disable': () => {
+    submitDecisionsButton.disable();
+  }
 }

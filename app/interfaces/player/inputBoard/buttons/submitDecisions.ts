@@ -5,20 +5,20 @@ export const onClick = socket => {
   $('#bSbmtDcsns').click(function () {
     const quarantinePolicy = $('#iptQuarantine').is(":checked") ? 1 : 0;
     //--------------------------------------------------------------------------
-    const availableVaccines = parseInt($('#lVacAvl').text());
+    const availableVaccines = parseInt($('#lStockVac').text());
     const vaccinesToBeUsed = parseInt($('#lDepVac').text());;
     const vaccineUsageFraction = vaccinesToBeUsed / availableVaccines;
     //--------------------------------------------------------------------------
-    const availableAntiVirals = parseInt($('#lAntAvl').text());
+    const availableAntiVirals = parseInt($('#lStockAnt').text());
     const antiviralsToBeUsed = parseInt($('#lDepAnt').text());;
     const antiviralsUsageFraction = antiviralsToBeUsed / availableAntiVirals;
     //--------------------------------------------------------------------------
-    const availableVentilators = parseInt($('#lVenAvl').text());
+    const availableVentilators = parseInt($('#lStockVen').text());
     const ventilatorsToBeUsed = parseInt($('#lDepVen').text());;
     const ventilatorsUsageFraction = ventilatorsToBeUsed / availableVentilators;
     //--------------------------------------------------------------------------
     // Available resources
-    const avlResources = parseInt($('#lFunds').text());
+    const avlResources = parseInt($('#lStockFin').text());
     //--------------------------------------------------------------------------
     const vaccinesOrdered = parseInt($('#lOrdVac').text());
     const vaccinesOrderedCost = parseInt($('#lTotCostVac').text());
@@ -71,4 +71,8 @@ const donationObjectGenerator = labelClass => {
 
 export const enable = ()=> {
   $('#bSbmtDcsns').prop('disabled', false);
+}
+
+export const disable = ()=> {
+  $('#bSbmtDcsns').prop('disabled', true);
 }

@@ -1,8 +1,8 @@
 import * as tsline from "../../components/timeseries_line/main.ts";
 import * as ut from '../../../helpers/utilities.ts';
-import * as data from "./data.ts";
+import * as data from "../data.ts";
 const $ = require('jquery');
-import * as objectQueries from './objectQueries.ts';
+import * as objectQueries from '../objectQueries.ts';
 
 export const buildCharts = params => {
   const sections = ['Infected', 'Resources'];

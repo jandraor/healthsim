@@ -13,7 +13,7 @@ export const html = Handlebars.compile(`
         <div class="modal-body" id = 'mdlFinDonBody'>
           <p class = "my-1 text-secondary">Financial resources: $
             <label class = "lUnallocatedFin" id = "lRemainingFin">{{finResources}}</label>
-            <label class = "invisible" id = "lblInvFin2">{{finResources}}</label>
+            <label class = "invisible" id = "lblInvFin">{{finResources}}</label>
           </p>
         </div>
         <div class="modal-footer">

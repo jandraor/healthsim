@@ -1,5 +1,7 @@
 import * as slds from "../../../components/sliders.ts";
-import * as validate from "./checks/main.ts"
+import * as validate from "./checks/main.ts";
+import * as queries from '../../objectQueries.ts';
+const $ = require('jquery');
 
 export const build = teams => {
   const physicalResources = ['Ant', 'Vac', 'Ven'];
@@ -15,7 +17,7 @@ export const build = teams => {
         'labelClass': `l${resource}Don`,
         'lUnallocated': `lRemaining${resource}`,
         'lSum': `l${resource}TotalDon`,
-        'lStock': `l${resource}Avl`,
+        'lStock': `lStock${resource}`,
         'sldDepId': `slDep${resource}`,
         'lResourcesToUse': `lDep${resource}`
       }
@@ -36,11 +38,11 @@ export const build = teams => {
 
     const params = {
       'sliderId': sliderId,
-      'labelMaxValue': 'lblInvFin2',
+      'labelMaxValue': 'lblInvFin',
       'labelClass': 'lFinDon',
       'lUnallocatedClass': 'lUnallocatedFin',
       'lSum': 'lFinTotalDon',
-      'lStock': 'lFunds',
+      'lStock': 'lStockFin',
     }
     const sliderObject = {
       'sliderId': sliderId,
@@ -57,7 +59,7 @@ export const build = teams => {
     const params = {
       'lResourcesToUse': `lDep${resource}`,
       'lDonations': `l${resource}TotalDon`,
-      'lStock': `l${resource}Avl`,
+      'lStock': `lStock${resource}`,
       'lAvlDon': `lblInv${resource}`,
       'lUnallocated': `lRemaining${resource}`,
       'sliderClass': `sl${resource}Don`
@@ -81,9 +83,9 @@ export const build = teams => {
       'lTotalCost': `lTotCost${resource}`,
       'lUnallocatedClass': 'lUnallocatedFin',
       'lDonations': 'lFinTotalDon',
-      'lStock': 'lFunds',
+      'lStock': 'lStockFin',
       'lSum': 'lSpent',
-      'lAvlDon': 'lblInvFin2',
+      'lAvlDon': 'lblInvFin',
       'orderSliders': 'slOrd',
       'donationSliders': 'slFinDon',
     }
@@ -97,4 +99,42 @@ export const build = teams => {
   });
 
   slds.build(sliderObject);
+}
+
+export const setMaxLimits = params => {
+  const sectionObject = queries.getSectionObject('Resources');
+  const team = $('#lTeamId').text();
+  sectionObject.variables.forEach(variable => {
+    const prefix = variable.id.substring(0,3);
+    const rVariable = queries.getRVariables(variable.id, 'Resources', team);
+    const deployMax = Math.floor(params[rVariable]);
+    console.log(`deployMax: ${deployMax}`);
+    //modals
+    $(`.sl${prefix}Don`).each(function() {
+      const teamDonationSlider = $(this);
+      const sliderName = this.id;
+      teamDonationSlider.slider('setAttribute', 'max', deployMax);
+      teamDonationSlider.slider('setValue', 0, true, true);
+      $(`#l${sliderName}Max`).text(deployMax);
+    });
+
+    if(variable.id != 'FinancialResources') {
+      const deploySlider = $(`#slDep${prefix}`);
+      deploySlider.slider('setAttribute', 'max', deployMax);
+      deploySlider.slider('setValue', 0, true, true);
+      $(`#lslDep${prefix}Max`).text(deployMax);
+    }
+    
+    if(variable.id === 'FinancialResources'){
+      const physicalResources = ['Ant', 'Vac', 'Ven'];
+      physicalResources.forEach(resource => {
+        const resourceOrderSlider = $(`#slOrd${resource}`);
+        const unitCost = parseInt($(`#lUnitCost${resource}`).text())
+        const maxOrder = Math.floor(deployMax / unitCost);
+        resourceOrderSlider.slider('setAttribute', 'max', maxOrder);
+        resourceOrderSlider.slider('setValue', 0, true, true);
+        $(`#${this.id}Max`).text(maxOrder);
+      });
+    }
+  });
 }
