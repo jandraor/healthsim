@@ -4,10 +4,8 @@ import * as sparklines from './sparklines.ts';
 const $ = require('jquery');
 
 export const build = initParams => {
-  const tsParams = {
-    'rounds': 20,
-  }
-  timeseries.buildCharts(tsParams);
+  const stopTime = initParams.rounds;
+  timeseries.buildCharts(stopTime);
   selects.build();
   sparklines.build(initParams);
 }

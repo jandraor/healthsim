@@ -96,7 +96,7 @@ export const draw = simulationResults => {
   // d3.select(`#scTotalInfected`).remove();
   //----------------------------------------
   const team = $('#lTeamId').text();
-  const stopTime = 20;
+  const stopTime = parseInt($('#lStopTime').text());
 
   data.sections.forEach(sectionObject => {
     let superDataset = []; //Used only if scale === 'fixed'

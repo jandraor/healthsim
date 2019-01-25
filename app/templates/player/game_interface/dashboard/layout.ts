@@ -2,6 +2,7 @@ import * as Handlebars from '../../../../../node_modules/handlebars/dist/handleb
 
 export const html = Handlebars.compile(`
   <div id = "divTeamInfo"> </div>
+  <div class = "text-secondary" id = "divRounds"></div>
   <div class = "row border rounded" id = "divInfected">
     <div class = "col-5" id = "divTSInfected">
       <div class = "my-1" id = "divSelInfected">

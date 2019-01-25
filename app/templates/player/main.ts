@@ -9,8 +9,8 @@ export const drawWaitingInterface = () => {
   $('.hs-main').html(waitingHtml);
 }
 
-export const drawGameInterface = (teams) => {
-  gameInterface.build(teams);
+export const drawGameInterface = params => {
+  gameInterface.build(params);
 }
 
 export const addMessage = (message) => {

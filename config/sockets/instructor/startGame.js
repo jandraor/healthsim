@@ -2,6 +2,7 @@
 
 const startGame = (socket, gameCollection, io, payload) => {
   const initConditions = payload.initConditions;
+  const nRounds = payload.rounds;
   console.log('=============Start===Init Conditions==========================');
   console.log(initConditions);
   console.log('=============End=====Init Conditions==========================');
@@ -58,6 +59,7 @@ const startGame = (socket, gameCollection, io, payload) => {
       const playerPayload = {
         'yourTeam': recipientTeam,
         'otherTeams': otherTeams,
+        'rounds': nRounds,
         'resources': {
           'antivirals': teamData[0].InitAntiviralStockpile,
           'vaccines': teamData[0].InitVaccineStockpile,
@@ -84,7 +86,7 @@ const startGame = (socket, gameCollection, io, payload) => {
     });
     const instructorPayload = {
       'teams': teamNames,
-      'rounds': payload.rounds
+      'rounds': nRounds,
     }
     io.to(`instructor_${gameId}`).emit('game started', instructorPayload);
     console.log('=========================Game===============================');
