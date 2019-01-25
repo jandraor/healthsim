@@ -3,9 +3,9 @@ const $ = require('jquery');
 
 export const clickStartGame = (socket) => {
   $('#bStartGame').click(() => {
-    $('#bStartGame').html('<i class="fa fa-spinner fa-spin"></i>');
     const validation = validateInputs();
     if(validation === -1) {
+      $('#bStartGame').html('<i class="fa fa-spinner fa-spin"></i>');
       const initConditions = [];
       $('.cardTeam').each(function(i) {
         const teamNumber = i + 1;
@@ -63,8 +63,8 @@ export const pressAnyKey = () => {
 }
 /**
  * Checks for empty values in population & income selects.
- * Returns -1 if there are empty selections
- * Returns 0 or higher if there are no empty selections
+ * Returns -1 if there are empty no selections
+ * Returns 0 or higher if there are empty selections
  */
 const validateInputs = () => {
   const popSizes = [];
