@@ -145,3 +145,11 @@ export const findExtremePoints = (superDataset) => {
   }
   return(limits);
 }
+
+export const bindData = (dataset1, dataset2) => {
+  const bindedDataset = dataset1.slice();
+  dataset2.forEach(row => {
+    bindedDataset.push(row)
+  });
+  return bindedDataset
+}

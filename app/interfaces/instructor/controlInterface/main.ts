@@ -13,8 +13,8 @@ export const build = (socket, payload) => {
   dashboard.build(payload);
 }
 
-export const update = payload => {
-  dashboard.update(payload);
+export const updateOnSimulation = results => {
+  dashboard.update(results);
   buttons.newRound.enable();
 }
 

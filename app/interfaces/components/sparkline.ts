@@ -138,3 +138,9 @@ export const setInitValue = (variable, value) => {
   const tdCurVal = d3.select(`#tdCurVal-${variable}`);
   tdCurVal.text(value);
 }
+
+export const clearChart = variable => {
+  const svg = d3.select(`#svgSL${variable}`);
+  svg.select('path').remove();
+  svg.select('circle').remove();
+}

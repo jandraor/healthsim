@@ -1,6 +1,7 @@
 import * as d3 from 'd3';
 const $ = require('jquery');
 import * as hm from '../../components/heatmap.ts';
+import * as ut from '../../../helpers/utilities.ts';
 
 /**
  * Creates the input for the heatmap builder & calls it
@@ -30,7 +31,23 @@ export const build = options => {
   hm.draw(data, 'divHeatMap');
 }
 
-export const update = results => {
+export const update = newData => {
+  const currentData = $('#selHeatMap').data('results');
+
+  let results;
+
+  if($.isEmptyObject(currentData)) {
+    $('#selHeatMap').data('results', newData);
+    results = newData;
+  }
+
+  if(!$.isEmptyObject(currentData)) {
+    newData.shift();
+    const updatedData = ut.bindData(currentData, newData);
+    $('#selHeatMap').data('results', updatedData);
+    results = updatedData;
+  }
+
   $('#bSimulate').html('Simulate')
   $('#divHeatMap').html('');
   const stopTime = parseInt($('#lStopTime').text());
@@ -63,10 +80,6 @@ export const update = results => {
     'time': simulationTime,
     'values': yValues
    };
-
-   console.log('==========================data==============================');
-   console.log(data);
-   console.log('==============================================================');
 
   hm.draw(data, 'divHeatMap', true);
 }

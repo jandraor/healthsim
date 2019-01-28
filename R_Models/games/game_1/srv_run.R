@@ -30,4 +30,4 @@ sim_data$g_policy_matrix <- get_policy_matrix(rownames(sim_data$g_policy_matrix)
 
 sim_data <- run_simulation(sim_data, START = start_time, FINISH = finish_time, STEP = 0.05)
 write_sim_data(sim_data, CURRENT_DIR)
-toJSON(sim_data$sim_output) # output sent to browser
+toJSON(sim_data$sim_output %>% filter(between(time, start_time, finish_time))) # output sent to browser

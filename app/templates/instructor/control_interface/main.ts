@@ -7,9 +7,9 @@ import * as rowTms from './teamRow.ts';
 import * as chat from './chat.ts';
 import * as incMssg from './incomingMessage.ts';
 import * as outMssg from './outgoingMessage.ts';
-import * as dashboard from './dashboard.ts';
+import * as dashboard from './dashboard/main.ts';
 
-export const build = (payload) => {
+export const build = payload => {
   const stopTime = payload.rounds;
   const teams = payload.teams
   const layoutHtml = layout.html({stopTime});
@@ -24,11 +24,9 @@ export const build = (payload) => {
     const rowTeamHtml = rowTms.html({teamName});
     $('.tblTeams').append(rowTeamHtml);
   });
-  const dashboardHtml = dashboard.html();
-  $('#dashboard').append(dashboardHtml);
+  dashboard.build();
   const chatHtml = chat.html();
   $('.instructorChat').html(chatHtml);
-
 }
 
 export const addMessage = (message) => {

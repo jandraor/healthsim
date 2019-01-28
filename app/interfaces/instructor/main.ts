@@ -13,8 +13,8 @@ export const controlInterface = {
   'build': (socket, payload)=> {
     ctrlInt.build(socket, payload);
   },
-  'update': payload => {
-    ctrlInt.update(payload);
+  'updateOnSimulation': payload => {
+    ctrlInt.updateOnSimulation(payload);
   },
   'updateDecisions': payload => {
     ctrlInt.updateDecisions(payload);

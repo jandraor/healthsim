@@ -6,9 +6,13 @@ export const onClick = socket => {
     fillEmptyDecisions();
     $('#bSimulate').html('<i class="fa fa-spinner fa-spin"></i>');
     $('#bSimulate').prop('disabled', true);
+    const currentRound = parseInt($('#lCurrentRound').text());
+    const stepStartTime = currentRound - 1;
+    const stepStopTime = currentRound;
+    
     const payload = {
-      'startTime': 0,
-      'finishTime': 1,
+      'startTime': stepStartTime,
+      'finishTime': stepStopTime,
       'policyMatrix': brewPolicyMatrix(),
     }
     gameEvents.instructorEmitters.simulate(socket, payload);

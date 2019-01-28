@@ -91,10 +91,6 @@ export const setInitialValues = initParams => {
 }
 
 export const draw = simulationResults => {
-  //This should be a function---------------
-  // d3.select(`#splTotalInfected`).remove();
-  // d3.select(`#scTotalInfected`).remove();
-  //----------------------------------------
   const team = $('#lTeamId').text();
   const stopTime = parseInt($('#lStopTime').text());
 
@@ -126,6 +122,7 @@ export const draw = simulationResults => {
     });
 
     optionsObj.forEach(options => {
+      sl.clearChart(options.variable);
       if(sectionObject.slScale === 'fixed') {
         const limits = ut.findExtremePoints(superDataset);
         const domain = [limits.ymin, limits.ymax]
