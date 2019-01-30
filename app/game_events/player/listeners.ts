@@ -81,6 +81,8 @@ export const onGameStarted = socket => {
 export const onMessage = socket => {
   socket.on('message', payload => {
     templates.player.chatMessage(payload);
+    const intPlayer = interfaces.player();
+    intPlayer.newMessage();
   });
 }
 

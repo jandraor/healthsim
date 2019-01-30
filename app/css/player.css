@@ -25,3 +25,12 @@
 .slider.slider-horizontal{
   width:10vw; /* sample value - set it as you like*/
 }
+
+.playerRightCol {
+  height: 90vh
+}
+
+.chatBody {
+  height: 80%;
+  overflow-y: scroll;
+}

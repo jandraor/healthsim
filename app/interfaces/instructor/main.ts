@@ -21,5 +21,8 @@ export const controlInterface = {
   },
   'startNewRound': () => {
     ctrlInt.startNewRound();
+  },
+  'updateOnNewMessage': () => {
+    ctrlInt.updateOnNewMessage();
   }
 }

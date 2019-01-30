@@ -15,8 +15,13 @@ export const html = Handlebars.compile(`
           </div>
         </div>
       </div>
-      <div class = "col-7">
-        <div id = 'divDashboard'></div>
+      <div class = "col-7 playerRightCol">
+        <div class = "container-fluid h-75" id = 'divDashboard'></div>
+        <div class = "container-fluid h-25 border rounded">
+          <div class = "row h-100">
+            <div class = "col-9 h-100" id = "divChat"></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

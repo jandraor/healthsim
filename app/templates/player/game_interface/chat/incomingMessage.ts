@@ -1,4 +1,4 @@
-import * as Handlebars from '../../../../node_modules/handlebars/dist/handlebars.js';
+import * as Handlebars from '../../../../../node_modules/handlebars/dist/handlebars.js';
 
 //https://ptetutorials.com/images/user-profile.png
 export const html = Handlebars.compile(`

@@ -13,10 +13,6 @@ export const drawGameInterface = params => {
   gameInterface.build(params);
 }
 
-export const addMessage = (message) => {
-  const author = message.author;
-  const messageText = message.text;
-  const messageHtml = mssg.html({author, messageText});
-  console.log(messageHtml);
-  $('#divChatBoard').append(messageHtml);
+export const addMessage = message => {
+  gameInterface.addMessage(message);
 }

@@ -153,3 +153,12 @@ export const bindData = (dataset1, dataset2) => {
   });
   return bindedDataset
 }
+
+export const formatToChatTime = date => {
+  const militarHour = date.getHours();
+  const hour = militarHour > 12 ? militarHour - 12: militarHour === 0 ? 12: militarHour;
+  const minute = date.getMinutes() < 10 ? `0${date.getMinutes()}`:date.getMinutes();
+  const period = militarHour > 12 ? 'PM': militarHour < 12 ? 'AM': 'M'
+  const formattedDate = `${hour}:${minute} ${period}`
+  return formattedDate
+}

@@ -8,7 +8,7 @@ import * as tooltip from './tooltip.ts';
  * @param {Object} options - Function's parameters.
  * @param {string} options.svgId - Id of the svg of the existing chart
  * @param {Array<Array<Object>>} options.superDataset - A vector of datasets. Each element is a dataset. Each dataset is an array of two-key objects.
- * @param {number} options.padding - left, top, right & bottom paddings in the svg.
+ * @param {Object} options.padding - Each key corresponds to left, top, right & bottom paddings in the svg
  * @param {number} options.finishTime - Max time the entire run.
  * @param {number} options.lineDuration - Animation time of the line.
  * @param {string} options.idLine - Id of the path element in the DOM.
@@ -16,6 +16,8 @@ import * as tooltip from './tooltip.ts';
  * @param {boolean} options.tooltip - Indicates whether a tooltip will be added to the timeseries line.
  */
 export const draw = options => {
+  console.log('options padding');
+  console.log(options.padding);
   const svg = d3.select(`#${options.svgId}`);
   const superDataset = options.superDataset;
   const extremePoints = ut.findExtremePoints(superDataset);
@@ -45,11 +47,11 @@ export const draw = options => {
 
   const xScale = d3.scaleLinear()
                    .domain([0, options.finishTime])
-                   .range([0 + options.padding, width - options.padding]);
+                   .range([0 + options.padding.left, width - options.padding.right]);
 
   const yScale = d3.scaleLinear()
                    .domain([0, ymax])
-                   .range([height - options.padding, 0 + options.padding]);
+                   .range([height - options.padding.bottom, 0 + options.padding.top]);
 
   //Define X axis
   const xAxis = d3.axisBottom()

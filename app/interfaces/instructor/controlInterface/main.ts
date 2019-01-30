@@ -1,6 +1,7 @@
 import * as domEvents from './events.ts';
 const $ = require('jquery');
 import * as dashboard from './dashboard.ts';
+import * as chatboard from './chatboard.ts';
 import * as decisions from './decisions.ts';
 import * as buttons from './buttons/main.ts';
 
@@ -34,4 +35,8 @@ export const startNewRound = () => {
   const newRound = currentRound + 1;
   $('#lCurrentRound').text(newRound);
   buttons.simulate.enable();
+}
+
+export const updateOnNewMessage = () => {
+  chatboard.newMessage();
 }

@@ -8,6 +8,7 @@ import * as chat from './chat.ts';
 import * as incMssg from './incomingMessage.ts';
 import * as outMssg from './outgoingMessage.ts';
 import * as dashboard from './dashboard/main.ts';
+import * as ut from '../../../helpers/utilities.ts'
 
 export const build = payload => {
   const stopTime = payload.rounds;
@@ -29,16 +30,23 @@ export const build = payload => {
   $('.instructorChat').html(chatHtml);
 }
 
-export const addMessage = (message) => {
+export const addMessage = message => {
   const author = message.author;
+  console.log(author);
+  console.log(author);
   const messageText = message.text;
   const identity = $('#bSendMessage').data().team;
   const self = (author === identity) ? true : false;
   let messageHtml;
+  const date = new Date();
+  const month = date.toLocaleString('en-us', { month: 'long' });
+  const day = date.getDate();
+  const time = ut.formatToChatTime(date);
   if(self){
-    messageHtml = outMssg.html({author, messageText});
+    messageHtml = outMssg.html({author, messageText, month, day, time});
   } else {
-    messageHtml = incMssg.html({author, messageText});
+    const teamLogo = require(`../../../img/teams/${author}.svg`)
+    messageHtml = incMssg.html({author, messageText, teamLogo, month, day, time});
   }
   $('#divChatBoard').append(messageHtml);
 }

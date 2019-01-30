@@ -4,6 +4,13 @@ import * as data from "../data.ts";
 const $ = require('jquery');
 import * as objectQueries from '../objectQueries.ts';
 
+const padding = {
+  'top': 10,
+  'left': 50,
+  'bottom': 30,
+  'right': 30
+}
+
 export const buildCharts = stopTime => {
   const sections = ['Infected', 'Resources'];
 
@@ -14,8 +21,8 @@ export const buildCharts = stopTime => {
         'ymin': 0,
         'ymax': 100,
         'width': 400,
-        'height': 250,
-        'padding': 50,
+        'height': 230,
+        'padding': padding,
         'svgId': `svgTS${section}`,
     }
     tsline.drawChart(options);
@@ -43,11 +50,11 @@ export const drawAll = simulationResults => {
 export const draw = params => {
   tsline.clearChart(params.svgId);
   const stopTime = parseInt($('#lStopTime').text());
-  
+
   const tsParams = {
     'svgId': params.svgId,
     'superDataset': params.superDataset,
-    'padding': 50,
+    'padding': padding,
     'finishTime': stopTime,
     'lineDuration': 2000,
     'idLine': params.idLine,

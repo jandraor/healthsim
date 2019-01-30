@@ -9,7 +9,7 @@ export const html = Handlebars.compile(`
         <select id = "selTSInfected" class = "selectpicker selDashboard show-tick" data-width="fit">
         </select>
       </div>
-      <div id = "divSVGInfected"  class = "pt-2 pl-2">
+      <div id = "divSVGInfected"  class = "pt-2 pl-0">
         <svg id = "svgTSInfected"></svg>
       </div>
     </div>
@@ -34,7 +34,7 @@ export const html = Handlebars.compile(`
         <select id = "selTSResources" class = "selDashboard selectpicker show-tick" data-width="fit">
         </select>
       </div>
-      <div class = "pt-2 pl-2">
+      <div class = "pt-2 pl-0">
         <svg id = "svgTSResources"></svg>
       </div>
     </div>
