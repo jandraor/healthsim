@@ -49,7 +49,7 @@ export const onClick = socket => {
         'VentilatorsUsageFraction': ventilatorsUsageFraction,
       },
       'donations': {
-        'financialResources': donationObjectGenerator('lFinDon'),
+        'financial': donationObjectGenerator('lFinDon'),
         'vaccines': donationObjectGenerator('lVacDon'),
         'antivirals': donationObjectGenerator('lAntDon'),
         'ventilators': donationObjectGenerator('lVenDon'),

@@ -9,37 +9,81 @@ export const onClick = socket => {
     const currentRound = parseInt($('#lCurrentRound').text());
     const stepStartTime = currentRound - 1;
     const stepStopTime = currentRound;
-    
+    const policySummary = brewPolicySummary(stepStartTime, stepStopTime);
+
     const payload = {
       'startTime': stepStartTime,
       'finishTime': stepStopTime,
-      'policyMatrix': brewPolicyMatrix(),
+      'policyMatrix': policySummary.policyMatrix,
+      'donations': policySummary.donations,
     }
     gameEvents.instructorEmitters.simulate(socket, payload);
   });
 }
 
-const brewPolicyMatrix = () => {
+const brewPolicySummary = (startTime, stopTime) => {
+  const policySummary = {
+    'policyMatrix': null,
+    'donations': null,
+  }
+
   let policyMatrix = [];
+  let donations = [];
   $('.icnDecisions').each(function() {
     const team = this.id.replace('icnDes', '');
     const dataSentbyTeam = $(`#${this.id}`).data();
-    const financialDonations = dataSentbyTeam.donations.financialResources;
+    //--------------------------------------------------------------------------
+    const teamDonations = dataSentbyTeam.donations;
+    const resources = Object.keys(teamDonations);
+
+    resources.forEach(resource => {
+      const resourceObject = teamDonations[resource];
+      const otherTeams = Object.keys(resourceObject);
+      const template = {
+        'from': team,
+        'to': null,
+        'resource': resource,
+        'amount': null,
+        'startTime': startTime,
+        'stopTime': stopTime,
+      };
+
+      //------------------------------------------------------------------------
+      const selfDonation = Object.assign({}, template)
+      selfDonation.to = team;
+      selfDonation.amount = 0;
+      donations.push(selfDonation);
+      //------------------------------------------------------------------------
+
+      otherTeams.forEach(otherTeam => {
+        const row = Object.assign({}, template);
+        row.to = otherTeam;
+        row.amount = resourceObject[otherTeam];
+        donations.push(row);
+      })
+    });
+
+    const financialDonations = dataSentbyTeam.donations.financial;
     const antiviralDonations = dataSentbyTeam.donations.antivirals;
     const vaccineDonations = dataSentbyTeam.donations.vaccines;
     const ventilatorDonations = dataSentbyTeam.donations.ventilators;
+
+    //--------------------------------------------------------------------------
     const teamData = dataSentbyTeam.deployment;
     teamData['ResourcesDonated'] = calculateTotalDonations(financialDonations);
     teamData['AntiviralsShared'] = calculateTotalDonations(antiviralDonations);
     teamData['VaccinesShared'] = calculateTotalDonations(vaccineDonations);
     teamData['VentilatorsShared'] = calculateTotalDonations(ventilatorDonations);
-    teamData['ResourcesReceived'] = calculateReceivedDonations(team, 'financialResources');
+    teamData['ResourcesReceived'] = calculateReceivedDonations(team, 'financial');
     teamData['AntiviralsReceived'] = calculateReceivedDonations(team, 'antivirals');
     teamData['VaccinesReceived'] = calculateReceivedDonations(team, 'vaccines');
     teamData['VentilatorsReceived'] = calculateReceivedDonations(team, 'ventilators');
     policyMatrix.push(teamData);
-  })
-  return policyMatrix;
+  });
+  policySummary.policyMatrix = policyMatrix;
+  policySummary.donations = donations;
+
+  return policySummary
 }
 
 const calculateTotalDonations = donations => {
@@ -97,7 +141,7 @@ const fillEmptyDecisions = () => {
           'VentilatorsUsageFraction': 0,
         },
         'donations': {
-          'financialResources': zeroDonationsObj,
+          'financial': zeroDonationsObj,
           'vaccines': zeroDonationsObj,
           'antivirals': zeroDonationsObj,
           'ventilators': zeroDonationsObj,

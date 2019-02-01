@@ -1,7 +1,7 @@
 import * as d3 from 'd3';
+import * as hm from '../../../components/heatmap.ts';
+import * as ut from '../../../../helpers/utilities.ts';
 const $ = require('jquery');
-import * as hm from '../../components/heatmap.ts';
-import * as ut from '../../../helpers/utilities.ts';
 
 /**
  * Creates the input for the heatmap builder & calls it

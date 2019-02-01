@@ -1,10 +1,16 @@
 import * as Handlebars from '../../../../../node_modules/handlebars/dist/handlebars.js';
 
 export const html = Handlebars.compile(`
-  <div class = "mt-2 ml-2" id = "divSelect">
-    <select class = "selectpicker" id = "selHeatMap" data-width="fit">
-      <option value = "Infected">Total Infected</option>
-    </select>
+  <ul class = "nav nav-tabs" role = "tablist">
+    <li class = "nav-item">
+      <a class = "nav-link active" data-toggle = "tab" href = "#divEpi">Epidemics</a>
+    </li>
+    <li class = "nav-item">
+      <a class = "nav-link" data-toggle = "tab" href = "#divDon">Donations</a>
+    </li>
+  </ul>
+  <div class = "tab-content">
+    <div class = "tab-pane fade show active" id = "divEpi" role = "tabpanel"></div>
+    <div class = "tab-pane fade" id = "divDon" role = "tabpanel"></div>
   </div>
-  <div class = "mt-5 ml-5" id = "divHeatMap"></div>
 `);

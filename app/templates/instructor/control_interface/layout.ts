@@ -14,9 +14,9 @@ export const html = Handlebars.compile(`
         </div>
         <div id = 'divTeams'></div>
       </div>
-      <div class = "col-9 instructorRightCol border">
-        <div class = "py-0 my-0 border h-75" id = "divDashboard"></div>
-        <div class = "border py-0 my-0 instructorChat h-25"></div>
+      <div class = "col-9 instructorRightCol">
+        <div class = "py-0 my-0 h-75" id = "divDashboard"></div>
+        <div class = "border round py-0 my-0 instructorChat h-25"></div>
       </div>
     </div>
   </div>

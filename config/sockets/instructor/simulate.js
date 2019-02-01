@@ -2,21 +2,29 @@
 
 const simulate = async (socket, payload, io, gameCollection) => {
   try {
-    console.log('simulaiton payload===========================================')
-    console.log(payload);
-    console.log('simulaiton payload===========================================')
     const gameId = socket.room;
     //Policy matrix file is created
     const writeCsv = require('../../../helpers/csvFiles.js');
-    writeCsv(payload.policyMatrix, './R_Models/games/game_1/model/data/PolicyMatrix.csv');
+    const destinationPath = './R_Models/games/game_1/model/data/'
+    writeCsv(payload.policyMatrix, `${destinationPath}PolicyMatrix.csv`);
+    const donationFile = `${destinationPath}donations.csv`;
+    const fs = require('fs');
+    const csvReader = require('csvtojson');
+    if(!fs.existsSync(donationFile)){
+        writeCsv(payload.donations, donationFile)
+    }
+    if(fs.existsSync(donationFile)){
+      const newData = payload.donations;
+      const currentData = await csvReader().fromFile(donationFile);
+      const updatedData = newData.concat(currentData);
+      writeCsv(updatedData, donationFile);
+    }
+
     //The model is simulated;
     const runRScriptAsync = require('../../../helpers/R.js');
     const startTime = payload.startTime;
     const stopTime = payload.finishTime;
     const params = ['R_Models/games/game_1/srv_run.R', startTime, stopTime];
-    console.log('=============================params===========================')
-    console.log(params);
-    console.log('=============================params===========================')
     const simulationResult = await runRScriptAsync(params);
     const resultVariables = Object.keys(simulationResult[0]);
     //==========================================================================

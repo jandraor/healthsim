@@ -1,6 +1,6 @@
 import * as domEvents from './events.ts';
 const $ = require('jquery');
-import * as dashboard from './dashboard.ts';
+import * as dashboard from './dashboard/main.ts';
 import * as chatboard from './chatboard.ts';
 import * as decisions from './decisions.ts';
 import * as buttons from './buttons/main.ts';
