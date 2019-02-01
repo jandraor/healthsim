@@ -82,7 +82,6 @@ healthsim_model <- function(time, stocks, auxs){
     ResourcesReceived               <- simd$g_policy_matrix[,"ResourcesReceived"]
     ResourcesDonated                <- simd$g_policy_matrix[,"ResourcesDonated"]
 
-    
     #-----------------------------------------------------------------------------------------------
     # Equations from VENSIM
     # Theoretical Maximum Antivirals Dispensed=Infected1/Antiviral Dispensing Delay
@@ -92,7 +91,9 @@ healthsim_model <- function(time, stocks, auxs){
     MaximumAntiviralsDispensed <- pmin(TheoreticalMaximumAntiviralsDispensed,states[,"_AVR_AVS"]) 
     
     # Actual Antiviral Fraction=zidz(Maximum Antivirals Dispensed,Infected1)*Antiviral Usage Fraction
-    ActualAntiviralFraction <- zidz(MaximumAntiviralsDispensed,states[,"_TM_I1"])*simd$g_countries$AntiviralsUsageFraction
+    ActualAntiviralFraction <- zidz(MaximumAntiviralsDispensed,
+                                    states[,"_TM_I1"])*simd$g_policy_matrix[,"AntiviralsUsageFraction"]
+    
     
     # Theoretical Maximum Vaccines Dispensed = Susceptible/Vaccine Dispensing Delay
     TheoreticalMaximumVaccinesDispensed <- states[,"_TM_S"]/simd$g_countries$VaccineDispensingDelay
@@ -101,7 +102,8 @@ healthsim_model <- function(time, stocks, auxs){
     MaximumVaccinesDispensed <- pmin(TheoreticalMaximumVaccinesDispensed,states[,"_VAC_VS"])
     
     # Actual Vaccination Fraction=zidz(Maximum Vaccines Dispensed,Susceptible)*Vaccine Usage Fraction
-    ActualVaccinationFraction <- zidz(MaximumVaccinesDispensed,states[,"_TM_S"])*simd$g_countries$VaccineUsageFraction
+    ActualVaccinationFraction <- zidz(MaximumVaccinesDispensed,
+                                      states[,"_TM_S"])*simd$g_policy_matrix[,"VaccineUsageFraction"]
     
     # Theoretical Maximum Ventilators Dispensed=Infected Severe/Ventilator Dispensing Delay
     TheoreticalMaximumVentilatorsDispensed=states[,"_TM_IS"]/simd$g_countries$VentilatorDispensingDelay
@@ -110,7 +112,9 @@ healthsim_model <- function(time, stocks, auxs){
     MaximumVentilatorsDispensed <- pmin(TheoreticalMaximumVentilatorsDispensed,states[,"_VEN_VS"])
     
     # Actual Ventilator Fraction=zidz(Maximum Ventilators Dispensed,Infected Severe)
-    ActualVentilatorFraction <- zidz(MaximumVentilatorsDispensed,states[,"_TM_IS"])
+    ActualVentilatorFraction <- zidz(MaximumVentilatorsDispensed,
+                                     states[,"_TM_IS"]*simd$g_policy_matrix[,"VentilatorsUsageFraction"])
+    
     
     # Anti Viral Fraction=Actual Antiviral Fraction
     AntiViralFraction <- ActualAntiviralFraction
