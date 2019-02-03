@@ -10,5 +10,6 @@ convert_donations_to_list <- function(donations){
     mat_spr_df1
   })
   names(aggregate_donations) <- unique(donations$resource)
+  aggregate_donations$names_order <- colnames(aggregate_donations[[1]])
   aggregate_donations
 }
