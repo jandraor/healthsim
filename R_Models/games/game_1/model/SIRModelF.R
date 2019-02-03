@@ -1,5 +1,13 @@
 #DEBUG_DELAYS <- list()
 #--------------------------------------------------------------------------------
+get_total_outflows <- function(resource){
+  apply(resource,1,sum)
+}
+#--------------------------------------------------------------------------------
+get_total_inflows <- function(resource){
+  apply(resource,2,sum)
+}
+#--------------------------------------------------------------------------------
 zidz <- function(num, denom){
   sapply(1:length(num), function(i){
     if(denom[i] == 0)
@@ -71,16 +79,24 @@ healthsim_model <- function(time, stocks, auxs){
     TotalRequiredVaccineOrders      <- simd$g_policy_matrix[,"VaccinesOrdered"]
     TotalRequiredVentilatorOrders   <- simd$g_policy_matrix[,"VentilatorsOrdered"]
     
-    AntiviralsReceived              <- simd$g_policy_matrix[,"AntiviralsReceived"]
-    VentilatorsReceived             <- simd$g_policy_matrix[,"VentilatorsReceived"] 
-    VaccinesReceived                <- simd$g_policy_matrix[,"VaccinesReceived"] 
+    #AntiviralsReceived              <- simd$g_policy_matrix[,"AntiviralsReceived"]
+    AntiviralsReceived              <- get_total_inflows(simd$aggregate_donations$antivirals)
+    #VentilatorsReceived             <- simd$g_policy_matrix[,"VentilatorsReceived"] 
+    VentilatorsReceived             <- get_total_inflows(simd$aggregate_donations$ventilators)
+    #VaccinesReceived                <- simd$g_policy_matrix[,"VaccinesReceived"] 
+    VaccinesReceived                <- get_total_inflows(simd$aggregate_donations$vaccines)
     
-    AntiviralsShared                <- simd$g_policy_matrix[,"AntiviralsShared"]
-    VaccinesShared                  <- simd$g_policy_matrix[,"VaccinesShared"] 
-    VentilatorsShared               <- simd$g_policy_matrix[,"VentilatorsShared"] 
+    #AntiviralsShared                <- simd$g_policy_matrix[,"AntiviralsShared"]
+    AntiviralsShared                <- get_total_outflows(simd$aggregate_donations$antivirals)
+    #VaccinesShared                  <- simd$g_policy_matrix[,"VaccinesShared"] 
+    VaccinesShared                  <- get_total_outflows(simd$aggregate_donations$vaccines)
+    #VentilatorsShared               <- simd$g_policy_matrix[,"VentilatorsShared"] 
+    VentilatorsShared               <- get_total_outflows(simd$aggregate_donations$ventilators)
     
-    ResourcesReceived               <- simd$g_policy_matrix[,"ResourcesReceived"]
-    ResourcesDonated                <- simd$g_policy_matrix[,"ResourcesDonated"]
+    #ResourcesReceived               <- simd$g_policy_matrix[,"ResourcesReceived"]
+    ResourcesReceived               <- get_total_inflows(simd$aggregate_donations$financial)
+    #ResourcesDonated                <- simd$g_policy_matrix[,"ResourcesDonated"]
+    ResourcesDonated                <- get_total_outflows(simd$aggregate_donations$financial)
 
     #-----------------------------------------------------------------------------------------------
     # Equations from VENSIM
