@@ -15,7 +15,9 @@ get_data <- function(SAMPLE=T,
   # STEP (1) - Get the model data
   #---------------------------------------------------------------------
   all_countries <- read_csv("./R_Models/games/game_1/model/data/Countries.csv")
-
+  
+  all_countries <- arrange(all_countries,Name)
+  
   params        <- read_csv("./R_Models/games/game_1/model/data/CountryParameters.csv")
 
   # For benchmarking against Vensim 1-sector model
