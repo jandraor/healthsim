@@ -9,25 +9,28 @@ run_simulation <- function(sim_data,
                            ABS_START=0){
   source('./R_Models/games/game_1/model/SIRModelF.R') #loads healthsim_model 
   source('./R_Models/games/game_1/utils/get_donations_data.R') #loads get_donations_data 
+  source('./R_Models/games/game_1/utils/convert_donatons_to_list.R') #loads get_donations_data 
   # get the donations data
   current_donations <- get_donations_data(START, FINISH)
 
   # create a temporary global environment for the simulation data
   simd <<- new.env()
 
-  simd$g_NUM_SECTORS     <- sim_data$g_NUM_SECTORS
-  simd$g_NUM_STOCKS      <- sim_data$g_NUM_STOCKS
-  simd$g_sector_names    <- sim_data$g_sector_names
-  simd$g_stock_names     <- sim_data$g_stock_names
-  simd$g_policy_matrix   <- sim_data$g_policy_matrix
-  simd$g_countries       <- sim_data$g_countries
-  simd$g_beta_reference  <- sim_data$g_beta_reference
-  simd$START_TIME        <- START
-  simd$FINISH_TIME       <- FINISH
-  simd$TIME_STEP         <- STEP
-  simd$ABS_START         <- ABS_START
-  simd$current_donations <- current_donations
+  simd$g_NUM_SECTORS       <- sim_data$g_NUM_SECTORS
+  simd$g_NUM_STOCKS        <- sim_data$g_NUM_STOCKS
+  simd$g_sector_names      <- sim_data$g_sector_names
+  simd$g_stock_names       <- sim_data$g_stock_names
+  simd$g_policy_matrix     <- sim_data$g_policy_matrix
+  simd$g_countries         <- sim_data$g_countries
+  simd$g_beta_reference    <- sim_data$g_beta_reference
+  simd$START_TIME          <- START
+  simd$FINISH_TIME         <- FINISH
+  simd$TIME_STEP           <- STEP
+  simd$ABS_START           <- ABS_START
+  simd$current_donations   <- current_donations
+  simd$aggregate_donations <- convert_donations_to_list(current_donations)
   
+
   # Note: originally the idea was to have one variable per column, but it
   # was simpler to use a tidy data structure involvin time, ModelVariable and Value
   # Old code commented out
@@ -94,17 +97,17 @@ run_simulation <- function(sim_data,
   # sim_data$donations$amount <- sample(c(100,200,300,400),length(sim_data$donations$amount),replace = T)
   
   # create the output list of matrices
-  sim_data$aggregate_donations <- map(unique(sim_data$donations$resource),function(res){
-    df1         <- filter(sim_data$donations,resource==res)
-    agg_df1     <- df1 %>% group_by(from, to, resource) %>% summarise(amount=sum(amount))
-    spr_df1     <- spread(agg_df1,key=to,value=amount)
-    mat_spr_df1 <- as.matrix(spr_df1[,-(1:2)])
-    rownames(mat_spr_df1) <- colnames(mat_spr_df1)
-    mat_spr_df1
-  })
-  names(sim_data$aggregate_donations) <- unique(sim_data$donations$resource)
-  
-  #browser()
+  #sim_data$aggregate_donations <- map(unique(sim_data$donations$resource),function(res){
+  #  df1         <- filter(sim_data$donations,resource==res)
+  #  agg_df1     <- df1 %>% group_by(from, to, resource) %>% summarise(amount=sum(amount))
+  #  spr_df1     <- spread(agg_df1,key=to,value=amount)
+  #  mat_spr_df1 <- as.matrix(spr_df1[,-(1:2)])
+  #  rownames(mat_spr_df1) <- colnames(mat_spr_df1)
+  #  mat_spr_df1
+  #})
+  #names(sim_data$aggregate_donations) <- unique(sim_data$donations$resource)
+  # factoring code to function
+  sim_data$aggregate_donations <- convert_donations_to_list(sim_data$donations)
   
   # return the data
   sim_data
