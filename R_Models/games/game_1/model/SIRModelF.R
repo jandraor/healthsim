@@ -1,11 +1,11 @@
 #DEBUG_DELAYS <- list()
 #--------------------------------------------------------------------------------
 get_total_outflows <- function(resource){
-  apply(resource,1,sum)
+  apply(resource,2,sum)
 }
 #--------------------------------------------------------------------------------
 get_total_inflows <- function(resource){
-  apply(resource,2,sum)
+  apply(resource,1,sum)
 }
 #--------------------------------------------------------------------------------
 zidz <- function(num, denom){
