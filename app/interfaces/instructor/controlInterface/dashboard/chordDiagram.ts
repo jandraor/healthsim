@@ -1,8 +1,11 @@
 import * as chord from '../../../components/chord.ts';
-export const update = data => {
+
+export const update = (data, labels) => {
+  const svgId = 'svgChordDon';
+  chord.clear(svgId)
   chord.draw({
-    'svgId': 'svgChordDon',
-    'dataset': data.antivirals,
-    'labels': data.names_order,
+    'svgId': svgId,
+    'dataset': data,
+    'labels': labels,
   })
 }

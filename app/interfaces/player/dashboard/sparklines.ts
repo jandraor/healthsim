@@ -19,7 +19,7 @@ export const build = (initParams) => {
     {
       'tableId': 'tblSLResources',
       'slElements': [
-        {'name': 'FinancialResources', 'display': 'Financial resources'},
+        {'name': 'Financial', 'display': 'Financial resources'},
         {'name': 'Antivirals', 'display': 'Antivirals'},
         {'name': 'Vaccines', 'display': 'Vaccines'},
         {'name': 'Ventilators', 'display': 'Ventilators'},
@@ -61,7 +61,7 @@ export const setInitialValues = initParams => {
       'value': Math.round(initParams.resources.ventilators),
     },
     {
-      'variable': 'FinancialResources',
+      'variable': 'Financial',
       'value':  Math.round(initParams.resources.financial),
     },
     {

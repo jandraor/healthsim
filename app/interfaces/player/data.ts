@@ -36,7 +36,7 @@ export const sections = [
     'slScale': 'free',
     'variables': [
       {
-        'id': 'FinancialResources',
+        'id': 'Financial',
         'RName':'_FM_R',
         'display': 'Financial'
       },

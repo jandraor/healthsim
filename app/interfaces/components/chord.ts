@@ -30,7 +30,7 @@ export const draw = params => {
     .range(['#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00','#cab2d6','#6a3d9a']);
 
   const chords = chord(params.dataset);
-  
+
   const svg = d3.select(`#${params.svgId}`)
     .attr('width', width)
     .attr('height', height)
@@ -71,4 +71,8 @@ export const draw = params => {
       .attr('stroke', d => d3.rgb(color(d.target.index)).darker())
 
 
+}
+
+export const clear = svgId => {
+  d3.select(`#${svgId}`).selectAll("*").remove();
 }

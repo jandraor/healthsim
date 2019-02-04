@@ -49,10 +49,10 @@ export const onClick = socket => {
         'VentilatorsUsageFraction': ventilatorsUsageFraction,
       },
       'donations': {
-        'financial': donationObjectGenerator('lFinDon'),
-        'vaccines': donationObjectGenerator('lVacDon'),
-        'antivirals': donationObjectGenerator('lAntDon'),
-        'ventilators': donationObjectGenerator('lVenDon'),
+        'Financial': donationObjectGenerator('lFinDon'),
+        'Vaccines': donationObjectGenerator('lVacDon'),
+        'Antivirals': donationObjectGenerator('lAntDon'),
+        'Ventilators': donationObjectGenerator('lVenDon'),
       }
     }
     gameEvents.playerEmitters.sendDecisions(socket, payload);

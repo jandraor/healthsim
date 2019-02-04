@@ -63,10 +63,10 @@ const brewPolicySummary = (startTime, stopTime) => {
       })
     });
 
-    const financialDonations = dataSentbyTeam.donations.financial;
-    const antiviralDonations = dataSentbyTeam.donations.antivirals;
-    const vaccineDonations = dataSentbyTeam.donations.vaccines;
-    const ventilatorDonations = dataSentbyTeam.donations.ventilators;
+    const financialDonations = dataSentbyTeam.donations.Financial;
+    const antiviralDonations = dataSentbyTeam.donations.Antivirals;
+    const vaccineDonations = dataSentbyTeam.donations.Vaccines;
+    const ventilatorDonations = dataSentbyTeam.donations.Ventilators;
 
     //--------------------------------------------------------------------------
     const teamData = dataSentbyTeam.deployment;
@@ -74,10 +74,10 @@ const brewPolicySummary = (startTime, stopTime) => {
     teamData['AntiviralsShared'] = calculateTotalDonations(antiviralDonations);
     teamData['VaccinesShared'] = calculateTotalDonations(vaccineDonations);
     teamData['VentilatorsShared'] = calculateTotalDonations(ventilatorDonations);
-    teamData['ResourcesReceived'] = calculateReceivedDonations(team, 'financial');
-    teamData['AntiviralsReceived'] = calculateReceivedDonations(team, 'antivirals');
-    teamData['VaccinesReceived'] = calculateReceivedDonations(team, 'vaccines');
-    teamData['VentilatorsReceived'] = calculateReceivedDonations(team, 'ventilators');
+    teamData['ResourcesReceived'] = calculateReceivedDonations(team, 'Financial');
+    teamData['AntiviralsReceived'] = calculateReceivedDonations(team, 'Antivirals');
+    teamData['VaccinesReceived'] = calculateReceivedDonations(team, 'Vaccines');
+    teamData['VentilatorsReceived'] = calculateReceivedDonations(team, 'Ventilators');
     policyMatrix.push(teamData);
   });
   policySummary.policyMatrix = policyMatrix;
@@ -141,10 +141,10 @@ const fillEmptyDecisions = () => {
           'VentilatorsUsageFraction': 0,
         },
         'donations': {
-          'financial': zeroDonationsObj,
-          'vaccines': zeroDonationsObj,
-          'antivirals': zeroDonationsObj,
-          'ventilators': zeroDonationsObj,
+          'Financial': zeroDonationsObj,
+          'Vaccines': zeroDonationsObj,
+          'Antivirals': zeroDonationsObj,
+          'Ventilators': zeroDonationsObj,
         }
       }
       $(this).data(fillObject);
