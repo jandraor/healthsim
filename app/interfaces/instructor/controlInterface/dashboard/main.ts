@@ -3,9 +3,9 @@ import * as chord from './chordDiagram.ts';
 
 export const build = options => {
   heatmap.build(options);
-  chord.build();
 }
 
-export const update = newData => {
-  heatmap.update(newData);
+export const update = resultObj => {
+  heatmap.update(resultObj.bot);
+  chord.update(resultObj.donations);
 }

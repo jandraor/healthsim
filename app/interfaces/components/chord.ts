@@ -5,9 +5,10 @@ import * as d3 from 'd3';
  * @param {Object} params - Function's parameters.
  * @param {string} params.svgId - Id of the svg of the existing chart
  * @param {Array<number[]>} params.dataset - JSON representation of a matrix
+ * @param {Array<string[]>} params.labels - Arcs' labels
  */
 export const draw = params => {
-  const labels = ['Alpha', 'Beta', 'Gamma', 'Delta'];
+  const labels = params.labels;
   const width = 550;
   const height = 550;
   const outerRadius = 200;

@@ -8,17 +8,7 @@ const simulate = async (socket, payload, io, gameCollection) => {
     const destinationPath = './R_Models/games/game_1/model/data/'
     writeCsv(payload.policyMatrix, `${destinationPath}PolicyMatrix.csv`);
     const donationFile = `${destinationPath}donations.csv`;
-    const fs = require('fs');
-    const csvReader = require('csvtojson');
-    if(!fs.existsSync(donationFile)){
-        writeCsv(payload.donations, donationFile)
-    }
-    if(fs.existsSync(donationFile)){
-      const newData = payload.donations;
-      const currentData = await csvReader().fromFile(donationFile);
-      const updatedData = newData.concat(currentData);
-      writeCsv(updatedData, donationFile);
-    }
+    writeCsv(payload.donations, donationFile)
 
     //The model is simulated;
     const runRScriptAsync = require('../../../helpers/R.js');
@@ -26,7 +16,8 @@ const simulate = async (socket, payload, io, gameCollection) => {
     const stopTime = payload.finishTime;
     const params = ['R_Models/games/game_1/srv_run.R', startTime, stopTime];
     const simulationResult = await runRScriptAsync(params);
-    const resultVariables = Object.keys(simulationResult[0]);
+    const bot = simulationResult.bot; // behaviour over time
+    const resultVariables = Object.keys(bot[0]);
     //==========================================================================
     //=======To instructor======================================================
     //==========================================================================
@@ -41,7 +32,7 @@ const simulate = async (socket, payload, io, gameCollection) => {
         return variable.includes(recipientTeam);
       });
       teamVariables.unshift('time');
-      const playerPayload = simulationResult.map(row => {
+      const playerPayload = bot.map(row => {
         const filteredRow = Object.keys(row)
           .filter(variableName => teamVariables.includes(variableName))
           .reduce((obj, variableName) => {
