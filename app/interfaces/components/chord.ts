@@ -16,7 +16,7 @@ export const draw = params => {
 
   const chord = d3.chord()
     .padAngle(0.05)
-    //.sortSubgroups(d3.descending);
+    .sortSubgroups(d3.descending);
 
   const arc = d3.arc()
     .innerRadius(innerRadius)
@@ -30,9 +30,7 @@ export const draw = params => {
     .range(['#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00','#cab2d6','#6a3d9a']);
 
   const chords = chord(params.dataset);
-  console.log('chords')
-  console.log(chords);
-
+  
   const svg = d3.select(`#${params.svgId}`)
     .attr('width', width)
     .attr('height', height)

@@ -38,7 +38,7 @@ export const sections = [
       {
         'id': 'FinancialResources',
         'RName':'_FM_R',
-        'display': 'Financial resources'
+        'display': 'Financial'
       },
       {
         'id': 'Antivirals',
