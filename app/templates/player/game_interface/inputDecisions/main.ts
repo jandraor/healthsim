@@ -5,12 +5,10 @@ import * as iptDep1 from './inputsDeploy1.ts';
 import * as iptDep2 from './inputsDeploy2.ts';
 import * as iptDep3 from './inputsDeploy3.ts';
 import * as iptFin from './inputsFinancial.ts';
-import * as mdlAntDon from './antiviralDonations.ts';
-import * as mdlVacDon from './vaccineDonations.ts';
-import * as mdlVenDon from './ventilatorDonations.ts';
 import * as mdlFinDon from './financialDonations.ts';
 import * as iptTm from './teamInput.ts';
 import * as orderTemplate from './orderResourceTemplate.ts'
+import * as donModTemplate from './donationsModalTemplate.ts';
 
 export const build = options => {
   const otherTeams = options.otherTeams;
@@ -23,7 +21,13 @@ export const build = options => {
   //============================================================================
   const antiviralsAvailable = Math.floor(options.resources.antivirals);
   //Modal
-  const modalAntiViralDonationsHtml = mdlAntDon.html({antiviralsAvailable});
+  let params = {
+    'prefix': 'Ant',
+    'resource': 'Antivirals',
+    'availableResources': antiviralsAvailable,
+    'title': 'Antiviral'
+  }
+  const modalAntiViralDonationsHtml = donModTemplate.html({params});
   $('body').prepend(modalAntiViralDonationsHtml);
   otherTeams.forEach(elem => {
     const options = {
@@ -44,9 +48,16 @@ export const build = options => {
   //Vaccines
   //============================================================================
   const vaccinesAvailable = Math.floor(options.resources.vaccines);
-  //Modal
-  const modalVaccineDonationsHtml = mdlVacDon.html({vaccinesAvailable});
+  //Modal-----------------------------------------------------------------------
+  params = {
+    'prefix': 'Vac',
+    'resource': 'Vaccines',
+    'availableResources': vaccinesAvailable,
+    'title': 'Vaccine'
+  }
+  const modalVaccineDonationsHtml = donModTemplate.html({params});
   $('body').prepend(modalVaccineDonationsHtml);
+ //-----------------------------------------------------------------------------
   otherTeams.forEach(elem => {
     const options = {
       'name': elem,
@@ -67,8 +78,15 @@ export const build = options => {
   //============================================================================
   const ventilatorsAvailable = Math.floor(options.resources.ventilators);
   //Modal
-  const modalVentilatorDonationsHtml = mdlVenDon.html({ventilatorsAvailable});
+  params = {
+    'prefix': 'Ven',
+    'resource': 'Ventilators',
+    'availableResources': ventilatorsAvailable,
+    'title': 'Ventilator'
+  }
+  const modalVentilatorDonationsHtml = donModTemplate.html({params});
   $('body').prepend(modalVentilatorDonationsHtml);
+
   otherTeams.forEach(elem => {
     const options = {
       'name': elem,
