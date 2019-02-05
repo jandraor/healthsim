@@ -325,6 +325,12 @@ module.exports = {
       `;
 
       const resultQuery2 = await connection.query(query2);
+
+      if(resultQuery2.length === 0) {
+        connection.release();
+        return null
+      }
+
       const rawSimIds = resultQuery2.map(elem => {
         return elem.simulation_id;
       });
@@ -362,7 +368,6 @@ module.exports = {
       return(result);
     } catch (err) {
       console.log(error);
-      connection.release();
       throw error;
     }
 

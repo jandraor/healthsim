@@ -61,16 +61,19 @@ export const buildInterface = async (modelId, fetchJSON) => {
   sfd.buildStockAndFlow();
   select.build();
   sliders.buildSliders();
-  // Insert comment here
+
   const res = await ut.fetchJSON('/api/user');
   const user = res.user;
   const url = `/scenario/${user}/${modelId}`
   const response = await ut.fetchJSON(url);
-  const optionsRtvSvdScn = {
-    'tableId': 'tblSavedSim',
-    'data': response
+  if(Array.isArray(response)){
+    const optionsRtvSvdScn = {
+      'tableId': 'tblSavedSim',
+      'data': response,
+    }
+    tables.retrieveSavedScenarios(optionsRtvSvdScn);
   }
-  tables.retrieveSavedScenarios(optionsRtvSvdScn);
+
 
   //****************
   events.changeSelectSF();
