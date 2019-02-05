@@ -9,10 +9,10 @@ import * as d3 from 'd3';
  */
 export const draw = params => {
   const labels = params.labels;
-  const width = 550;
-  const height = 550;
-  const outerRadius = 200;
-  const innerRadius = 180;
+  const width = 480;
+  const height = 480;
+  const outerRadius = 180;
+  const innerRadius = 160;
 
   const chord = d3.chord()
     .padAngle(0.05)
@@ -52,7 +52,7 @@ export const draw = params => {
     .each(d => { d.angle = (d.startAngle + d.endAngle) / 2})
     .attr('transform', d => {
       const rotation1 = `rotate(${d.angle * 180 / Math.PI - 90})`;
-      const translation = `translate(${innerRadius + 40})`;
+      const translation = `translate(${innerRadius + 30})`;
       const rotation2 = d.angle > Math.PI ? 'rotate(180)': '';
       console.log(`${rotation1} ${translation} ${rotation2}`);
       return  `${rotation1} ${translation} ${rotation2}`
@@ -69,8 +69,6 @@ export const draw = params => {
       .attr('d', ribbon)
       .attr('fill', d => color(d.target.index))
       .attr('stroke', d => d3.rgb(color(d.target.index)).darker())
-
-
 }
 
 export const clear = svgId => {
