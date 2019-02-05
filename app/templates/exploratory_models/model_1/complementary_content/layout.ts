@@ -45,17 +45,7 @@ export const html = Handlebars.compile(`
     <div class = "tab-pane fade" id = "pDescription" role = "tabpanel" arial-labelledby = "description-tab"></div>
     <div class = "tab-pane fade" id = "pEquations" role = "tabpanel" arial-labelledby = "equations-tab"></div>
     <div class = "tab-pane fade" id = "pStocksAndFlows" role = "tabpanel" arial-labelledby = "description-tab"></div>
-    <div class = "tab-pane fade" id = "pFeedbackLoops" role = "tabpanel" arial-labelledby = "description-tab">
-      <div id = "feedbackLoopDiagram" class = "d-flex justify-content-center pt-1 mt-1"> </div>
-      <div id = "infoLoopDominance" class = "d-flex justify-content-left">
-        <label class = "text-left my-auto">Loop dominance on: </label>
-        <select id = "selLoopDominance" class = "ml-2 selectpicker show-tick" data-width="fit">
-          <option value="sSusceptible">Susceptible</option>
-          <option value="sInfected">Infected</option>
-          <option value="sRecovered">Recovered</option>
-        </select>
-      </div>
-    </div>
+    <div class = "tab-pane fade" id = "pFeedbackLoops" role = "tabpanel" arial-labelledby = "description-tab"></div>
     <div class = "tab-pane fade" id = "pCaseStudies" role = "tabpanel" arial-labelledby = "description-tab">
     </div>
   </div>

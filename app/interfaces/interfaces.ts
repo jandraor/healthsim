@@ -1,4 +1,4 @@
-import * as intf1 from "./collection/1/1.ts";
+import * as intf1 from "./collection/1/main.ts";
 import * as inst from "./instructor/main.ts";
 import * as plyr from "./player/main.ts";
 const $ = require('jquery');

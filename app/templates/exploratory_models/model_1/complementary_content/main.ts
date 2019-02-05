@@ -4,13 +4,15 @@ import * as sf from './sf.ts';
 import * as home from './home.ts';
 import * as description from './description.ts';
 import * as equations from './equations.ts';
+import * as feedbackLoops from './feedbackLoops.ts'
 const $ = require('jquery');
 
-export const buildLayout = (div) => {
+export const buildLayout = div => {
   $(`#${div}`).html(layout.html());
   $('#pHome').html(home.html());
   $('#pDescription').html(description.html());
   $('#pEquations').html(equations.html());
   $('#pStocksAndFlows').html(sf.html());
+  $('#pFeedbackLoops').html(feedbackLoops.html());
   $('#pCaseStudies').html(caseStudy.html());
 }

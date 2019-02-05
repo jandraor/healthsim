@@ -15,4 +15,5 @@ export const build = () => {
   }
   select.addOptions(params);
   select.buildGroup('divTSSF');
+  select.buildGroup('infoLoopDominance');
 }
