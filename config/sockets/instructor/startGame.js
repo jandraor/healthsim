@@ -58,6 +58,9 @@ const startGame = (socket, gameCollection, io, payload) => {
 
       const playerPayload = {
         'yourTeam': recipientTeam,
+        'population': teamData[0].Population,
+        'incomeLevel': teamData[0].Category,
+        'reportingDelay': teamData[0].ReportingDelay,
         'otherTeams': otherTeams,
         'rounds': nRounds,
         'resources': {

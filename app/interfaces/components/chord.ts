@@ -9,13 +9,13 @@ import * as d3 from 'd3';
  */
 export const draw = params => {
   const labels = params.labels;
-  const width = 480;
-  const height = 480;
-  const outerRadius = 180;
+  const width = 490;
+  const height = 490;
+  const outerRadius = 170;
   const innerRadius = 160;
 
   const chord = d3.chord()
-    .padAngle(0.05)
+    .padAngle(0.15)
     .sortSubgroups(d3.descending);
 
   const arc = d3.arc()
@@ -34,7 +34,7 @@ export const draw = params => {
   const svg = d3.select(`#${params.svgId}`)
     .attr('width', width)
     .attr('height', height)
-    .attr('viewBox', [-width / 2, -height / 2, width, height])
+    .attr('viewBox', [-width * (1 / 2), -height * (1 / 2), width, height])
 
 
   const group = svg.append('g')
@@ -50,6 +50,8 @@ export const draw = params => {
 
   group.append('text')
     .each(d => { d.angle = (d.startAngle + d.endAngle) / 2})
+    .attr('class', "arcLabel")
+    .attr('dy', ".35em")
     .attr('transform', d => {
       const rotation1 = `rotate(${d.angle * 180 / Math.PI - 90})`;
       const translation = `translate(${innerRadius + 30})`;

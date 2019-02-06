@@ -55,3 +55,8 @@
   float: right;
   width: 46%;
 }
+
+.arcLabel {
+  font-family: 'Raleway', sans-serif;
+  font-size: 12px;
+}

@@ -9,7 +9,12 @@ export const build = params => {
   const dashboard = $('#divDashboard');
   const layoutHtml = layout.html();
   dashboard.append(layoutHtml);
-  const teamInfoHtml = teamInfo.html({myTeam})
+  const paramsTeam = {
+    'name': params.yourTeam,
+    'population': params.population,
+    'incomeLevel': params.incomeLevel,
+  }
+  const teamInfoHtml = teamInfo.html({paramsTeam});
   $('#divTeamInfo').html(teamInfoHtml);
   const roundHtml = round.html({stopTime});
   $('#divRounds').html(roundHtml);

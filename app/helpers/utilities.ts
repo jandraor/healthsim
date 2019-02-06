@@ -162,3 +162,16 @@ export const formatToChatTime = date => {
   const formattedDate = `${hour}:${minute} ${period}`
   return formattedDate
 }
+
+export const sumVector = vector => {
+  const sum = vector.reduce((a, b) => a + b, 0);
+  return sum;
+}
+
+export const sumMatrix = matrix => {
+  const rowSum = matrix.map(row => {
+    return sumVector(row);
+  });
+  const sum = sumVector(rowSum);
+  return sum
+}

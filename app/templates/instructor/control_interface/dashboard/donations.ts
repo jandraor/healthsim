@@ -12,6 +12,9 @@ export const html = Handlebars.compile(`
         <div class = "mt-2 d-flex justify-content-center" id = "divSVGEpi">
           <svg id = "svgChordDon"></svg>
         </div>
+        <div class = "text-secondary text-center">
+          Total donations: <span class = "text-dark" id = "lTotalDonations">N/A</span>
+        </div>
       </div>
       <div class = "col-4" id = "colBarCharts"></div>
     </div>
