@@ -1,7 +1,7 @@
-import * as gameEvents from '../../../game_events/main.ts';
+import * as gameEvents from '../../../../game_events/main.ts';
 const $ = require('jquery');
 
-export const clickStartGame = (socket) => {
+export const onClick = socket => {
   $('#bStartGame').click(() => {
     const validation = validateInputs();
     if(validation === -1) {
@@ -42,25 +42,6 @@ export const clickStartGame = (socket) => {
   });
 }
 
-export const clickSendMessage = (socket) =>{
-  $('#bSendMessage').click(() => {
-    const message = {
-      'text': $('#iptMessage').val()
-    }
-    $('#iptMessage').val('');
-    gameEvents.instructorEmitters.sendMessage(socket, message);
-  });
-}
-
-export const pressAnyKey = () => {
-  $(document).keypress(e => {
-    if(e.which == 13) {
-      if($('#iptMessage').is(":focus")){
-        $('#bSendMessage').click();
-      }
-    }
-  });
-}
 /**
  * Checks for empty values in population & income selects.
  * Returns -1 if there are empty no selections

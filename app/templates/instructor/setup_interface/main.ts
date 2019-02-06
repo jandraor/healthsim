@@ -11,7 +11,8 @@ export const build = teams => {
 
   for(let i = 0; i < teams.length; i++) {
     const teamName = teams[i].name;
-    $('#rowTeamCard').append(teamCard.html({teamName}));
+    const teamLogo = require(`../../../img/teams/${teamName}.svg`)
+    $('#rowTeamCard').append(teamCard.html({teamName, teamLogo}));
     teams[i].players.forEach(elem => {
       const markup = `<li>${elem}</li`;
       $(`#playerList-${teams[i].name}`).append(markup);

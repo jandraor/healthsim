@@ -2,8 +2,11 @@ import * as Handlebars from '../../../../node_modules/handlebars/dist/handlebars
 
 export const html = Handlebars.compile(`
   <div class = "col-4 mt-3">
-    <div class = "card cardTeam" id = 'card{{teamName}}'>
+    <div class = "card cardTeam bg-light" id = 'card{{teamName}}'>
       <div class = "card-header">
+        <div class = "d-inline-block divLogo">
+           <img class = "mr-2" src= {{teamLogo}} height = "32" width = "32">
+        </div>
         {{teamName}}
       </div>
       <div class = "card-body">

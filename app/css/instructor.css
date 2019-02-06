@@ -60,3 +60,7 @@
   font-family: 'Raleway', sans-serif;
   font-size: 12px;
 }
+
+.divLogo img {
+  pointer-events: none;
+}
