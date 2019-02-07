@@ -175,3 +175,7 @@ export const sumMatrix = matrix => {
   const sum = sumVector(rowSum);
   return sum
 }
+
+export const formatNumber = number => {
+  return d3.format("~s")(number)
+}

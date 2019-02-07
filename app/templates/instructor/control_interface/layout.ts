@@ -5,14 +5,7 @@ export const html = Handlebars.compile(`
     <div class = "row">
       <div class = "col-3">
         <div id = "divProgress"></div>
-        <div id = "divControlButtons" class = "d-block my-3"></div>
-        <div class = "my-3 text-secondary">
-          <span>Round:</span>
-          <span class = 'text-dark' id = 'lCurrentRound'>1</span>
-          of
-          <span id = "lStopTime">{{stopTime}} </label>
-        </div>
-        <div id = 'divTeams'></div>
+        <div id = "divControlboard"></div>
       </div>
       <div class = "col-9 instructorRightCol">
         <div class = "py-0 my-0 h-75" id = "divDashboard"></div>

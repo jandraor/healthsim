@@ -7,12 +7,12 @@ const $ = require('jquery');
  * Creates the input for the heatmap builder & calls it
  * @param {Object} options - Function's parameters.
  * @param {number} options.rounds - Number of rounds to be played.
- * @param {number[]} options.teams - Team names.
+ * @param {Object[]} options.teams - Each element has three properties: name, population & income level.
  */
 export const build = options => {
   const stopTime = options.rounds;
   const simulationTime = d3.range(0, stopTime + 1);
-  const teams = options.teams;
+  const teams = options.teams.map(teamInfo => {return teamInfo.name});
 
   const values = teams.map(() => {
     const valueVector = []

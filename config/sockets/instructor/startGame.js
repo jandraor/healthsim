@@ -87,8 +87,10 @@ const startGame = (socket, gameCollection, io, payload) => {
       console.log('============================================================');
       io.to(`${recipientTeam}_${gameId}`).emit('game started', playerPayload);
     });
+
+    const teamsObject = generateTeamsObject(initValues);
     const instructorPayload = {
-      'teams': teamNames,
+      'teams': teamsObject,
       'rounds': nRounds,
     }
     io.to(`instructor_${gameId}`).emit('game started', instructorPayload);
@@ -96,6 +98,18 @@ const startGame = (socket, gameCollection, io, payload) => {
     gameCollection.gameList[gamePos]
     console.log('============================================================');
   });
+}
+
+const generateTeamsObject = initValues => {
+  const teamsObject = initValues.map(row => {
+    const teamObject = {
+      'name': row.Name,
+      'population': row.Population,
+      'incomeLevel': row.Category,
+    }
+    return teamObject;
+  });
+  return teamsObject
 }
 
 module.exports = startGame;
