@@ -9,8 +9,7 @@ import * as d3 from 'd3';
  */
 export const draw = params => {
   const labels = params.labels;
-  const width = 490;
-  const height = 490;
+
   const outerRadius = 170;
   const innerRadius = 160;
 
@@ -31,11 +30,12 @@ export const draw = params => {
 
   const chords = chord(params.dataset);
 
-  const svg = d3.select(`#${params.svgId}`)
-    .attr('width', width)
-    .attr('height', height)
-    .attr('viewBox', [-width * (1 / 2), -height * (1 / 2), width, height])
+  const svg = d3.select(`#${params.svgId}`);
+  const width = parseInt(svg.attr('width'));
+  const height = parseInt(svg.attr('height'));
 
+  svg
+    .attr('viewBox', [-width * (1 / 2), -height * (1 / 2), width, height]);
 
   const group = svg.append('g')
     .selectAll('g')
@@ -74,5 +74,41 @@ export const draw = params => {
 }
 
 export const clear = svgId => {
-  d3.select(`#${svgId}`).selectAll("*").remove();
+  const svg = d3.select(`#${svgId}`)
+  const width = parseInt(svg.attr('width'));
+  const height = parseInt(svg.attr('heigth'));
+
+  svg.attr('viewBox', [0, 0, width, height])
+    .selectAll("*").remove();
+}
+
+/**
+ * Set width, height to an existing SVG & display a message
+ * @param {Object} params - Function's parameters.
+ * @param {string} options.svgId - Id of a existing svg
+ * @param {number} options.width - width of the svg
+ * @param {number} options.height - height of the svg
+ */
+export const chart = params => {
+  const svg = d3.select(`#${params.svgId}`);
+
+  svg
+    .attr('width', params.width)
+    .attr('height', params.height)
+      .append('text')
+    .attr('x', '50%')
+    .attr('y', '50%')
+    .attr('text-anchor', 'middle')
+    .text('No data available');
+}
+
+export const empty = (svgId, message) => {
+  const svg = d3.select(`#${svgId}`);
+
+  svg
+    .append('text')
+    .attr('x', '50%')
+    .attr('y', '50%')
+    .attr('text-anchor', 'middle')
+    .text(message);
 }

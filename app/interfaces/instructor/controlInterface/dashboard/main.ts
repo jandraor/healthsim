@@ -7,6 +7,7 @@ import * as ut from '../../../../helpers/utilities.ts';
 export const build = options => {
   heatmap.build(options);
   select.build();
+  chord.build();
 }
 
 export const update = resultObj => {
@@ -14,9 +15,12 @@ export const update = resultObj => {
   heatmap.update(resultObj.bot);
   const resource = $('#selRelRes').val();
   const donations = resultObj.donations;
-  console.log('matrix');
-  console.log(donations[resource])
   const totalDonations = ut.sumMatrix(donations[resource]);
+  if(totalDonations === 0){
+    chord.empty();
+    $('#lTotalDonations').text(0);
+    return
+  }
   $('#lTotalDonations').text(totalDonations);
   chord.update(donations[resource], donations.names_order);
 }
