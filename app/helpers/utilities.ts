@@ -179,3 +179,23 @@ export const sumMatrix = matrix => {
 export const formatNumber = number => {
   return d3.format("~s")(number)
 }
+
+export const sumCols = (matrix, colnames) => {
+  const resultObj = colnames.map((colname, index) => {
+    const total = sumVector(matrix.map(row => {
+      return row[index]
+    }));
+    const elem = {
+      'x': colname,
+      'y': total,
+    }
+    return elem
+  })
+  return resultObj;
+}
+
+export const sortObjArray = (array, key) => {
+  const sortedData = array.sort((a, b) => {
+    return d3.descending(a[key], b[key])
+  })
+}

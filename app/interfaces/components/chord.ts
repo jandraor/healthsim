@@ -35,6 +35,7 @@ export const draw = params => {
   const height = parseInt(svg.attr('height'));
 
   svg
+    .attr('class', '')
     .attr('viewBox', [-width * (1 / 2), -height * (1 / 2), width, height]);
 
   const group = svg.append('g')
@@ -95,6 +96,7 @@ export const chart = params => {
   svg
     .attr('width', params.width)
     .attr('height', params.height)
+    .attr('class', 'border')
       .append('text')
     .attr('x', '50%')
     .attr('y', '50%')
@@ -106,9 +108,11 @@ export const empty = (svgId, message) => {
   const svg = d3.select(`#${svgId}`);
 
   svg
-    .append('text')
+    .attr('class', 'border')
+      .append('text')
     .attr('x', '50%')
     .attr('y', '50%')
+
     .attr('text-anchor', 'middle')
     .text(message);
 }

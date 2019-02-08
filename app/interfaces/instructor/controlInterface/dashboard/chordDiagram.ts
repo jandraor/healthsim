@@ -12,7 +12,6 @@ export const update = (data, labels) => {
 }
 
 export const build = () => {
-  const params =
   chord.chart({
     'svgId': svgId,
     'width': 490,
