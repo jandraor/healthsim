@@ -1,5 +1,4 @@
 import * as Handlebars from '../../../../node_modules/handlebars/dist/handlebars.js';
-const logo2 = require('../../../img/logo2.svg')
 
 export const html = Handlebars.compile(`
   <div class = "container-fluid pt-2">
@@ -9,7 +8,6 @@ export const html = Handlebars.compile(`
       </div>
       <div class = "d-flex col-6 justify-content-end">
         <a class = "navbar-brand" href = "#explore/r">
-          <!--<img src = ${logo2} width = "30" height = "30" alt="">-->
           HealthSim
         </a>
       </div>
@@ -23,11 +21,11 @@ export const html = Handlebars.compile(`
         <div id = "divTSSF">
           <select id = "selVarSF" class = "pt-2 selectpicker show-tick" data-width="fit">
           </select>
-          <svg id = "svgTSSF"> </svg>
+          <svg class = "svgTS" id = "svgTSSF"> </svg>
         </div>
         <div id = 'divParTS'>
           <span class = "text-center">Net reproduction number</span>
-          <svg id = "svgTSPar"> </svg>
+          <svg class = "svgTS" id = "svgTSPar"> </svg>
         </div>
       </div>
       <div id = "auxTS" class = "col-lg-2 col-sm-12">

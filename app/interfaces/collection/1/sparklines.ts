@@ -1,3 +1,4 @@
+const $ = require('jquery');
 import * as d3 from 'd3';
 import * as sl from "../../components/sparkline.ts";
 import * as tsline from "../../components/tsLine.ts";
@@ -115,4 +116,9 @@ export const buildSparklines = (dataset, stopTime, p, w, h, step = false) => {
     sl.addOnClickEvent(svgSparkLineId, tsline.drawLine,
       optionsClickEvent);
   }
+}
+
+export const reset = () => {
+  $('#tblSparklines tbody').html('');
+  buildCharts();
 }

@@ -1,14 +1,14 @@
 const $ = require('jquery');
 import * as d3 from 'd3';
-import * as ut from "../../../../components/utilities.ts";
-import * as tsline from "../../../../components/tsLine.ts";
-import * as sl from "../../../../components/sparkline.ts";
-import * as saf from "../../../../components/stocksandflows.ts";
-import * as cld from "../../../../components/cld.ts";
-import * as slBuilder from "../../sparklines.ts";
-import * as sfd from "../../sf.ts";
+import * as ut from "../../../components/utilities.ts";
+import * as tsline from "../../../components/tsLine.ts";
+import * as sl from "../../../components/sparkline.ts";
+import * as saf from "../../../components/stocksandflows.ts";
+import * as cld from "../../../components/cld.ts";
+import * as slBuilder from "../sparklines.ts";
+import * as sfd from "../sf.ts";
 
-export const build = (model_id, fetchJSON) => {
+export const onClick = (model_id, fetchJSON) => {
   const w = 800 * (2 / 3); //Width
   const h = 500 * (2 / 3); //Heigth
   const padding = 40;

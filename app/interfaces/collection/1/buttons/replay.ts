@@ -1,8 +1,8 @@
 import * as d3 from 'd3';
-import * as sfd from "../../sf.ts";
+import * as sfd from "../sf.ts";
 
 
-export const build = ()  => {
+export const onClick = ()  => {
 
   d3.select("#bReplay")
     .on("click", () => {

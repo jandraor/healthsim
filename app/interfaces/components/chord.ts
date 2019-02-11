@@ -77,7 +77,7 @@ export const draw = params => {
 export const clear = svgId => {
   const svg = d3.select(`#${svgId}`)
   const width = parseInt(svg.attr('width'));
-  const height = parseInt(svg.attr('heigth'));
+  const height = parseInt(svg.attr('height'));
 
   svg.attr('viewBox', [0, 0, width, height])
     .selectAll("*").remove();

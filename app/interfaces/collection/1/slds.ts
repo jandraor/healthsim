@@ -32,7 +32,6 @@ export const buildSliders = () => {
     $('#varValueBasRepNum').html(`<small>${basicReproductionNumber}</small>`);
   }
 
-
   const sliderObject = [
     {
       'sliderId': 'slInfected',
@@ -57,5 +56,12 @@ export const buildSliders = () => {
   ]
 
   slds.build(sliderObject);
+}
 
+export const reset = () => {
+  $('.sl').each(function(){
+    $(this).slider('enable');
+    $(this).slider('refresh');
+    $(this).trigger('change');
+  });
 }

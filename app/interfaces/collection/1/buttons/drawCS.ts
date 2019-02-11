@@ -1,13 +1,13 @@
 const $ = require('jquery');
 import * as d3 from 'd3';
-import * as tsline from "../../../../components/tsLine.ts";
+import * as tsline from "../../../components/tsLine.ts";
 
-export const build = (dataset, idButton) => {
+export const onClick = dataset => {
   const w = 800 * (2 / 3); //Width
   const h = 500 * (2 / 3); //Height
   const padding = 40;
 
-  d3.select(`#${idButton}`)
+  d3.select('#bDraw')
     .on('click', () => {
       const selSF = d3.select('#selVarSF');
       selSF.datum(null);

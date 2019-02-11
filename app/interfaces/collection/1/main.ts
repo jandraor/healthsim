@@ -6,10 +6,7 @@ import * as sl from './sparklines.ts'
 import * as tables from "../../components/table.ts";
 import * as sfd from "./sf.ts";
 import * as sliders from "./slds.ts"
-import * as runButton from './buttons/simulate/run.ts';
-import * as stepButton from './buttons/simulate/step.ts';
-import * as drawButton from './buttons/simulate/drawCS.ts';
-import * as replayButton from './buttons/simulate/replay.ts';
+import * as buttons from './buttons/main.ts';
 import * as cld from '../../components/cld.ts';
 import * as ut from '../../../helpers/utilities.ts';
 import * as events from './events.ts';
@@ -28,12 +25,8 @@ export const buildInterface = async (modelId, fetchJSON) => {
   const w = 800 * (2 / 3); //Width
   const h = 500 * (2 / 3); //Height
   const padding = 40;
-  ts.buildCharts(w, h, padding);
+  ts.buildCharts();
   sl.buildCharts();
-
-  runButton.build(modelId, fetchJSON);
-  stepButton.build(modelId, fetchJSON);
-  replayButton.build();
   cld.drawCLD('feedbackLoopDiagram');
 
   const caseStudyData = [
@@ -57,7 +50,7 @@ export const buildInterface = async (modelId, fetchJSON) => {
     'y': 'Infected'
   }
   tables.drawHorizontalTable(caseStudyData, headers, 'caseStudyTable');
-  drawButton.build(caseStudyData,'bDraw');
+  buttons.clickEvents(modelId, fetchJSON, caseStudyData)
   sfd.buildStockAndFlow();
   select.build();
   sliders.buildSliders();

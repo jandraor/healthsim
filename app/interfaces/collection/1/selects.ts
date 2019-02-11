@@ -1,4 +1,7 @@
 import * as select from "../../components/select.ts"
+import * as d3 from 'd3';
+const $ = require('jquery');
+
 
 export const build = () => {
   const items = [
@@ -16,4 +19,17 @@ export const build = () => {
   select.addOptions(params);
   select.buildGroup('divTSSF');
   select.buildGroup('infoLoopDominance');
+}
+
+export const reset = () => {
+  d3.select('#selVarSF').datum(null);
+  $('#selVarSF')
+    .prop('disabled', false)
+    .selectpicker('val', 'sSusceptible')
+    .selectpicker('refresh');
+
+  $('#selLoopDominance')
+    .prop('disabled', false)
+    .selectpicker('val', 'sSusceptible')
+    .selectpicker('refresh');
 }

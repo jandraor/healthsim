@@ -381,3 +381,8 @@ export const drawLineCaseStudy = (options) => {
     }
     drawDataPoints(optionsCircles);
 }
+
+export const clearAll = svgId => {
+  const svg = d3.select(`#${svgId}`)
+    .selectAll("*").remove();
+}
