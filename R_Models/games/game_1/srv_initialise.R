@@ -8,7 +8,14 @@ source("./R_Models/games/game_1/utils/write_sim_data.R")
 source("./R_Models/games/game_1/model/API/initialise.R")
 source("./R_Models/games/game_1/getDirectory.R")
 
-g_auxs            <- c(VirusSeverityProportion=0.0,
+cmd_args <- commandArgs(TRUE)
+VirusSeverityProportion <- as.numeric(cmd_args[1])  # 1st parameter from command line
+
+if(is.na(VirusSeverityProportion)) {
+  VirusSeverityProportion <- 0
+}
+
+g_auxs            <- c(VirusSeverityProportion = VirusSeverityProportion,
                        Infected1_MULT=1.0,
                        Infected2_MULT=1.0,
                        InfectedAV_MULT=0.0,
