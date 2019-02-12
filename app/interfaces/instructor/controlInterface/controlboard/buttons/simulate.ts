@@ -1,5 +1,5 @@
 const $ = require('jquery');
-import * as gameEvents from '../../../../game_events/main.ts';
+import * as gameEvents from '../../../../../game_events/main.ts';
 
 export const onClick = socket => {
   $('#bSimulate').click(() => {

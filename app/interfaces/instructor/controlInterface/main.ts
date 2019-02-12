@@ -3,10 +3,10 @@ const $ = require('jquery');
 import * as dashboard from './dashboard/main.ts';
 import * as chatboard from './chatboard.ts';
 import * as decisions from './decisions.ts';
-import * as buttons from './buttons/main.ts';
+import * as controlboard from './controlboard/main.ts';
 
 export const build = (socket, payload) => {
-  buttons.clickEvents(socket);
+  controlboard.build(socket);
   domEvents.clickSendMessage(socket);
   domEvents.pressAnyKey();
   const identity = {'team': 'instructor'}
@@ -16,7 +16,7 @@ export const build = (socket, payload) => {
 
 export const updateOnSimulation = results => {
   dashboard.update(results);
-  buttons.newRound.enable();
+  controlboard.newRoundBtn.enable();
 }
 
 export const updateDecisions = payload => {
@@ -34,7 +34,7 @@ export const startNewRound = () => {
   const currentRound = parseInt($('#lCurrentRound').text());
   const newRound = currentRound + 1;
   $('#lCurrentRound').text(newRound);
-  buttons.simulate.enable();
+  controlboard.simulateBtn.enable();
 }
 
 export const updateOnNewMessage = () => {
