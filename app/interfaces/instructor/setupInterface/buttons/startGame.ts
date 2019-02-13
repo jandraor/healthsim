@@ -27,11 +27,13 @@ export const onClick = socket => {
         initConditions.push(team);
       });
       const nRounds = parseInt($('#lRounds').text());
+      const virusSeverity = parseFloat($('#lVirusSeverity').text()) / 100;
       const [view, ...params] = window.location.hash.split('/');
       const gameId = params[0];
       const payload = {
         'gameId': gameId,
         'rounds': nRounds,
+        'virusSeverity': virusSeverity,
         'initConditions': initConditions,
       }
       gameEvents.instructorEmitters.startGame(socket, payload);

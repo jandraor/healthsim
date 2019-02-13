@@ -2,7 +2,7 @@ const $ = require('jquery');
 import * as slds from "../../components/sliders.ts";
 
 export const build = () => {
-  const names = ['Rounds']
+  const names = ['Rounds', 'VirusSeverity']
   const slidersObject = names.map(elem => {
     const  sliderSpecs = {
       'sliderId': `sl${elem}`,

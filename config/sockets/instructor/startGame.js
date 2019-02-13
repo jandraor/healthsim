@@ -3,9 +3,7 @@
 const startGame = (socket, gameCollection, io, payload) => {
   const initConditions = payload.initConditions;
   const nRounds = payload.rounds;
-  console.log('=============Start===Init Conditions==========================');
-  console.log(initConditions);
-  console.log('=============End=====Init Conditions==========================');
+  const virusSeverity = payload.virusSeverity;
   const writeCsv = require('../../../helpers/csvFiles.js');
   writeCsv(initConditions, './R_Models/games/game_1/model/data/Countries.csv');
   const exec = require('child_process').exec;
@@ -19,17 +17,9 @@ const startGame = (socket, gameCollection, io, payload) => {
       console.log(error);
   }
 
-  exec(`Rscript ${filePath}`, (error, stdout, stderr) => {
-    console.log(`stdout srv_initialise: ${stdout}`);
+  exec(`Rscript ${filePath} ${virusSeverity}`, (error, stdout, stderr) => {
     const initValues = JSON.parse(stdout);
-    console.log('==========================================================');
-    console.log('The instructor wants to start the game');
-    console.log(payload);
-    console.log('==========================================================');
     const gameId = payload.gameId;
-    console.log('======================Game Collection=====================');
-    console.log(gameCollection);
-    console.log('==========================================================');
     const ids = gameCollection.gameList.map(elem => {
       return elem.id;
     });
@@ -40,9 +30,6 @@ const startGame = (socket, gameCollection, io, payload) => {
     const teamNames = gameCollection.gameList[gamePos].teams.map(elem => {
       return elem.name;
     });
-    console.log('======================Initial stock values==================');
-    console.log(initValues);
-    console.log('======================Initial stock values==================');
 
     teamNames.forEach(elem => {
       const recipientTeam = elem;
@@ -53,8 +40,6 @@ const startGame = (socket, gameCollection, io, payload) => {
       const teamData = initValues.filter(dataRow => {
         return dataRow.Name === recipientTeam;
       });
-
-      console.log(teamData);
 
       const playerPayload = {
         'yourTeam': recipientTeam,
@@ -82,9 +67,7 @@ const startGame = (socket, gameCollection, io, payload) => {
           'antivirals': 0,
         }
       }
-      console.log('==========================Object teams======================');
-      console.log(playerPayload);
-      console.log('============================================================');
+
       io.to(`${recipientTeam}_${gameId}`).emit('game started', playerPayload);
     });
 
@@ -94,9 +77,7 @@ const startGame = (socket, gameCollection, io, payload) => {
       'rounds': nRounds,
     }
     io.to(`instructor_${gameId}`).emit('game started', instructorPayload);
-    console.log('=========================Game===============================');
     gameCollection.gameList[gamePos]
-    console.log('============================================================');
   });
 }
 
