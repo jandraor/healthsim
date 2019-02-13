@@ -38,8 +38,8 @@ const showView = async() => {
   switch(view) {
     case '#welcome':
       const session = await ut.fetchJSON('/api/session');
-      mainElement.innerHTML = templates.welcome({session});
-
+      templates.navigation.welcome(session);
+      
       if (session.error) {
         ut.showAlert(session.error);
       }
