@@ -1,7 +1,8 @@
 const $ = require('jquery');
 import * as teamInfo from './teamInfo.ts';
 import * as layout from './layout.ts';
-import * as round from './round.ts'
+import * as round from './round.ts';
+import * as ut from '../../../../helpers/utilities.ts';
 
 export const build = params => {
   const myTeam = params.yourTeam;
@@ -11,7 +12,7 @@ export const build = params => {
   dashboard.append(layoutHtml);
   const paramsTeam = {
     'name': params.yourTeam,
-    'population': params.population,
+    'population': ut.formatNumber(params.population),
     'incomeLevel': params.incomeLevel,
   }
   const teamInfoHtml = teamInfo.html({paramsTeam});

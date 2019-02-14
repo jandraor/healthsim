@@ -30,9 +30,11 @@ export const update = newData => {
     results = updatedData;
   }
 
-  const lastRow = results[results.length - 1]
-  const lastTime = Math.trunc(lastRow.time);
-  $('#lCurrentRound').text(lastTime);
   sparklines.draw(results);
   timeseries.drawAll(results);
+}
+
+export const newRound = () => {
+  const currentValue = parseInt($('#lCurrentRound').text());
+  $('#lCurrentRound').text(currentValue + 1);
 }

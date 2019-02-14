@@ -33,3 +33,11 @@ export const getSectionObject = section => {
   });
   return sectionObject[0]
 }
+
+export const isDelayed = (variableId, section) => {
+  const sectionObject = getSectionObject(section);
+  const variableObject = sectionObject.variables.filter(variableObject => {
+    return variableObject.id === variableId;
+  });
+  return variableObject[0].delay
+}

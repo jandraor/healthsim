@@ -1,8 +1,7 @@
 import * as tsline from "../../components/timeseries_line/main.ts";
-import * as ut from '../../../helpers/utilities.ts';
 import * as data from "../data.ts";
 const $ = require('jquery');
-import * as objectQueries from '../objectQueries.ts';
+import * as help from './helpers/main.ts';
 
 const padding = {
   'top': 10,
@@ -29,13 +28,12 @@ export const buildCharts = stopTime => {
   });
 }
 
-export const drawAll = simulationResults => {
+export const drawAll = simulationResult => {
   const team = $('#lTeamId').text();
   $('#divDashboard select').each(function(i) {
     const section = this.id.replace('selTS', '');
     const variable = $(this).val();
-    const yVariable = objectQueries.getRVariables(variable, section, team);
-    const dataset = ut.create2DDataset('time', yVariable, simulationResults);
+    const dataset = help.applyInfoDelay(variable, section, simulationResult);
     const superDataset = [dataset];
 
     const params = {

@@ -60,11 +60,11 @@ const startGame = (socket, gameCollection, io, payload) => {
           'ventilators': teamData[0].VentilatorCostPerUnit,
         },
         'infected': {
-          'total': teamData[0].Infected,
-          'nonSevere': teamData[0].Infected,
-          'severe': 0,
-          'quarantine': 0,
-          'antivirals': 0,
+          'totalinfected': teamData[0].Infected,
+          'nonsevereinfected': teamData[0].Infected,
+          'severeinfected': 0,
+          'quarantineinfected': 0,
+          'antiviralsinfected': 0,
         }
       }
 

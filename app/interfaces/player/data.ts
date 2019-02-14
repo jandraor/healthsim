@@ -7,27 +7,32 @@ export const sections = [
       {
         'id': 'TotalInfected',
         'RName': ['_TM_I1', '_TM_I2', '_TM_IS', '_TM_IQ', '_TM_IAV'],
-        'display': 'Total Infected'
+        'display': 'Total Infected',
+        'delay': true,
       },
       {
         'id': 'NonSevereInfected',
         'RName': ['_TM_I1', '_TM_I2'],
-        'display': 'Non-severe infected'
+        'display': 'Non-severe infected',
+        'delay': true,
       },
       {
         'id': 'SevereInfected',
         'RName': '_TM_IS',
         'display': 'Severe infected',
+        'delay': true,
       },
       {
         'id': 'QuarantineInfected',
         'RName': '_TM_IQ',
         'display': 'Infected in quarantine',
+        'delay': true,
       },
       {
         'id': 'AntiviralsInfected',
         'RName': '_TM_IAV',
-        'display': 'Infected in antivirals'
+        'display': 'Infected in antivirals',
+        'delay': true,
       }
     ]
   },
@@ -38,22 +43,26 @@ export const sections = [
       {
         'id': 'Financial',
         'RName':'_FM_R',
-        'display': 'Financial'
+        'display': 'Financial',
+        'delay': false,
       },
       {
         'id': 'Antivirals',
         'RName':'_AVR_AVS',
-        'display': 'Antivirals'
+        'display': 'Antivirals',
+        'delay': false,
       },
       {
         'id': 'Vaccines',
         'RName':'_VAC_VS',
-        'display': 'Vaccines'
+        'display': 'Vaccines',
+        'delay': false,
       },
       {
         'id': 'Ventilators',
         'RName':'_VEN_VS',
-        'display': 'Ventilators'
+        'display': 'Ventilators',
+        'delay': false
       },
     ]
   }

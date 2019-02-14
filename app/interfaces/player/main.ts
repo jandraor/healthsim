@@ -25,6 +25,7 @@ export const startNewRound = () => {
   timers.stop();
   timers.start();
   inputBoard.newRound();
+  dashboard.newRound();
 }
 
 export const newMessage = () => {

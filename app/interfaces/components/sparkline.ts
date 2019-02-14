@@ -58,7 +58,7 @@ export const createSparkline = options => {
   const dataset = options.dataset;
   const xScale = d3.scaleLinear()
                    .domain([0, options.stopTime])
-                   .range([0, rectWidth - options.radius]);
+                   .range([0 + options.radius, rectWidth - options.radius]);
   let domain;
   if(options.domain) {
     domain = options.domain;

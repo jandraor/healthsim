@@ -2,8 +2,7 @@ const $ = require('jquery');
 import * as select from "../../components/select.ts";
 import * as data from "../data.ts";
 import * as timeseries from "./timeseries.ts";
-import * as ut from '../../../helpers/utilities.ts';
-import * as objectQueries from '../objectQueries.ts';
+import * as help from './helpers/main.ts';
 
 export const build = () => {
   //In each section there is a select input
@@ -33,15 +32,14 @@ export const build = () => {
 
 const onChange = selectId => {
   $(`#${selectId}`).change(function() {
-    const team = $('#lTeamId').text();
     const section = this.id.replace("selTS", "");
     const simulationResult = $('#lTeamId').data('data');
 
     if(!$.isEmptyObject(simulationResult)) {
       const variable = $(this).val();
-      const yVariable = objectQueries.getRVariables(variable, section, team)
-      const dataset = ut.create2DDataset('time', yVariable, simulationResult);
+      const dataset = help.applyInfoDelay(variable, section, simulationResult);
       const superDataset = [dataset];
+
       const params = {
         'svgId': `svgTS${section}`,
         'superDataset': superDataset,

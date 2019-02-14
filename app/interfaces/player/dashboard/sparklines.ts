@@ -2,7 +2,9 @@ import * as sl from "../../components/sparkline.ts";
 const $ = require('jquery');
 import * as d3 from 'd3';
 import * as ut from '../../../helpers/utilities.ts';
-import * as data from '../data.ts'
+import * as help from './helpers/main.ts';
+import * as data from '../data.ts';
+import * as objectQueries from '../objectQueries.ts';
 
 export const build = (initParams) => {
   const variableList = [
@@ -47,68 +49,45 @@ export const build = (initParams) => {
 }
 
 export const setInitialValues = initParams => {
-  const slParams = [
-    {
-      'variable': 'Antivirals',
-      'value': Math.round(initParams.resources.antivirals),
-    },
-    {
-      'variable': 'Vaccines',
-      'value': Math.round(initParams.resources.vaccines),
-    },
-    {
-      'variable': 'Ventilators',
-      'value': Math.round(initParams.resources.ventilators),
-    },
-    {
-      'variable': 'Financial',
-      'value':  Math.round(initParams.resources.financial),
-    },
-    {
-      'variable': 'TotalInfected',
-      'value':  Math.round(initParams.infected.total),
-    },
-    {
-      'variable': 'NonSevereInfected',
-      'value':  Math.round(initParams.infected.nonSevere),
-    },
-    {
-      'variable': 'SevereInfected',
-      'value':  Math.round(initParams.infected.severe),
-    },
-    {
-      'variable': 'QuarantineInfected',
-      'value':  Math.round(initParams.infected.quarantine),
-    },
-    {
-      'variable': 'AntiviralsInfected',
-      'value':  Math.round(initParams.infected.antivirals),
-    },
-  ]
-  slParams.forEach(params => {
-    sl.setInitValue(params.variable, params.value);
-  })
+  data.sections.forEach(sectionObject => {
+    const optionsObj = sectionObject.variables.map(variableObj => {
+      const variable = variableObj.id
+      const section = sectionObject.id;
+      const stopTime = parseInt($('#lStopTime').text());
+      const informationDelay = $('#lIncome').data('reportingDelay');
+      const isDelayed = objectQueries.isDelayed(variable, section);
+
+      if (!isDelayed || (isDelayed && informationDelay === 0)) {
+        const sectionLC = section.toLowerCase();
+        const variableLC = variable.toLowerCase();
+        const yValue = Math.round(initParams[sectionLC][variableLC]);
+        const dataset = [{'x': 0, 'y': yValue}];
+        const options = {
+          'variable':variableObj.id,
+          'dataset': dataset,
+          'stopTime': stopTime,
+          'radius':2,
+          'duration': 1,
+          'delay': 1,
+        }
+        sl.createSparkline(options);
+      }
+
+    });
+  });
 }
 
-export const draw = simulationResults => {
+export const draw = simulationResult => {
   const team = $('#lTeamId').text();
   const stopTime = parseInt($('#lStopTime').text());
 
   data.sections.forEach(sectionObject => {
-    let superDataset = []; //Used only if scale === 'fixed'
+    const section = sectionObject.id;
+    let superDataset = []; //Used only if scale === 'fixed';
+
     const optionsObj = sectionObject.variables.map(variableObj => {
-      let yVariable;
-      if(typeof(variableObj.RName) === 'string') {
-        yVariable = `${team}${variableObj.RName}`;
-      }
-
-      if(Array.isArray(variableObj.RName)) {
-        yVariable = variableObj.RName.map(variable => {
-          return `${team}${variable}`
-        });
-      }
-
-      const dataset = ut.create2DDataset('time', yVariable, simulationResults);
+      const variable = variableObj.id;
+      const dataset = help.applyInfoDelay(variable, section, simulationResult);
       superDataset.push(dataset);
       const options = {
         'variable': variableObj.id,
@@ -123,14 +102,16 @@ export const draw = simulationResults => {
 
     optionsObj.forEach(options => {
       sl.clearChart(options.variable);
+
       if(sectionObject.slScale === 'fixed') {
         const limits = ut.findExtremePoints(superDataset);
         const domain = [limits.ymin, limits.ymax]
         options['domain'] = domain;
       }
-      sl.createSparkline(options);
-    })
 
-
+      if(options.dataset.length > 0){
+        sl.createSparkline(options);
+      }
+    });
   });
 }
