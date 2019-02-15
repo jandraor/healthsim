@@ -1,6 +1,7 @@
 import * as timeseries from './timeseries.ts';
 import * as selects from './selects.ts';
 import * as sparklines from './sparklines.ts';
+import * as arcMeters from './arcMeters.ts';
 import * as ut from '../../../helpers/utilities.ts';
 const $ = require('jquery');
 
@@ -10,6 +11,7 @@ export const build = initParams => {
   timeseries.buildCharts(stopTime);
   selects.build();
   sparklines.build(initParams);
+  arcMeters.build();
 }
 
 export const update = newData => {

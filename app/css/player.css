@@ -46,3 +46,20 @@
   height: 80%;
   overflow-y: scroll;
 }
+
+.arcMeter .background{
+  fill: #d0d1e6;
+}
+
+.arcMeter .foreground {
+  fill: #045a8d;
+}
+
+.arcMeter .variableName {
+  font-size: 10px;
+  color: #778899;
+}
+
+.arcMeter .indValue {
+  font-size: 20px;
+}

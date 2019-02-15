@@ -4,8 +4,10 @@ export const html = Handlebars.compile(`
   <div id = "divTeamInfo"> </div>
   <div class = "text-secondary" id = "divRounds"></div>
   <div class = "row">
-    <div class = "col-3 d-flex align-self-center justify-content-center" id = "colKPI">
-      <p class = "text-center">KPI</p>
+    <div class = "col-3" id = "colKPI">
+      <div class = "mt-2" id= "divInfectedPct">
+      <svg id= "svgInfectedPct"></svg>
+      </div>
     </div>
     <div class = "col-9" id = "colBOT">
       <div class = "container-fluid">
