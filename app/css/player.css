@@ -1,3 +1,7 @@
+.slider.slider-horizontal{
+  width: 10vw;
+}
+
 #deploy-antivirals-slider .slider-selection {
 	background: #BABABA;
 	width: 1000px;
@@ -22,8 +26,16 @@
 	background: #BABABA;
 }
 
-.slider.slider-horizontal{
-  width:10vw; /* sample value - set it as you like*/
+#slider-orders-Antivirals{
+	width: 9vw;
+}
+
+#slider-orders-Vaccines{
+	width: 9vw;
+}
+
+#slider-orders-Ventilators{
+	width: 9vw;
 }
 
 .playerRightCol {

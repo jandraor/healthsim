@@ -3,7 +3,7 @@ import * as Handlebars from '../../../../node_modules/handlebars/dist/handlebars
 export const html = Handlebars.compile(`
   <div class = "container-fluid pt-2">
     <div class = "row">
-      <div class = "col-5">
+      <div class = "col-4">
         <div id = "divProgress"></div>
         <div id = "divInputs">
           <div class = "container-fluid">
@@ -15,7 +15,7 @@ export const html = Handlebars.compile(`
           </div>
         </div>
       </div>
-      <div class = "col-7 playerRightCol">
+      <div class = "col-8 playerRightCol">
         <div class = "container-fluid h-75" id = 'divDashboard'></div>
         <div class = "container-fluid h-25 border rounded">
           <div class = "row h-100">
