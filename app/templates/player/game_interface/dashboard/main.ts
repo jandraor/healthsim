@@ -3,6 +3,8 @@ import * as teamInfo from './teamInfo.ts';
 import * as layout from './layout.ts';
 import * as round from './round.ts';
 import * as ut from '../../../../helpers/utilities.ts';
+import * as bot from './bot.ts'; //behaviour over time
+import * as kpi from './kpi.ts'; // key performance indicators
 
 export const build = params => {
   const myTeam = params.yourTeam;
@@ -10,6 +12,8 @@ export const build = params => {
   const dashboard = $('#divDashboard');
   const layoutHtml = layout.html();
   dashboard.append(layoutHtml);
+  $('#colBOT').append(bot.html());
+  $('#colKPI').append(kpi.html());
   const paramsTeam = {
     'name': params.yourTeam,
     'population': ut.formatNumber(params.population),

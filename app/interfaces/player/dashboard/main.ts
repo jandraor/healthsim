@@ -7,11 +7,12 @@ const $ = require('jquery');
 
 export const build = initParams => {
   $('#lIncome').data('reportingDelay', Math.round(initParams.reportingDelay));
+  $('#lPopulation').data('value', initParams.population)
   const stopTime = initParams.rounds;
   timeseries.buildCharts(stopTime);
   selects.build();
   sparklines.build(initParams);
-  arcMeters.build();
+  arcMeters.build(initParams);
 }
 
 export const update = newData => {
@@ -27,13 +28,13 @@ export const update = newData => {
   if(!$.isEmptyObject(currentData)) {
     newData.shift();
     const updatedData = ut.bindData(currentData, newData);
-    console.table(updatedData);
     $('#lTeamId').data('data', updatedData);
     results = updatedData;
   }
 
   sparklines.draw(results);
   timeseries.drawAll(results);
+  arcMeters.update(results);
 }
 
 export const newRound = () => {

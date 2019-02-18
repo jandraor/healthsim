@@ -41,3 +41,11 @@ export const isDelayed = (variableId, section) => {
   });
   return variableObject[0].delay
 }
+
+export const getPhysicalResources = () => {
+  const sectionObject = getSectionObject('Resources');
+  const variableObject = sectionObject.variables.filter(variable => {
+    return variable.type === 'physical'
+  });
+  return variableObject;
+}

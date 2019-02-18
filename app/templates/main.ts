@@ -1,9 +1,6 @@
 const $ = require('jquery');
 import * as Handlebars from '../../node_modules/handlebars/dist/handlebars.js';
-const logo2 = require('../img/logo2.svg');
-const saf = require('../img/unnamed.png');
 const modelimg = require('../img/SIR.png');
-const logoNUIG = require('../img/logo_nuig.jpg');
 import * as inst from './instructor/main.ts';
 import * as main from './mainLayout.ts';
 import * as plyr from './player/main.ts';
