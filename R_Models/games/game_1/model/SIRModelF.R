@@ -157,7 +157,9 @@ healthsim_model <- function(time, stocks, auxs){
     
     
     # Antiviral Spend=Antiviral Orders*Antiviral Cost Per Unit
-    AntiviralSpend <- AntiviralOrders*simd$g_countries$AntiviralCostPerUnit
+    
+    # For development: AntiviralSpend <- AntiviralOrders*simd$g_countries$AntiviralCostPerUnit
+    AntiviralSpend <- TotalRequiredAntiviralOrders * simd$g_countries$AntiviralCostPerUnit
     
     # IRAV=Anti Viral Policy*Anti Viral Fraction*Infected1
     IRAV <- simd$g_policy_matrix[,"AntiviralPolicy"] * AntiViralFraction * states[,"_TM_I1"]
@@ -284,7 +286,9 @@ healthsim_model <- function(time, stocks, auxs){
     
     
     #Vaccine Spend=Vaccine Orders*Vaccine Cost Per Unit
-    VaccineSpend <- VaccineOrders*simd$g_countries$VaccineCostPerUnit
+    #For developmentVaccineSpend <- VaccineOrders*simd$g_countries$VaccineCostPerUnit
+    VaccineSpend <- TotalRequiredVaccineOrders * simd$g_countries$VaccineCostPerUnit
+    
     
     #VR=Susceptible*Vaccination Fraction*Vaccination Policy
     VR <- states[,"_TM_S"]*simd$g_policy_matrix[,"VaccinationPolicy"]*VaccinationFraction
@@ -310,7 +314,8 @@ healthsim_model <- function(time, stocks, auxs){
     
     
     #Ventilator Spend=Ventilator Orders*Ventilator Cost Per Unit
-    VentilatorSpend <- VentilatorOrders*simd$g_countries$VentilatorCostPerUnit
+    # For development VentilatorSpend <- VentilatorOrders*simd$g_countries$VentilatorCostPerUnit
+    VentilatorSpend <- TotalRequiredVentilatorOrders * simd$g_countries$VentilatorCostPerUnit
     
     #Ventilators Dispensed=ISR
     VentilatorsDispensed <- ISR

@@ -103,15 +103,15 @@ get_data <- function(SAMPLE=T,
   })
   countries$VaccineCostPerUnit <- sapply(countries$Category, function(x){
     index <- which(params$Category==x & params$Name == "VaccineCostPerUnit")
-    runif(1,min=pull(params[index,"Minimum"]),max=pull(params[index,"Maximum"]))
+    round(runif(1,min=pull(params[index,"Minimum"]),max=pull(params[index,"Maximum"])))
   })
   countries$AntiviralCostPerUnit <- sapply(countries$Category, function(x){
     index <- which(params$Category==x & params$Name == "AntiviralCostPerUnit")
-    runif(1,min=pull(params[index,"Minimum"]),max=pull(params[index,"Maximum"]))
+    round(runif(1,min=pull(params[index,"Minimum"]),max=pull(params[index,"Maximum"])))
   })
   countries$VentilatorCostPerUnit <- sapply(countries$Category, function(x){
     index <- which(params$Category==x & params$Name == "VentilatorCostPerUnit")
-    runif(1,min=pull(params[index,"Minimum"]),max=pull(params[index,"Maximum"]))
+    round(runif(1,min=pull(params[index,"Minimum"]),max=pull(params[index,"Maximum"])))
   })
 
   ###### Vaccine Supply Chain Model #######
