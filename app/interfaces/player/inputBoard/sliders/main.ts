@@ -108,7 +108,7 @@ export const setMaxLimits = params => {
     const prefix = variable.id.substring(0,3);
     const rVariable = queries.getRVariables(variable.id, 'Resources', team);
     const deployMax = Math.floor(params[rVariable]);
-    
+
     //modals
     $(`.sl${prefix}Don`).each(function() {
       const teamDonationSlider = $(this);
@@ -133,7 +133,7 @@ export const setMaxLimits = params => {
         const maxOrder = Math.floor(deployMax / unitCost);
         resourceOrderSlider.slider('setAttribute', 'max', maxOrder);
         resourceOrderSlider.slider('setValue', 0, true, true);
-        $(`#${this.id}Max`).text(maxOrder);
+        $(`#lslOrd${resource}Max`).text(maxOrder);
       });
     }
   });
