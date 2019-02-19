@@ -36,7 +36,7 @@ export const html = Handlebars.compile(`
         </form>
 
           <p class = "text-secondary"> Is there an individual infected?:
-            <input type="checkbox" class = "checkbox-inline" id = "cbInfected-{{teamName}}">
+            <input type="checkbox" class = "checkbox-inline cbInfected" id = "cbInfected-{{teamName}}">
           </p>
           <p class = "text-secondary">Players:</p>
           <ul class = 'playerList' id = 'playerList-{{teamName}}'></ul>
