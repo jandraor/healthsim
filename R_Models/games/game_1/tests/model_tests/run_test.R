@@ -49,11 +49,11 @@ library(ggplot2)
 # Display epi-curves
 df <- select(sim_data$sim_output,time,starts_with("TotalInfected."))
 tdf <- gather(df,key = Country, value = Infected, 2:ncol(df))
-ggplot(data=tdf,aes(x=time,y=Infected,colour=Country))+geom_path()
+g1 <- ggplot(data=tdf,aes(x=time,y=Infected,colour=Country))+geom_path()
 # Display Total population
 df <- select(sim_data$sim_output,time,starts_with("TotalPopulation."))
 tdf <- gather(df,key = Country, value = Infected, 2:ncol(df))
-ggplot(data=tdf,aes(x=time,y=Infected,colour=Country))+geom_path()
+g2 <- ggplot(data=tdf,aes(x=time,y=Infected,colour=Country))+geom_path()
 
 ARCHIVE_DIR <- get_Directory('archive')
 new_dir <- create_dir_archive(ARCHIVE_DIR)

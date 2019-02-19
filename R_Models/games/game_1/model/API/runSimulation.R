@@ -6,13 +6,14 @@ run_simulation <- function(sim_data,
                            START=0,
                            FINISH=10,
                            STEP=0.05,
-                           ABS_START=0){
+                           ABS_START=0,
+                           development = FALSE){
   source('./R_Models/games/game_1/model/SIRModelF.R') #loads healthsim_model 
   source('./R_Models/games/game_1/utils/get_donations_data.R') #loads get_donations_data 
   source('./R_Models/games/game_1/utils/convert_donatons_to_list.R') #loads get_donations_data 
-  # get the donations data
-  current_donations <- get_donations_data(START, FINISH)
-
+  
+  production <- !development
+  
   # create a temporary global environment for the simulation data
   simd <<- new.env()
 
@@ -27,10 +28,22 @@ run_simulation <- function(sim_data,
   simd$FINISH_TIME         <- FINISH
   simd$TIME_STEP           <- STEP
   simd$ABS_START           <- ABS_START
+  
+  if(production){
+    # get the donations data
+    current_donations <- get_donations_data(START, FINISH)
+  }
+  
+  if(development) {
+    current_donations <- get_donations_data(START, 
+                                            FINISH, 
+                                            development = TRUE,
+                                            countries = sim_data$g_sector_names)
+  }
+  
   simd$current_donations   <- current_donations
   simd$aggregate_donations <- convert_donations_to_list(current_donations)
   
-
   # Note: originally the idea was to have one variable per column, but it
   # was simpler to use a tidy data structure involvin time, ModelVariable and Value
   # Old code commented out
