@@ -12,7 +12,7 @@ export const html = Handlebars.compile(`
       In this simulator, knowledge from <strong>epidemiology</strong>,
       <strong>System Dynamics</strong> and <strong>data visualisation</strong>
       are employed in such a way that the SIR model can be explored
-      from the different perspectives.
+      from different perspectives.
 
       <p class = "text-justify textCaseStudy">The simulator is distributed in four panels: </p>
 

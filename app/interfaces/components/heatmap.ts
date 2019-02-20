@@ -73,11 +73,14 @@ export const draw = (data, divId, legend = false) => {
                  .attr("transform", (d, i) => `translate(0,${yScale(data.names[i])})`);
 
   row.selectAll("rect")
-     .data(d => d)
-     .enter()
-     .append("rect")
-     .attr("x", (d, i) => xScale(data.time[i]) + 1)
-     .attr("width", (d, i) => xScale(data.time[i] + 1) - xScale(data.time[i]) - 1)
-     .attr("height", yScale.bandwidth() - 1)
-     .attr('fill', d => isNaN(d) ? "#eee" : d === 0 ? "#fff" : color(d))
+    .data(d => d)
+    .enter()
+    .append("rect")
+      .attr("x", (d, i) => xScale(data.time[i]) + 1)
+      .attr("width", (d, i) => xScale(data.time[i] + 1) - xScale(data.time[i]) - 1)
+      .attr("height", yScale.bandwidth() - 1)
+      .attr('fill', d => isNaN(d) ? "#eee" : d === 0 ? "#fff" : color(d))
+    .append('title')
+      .text((d, i) => isNaN(d) ? '': Math.round(d))
+
 }
