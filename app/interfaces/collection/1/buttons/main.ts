@@ -5,7 +5,7 @@ import * as drawCSButton from './drawCS.ts';
 import * as resetButton from './reset.ts';
 
 export const clickEvents = (model_id, fetchJSON, dataset) => {
-  runButton.onClick(model_id, fetchJSON);
+  runButton.onClick(model_id);
   stepButton.onClick(model_id, fetchJSON);
   replayButton.onClick();
   drawCSButton.onClick(dataset);

@@ -1,14 +1,15 @@
 const $ = require('jquery');
 import * as d3 from 'd3';
-import * as ut from "../../../components/utilities.ts";
+import * as intUt from "../../../components/utilities.ts";
 import * as tsline from "../../../components/tsLine.ts";
 import * as sl from "../../../components/sparkline.ts";
 import * as tables from "../../../components/table.ts";
 import * as slBuilder from "../sparklines.ts";
 import * as ts from '../timeseries.ts';
 import * as sfd from "../sf.ts";
+import * as ut from '../../../../helpers/utilities.ts';
 
-export const onClick = (model_id, fetchJSON)  => {
+export const onClick = model_id  => {
   const w = 800 * (2 / 3); //Width
   const h = 500 * (2 / 3); //Heigth
   const padding = 40;
@@ -18,13 +19,18 @@ export const onClick = (model_id, fetchJSON)  => {
       $('#bRun').html('<i class="fa fa-spinner fa-spin"></i>')
       const startTime = parseInt($("#varValueFrom").text());
       const finishTime = parseInt($("#varValueTo").text());
-      const params = ut.getParameters(String(model_id), false,
+      const params = intUt.getParameters(String(model_id), false,
       startTime, finishTime);
-      const paramsUrl = ut.concatenateParameters(params);
+      const paramsUrl = intUt.concatenateParameters(params);
       const url = `/simulate/model/${model_id}/${paramsUrl}`;
-      const rawDataset = await fetchJSON(url);
+      const rawDataset = await ut.fetchJSON(url);
+      if($.isEmptyObject(rawDataset)){
+        ut.showAlert('Simulation could not be executed');
+        $('#bRun').html('Run');
+        return
+      }
       $('#bRun').html('Run')
-      const dataset = ut.parseDataset(rawDataset, String(model_id));
+      const dataset = intUt.parseDataset(rawDataset, String(model_id));
       const lastElement = dataset[dataset.length - 1];
       const newCurrentTime = String(d3.max(dataset, d => {return d.time}));
       const selSF = d3.select('#selVarSF');
