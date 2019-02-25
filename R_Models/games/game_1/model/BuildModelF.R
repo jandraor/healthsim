@@ -11,8 +11,10 @@ build_model <- function (g_countries, SAMPLE, SECTORS_INFECTED = 0 ){
   av_model_stocks <- c("_AVR_AVSL","_AVR_AVS","_AVR_TAVSHR","_AVR_TAVR","_AVR_TAVD","_AVR_TAVS","_AVR_TAO")
 
   ven_model_stocks <- c("_VEN_VSL","_VEN_VS","_VEN_VIU","_VEN_TVR","_VEN_TVD","_VEN_TVS","_VEN_TVO")
+  
+  cost_model_stocks <- c("_COST_CDL")
 
-  all_model_stocks <- c(tm_model_stocks,fm_model_stocks,vac_model_stocks,av_model_stocks,ven_model_stocks)
+  all_model_stocks <- c(tm_model_stocks,fm_model_stocks,vac_model_stocks,av_model_stocks,ven_model_stocks,cost_model_stocks)
 
   NUM_SECTORS <- nrow(g_countries)
   NUM_STOCKS  <- length(all_model_stocks)
