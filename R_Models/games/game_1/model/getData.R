@@ -171,6 +171,17 @@ get_data <- function(SAMPLE=T,
     index <- which(params$Category==x & params$Name == "RecoveryDelayNoResources")
     runif(1,min=pull(params[index,"Minimum"]),max=pull(params[index,"Maximum"]))
   })
+  ###### Economic Model #######
+  countries$DaysLostFraction <- sapply(countries$Category, function(x){
+    index <- which(params$Category==x & params$Name == "DaysLostFraction")
+    runif(1,min=pull(params[index,"Minimum"]),max=pull(params[index,"Maximum"]))
+  })
+  
+  countries$AverageWorkerProductivity <- sapply(countries$Category, function(x){
+    index <- which(params$Category==x & params$Name == "AverageWorkerProductivity")
+    runif(1,min=pull(params[index,"Minimum"]),max=pull(params[index,"Maximum"]))
+  })
+  
   #---------------------------------------------------------------------------
   # STEP (4) - Add policy variables
   #---------------------------------------------------------------------------
