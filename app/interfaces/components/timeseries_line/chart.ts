@@ -1,7 +1,7 @@
 import * as d3 from 'd3';
 
 /**
- * Creates a chart for drawing timeseries on a SVG element.
+ * Creates a chart for timeseries on a existing SVG element.
  * @param {Object} options - Function's parameters.
  * @param {string} options.svgId - Id of the svg
  * @param {number} options.width - width of the svg
@@ -23,11 +23,20 @@ export const draw = options => {
 
   //Define X axis
   const xAxis = d3.axisBottom()
-                  .scale(xScale);
+    .scale(xScale)
+
+  if(options.xTicks) {
+    xAxis.ticks(options.xTicks)
+  }
+
 
   //Define Y axis
   const yAxis = d3.axisLeft()
-                  .scale(yScale);
+    .scale(yScale);
+
+  if(options.yTicks) {
+    yAxis.ticks(options.yTicks)
+  }
 
   //Set attributes to SVG element
   const svg = d3.select(`#${options.svgId}`)
@@ -58,8 +67,46 @@ export const draw = options => {
   //Timeseries are drawn on this element
   svg.append('g')
      .attr('class', 'gTS');
+
+  //Title
+  if(options.title) {
+    svg.append("text")
+      .attr("text-anchor", "start")
+      .attr("y", 15)
+      .attr("x", options.padding.left)
+      .text(options.title);
+  }
 }
 
 export const clear = svgId => {
   d3.select(`#${svgId}`).selectAll('path').remove();
+}
+
+export const drawGroup =  options => {
+  const margin = {top: 30, right: 15, bottom: 50, left: 50};
+  const width = 215;
+  const height = width;
+  const svg = d3.select(`#${options.divId}`)
+    .selectAll("facet")
+    .data(options.keys)
+    .enter()
+      .append("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .attr('id', d => {return `svgTSFacet${d.name}`})
+    .each(function(data){
+      draw({
+        'svgId': this.id,
+        'width': width,
+        'height': height,
+        'padding': margin,
+        'xmin': 0,
+        'xmax': 20,
+        'ymin': 0,
+        'ymax': 30000,
+        'yTicks': 3,
+        'xTicks': 3,
+        'title': data.name
+      });
+    });
 }

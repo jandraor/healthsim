@@ -28,26 +28,13 @@ export const build = options => {
     'values': values
    };
 
-  hm.draw(data, 'divHeatMap');
+  hm.draw({
+    'data': data,
+    'divId': 'divHeatMap',
+  });
 }
 
-export const update = newData => {
-  const currentData = $('#selHeatMap').data('results');
-
-  let results;
-
-  if($.isEmptyObject(currentData)) {
-    $('#selHeatMap').data('results', newData);
-    results = newData;
-  }
-
-  if(!$.isEmptyObject(currentData)) {
-    newData.shift();
-    const updatedData = ut.bindData(currentData, newData);
-    $('#selHeatMap').data('results', updatedData);
-    results = updatedData;
-  }
-
+export const update = results => {
   $('#bSimulate').html('Simulate')
   $('#divHeatMap').html('');
   const stopTime = parseInt($('#lStopTime').text());
@@ -81,5 +68,10 @@ export const update = newData => {
     'values': yValues
    };
 
-  hm.draw(data, 'divHeatMap', true);
+  hm.draw({
+    'data': data,
+    'divId': 'divHeatMap',
+    'legend': true,
+    'yMax': 30000,
+  });
 }

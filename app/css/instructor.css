@@ -64,3 +64,12 @@
 .divLogo img {
   pointer-events: none;
 }
+
+.nav-pills > li > a {
+  color: #BCD2EE;
+}
+
+.nav-pills > li > a.active {
+  background-color: #C6E2FF !important;
+  color: white;
+}

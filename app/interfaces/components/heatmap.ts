@@ -1,11 +1,44 @@
 import * as d3 from 'd3';
 import * as ut from './utilities.ts'
 
-export const draw = (data, divId, legend = false) => {
+/**
+ * Creates a heatmap of a specified div.
+ * @param {Object} options - Function's parameters.
+ * @param {Object} options.data - Object that contains the information to be represented in the heatmap.
+ * @param {string} options.divId - Div's id where the heatmap will be allocated.
+ * @param {boolean} [options.legend = false] - Indicates whether a legend is displayed above the heatmap.
+ * @param {number} [options.yMax] - Max time the entire run.
+ */
+export const draw = options => {
+  if(!options.data) {
+    console.log (`Property 'data' not found`);
+    return
+  }
+  const data = options.data;
+
+  if(!options.divId) {
+    console.log (`Property 'divId' not found`);
+    return
+  }
+  const divId = options.divId;
+
+  let yMax;
+  if(options.yMax) {
+    yMax = options.yMax;
+  }
+
+  if(!options.yMax) {
+    yMax = d3.max(data.values, d => d3.max(d));
+  }
+
+  if(!options.legend) {
+    options.legend = false;
+  }
+  const legend = options.legend;
   const margin = {top: 20, right: 10, bottom: 40, left: 100}
   const color = d3.scaleSqrt()
                   .interpolate(() => d3.interpolatePuRd)
-                  .domain([0, d3.max(data.values, d => d3.max(d))])
+                  .domain([0, yMax])
 
   if (legend === true) {
     const widthLegend =  500;

@@ -14,10 +14,9 @@ import * as tooltip from './tooltip.ts';
  * @param {string} options.idLine - Id of the path element in the DOM.
  * @param {string} options.classLine - Class of the path element in the DOM.
  * @param {boolean} options.tooltip - Indicates whether a tooltip will be added to the timeseries line.
+ * @param {number} [options.yMax] - Maximum value displayed in the y-axis.
  */
 export const draw = options => {
-  console.log('options padding');
-  console.log(options.padding);
   const svg = d3.select(`#${options.svgId}`);
   const superDataset = options.superDataset;
   const extremePoints = ut.findExtremePoints(superDataset);
@@ -42,6 +41,11 @@ export const draw = options => {
   } else {
     ymax = extremePoints.ymax;
   }
+
+  if(options.yMax) {
+    ymax = options.yMax;
+  }
+  
   const width = svg.attr('width');
   const height = svg.attr('height');
 

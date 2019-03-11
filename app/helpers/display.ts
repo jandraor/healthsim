@@ -32,17 +32,18 @@ export const listPlayOptions = async(socket) => {
     gameEvents.sendCredentials(socket);
 
     $('#bCreateGame').click(() => {
+      socket.removeAllListeners();
       gameEvents.instructorListeners(socket);
     })
 
     $('#bConfirmCG').click( () => {
       const name = $('#iptGameName').val();
       const nTeams = parseInt($('#inputNTeams').val());
-      console.log(nTeams);
       gameEvents.instructorEmitters.createSession(socket, name, nTeams);
     });
 
     $('#bJoinGame').click(() => {
+      socket.removeAllListeners();
       gameEvents.playerListeners(socket);
       gameEvents.playerEmitters.getAvailableGames(socket);
     });

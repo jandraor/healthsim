@@ -16,3 +16,7 @@ export const drawLineCaseStudy = options => {
 export const clearChart = svgId => {
   chart.clear(svgId);
 }
+
+export const drawGroupChart = options => {
+  chart.drawGroup(options);
+}
