@@ -2,6 +2,7 @@ import * as ts from '../../../components/timeseries_line/main.ts';
 import * as instUt from '../../helpers.ts';
 import * as ut from '../../../../helpers/utilities.ts';
 const $ = require('jquery');
+import * as instData from '../../data.ts';
 
 export const build = options => {
   ts.drawGroupChart({
@@ -10,22 +11,33 @@ export const build = options => {
   });
 }
 
-export const update = newData => {
-  console.log('--------------new data:---------------');
-  console.log(newData);
-  console.log('--------------new data:---------------');
+export const update = (newData, variable) => {
+  const filterResult = instData.indicators.filter(variableObj => {
+    return variableObj.id === variable});
+
+  const variableObj = filterResult[0];
   const teams = instUt.getTeams();
   const stopTime = parseInt($('#lStopTime').text());
+  const margin = {top: 30, right: 15, bottom: 50, left: 50};
+  const RVar = variableObj.RName;
+
   teams.forEach(team => {
     const svgId = `svgTSFacet${team}`;
     ts.clearChart(svgId);
-    const margin = {top: 30, right: 15, bottom: 50, left: 50};
-    const infectedVariables = ['_TM_I1', '_TM_I2', '_TM_IQ', '_TM_IAV', '_TM_IS']
-    const yLabel = infectedVariables.map(variable => {
-      return `${team}${variable}`
-    });
-    const dataset = ut.create2DDataset('time', yLabel, newData)
-    // chart must be cleared
+
+    let dataset;
+    if(variableObj.type === 'atomic') {
+      const yLabel = `${team}${RVar}`
+      dataset = ut.create2DDataset('time', yLabel, newData)
+    }
+
+    if(variableObj.type === 'fraction') {
+      const numerator = `${team}${RVar[0]}`;
+      const denominator = `${team}${RVar[1]}`;
+      const yLabel = [numerator, denominator];
+      dataset = ut.create2DDataset('time', yLabel, newData, true)
+    }
+
     ts.drawLine({
       'svgId': svgId,
       'superDataset': [dataset],
@@ -35,7 +47,7 @@ export const update = newData => {
       'idLine': `tsLine${team}`,
       'classLine': 'tsLine',
       'tooltip': false,
-      'yMax': 30000,
+      'yMax': variableObj.maxValue,
     })
   });
 }

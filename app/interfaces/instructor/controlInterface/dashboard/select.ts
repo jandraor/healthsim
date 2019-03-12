@@ -3,14 +3,20 @@ const $ = require('jquery');
 import * as chord from './chordDiagram.ts';
 import * as barchart from './barchart.ts'
 import * as ut from '../../../../helpers/utilities.ts';
+import * as heatmap from './heatmap.ts';
+import * as instData from '../../data.ts';
+import * as timeseries from './timeseries.ts';
 
 export const build = () => {
-  const divId = "divSelRes";
-  select.buildGroup(divId);
-  onChange();
+  const divIds = ["divSelRes", 'divSelEpi'];
+  divIds.forEach(id => {
+    select.buildGroup(id);
+  });
+  onChangeSelDon();
+  onChangeSelEpi();
 }
 
-const onChange = () => {
+const onChangeSelDon = () => {
   $(`#selRelRes`).change(function() {
     const donations = $(this).data('data');
     if($.isEmptyObject(donations)){
@@ -28,5 +34,14 @@ const onChange = () => {
     $('#lTotalDonations').text(totalDonations);
     chord.update(donations[resource], labels);
     barchart.update(donations[resource], labels);
+  });
+}
+
+const onChangeSelEpi = () => {
+  $(`#selEpiVar`).change(function() {
+    const variable = $(this).val();
+    const currentData = $(this).data('results');
+    heatmap.update(currentData, variable);
+    timeseries.update(currentData, variable);
   });
 }

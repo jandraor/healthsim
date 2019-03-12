@@ -65,8 +65,9 @@ export const showAlert = (message, type = 'danger') => {
  * @param {Object} dataset - Array of n-keys object.
  * @param {string} xLabel - The name of variable x.
  * @param {string|string[]} yLabel - The name of variable y or the names of the variables that compound it.
+ * @param {boolean} [fraction = false] Indicates whether the y variable comprises two variables (numerator & denominator)
  */
-export const create2DDataset = (xLabel, yLabel, dataset) => {
+export const create2DDataset = (xLabel, yLabel, dataset, fraction = false) => {
   const x = dataset.map(d => d[xLabel]);
   const length = x.length;
 
@@ -84,7 +85,7 @@ export const create2DDataset = (xLabel, yLabel, dataset) => {
     return twoDimensionDataset;
   }
 
-  if(Array.isArray(yLabel)) {
+  if(Array.isArray(yLabel) && fraction === false) {
     const twoDimensionDataset = [];
 
     const y = dataset.map(row => {
@@ -111,6 +112,23 @@ export const create2DDataset = (xLabel, yLabel, dataset) => {
       twoDimensionDataset.push(temp);
     }
     return twoDimensionDataset;
+  }
+
+  if(Array.isArray(yLabel) && fraction === true) {
+    const size = yLabel.length;
+    if(size != 2) {
+      console.log('yLabel must have length: 2')
+      return
+    }
+    const twoDimensionDataset = [];
+    dataset.forEach((row, index) => {
+      const numerator = row[yLabel[0]];
+      const denominator = row[yLabel[1]];
+      twoDimensionDataset.push({
+        'x': x[index],
+        'y': numerator / denominator})
+    });
+    return twoDimensionDataset
   }
 }
 

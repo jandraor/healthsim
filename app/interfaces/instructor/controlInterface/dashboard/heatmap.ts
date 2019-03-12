@@ -2,6 +2,7 @@ import * as d3 from 'd3';
 import * as hm from '../../../components/heatmap.ts';
 import * as ut from '../../../../helpers/utilities.ts';
 const $ = require('jquery');
+import * as instData from '../../data.ts';
 
 /**
  * Creates the input for the heatmap builder & calls it
@@ -34,8 +35,13 @@ export const build = options => {
   });
 }
 
-export const update = results => {
-  $('#bSimulate').html('Simulate')
+export const update = (results, variable) => {
+  const filterResult = instData.indicators.filter(variableObj => {
+    return variableObj.id === variable});
+
+  const variableObj = filterResult[0];
+
+  $('#bSimulate').html('Simulate') //Must check
   $('#divHeatMap').html('');
   const stopTime = parseInt($('#lStopTime').text());
   const simulationTime = d3.range(0, stopTime + 1); //+ 1 to include last value
@@ -48,18 +54,26 @@ export const update = results => {
 
   const yValues = teams.map(teamName => {
     let valueVector = Array(stopTime).fill(NaN);
-    results.forEach(row => {
-      if(simulationTime.indexOf(row.time) > -1) {
-        const I1 = parseFloat(row[`${teamName}_TM_I1`])
-        const I2 = parseFloat(row[`${teamName}_TM_I2`])
-        const IQ = parseFloat(row[`${teamName}_TM_IQ`])
-        const IAV = parseFloat(row[`${teamName}_TM_IAV`])
-        const IS = parseFloat(row[`${teamName}_TM_IS`])
-        const infected = I1 + I2 + IQ + IAV + IS
 
-        valueVector[row.time] = infected;
-      }
-    })
+    if(variableObj.type === 'atomic') {
+      results.forEach(row => {
+        if(simulationTime.indexOf(row.time) > -1) {
+          const RVar = variableObj.RName;
+          valueVector[row.time] = parseFloat(row[`${teamName}${RVar}`]);
+        }
+      });
+    }
+
+    if(variableObj.type === 'fraction') {
+      results.forEach(row => {
+        if(simulationTime.indexOf(row.time) > -1) {
+          const RVar = variableObj.RName;
+          const numerator = parseFloat(row[`${teamName}${RVar[0]}`]);
+          const denominator = parseFloat(row[`${teamName}${RVar[1]}`]);
+          valueVector[row.time] = numerator / denominator;
+        }
+      });
+    }
     return valueVector
   })
   const data = {
@@ -72,6 +86,6 @@ export const update = results => {
     'data': data,
     'divId': 'divHeatMap',
     'legend': true,
-    'yMax': 30000,
+    'yMax': variableObj.maxValue,
   });
 }

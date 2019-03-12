@@ -1,9 +1,10 @@
 import * as Handlebars from '../../../../../node_modules/handlebars/dist/handlebars.js';
 
 export const html = Handlebars.compile(`
-  <div class = "mt-2 ml-2 border border-danger" id = "divSelect">
-    <select class = "selectpicker" id = "selEpiVar" data-width="fit">
-      <option value = "Infected">Total Infected</option>
+  <div class = "mt-2 ml-2" id = "divSelEpi">
+    <select class = "selectpicker show-tick" id = "selEpiVar" data-width = "fit">
+      <option value = "TotalInfected">Total Infected</option>
+      <option value = "InfectedPerCapita"> Infected Per Capita</option>
     </select>
   </div>
   <ul class = "nav nav-pills mb-3 mt-4 pastelblue" id = "pills-tab" role = "tablist">

@@ -9,13 +9,21 @@ source("./R_Models/games/game_1/utils/read_sim_data.R")
 source("./R_Models/games/game_1/utils/write_sim_data.R")
 source("./R_Models/games/game_1/utils/get_policy_matrix.R")
 source("./R_Models/games/game_1/model/API/runSimulation.R")
+source("./R_Models/games/game_1/utils/sanitiseDF.R")
 
 cmd_args <- commandArgs(TRUE)
 
 start_time    <- as.numeric(cmd_args[1])  # 1st parameter from command line
 finish_time   <- as.numeric(cmd_args[2])  # 2nd parameter from command line
 
-#start_time <- 0; finish_time <- 1
+if(is.na(start_time)) {
+  start_time <- 0
+}
+
+if(is.na(finish_time)) {
+  finish_time <- 1
+}
+
 CURRENT_DIR <- get_Directory('current')
 sim_data <- read_sim_data(CURRENT_DIR)
 
@@ -32,4 +40,5 @@ sim_data <- run_simulation(sim_data, START = start_time, FINISH = finish_time, S
 write_sim_data(sim_data, CURRENT_DIR)
 consoleOutput <- list(bot = sim_data$sim_output %>% filter(between(time, start_time, finish_time)), # behaviour over time
                       donations = sim_data$aggregate_donations)
+consoleOutput$bot <- sanitise_df(consoleOutput$bot)
 toJSON(consoleOutput) # output sent to browser
