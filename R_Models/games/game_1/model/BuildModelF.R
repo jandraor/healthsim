@@ -12,7 +12,7 @@ build_model <- function (g_countries, SAMPLE, SECTORS_INFECTED = 0 ){
 
   ven_model_stocks <- c("_VEN_VSL","_VEN_VS","_VEN_VIU","_VEN_TVR","_VEN_TVD","_VEN_TVS","_VEN_TVO")
   
-  cost_model_stocks <- c("_COST_CDL")
+  cost_model_stocks <- c("_CDL")
 
   all_model_stocks <- c(tm_model_stocks,fm_model_stocks,vac_model_stocks,av_model_stocks,ven_model_stocks,cost_model_stocks)
 
