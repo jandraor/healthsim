@@ -72,6 +72,7 @@ healthsim_model <- function(time, stocks, auxs){
     rownames(states) <- simd$g_sector_names
     colnames(states) <- simd$g_stock_names
     
+    
     #-----------------------------------------------------------------------------------------------
     ### GAME INPUT PARAMETER MATRIX ###
     #-----------------------------------------------------------------------------------------------
@@ -330,8 +331,22 @@ healthsim_model <- function(time, stocks, auxs){
     #VO=Ventilator Orders
     VO <- VentilatorOrders
     
-  
+    # Days Lost
+    # Days Lost= Infected NonSevere+
+    #            Infected AntiVirals+
+    #            Infected in Quarantine+
+    #            Infected Severe+Resource Aided Recovery+
+    #            Non Resource Recovery+
+    #            Long Term Morbidity × Days Lost Fraction
     
+  
+    DaysLost <- states[,"_TM_I1"] +  states[,"_TM_I2"] +  states[,"_TM_IQ"] +
+                states[,"_TM_IS"] +  states[,"_TM_RAR"] + states[,"_TM_NRR"] +
+                states[,"_TM_RAR"] * simd$g_countries$DaysLostFraction
+    
+    
+    CostDaysLost <- states[,"_CDL"] * simd$g_countries$AverageWorkerProductivity
+
     # Transmission Model
     d_TM_S_dt        <- -IR - IRS - VR
     d_TM_I1_dt       <- IR - IR1 - IRAV
@@ -391,6 +406,10 @@ healthsim_model <- function(time, stocks, auxs){
     update_sim_history(time, "AntiviralsOrdered",  AntiviralOrders)
     update_sim_history(time, "VentilatorsOrdered", VentilatorOrders)
     
+    # Cost model - 1 stock
+    
+    d_COST_CDL_dt    <- DaysLost
+    
     list(c(d_TM_S_dt,      d_TM_I1_dt,    d_TM_I2_dt,     d_TM_IQ_dt,    d_TM_IAV_dt,   d_TM_IS_dt, 
            d_TM_RV_dt,     d_TM_RAV_dt,   d_TM_RQ_dt,     d_TM_RNI_dt,   d_TM_RAR_dt,   d_TM_RS_dt,    
            d_TM_NRR_dt,    d_TM_LTM_dt,   d_TM_RIR_dt, 
@@ -401,7 +420,7 @@ healthsim_model <- function(time, stocks, auxs){
            d_AVR_AVSL_dt,  d_AVR_AVS_dt,  d_AVR_TAVSHR_dt, d_AVR_TAVR_dt, 
            d_AVR_TAVD_dt,  d_AVR_TAVS_dt, d_AVR_TAO_dt,
            d_VEN_VSL_dt,   d_VEN_VS_dt,   d_VEN_VIU_dt,    d_VEN_TVR_dt,  d_VEN_TVD_dt,  
-           d_VEN_TVS_dt,   d_VEN_TVO_dt ), 
+           d_VEN_TVS_dt,   d_VEN_TVO_dt,  d_COST_CDL_dt), 
            TotalInfected=TotalInfected, 
            TotalPopulation=TotalPopulation,
            AntiviralsOrdered=AntiviralOrders,
@@ -409,7 +428,8 @@ healthsim_model <- function(time, stocks, auxs){
            VentilatorsOrdered=VentilatorOrders,
            AntiviralOrdersArriving=AntiviralOrdersArriving,
            VaccineOrdersArriving=VaccineOrdersArriving,
-           VentilatorOrdersArriving=VentilatorOrdersArriving
+           VentilatorOrdersArriving=VentilatorOrdersArriving,
+           CostDaysLost= CostDaysLost 
          ) 
   })
 }
