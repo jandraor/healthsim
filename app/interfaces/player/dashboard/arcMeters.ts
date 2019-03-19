@@ -22,7 +22,7 @@ export const build = initParams => {
     'svg': 'svgInfectedPct',
     'height': 120,
     'width': 120,
-    'variable': '% Infected',
+    'variable': '%',
     'value': infValue,
     'initNA': initNA,
     'innerRadius': 45,

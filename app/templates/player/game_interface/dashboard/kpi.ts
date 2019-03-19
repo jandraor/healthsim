@@ -1,11 +1,21 @@
 import * as Handlebars from '../../../../../node_modules/handlebars/dist/handlebars.js';
 
 export const html = Handlebars.compile(`
-  <div class = "d-flex justify-content-center" id= "divInfectedPct">
-    <svg id = "svgInfectedPct"></svg>
+  <div class = "my-5" id = "divEconomy">
+    <h6 class = "mt-2 text-center text-secondary">Economy</h6>
+    <div class = "d-flex justify-content-center mt-2" id = "divSVGEconPerf">
+      <svg id = "svgEconPerf"></svg>
+    </div>
+  </div>
+  <div class = "my-5" id = "divEpidemics">
+    <h6 class = "mt-2 text-center text-secondary">Epidemics</h6>
+    <div class = "d-flex justify-content-center" id = "divSVGInf">
+      <svg id = "svgInfectedPct"></svg>
+    </div>
+    <p class = "subtitle my-0 py-0 text-center">Infected</p>
   </div>
   <div class = "mt-4" id = "divCoverages">
-    <h6 class = "mt-2 text-center text-secondary">Coverages</h6>
+    <h6 class = "mt-2 text-center text-secondary">Resource coverage</h6>
     <div class = "d-flex justify-content-center mt-4">
       <div class = "d-inline-block" id = "divVacCov">
         <div class = "d-flex justify-content-center" id = "divSVGVacCov">

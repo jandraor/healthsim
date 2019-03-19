@@ -67,3 +67,12 @@
 .subtitle {
   font-size: 10px;
 }
+
+.bullet .measure { fill: steelblue; }
+.bullet .range.s0 { fill: #eee; }
+.bullet .range.s1 { fill: #ddd; }
+.bullet .range.s2 { fill: #ccc; }
+.bullet .title { font-size: 9px;font-weight: bold; }
+.bullet .subtitle { font-size: 8px;fill: #999; }
+.bullet .tick line { stroke: #666; stroke-width: .5px; }
+.bullet .tick text {font-size: 8px}
