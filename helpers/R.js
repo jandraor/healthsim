@@ -12,7 +12,6 @@ const runScriptAsync = params => {
     rspawn.on('close', function (code) {
       try {
         const resultsObject = JSON.parse(results);
-        console.log('child process exited with code ' + code);
         resolve (resultsObject)
       } catch(err) {
         reject(err);
