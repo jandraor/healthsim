@@ -2,8 +2,8 @@
 const initialise = require('./initialise.js');
 
 const modelSimulation = {
-  'initialise': async(initConditions, virusSeverity) => {
-    const results = await initialise(initConditions, virusSeverity);
+  'initialise': async(initConditions, virusSeverity, testMode = false) => {
+    const results = await initialise(initConditions, virusSeverity, testMode);
     return results
   },
   'runModel': () => {

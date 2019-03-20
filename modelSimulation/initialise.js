@@ -1,5 +1,5 @@
 
-const initialise = (initConditions, virusSeverity) => {
+const initialise = (initConditions, virusSeverity, testMode) => {
   const promise = new Promise(async (resolve, reject) => {
     try {
 
@@ -16,7 +16,7 @@ const initialise = (initConditions, virusSeverity) => {
       //execute R script
       const runRScriptAsync = require('../helpers/R.js');
       const scriptPath = 'R_Models/games/game_1/srv_initialise.R'
-      const params = [scriptPath, virusSeverity];
+      const params = [scriptPath, virusSeverity, testMode];
       const initialisationResult = await runRScriptAsync(params);
       resolve(initialisationResult)
     } catch (err) {
