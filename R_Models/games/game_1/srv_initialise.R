@@ -10,9 +10,14 @@ source("./R_Models/games/game_1/getDirectory.R")
 
 cmd_args <- commandArgs(TRUE)
 VirusSeverityProportion <- as.numeric(cmd_args[1])  # 1st parameter from command line
+testMode <- as.logical(cmd_args[2])  # 2nd parameter from command line
 
 if(is.na(VirusSeverityProportion)) {
   VirusSeverityProportion <- 0
+}
+
+if(is.na(testMode)) {
+  testMode <- FALSE
 }
 
 g_auxs            <- c(VirusSeverityProportion = VirusSeverityProportion,
@@ -32,4 +37,14 @@ sim_data <- initialise(g_auxs,ALPHA = 1)
 sim_data$g_final_stocks <- sim_data$g_stocks
 
 write_sim_data(sim_data, CURRENT_DIR)
-toJSON(sim_data$g_countries)
+
+if(testMode == FALSE) {
+  toJSON(sim_data$g_countries)
+}
+
+if(testMode == TRUE) {
+  consoleOutput <- list(stocks = as.list(sim_data$g_stocks),
+    countries = sim_data$g_countries)
+  toJSON(consoleOutput)
+}
+
