@@ -10,9 +10,7 @@ const writeCsv = (data, file) => {
     if (err) {
       console.log(err);
       console.log('Some error occured - file either not saved or corrupted file saved.');
-    } else{
-      console.log(`File ${file} saved!`);
-    }
+    } 
   });
 }
 
