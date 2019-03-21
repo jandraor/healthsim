@@ -43,7 +43,7 @@ write_csv(transmission_sector,
           './R_Models/games/game_1/model/Vensim/BOT/single_team_start_0_finish_1_step_1over20.csv')
 
 #===============================================================================
-conversion.table = data.frame(stringsAsFactors = FALSE,
+conversion.table = data.frame(stringsAsFactors=FALSE,
    Vensim_stock = c("Infected.AntiVirals", "Infected.in.Quarantine",
                        "Infected.Severe", "Infected1", "Infected2",
                        "Long.Term.Morbidity", "NonResourceRecovery",
@@ -66,8 +66,8 @@ conversion.table = data.frame(stringsAsFactors = FALSE,
         R_stock = c("IAV", "IQ", "IS", "I1", "I2", "LTM", "NRR", "RAV",
                        "RNI", "RQ", "RS", "RV", "RIR", "RAR", "S", "R", "TFRR",
                        "TSOA", "TFRD", "TSOVAC", "TSOVEN", "TVD", "TVR", "VS",
-                       "TVO", "TVSHR", "VSL", "TVSHR", "TAVD", "TAVR", "AVS",
-                       "TAO", "TAVSHR", "AVSL", "TAVS", "VIU", "TVR", "TVD", "VSL",
+                       "TVO", "TVSHR", "VSL", "TVS", "TAVD", "TAVR", "AVS", "TAO",
+                       "TAVSHR", "AVSL", "TAVS", "VIU", "TVR", "TVD", "VSL",
                        "TVO", "TVS", "VS"),
             Sector = c("TM", "TM", "TM", "TM", "TM", "TM", "TM", "TM", "TM",
                        "TM", "TM", "TM", "TM", "TM", "TM", "FM", "FM", "FM",
@@ -78,7 +78,7 @@ conversion.table = data.frame(stringsAsFactors = FALSE,
 
 initial_values <- results %>% select(conversion.table[, 1]) %>% slice(1)
 R_names <- data.frame(Vensim_stock = colnames(initial_values)) %>% 
-  inner_join(conversion.table) %>% 
+  inner_join(conversion.table, by = "Vensim_stock") %>% 
   mutate(team.variable = paste('Alpha', Sector, R_stock, sep = "_")) %>%
   pull(team.variable)
 colnames(initial_values) <- R_names
