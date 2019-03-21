@@ -26,7 +26,7 @@ get_data <- function(SAMPLE=T,
     params <- mutate(params,Minimum=TestValue,Maximum=TestValue)
     all_countries <- mutate(all_countries,
                             Population=10000,
-                            Susceptible=10000)
+                            Susceptible = 9999)
   }
 
   params_info  <- read_csv("./R_Models/games/game_1/model/data/ParamDescriptions.csv")
