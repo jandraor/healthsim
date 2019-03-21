@@ -45,6 +45,6 @@ if(testMode == FALSE) {
 if(testMode == TRUE) {
   consoleOutput <- list(stocks = as.list(sim_data$g_stocks),
     countries = sim_data$g_countries)
-  toJSON(consoleOutput)
+  toJSON(consoleOutput, auto_unbox = TRUE)
 }
 

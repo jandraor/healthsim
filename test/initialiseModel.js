@@ -93,7 +93,10 @@ describe('initialise single-country model', () => {
       const virusSeverity = 0;
       const testMode = true;
       initialisationResult = await model.initialise(initConditions, virusSeverity, testMode);
-      stocks = initialisationResult.stocks
+      stocks = initialisationResult.stocks;
+      const filepath = './R_Models/games/game_1/model/Vensim/BOT/single_team_initialValues.csv'
+      const data = await csvReader().fromFile(filepath);
+      const vensimInit = data[0]
     })
 
     it(`should return an object`, () => {
@@ -168,5 +171,17 @@ describe('initialise single-country model', () => {
     it(`should return the stock _CDL`, () => {
       assert.isAbove(Object.keys(stocks).indexOf('Alpha_CDL'), -1);
     })
+
+    it(`should return the same initial values as Vensim model`, async() => {
+      const filepath = './R_Models/games/game_1/model/Vensim/BOT/single_team_initialValues.csv'
+      const data = await csvReader().fromFile(filepath);
+      const expected = data[0];
+      Object.keys(expected).forEach(key => {
+        expected[key] = parseFloat((expected[key]))
+      });
+      const actual = stocks;
+      assert.deepEqual(actual, expected)
+    })
+
   });
 });
