@@ -32,7 +32,7 @@ CURRENT_DIR <- get_Directory('current')
 
 initialisation_result <- initialise_sim_data(CURRENT_DIR)
 
-sim_data <- initialise(g_auxs,ALPHA = 1, TEST_RUN = testMode)
+sim_data <- initialise(g_auxs,ALPHA = 1)
 
 sim_data$g_final_stocks <- sim_data$g_stocks
 
