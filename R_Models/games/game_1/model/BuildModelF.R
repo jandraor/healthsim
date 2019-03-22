@@ -1,4 +1,4 @@
-build_model <- function (g_countries, SAMPLE, SECTORS_INFECTED = 0 ){
+build_model <- function (g_countries, SAMPLE, SECTORS_INFECTED = 0, TEST_RUN = F){
   
   tm_model_stocks <- c("_TM_S","_TM_I1","_TM_I2","_TM_IQ","_TM_IAV","_TM_IS","_TM_RV","_TM_RAV","_TM_RQ","_TM_RNI",
                        "_TM_RAR","_TM_RS","_TM_NRR","_TM_LTM", "_TM_RIR")
@@ -48,6 +48,13 @@ build_model <- function (g_countries, SAMPLE, SECTORS_INFECTED = 0 ){
 
   # INITIALISE Ventilator stockpile)
   init_cond[,"_VEN_VS"]  <- g_countries$InitVentilatorStockpile
+  
+  if(TEST_RUN == T){
+    # INITIALISE Vaccine supply line
+    init_cond[,"_VAC_VSL"]  <- rep(100, length(g_countries$InitVaccineStockpile))
+    # INITIALISE Ventilator supply line
+    init_cond[,"_VEN_VSL"]  <- rep(20, length(g_countries$InitVentilatorStockpile))
+  }
 
   # Step: Create a single stock vector
   stocks <- c(init_cond)

@@ -14,7 +14,7 @@ initialise <- function(g_auxs,
                          ALPHA       = ALPHA,
                          seed        = seed)
   
-  sd_model   <- build_model(model_data$g_countries, SAMPLE)
+  sd_model   <- build_model(model_data$g_countries, SAMPLE, TEST_RUN = TEST_RUN)
   
   model_data$g_stocks       <- sd_model$g_stocks
   model_data$g_NUM_SECTORS  <- sd_model$g_NUM_SECTORS
