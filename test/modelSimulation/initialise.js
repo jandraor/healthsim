@@ -1,8 +1,8 @@
 const assert = require('chai').assert;
-const model = require('../modelSimulation/main.js');
+const model = require('../../modelSimulation/main.js');
 const csvReader = require('csvtojson');
 
-describe('initialise 10-country model', () => {
+const initTenCountry = describe('initialise 10-country model', () => {
   const countriesTemplate = './R_Models/games/game_1/model/data/CountriesTemplate.csv';
   const virusSeverity = 0;
 
@@ -82,7 +82,7 @@ describe('initialise 10-country model', () => {
   });
 });
 
-describe('initialise single-country model', () => {
+const initSingleCountry = describe('initialise single-country model', () => {
   describe('test mode', () => {
     let initialisationResult, stocks;
 
@@ -185,3 +185,8 @@ describe('initialise single-country model', () => {
 
   });
 });
+
+module.exports = () => {
+  initTenCountry();
+  initSingleCountry();
+};

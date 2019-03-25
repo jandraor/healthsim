@@ -11,11 +11,10 @@ const simulate = async (socket, payload, io, gameCollection) => {
     writeCsv(payload.donations, donationFile)
 
     //The model is simulated;
-    const runRScriptAsync = require('../../../helpers/R.js');
+    const model = require('../../../modelSimulation/main.js');
     const startTime = payload.startTime;
     const stopTime = payload.finishTime;
-    const params = ['R_Models/games/game_1/srv_run.R', startTime, stopTime];
-    const simulationResult = await runRScriptAsync(params);
+    const simulationResult = await model.run(startTime, stopTime);
     const bot = simulationResult.bot; // behaviour over time
     const resultVariables = Object.keys(bot[0]);
     //==========================================================================
