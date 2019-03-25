@@ -7,8 +7,8 @@ const modelSimulation = {
     const results = await initialise(initConditions, virusSeverity, testMode);
     return results
   },
-  'run': async(startTime, stopTime) => {
-    const results = await run(startTime, stopTime);
+  'run': async(startTime, stopTime, policyMatrix, donations) => {
+    const results = await run(startTime, stopTime, policyMatrix, donations);
     return results
   }
 }

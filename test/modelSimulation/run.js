@@ -8,16 +8,43 @@ describe('run a simulation step', () => {
     const countriesTemplate = './R_Models/games/game_1/model/data/CountriesTemplate.csv';
     const virusSeverity = 0;
     let result, nTeams, teams;
+    const policyMatrixPath = "./R_Models/games/game_1/model/data/PolicyMatrix.csv";
+    const donationsPath = "./R_Models/games/game_1/model/data/donations.csv";
+    const fs = require('fs');
 
     before(async function()  {
       this.timeout(5000);
+
+      //Avoiding false positives
+      //------------------------------------------------------------------------
+      if(fs.existsSync(policyMatrixPath)) {
+        fs.unlinkSync(policyMatrixPath)
+      }
+
+      if(fs.existsSync(donationsPath)) {
+        fs.unlinkSync(donationsPath)
+      }
+      //------------------------------------------------------------------------
+
       const initConditions = await csvReader().fromFile(countriesTemplate);
       teams = initConditions.map(rowTeam => {return rowTeam.Name});
       initialisationResult = await model.initialise(initConditions, virusSeverity);
       const startTime = 0;
       const stopTime = 1;
-      result = await model.run(startTime, stopTime);
+      const policyMatrixTemplate = "./R_Models/games/game_1/model/data/10CountryPolicyMatrixTemplate.csv";
+      const policyMatrix = await csvReader().fromFile(policyMatrixTemplate);
+      const donationsTemplate = "./R_Models/games/game_1/model/data/10CountryDonationsTemplate.csv";
+      const donations = await csvReader().fromFile(donationsTemplate);
+      result = await model.run(startTime, stopTime, policyMatrix, donations);
       nTeams = 10;
+    });
+
+    it(`should create a file named PolicyMatrix.csv`, () => {
+      assert(fs.existsSync(policyMatrixPath)) ;
+    });
+
+    it(`should create a file named donations.csv`, () => {
+      assert(fs.existsSync(donationsPath)) ;
     });
 
     it(`should return an object`, function() {

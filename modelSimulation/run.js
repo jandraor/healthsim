@@ -1,6 +1,8 @@
 'use strict';
 
-const run = (startTime, stopTime) => {
+const writeCsv = require('../helpers/csvFiles.js');
+
+const run = (startTime, stopTime, policyMatrix, donations) => {
   const promise = new Promise(async (resolve, reject) => {
     try {
       if(startTime === undefined){
@@ -10,6 +12,23 @@ const run = (startTime, stopTime) => {
       if(stopTime === undefined){
         throw 'stopTime not specified'
       }
+
+      if(policyMatrix === undefined){
+        throw 'policyMatrix not specified'
+      }
+
+      if(donations === undefined){
+        throw 'donations not specified'
+      }
+
+      const destinationPath = './R_Models/games/game_1/model/data/'
+
+      //create PolicyMatrix file
+      writeCsv(policyMatrix, `${destinationPath}PolicyMatrix.csv`);
+
+      //create donations file
+      writeCsv(donations, `${destinationPath}donations.csv`);
+
       //execute R script
       const runRScriptAsync = require('../helpers/R.js');
       const scriptPath = 'R_Models/games/game_1/srv_run.R'
@@ -22,17 +41,5 @@ const run = (startTime, stopTime) => {
   });
   return promise;
 }
-  // return {
-  //   'bot': [{'hola': 'perro', 'te': 'amo'}, {'hola': 'perro', 'te': 'ami'}],
-  //   'donations': {
-  //     'Financial': [[0, 4], [1, 0]],
-  //     'Antivirals': [[0, 1], [0, 0]],
-  //     'Ventilators': [[0, 1], [2, 0]],
-  //     'Vaccines': [[0, 2], [5, 0]],
-  //     'names_order': ['Alpha', 'Beta']
-  //   }
-  // }
-
-
 
 module.exports = run;

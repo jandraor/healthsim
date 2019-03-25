@@ -3,18 +3,14 @@
 const simulate = async (socket, payload, io, gameCollection) => {
   try {
     const gameId = socket.room;
-    //Policy matrix file is created
-    const writeCsv = require('../../../helpers/csvFiles.js');
-    const destinationPath = './R_Models/games/game_1/model/data/'
-    writeCsv(payload.policyMatrix, `${destinationPath}PolicyMatrix.csv`);
-    const donationFile = `${destinationPath}donations.csv`;
-    writeCsv(payload.donations, donationFile)
-
     //The model is simulated;
     const model = require('../../../modelSimulation/main.js');
     const startTime = payload.startTime;
     const stopTime = payload.finishTime;
-    const simulationResult = await model.run(startTime, stopTime);
+    const policyMatrix = payload.policyMatrix;
+    const donations = payload.donations;
+    const simulationResult = await model.run(startTime, stopTime,
+      policyMatrix, donations);
     const bot = simulationResult.bot; // behaviour over time
     const resultVariables = Object.keys(bot[0]);
     //==========================================================================
