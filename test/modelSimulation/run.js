@@ -4,10 +4,10 @@ const csvReader = require('csvtojson');
 
 //single country model
 describe('run a simulation step', () => {
-  describe('10 countries', () => {
+  describe('10 countries setup', () => {
     const countriesTemplate = './R_Models/games/game_1/model/data/CountriesTemplate.csv';
     const virusSeverity = 0;
-    let result, nTeams, teams;
+    let result, nTeams, teams, donationCases;
     const policyMatrixPath = "./R_Models/games/game_1/model/data/PolicyMatrix.csv";
     const donationsPath = "./R_Models/games/game_1/model/data/donations.csv";
     const fs = require('fs');
@@ -34,8 +34,60 @@ describe('run a simulation step', () => {
       const policyMatrixTemplate = "./R_Models/games/game_1/model/data/10CountryPolicyMatrixTemplate.csv";
       const policyMatrix = await csvReader().fromFile(policyMatrixTemplate);
       const donationsTemplate = "./R_Models/games/game_1/model/data/10CountryDonationsTemplate.csv";
-      const donations = await csvReader().fromFile(donationsTemplate);
-      result = await model.run(startTime, stopTime, policyMatrix, donations);
+      const donationsInput = await csvReader().fromFile(donationsTemplate);
+      // Donation test cases
+      //------------------------------------------------------------------------
+      donationCases = [
+        {
+          'resource': 'Antivirals',
+          'donations': [
+            {'donor': 'Alpha', 'amount': 50},
+            {'donor': 'Gamma', 'amount': 20},
+            {'donor': 'Theta', 'amount': 10},
+          ],
+          'recipient': 'Kappa'
+        },
+        {
+          'resource': 'Vaccines',
+          'donations': [
+            {'donor': 'Theta', 'amount': 15},
+            {'donor': 'Alpha', 'amount': 10},
+            {'donor': 'Gamma', 'amount': 5},
+          ],
+          'recipient': 'Epsilon'
+        },
+        {
+          'resource': 'Ventilators',
+          'donations': [
+            {'donor': 'Epsilon', 'amount': 3},
+            {'donor': 'Theta', 'amount': 4},
+            {'donor': 'Alpha', 'amount': 5},
+          ],
+          'recipient': 'Beta'
+        },
+        {
+          'resource': 'Financial',
+          'donations': [
+            {'donor': 'Delta', 'amount': 15},
+            {'donor': 'Alpha', 'amount': 20},
+            {'donor': 'Kappa', 'amount': 25},
+          ],
+          'recipient': 'Iota'
+        },
+      ]
+      donationCases.forEach(donationCase => {
+        const resource = donationCase.resource;
+        donationCase.donations.forEach(donation => {
+          donationsInput.forEach(row => {
+            if(row.from === donation.donor && row.to === donationCase.recipient
+              && row.resource === resource){
+                row.amount = donation.amount;
+            }
+          });
+        });
+      });
+      //------------------------------------------------------------------------
+      result = await model.run(startTime, stopTime, policyMatrix, donationsInput);
       nTeams = 10;
     });
 
@@ -86,7 +138,6 @@ describe('run a simulation step', () => {
         assert.deepEqual(actual, expected, "Column names different in rows")
       });
       equalColNames = true
-
     });
 
     const variables = ['_TotalInfected', '_TotalPopulation', '_TM_I1', '_TM_I2',
@@ -215,6 +266,27 @@ describe('run a simulation step', () => {
         const expected = 0;
         const actual = sum;
         assert.strictEqual(actual,expected)
+      });
+
+      it(`The sum of ${resource} donations in the csv file should match the sum
+        returned by the model`, () => {
+        if(isSquareMatrix === false) {
+          assert(false, "It is not a square matrix");
+        }
+        const resourceDonations = result.donations[resource];
+        const filteringResult = donationCases.filter(donationCase => {
+          return donationCase.resource === resource;
+        });
+        const donationCase = filteringResult[0]
+        const expected = donationCase.donations.map(donation => {
+          return donation.amount
+        }).reduce((lastVal, curVal) => {return lastVal + curVal}, 0) ;
+        const recipient = donationCase.recipient;
+        const namesOrder = result.donations.names_order
+        const index = namesOrder.indexOf(recipient);
+        const actual = resourceDonations[index]
+          .reduce((lastVal, curVal) => {return lastVal + curVal}, 0)
+        assert.equal(actual, expected);
       });
     });
 
