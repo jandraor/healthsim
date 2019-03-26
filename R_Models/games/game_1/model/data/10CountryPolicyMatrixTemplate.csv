@@ -1,4 +1,4 @@
-"VaccinationPolicy","AntiviralPolicy","VentilatorPolicy","QuarantinePolicy","VaccineBudgetProportion","AntiviralBudgetProportion","VentilatorBudgetProportion","VaccinesOrdered","VaccineUsageFraction","AntiviralsOrdered","AntiviralsUsageFraction","VentilatorsOrdered","VentilatorsUsageFraction","ResourcesDonated","AntiviralsShared","VaccinesShared","VentilatorsShared","ResourcesReceived","AntiviralsReceived","VaccinesReceived","VentilatorsReceived"
+VaccinationPolicy,AntiviralPolicy,VentilatorPolicy,QuarantinePolicy,VaccineBudgetProportion,AntiviralBudgetProportion,VentilatorBudgetProportion,VaccinesOrdered,VaccineUsageFraction,AntiviralsOrdered,AntiviralsUsageFraction,VentilatorsOrdered,VentilatorsUsageFraction,ResourcesDonated,AntiviralsShared,VaccinesShared,VentilatorsShared,ResourcesReceived,AntiviralsReceived,VaccinesReceived,VentilatorsReceived
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0

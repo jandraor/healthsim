@@ -1,5 +1,5 @@
 const initialiseTest = require('./initialise.js');
-const runTest = require('./run.js');
+const runTest = require('./run/main.js');
 
 const modelSimulationTest = () => {
   initialiseTest();

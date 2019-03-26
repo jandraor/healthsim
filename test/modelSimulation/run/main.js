@@ -1,8 +1,9 @@
 const assert = require('chai').assert;
-const model = require('../../modelSimulation/main.js');
+const model = require('../../../modelSimulation/main.js');
 const csvReader = require('csvtojson');
+const fs = require('fs');
 
-//single country model
+
 describe('run a simulation step', () => {
   describe('10 countries setup', () => {
     const countriesTemplate = './R_Models/games/game_1/model/data/CountriesTemplate.csv';
@@ -10,10 +11,9 @@ describe('run a simulation step', () => {
     let result, nTeams, teams, donationCases;
     const policyMatrixPath = "./R_Models/games/game_1/model/data/PolicyMatrix.csv";
     const donationsPath = "./R_Models/games/game_1/model/data/donations.csv";
-    const fs = require('fs');
 
     before(async function()  {
-      this.timeout(5000);
+      this.timeout(10000);
 
       //Avoiding false positives
       //------------------------------------------------------------------------
@@ -28,14 +28,32 @@ describe('run a simulation step', () => {
 
       const initConditions = await csvReader().fromFile(countriesTemplate);
       teams = initConditions.map(rowTeam => {return rowTeam.Name});
-      initialisationResult = await model.initialise(initConditions, virusSeverity);
+      initialisationResult = await model.initialise(initConditions,
+        virusSeverity, true);
       const startTime = 0;
       const stopTime = 1;
       const policyMatrixTemplate = "./R_Models/games/game_1/model/data/10CountryPolicyMatrixTemplate.csv";
       const policyMatrix = await csvReader().fromFile(policyMatrixTemplate);
+      //zeta is going to spend all its resources in Vaccines
+      const [zetaObj] = initialisationResult.countries.filter(teamObj => {
+        return teamObj.Name === "Zeta";
+      })
+      const zetaFinRes = zetaObj.InitialFinancialResources //financial resources;
+      const vaccinesUnitCost = zetaObj.VaccineCostPerUnit;
+      const maxVac = Math.floor(zetaFinRes / vaccinesUnitCost);
+      policyMatrix.forEach((row, i) => {
+        if(i === 5){
+          row.VaccinesOrdered = maxVac;
+        }
+      })
+      //========================================================================
+      // Donations
+      //========================================================================
       const donationsTemplate = "./R_Models/games/game_1/model/data/10CountryDonationsTemplate.csv";
       const donationsInput = await csvReader().fromFile(donationsTemplate);
+
       // Donation test cases
+      // NB: Zeta is neither a donor nor a recipient
       //------------------------------------------------------------------------
       donationCases = [
         {
@@ -300,11 +318,117 @@ describe('run a simulation step', () => {
 
     it(`The length of "names_order" should be equal to the number of teams`, () => {
       const actual = result.donations.names_order.length;
-      const expected = nTeams
+      const expected = nTeams;
       assert.equal(actual, expected)
     })
+    //Another test case could be maxVac - 10, result should be above 0
+    it(`Zeta financial stock should be zero`, () => {
+      const bot = result.bot;
+      const lastRow = bot[bot.length - 1]
+      const actual = lastRow.Zeta_FM_R;
+      const expected = 0;
+      assert.equal(actual, expected)
+    });
+
+    it(`In the transmission sector, all stocks should be non-negative`, () => {
+      const bot = result.bot;
+      const tm_model_stocks = ["_TM_S","_TM_I1","_TM_I2","_TM_IQ","_TM_IAV",
+        "_TM_IS","_TM_RV","_TM_RAV","_TM_RQ","_TM_RNI", "_TM_RAR","_TM_RS",
+        "_TM_NRR","_TM_LTM", "_TM_RIR"];
+
+      const tmStocks = [];
+
+      teams.forEach(team => {
+        tm_model_stocks.forEach(stock => {
+          tmStocks.push(`${team}${stock}`)
+        });
+      });
+
+      tmStocks.forEach(stock => {
+        bot.forEach(row => {
+          assert.isAtLeast(row[stock], 0);
+        })
+      })
+    });
+
+    it(`In the financial sector, all stocks should be non-negative`, () => {
+      const bot = result.bot;
+      const fm_model_stocks = ["_FM_R","_FM_TFRD","_FM_TSOVAC","_FM_TSOA",
+        "_FM_TSOVEN","_FM_TFRR"]
+
+      const fmStocks = [];
+
+      teams.forEach(team => {
+        fm_model_stocks.forEach(stock => {
+          fmStocks.push(`${team}${stock}`)
+        });
+      });
+
+      fmStocks.forEach(stock => {
+        bot.forEach(row => {
+          assert.isAtLeast(row[stock], 0);
+        })
+      })
+    });
+
+    it(`In the vaccine sector, all stocks should be non-negative`, () => {
+      const bot = result.bot;
+      const vac_model_stocks = ["_VAC_VSL","_VAC_VS","_VAC_TVSHR","_VAC_TVR",
+        "_VAC_TVD","_VAC_TVS", "_VAC_TVO"]
+
+      const vacStocks = [];
+
+      teams.forEach(team => {
+        vac_model_stocks.forEach(stock => {
+          vacStocks.push(`${team}${stock}`)
+        });
+      });
+
+      vacStocks.forEach(stock => {
+        bot.forEach(row => {
+          assert.isAtLeast(row[stock], 0);
+        })
+      })
+    });
+
+    it(`In the antiviral sector, all stocks should be non-negative`, () => {
+      const bot = result.bot;
+      const av_model_stocks = ["_AVR_AVSL","_AVR_AVS","_AVR_TAVSHR","_AVR_TAVR",
+        "_AVR_TAVD","_AVR_TAVS","_AVR_TAO"]
+
+      const avStocks = [];
+
+      teams.forEach(team => {
+        av_model_stocks.forEach(stock => {
+          avStocks.push(`${team}${stock}`)
+        });
+      });
+
+      avStocks.forEach(stock => {
+        bot.forEach(row => {
+          assert.isAtLeast(row[stock], 0);
+        })
+      })
+    });
+
+    it(`In the ventilator sector, all stocks should be non-negative`, () => {
+      const bot = result.bot;
+      const ven_model_stocks = ["_VEN_VSL","_VEN_VS","_VEN_VIU","_VEN_TVR",
+        "_VEN_TVD","_VEN_TVS","_VEN_TVO"]
+
+      const venStocks = [];
+
+      teams.forEach(team => {
+        ven_model_stocks.forEach(stock => {
+          venStocks.push(`${team}${stock}`)
+        });
+      });
+
+      venStocks.forEach(stock => {
+        bot.forEach(row => {
+          assert.isAtLeast(row[stock], 0);
+        })
+      })
+    });
   });
-
-
-
-})
+});
