@@ -1,5 +1,6 @@
 
-const initialise = (initConditions, virusSeverity, testMode) => {
+const initialise = (initConditions, virusSeverity, testMode, manualSetup,
+  countrySetup) => {
   const promise = new Promise(async (resolve, reject) => {
     try {
 
@@ -13,10 +14,19 @@ const initialise = (initConditions, virusSeverity, testMode) => {
       //create countries file
       const writeCsv = require('../helpers/csvFiles.js');
       writeCsv(initConditions, './R_Models/games/game_1/model/data/Countries.csv');
+
+      //
+      if(manualSetup === true) {
+        if(countrySetup === undefined){
+          throw 'countrySetup not specified'
+        }
+        writeCsv(countrySetup,
+          './R_Models/games/game_1/model/data/countries_MOCK_UP.csv');
+      }
       //execute R script
       const runRScriptAsync = require('../helpers/R.js');
       const scriptPath = 'R_Models/games/game_1/srv_initialise.R'
-      const params = [scriptPath, virusSeverity, testMode];
+      const params = [scriptPath, virusSeverity, testMode, manualSetup];
       const initialisationResult = await runRScriptAsync(params);
       resolve(initialisationResult)
     } catch (err) {

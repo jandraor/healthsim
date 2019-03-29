@@ -2,6 +2,7 @@ const assert = require('chai').assert;
 const model = require('../../../modelSimulation/main.js');
 const csvReader = require('csvtojson');
 const fs = require('fs');
+const resourceDeploymentTests = require('./resourceDeployment.js');
 
 
 describe('run a simulation step', () => {
@@ -430,5 +431,6 @@ describe('run a simulation step', () => {
         })
       })
     });
+    resourceDeploymentTests();
   });
 });

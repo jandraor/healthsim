@@ -9,7 +9,8 @@ get_data <- function(SAMPLE=T,
                      SAMPLE_SIZE = 2,
                      TEST_RUN = T, 
                      ALPHA = 1,
-                     seed=200){
+                     seed=200,
+                     MANUAL_SETUP = F){
   set.seed(seed)
   #---------------------------------------------------------------------
   # STEP (1) - Get the model data
@@ -222,6 +223,12 @@ get_data <- function(SAMPLE=T,
   #---------------------------------------------------------------------------
   # STEP 6) - Return the key variables in a list
   #---------------------------------------------------------------------------
+  
+  # Overrides STEP 1 & STEP 3 by importing values from a .csv file
+  if(TEST_RUN == T && MANUAL_SETUP == T) {
+    countries <- read_csv("./R_Models/games/game_1/model/data/countries_MOCK_UP.csv")
+  }
+  
   list(g_countries=countries,
        g_beta_reference=beta_reference,
        g_policy_matrix=policy_matrix,

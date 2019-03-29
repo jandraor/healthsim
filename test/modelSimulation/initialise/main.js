@@ -1,6 +1,8 @@
 const assert = require('chai').assert;
-const model = require('../../modelSimulation/main.js');
+const model = require('../../../modelSimulation/main.js');
 const csvReader = require('csvtojson');
+const manualInitTenCountry = require('./manualInitTenCountry.js');
+
 
 const initTenCountry = describe('initialise 10-country model', () => {
   const countriesTemplate = './R_Models/games/game_1/model/data/CountriesTemplate.csv';
@@ -79,6 +81,15 @@ const initTenCountry = describe('initialise 10-country model', () => {
       const expectedResult = Array(10).fill(true);
       assert.deepEqual(validationResult, expectedResult);
     });
+
+    it(`the number of initial infected individuals should be 1`, () => {
+      const actual = countries.map(country => {return country.Infected })
+        .reduce((lastVal, curVal) => { return lastVal + curVal }, 0)
+      const expected = 1;
+      assert.equal(actual, expected)
+    });
+
+    manualInitTenCountry();
   });
 });
 
@@ -184,7 +195,8 @@ const initSingleCountry = describe('initialise single-country model', () => {
     })
 
   });
-});
+})
+
 
 module.exports = () => {
   initTenCountry();

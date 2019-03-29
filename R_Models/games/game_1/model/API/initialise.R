@@ -6,13 +6,15 @@ initialise <- function(g_auxs,
                        SECTORS_INFECTED = 0,
                        TEST_RUN         = F, 
                        ALPHA            = 1, 
-                       seed             = 200){
+                       seed             = 200,
+                       MANUAL_SETUP     = F){
   
   model_data <- get_data(SAMPLE      = SAMPLE,
                          SAMPLE_SIZE = SAMPLE_SIZE,
                          TEST_RUN    = TEST_RUN, 
                          ALPHA       = ALPHA,
-                         seed        = seed)
+                         seed        = seed,
+                         MANUAL_SETUP = MANUAL_SETUP)
   
   sd_model   <- build_model(model_data$g_countries, SAMPLE, TEST_RUN = TEST_RUN)
   

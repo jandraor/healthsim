@@ -11,6 +11,9 @@ source("./R_Models/games/game_1/getDirectory.R")
 cmd_args <- commandArgs(TRUE)
 VirusSeverityProportion <- as.numeric(cmd_args[1])  # 1st parameter from command line
 testMode <- as.logical(cmd_args[2])  # 2nd parameter from command line
+# This parameter allows to set country characteristics from a .csv file
+# It facilitates testing by setting parameter values from Javascript
+manualSetup <- as.logical(cmd_args[3]) # 3rd parameter from command line
 
 if(is.na(VirusSeverityProportion)) {
   VirusSeverityProportion <- 0
@@ -18,6 +21,10 @@ if(is.na(VirusSeverityProportion)) {
 
 if(is.na(testMode)) {
   testMode <- FALSE
+}
+
+if(is.na(manualSetup)) {
+  manualSetup <- FALSE
 }
 
 g_auxs            <- c(VirusSeverityProportion = VirusSeverityProportion,
@@ -32,7 +39,7 @@ CURRENT_DIR <- get_Directory('current')
 
 initialisation_result <- initialise_sim_data(CURRENT_DIR)
 
-sim_data <- initialise(g_auxs,ALPHA = 1, TEST_RUN = testMode)
+sim_data <- initialise(g_auxs,ALPHA = 1, TEST_RUN = testMode, MANUAL_SETUP = manualSetup)
 
 sim_data$g_final_stocks <- sim_data$g_stocks
 
