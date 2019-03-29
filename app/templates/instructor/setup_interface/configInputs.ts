@@ -2,7 +2,7 @@ import * as Handlebars from '../../../../node_modules/handlebars/dist/handlebars
 
 export const html = Handlebars.compile(`
   <h5>Game configuration</h5>
-  <div>
+  <div id = "row1">
     <div class = "d-inline-block">
     <p class = "my-1 text-secondary">Rounds:
       <label class = "text-body" id = "lRounds">10</label>
@@ -24,5 +24,23 @@ export const html = Handlebars.compile(`
         <span class = "mx-2 text-secondary">100</span>
       </div>
   </div>
-
+  <div class = "my-5" id = "row2">
+    <p class = "my-2">Round the infected individual enters the population:</p>
+    <div class = "form-row">
+      <div class = "col-1">
+        <select class = "custom-select" id = "selInfectedTime">
+          <option value = "0">0</option>
+          <option value = "1">1</option>
+          <option value = "2">2</option>
+          <option value = "3">3</option>
+          <option value = "4">4</option>
+          <option value = "5">5</option>
+          <option value = "6">6</option>
+          <option value = "7">7</option>
+          <option value = "8">8</option>
+          <option value = "9">9</option>
+        </select>
+      </div>
+    </div>
+  </div>
 `)
