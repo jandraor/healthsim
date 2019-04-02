@@ -152,37 +152,6 @@ module.exports = function() {
       const actual = sum;
       assert.strictEqual(actual,expected)
     });
-
-
-    // //--------------------------------------------------------------------------
-
-    //
-
-    //
-
-    //
-    // it(`The sum of ${resource} donations in the csv file should match the sum
-    //   returned by the model`, function() {
-    //
-    //   if(isSquareMatrix === false) {
-    //     assert(false, "It is not a square matrix");
-    //   }
-    //   const result = this.result;
-    //   const resourceDonations = result.donations[resource];
-    //   const filteringResult = donationCases.filter(donationCase => {
-    //     return donationCase.resource === resource;
-    //   });
-    //   const donationCase = filteringResult[0]
-    //   const expected = donationCase.donations.map(donation => {
-    //     return donation.amount
-    //   }).reduce((lastVal, curVal) => {return lastVal + curVal}, 0) ;
-    //   const recipient = donationCase.recipient;
-    //   const namesOrder = result.donations.names_order
-    //   const index = namesOrder.indexOf(recipient);
-    //   const actual = resourceDonations[index]
-    //     .reduce((lastVal, curVal) => {return lastVal + curVal}, 0)
-    //   assert.equal(actual, expected);
-    // });
   });
 
   it(`'donations' property should have a 'names_order' property`, function() {

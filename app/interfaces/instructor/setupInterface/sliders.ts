@@ -29,7 +29,7 @@ const roundSlider = () => {
   }
   const sliderSpecs = {
     'sliderId': `slRounds`,
-    'label': `lRounds`,
+    'labelId': `lRounds`,
     'callback': callback
   }
   slds.build([sliderSpecs]);
