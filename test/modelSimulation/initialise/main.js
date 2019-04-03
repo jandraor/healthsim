@@ -193,7 +193,6 @@ const initSingleCountry = describe('initialise single-country model', () => {
       const actual = stocks;
       assert.deepEqual(actual, expected)
     })
-
   });
 })
 

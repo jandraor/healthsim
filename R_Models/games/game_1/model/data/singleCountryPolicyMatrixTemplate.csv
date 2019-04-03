@@ -1,0 +1,2 @@
+VaccinationPolicy,AntiviralPolicy,VentilatorPolicy,QuarantinePolicy,VaccineBudgetProportion,AntiviralBudgetProportion,VentilatorBudgetProportion,VaccinesOrdered,VaccineUsageFraction,AntiviralsOrdered,AntiviralsUsageFraction,VentilatorsOrdered,VentilatorsUsageFraction,ResourcesDonated,AntiviralsShared,VaccinesShared,VentilatorsShared,ResourcesReceived,AntiviralsReceived,VaccinesReceived,VentilatorsReceived
+1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0

@@ -1,5 +1,5 @@
 'use strict';
-const singleCountry = require('./singleCountry.js');
+const singleCountry = require('./singleCountry/main.js');
 const tenCountries = require('./10Countries/main.js')
 
 module.exports = () => {

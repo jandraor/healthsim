@@ -1,0 +1,5 @@
+from,to,resource,amount,startTime,stopTime
+Alpha,Alpha,Financial,0,0,1
+Alpha,Alpha,Vaccines,0,0,1
+Alpha,Alpha,Antivirals,0,0,1
+Alpha,Alpha,Ventilators,0,0,1

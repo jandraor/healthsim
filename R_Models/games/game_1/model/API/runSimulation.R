@@ -84,6 +84,11 @@ run_simulation <- function(sim_data,
 
   tbl_o <- dplyr::as_data_frame(o)
   
+  if(sim_data$g_NUM_SECTORS == 1) {
+    tbl_o <- tbl_o %>% rename(Alpha_TotalInfected = TotalInfected,
+                     Alpha_TotalPopulation = TotalPopulation)
+  }
+  
   #if(!exists("sim_data$sim_output"))
   
   if(!("sim_output" %in% names(sim_data))){
