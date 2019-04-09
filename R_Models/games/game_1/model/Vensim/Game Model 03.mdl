@@ -1,0 +1,1521 @@
+{UTF-8}
+average worker productivity=
+	300
+	~	
+	~		|
+
+Days Lost=
+	(Infected1 + Infected2 + Infected AntiVirals + Infected in Quarantine + Infected Severe\
+		 + NonResourceRecovery + Resource Aided Recovery + Long Term Morbidity * Days Lost Fraction\
+		) * average worker productivity
+	~	
+	~		|
+
+CDL  = A FUNCTION OF( Days Lost) ~~|
+CDL= INTEG (
+	,
+		0)
+	~	
+	~		|
+
+Days Lost Fraction=
+	0.7
+	~	
+	~		|
+
+Ventilator Orders Arriving=
+	DELAY FIXED(Ventilator Orders, Ventilator Shipment Delay, 0)
+	~	Vaccine/Day
+	~		|
+
+Antiviral Orders Arriving=
+	DELAY FIXED(Antiviral Orders, Antiviral Shipment Delay, 0)
+	~	Vaccine/Day
+	~		|
+
+Vaccine Orders Arriving=
+	DELAY FIXED(Vaccine Orders, Vaccine Shipment Delay, 0)
+	~	Vaccine/Day
+	~		|
+
+Total Ventilators Shared= INTEG (
+	Ventilators Shared,
+		0)
+	~	
+	~		|
+
+Total Ventilators Received= INTEG (
+	ITVENR,
+		0)
+	~	
+	~		|
+
+Total Vaccines Received= INTEG (
+	ITVR,
+		0)
+	~	
+	~		|
+
+ITVR=
+	Vaccines Received
+	~	
+	~		|
+
+Total Antivirals Shared= INTEG (
+	Antivirals Shared,
+		0)
+	~	
+	~		|
+
+Total Antivirals Received= INTEG (
+	ITAVR,
+		0)
+	~	
+	~		|
+
+ITVENR=
+	Ventilators Received
+	~	
+	~		|
+
+ITAVR=
+	Antivirals Received
+	~	
+	~		|
+
+Total Vaccines Shared= INTEG (
+	Vaccines Shared,
+		0)
+	~	
+	~		|
+
+Actual Antiviral Fraction=
+	zidz(Maximum Antivirals Dispensed,Infected1)*Antiviral Usage Fraction
+	~	1/Day
+	~		|
+
+Actual Vaccination Fraction=
+	zidz(Maximum Vaccines Dispensed,Susceptible)*Vaccine Usage Fraction
+	~	1/Day
+	~		|
+
+Init Infected 1=
+	1
+	~	
+	~		|
+
+Init Vaccine Stockpile=
+	100
+	~	
+	~		|
+
+Init Vaccine Supply Line=
+	0
+	~	
+	~		|
+
+Init Ventilator Stockpile=
+	100
+	~	
+	~		|
+
+Init Ventilator Supply Line=
+	0
+	~	
+	~		|
+
+Antiviral Usage Fraction=
+	0.5
+	~	
+	~		|
+
+Total Required Antiviral Orders=
+	0
+	~	
+	~	This will be a game decision point
+	|
+
+Total Required Vaccine Orders=
+	0
+	~	
+	~		|
+
+Antiviral Orders=
+	min(Maximum Antivirals Purchases Possible,Total Required Antiviral Orders)
+	~	Vaccine/Day
+	~		|
+
+Init Financial Resources=
+	10000
+	~	
+	~		|
+
+Vaccine Usage Fraction=
+	0.6
+	~	
+	~		|
+
+Ventilators Received=
+	0
+	~	
+	~		|
+
+Vaccines Received=
+	0
+	~	
+	~		|
+
+Vaccine Orders=
+	min(Maximum Vaccine Purchases Possible,Total Required Vaccine Orders)
+	~	Vaccine/Day
+	~		|
+
+Total Required Ventilator Orders=
+	0
+	~	
+	~		|
+
+Ventilator Orders=
+	min(Maximum Ventilators Purchases Possible,Total Required Ventilator Orders)
+	~	Vaccine/Day
+	~		|
+
+Antivirals Received=
+	0
+	~	
+	~		|
+
+Antivirals Shared=
+	0
+	~	
+	~	This will be a game decision point
+	|
+
+Ventilators Shared=
+	0
+	~	
+	~		|
+
+Init Antiviral Supply Line=
+	0
+	~	
+	~		|
+
+Total Country Population=
+	10000
+	~	
+	~		|
+
+Init Antiviral Stockpile=
+	100
+	~	
+	~		|
+
+Antiviral Stockpile= INTEG (
+	Antiviral Orders Arriving+Antivirals Received-Antivirals Dispensed-Antivirals Shared\
+		-Antivirals Spoiled,
+		Init Antiviral Stockpile)
+	~	Vaccine
+	~		|
+
+Total Antivirals Ordered= INTEG (
+	AVO,
+		0)
+	~	
+	~		|
+
+Actual Ventilator Fraction=
+	zidz(Maximum Ventilators Dispensed,Infected Severe)
+	~	1/Day
+	~		|
+
+Resources Donated=
+	0
+	~	Euro/Day
+	~		|
+
+INC TVA=
+	Vaccine Orders
+	~	
+	~		|
+
+Ventilators Dispensed=
+	ISR
+	~	
+	~		|
+
+Resources Received=
+	0
+	~	Euro/Day
+	~		|
+
+AVO=
+	Antiviral Orders
+	~	
+	~		|
+
+Ventilator Stockpile= INTEG (
+	Ventilator Orders Arriving+Ventilators Freed+Ventilators Received-Ventilators Dispensed\
+		-Ventilators Shared-Ventilators Spoiled,
+		Init Ventilator Stockpile)
+	~	Vaccine
+	~		|
+
+Vaccine Spend=
+	Vaccine Orders*Vaccine Cost Per Unit
+	~	Euro/Day
+	~		|
+
+Vaccine Stockpile= INTEG (
+	Vaccine Orders Arriving+Vaccines Received-Vaccines Dispensed-Vaccines Shared-Vaccines Spoiled\
+		,
+		Init Vaccine Stockpile)
+	~	Vaccine
+	~		|
+
+Ventilators in Use= INTEG (
+	Ventilators Dispensed-Ventilators Freed,
+		0)
+	~	Vaccine
+	~		|
+
+Total Ventilator Orders= INTEG (
+	VO,
+		0)
+	~	
+	~		|
+
+Antiviral Spend=
+	Antiviral Orders*Antiviral Cost Per Unit
+	~	Euro/Day
+	~		|
+
+Total Vaccines Ordered= INTEG (
+	INC TVA,
+		0)
+	~	
+	~		|
+
+Total Vaccines Spoiled= INTEG (
+	Vaccines Spoiled,
+		0)
+	~	
+	~		|
+
+VO=
+	Ventilator Orders
+	~	
+	~		|
+
+Total Ventilators Decommissioned= INTEG (
+	Ventilators Spoiled,
+		0)
+	~	
+	~		|
+
+Ventilator Fraction=
+	Actual Ventilator Fraction
+	~	Dmnl
+	~		|
+
+Total Antivirals Spoiled= INTEG (
+	Antivirals Spoiled,
+		0)
+	~	
+	~		|
+
+Ventilator Spend=
+	Ventilator Orders*Ventilator Cost Per Unit
+	~	Euro/Day
+	~		|
+
+Ventilators Freed=
+	RRS
+	~	
+	~		|
+
+Theoretical Maximum Ventilators Dispensed=
+	Infected Severe/Ventilator Dispensing Delay
+	~	Person/Day
+	~		|
+
+Ventilator Shipment Delay=
+	12
+	~	Day
+	~		|
+
+Ventilator Supply Line= INTEG (
+	Ventilator Orders-Ventilator Orders Arriving,
+		Init Ventilator Supply Line)
+	~	Vaccine
+	~		|
+
+Ventilators Spoiled=
+	Ventilator Stockpile*Ventilator Spoilage Fraction
+	~	Vaccine/Day
+	~		|
+
+Ventilator Dispensing Delay=
+	20
+	~	Day
+	~		|
+
+Maximum Ventilators Dispensed=
+	min(Theoretical Maximum Ventilators Dispensed,Ventilator Stockpile)
+	~	Person/Day
+	~		|
+
+Maximum Ventilators Purchases Possible=
+	Resources for Ventilators/Ventilator Cost Per Unit
+	~	
+	~		|
+
+Ventilator Spoilage Fraction=
+	0
+	~	1/Day
+	~		|
+
+Antivirals Spoilage Fraction=
+	0.05
+	~	1/Day
+	~		|
+
+Anti Viral Fraction=
+	Actual Antiviral Fraction
+	~	1/Day
+	~	Determined by resources
+	|
+
+Vaccination Fraction=
+	Actual Vaccination Fraction
+	~	1/Day
+	~	This is a resource-constrained flow expressed as a fraction. See the \
+		Vaccine Supply Chain Model for formulation
+	|
+
+Antiviral Budget Proportion=
+	0.3
+	~	
+	~		|
+
+Antiviral Cost Per Unit=
+	10
+	~	
+	~		|
+
+Antiviral Dispensing Delay=
+	20
+	~	Day
+	~		|
+
+Antiviral Shipment Delay=
+	12
+	~	Day
+	~		|
+
+Antiviral Supply Line= INTEG (
+	Antiviral Orders-Antiviral Orders Arriving,
+		Init Antiviral Supply Line)
+	~	Vaccine
+	~		|
+
+Antivirals Dispensed=
+	IRAV
+	~	
+	~		|
+
+Maximum Antivirals Purchases Possible=
+	Resources for Antivirals/Antiviral Cost Per Unit
+	~	
+	~		|
+
+Antivirals Spoiled=
+	Antiviral Stockpile*Antivirals Spoilage Fraction
+	~	Vaccine/Day
+	~		|
+
+Total Antivirals Dispensed= INTEG (
+	Antivirals Dispensed,
+		0)
+	~	Vaccine
+	~		|
+
+Vaccine Cost Per Unit=
+	2
+	~	
+	~		|
+
+Vaccine Dispensing Delay=
+	20
+	~	Day
+	~		|
+
+Financial Resources= INTEG (
+	Resources Received-Antiviral Spend-Resources Donated-Vaccine Spend-Ventilator Spend,
+		Init Financial Resources)
+	~	Euro
+	~		|
+
+Maximum Antivirals Dispensed=
+	min(Theoretical Maximum Antivirals Dispensed,Antiviral Stockpile)
+	~	Person/Day
+	~		|
+
+Maximum Vaccine Purchases Possible=
+	Resources for Vaccines/Vaccine Cost Per Unit
+	~	
+	~		|
+
+Total Vaccines Dispensed= INTEG (
+	Vaccines Dispensed,
+		0)
+	~	Vaccine
+	~		|
+
+Ventilator Budget Proportion=
+	0.3
+	~	
+	~		|
+
+Ventilator Cost Per Unit=
+	20
+	~	
+	~		|
+
+Vaccine Budget Proportion=
+	0.4
+	~	
+	~		|
+
+Resources for Antivirals=
+	Financial Resources*Antiviral Budget Proportion
+	~	
+	~		|
+
+Resources for Vaccines=
+	Financial Resources*Vaccine Budget Proportion
+	~	
+	~		|
+
+Vaccine Shipment Delay=
+	12
+	~	Day
+	~		|
+
+Vaccine Spoilage Fraction=
+	0.05
+	~	1/Day
+	~		|
+
+Maximum Vaccines Dispensed=
+	min(Theoretical Maximum Vaccines Dispensed,Vaccine Stockpile)
+	~	Person/Day
+	~		|
+
+Vaccines Dispensed=
+	VR
+	~	
+	~		|
+
+Theoretical Maximum Antivirals Dispensed=
+	Infected1/Antiviral Dispensing Delay
+	~	Person/Day
+	~		|
+
+Theoretical Maximum Vaccines Dispensed=
+	Susceptible/Vaccine Dispensing Delay
+	~	Person/Day
+	~		|
+
+Vaccine Supply Line= INTEG (
+	Vaccine Orders-Vaccine Orders Arriving,
+		Init Vaccine Supply Line)
+	~	Vaccine
+	~		|
+
+Vaccines Shared=
+	0
+	~	
+	~		|
+
+Vaccines Spoiled=
+	Vaccine Stockpile*Vaccine Spoilage Fraction
+	~	Vaccine/Day
+	~		|
+
+Resources for Ventilators=
+	Financial Resources*Ventilator Budget Proportion
+	~	
+	~		|
+
+Recovered Vaccinated= INTEG (
+	VR,
+		0)
+	~	Person
+	~		|
+
+Anti Viral Policy=
+	0
+	~	Dmnl
+	~		|
+
+Vaccination Policy=
+	0
+	~	Dmnl
+	~		|
+
+Force of Infection=
+	Infectivity*(Anti Viral Contacts*Infected AntiVirals+Normal Contacts*Infected Non Severe\
+		+Normal Contacts*Infected Severe+
+	Quarantine Contacts*Infected in Quarantine)/Total Population
+	~	1/Day
+	~	Proportion of people who will get infected per day
+	|
+
+Inc TRR=
+	Resources Received
+	~	Euro/Day
+	~		|
+
+Infected Non Severe=
+	Infected1+Infected2
+	~	Person
+	~		|
+
+Infected AntiVirals= INTEG (
+	IRAV-RRAV,
+		0)
+	~	Person
+	~	Infectious people who have taken anti-virals
+	|
+
+Susceptible= INTEG (
+	-IR-IRS-VR,
+		Total Country Population-Init Infected 1)
+	~	Person
+	~		|
+
+Total Financial Resources Donated= INTEG (
+	Resources Donated,
+		0)
+	~	Euro
+	~		|
+
+Infected1= INTEG (
+	IR-IR1-IRAV,
+		Init Infected 1)
+	~	Person
+	~		|
+
+Infected2= INTEG (
+	IR1-QF-RR,
+		0)
+	~	Person
+	~	Number of people infected in the population
+	|
+
+Total Infected=
+	Infected AntiVirals+Infected in Quarantine+Infected Severe+Infected1+Infected2
+	~	Person
+	~		|
+
+IR1=
+	(1-Anti Viral Policy*Anti Viral Fraction)*Infected1
+	~	Person/Day
+	~		|
+
+IRAV=
+	Anti Viral Policy*Anti Viral Fraction*Infected1
+	~	Person/Day
+	~		|
+
+Total Spend on Antivirals= INTEG (
+	Antiviral Spend,
+		0)
+	~	Euro
+	~		|
+
+ISNR=
+	(1-Ventilator Policy*Ventilator Fraction)*Infected Severe/Inf Delay
+	~	Person/Day
+	~		|
+
+ISR=
+	Ventilator Policy*Ventilator Fraction*Infected Severe/Inf Delay
+	~	Person/Day
+	~		|
+
+Ventilator Policy=
+	0
+	~	Dmnl
+	~		|
+
+VR=
+	Susceptible*Vaccination Fraction*Vaccination Policy
+	~	Person/Day
+	~		|
+
+Total Recovered=
+	Recovered Severe+Recovered Quarantine+Recovered Anti Virals+Recovered No Intervention\
+		+Recovered Vaccinated
+	~	Person
+	~		|
+
+Reporting Error=
+	Total Infection Rate-Reported Infection Rate
+	~	Person/Day
+	~	Error term for expectation
+	|
+
+Total Spend on Ventilators= INTEG (
+	Ventilator Spend,
+		0)
+	~	Euro
+	~		|
+
+Total Financial Resources Received= INTEG (
+	Inc TRR,
+		0)
+	~	Euro
+	~		|
+
+RR=
+	(1-Quarantine Policy*Quarintine Fraction)*Infected2/Inf Delay
+	~	Person/Day
+	~		|
+
+Total Spend on Vaccines= INTEG (
+	Vaccine Spend,
+		0)
+	~	Euro
+	~		|
+
+Anti Viral Contacts=
+	Anti Viral Effect*Normal Contacts
+	~	1/Day
+	~		|
+
+Anti Viral Effect=
+	0.6
+	~	Dmnl
+	~	The impact of anti-virals on disease transmission (a multiplier on contact \
+		rate)
+	|
+
+CIRR=
+	Reporting Error/Reporting Delay
+	~	(Person/Day)/Day
+	~		|
+
+Morbidity Fraction=
+	0.03
+	~	Dmnl
+	~	This parameter can be varied by country, which is a proxy for the quality \
+		of healthcare provided
+	|
+
+Long Term Morbidity= INTEG (
+	DR,
+		0)
+	~	Person
+	~		|
+
+DR=
+	Morbidity Fraction*NonResourceRecovery/Rec Delay No Resources
+	~	Person/Day
+	~		|
+
+Inf Delay=
+	2
+	~	Day
+	~		|
+
+Infected in Quarantine= INTEG (
+	QF-RRQ,
+		0)
+	~	Person
+	~		|
+
+Infected Severe= INTEG (
+	IRS-ISNR-ISR,
+		0)
+	~	Person
+	~	Number of people with a sever infection
+	|
+
+Infectivity=
+	0.5
+	~	Dmnl
+	~	Probability of transmission between an infected person and a susceptible \
+		person. Can be varied by country as an indicator for public health \
+		effectiveness
+	|
+
+IR=
+	Susceptible*Force of Infection*(1-Virus Severity Proportion)
+	~	Person/Day
+	~		|
+
+IRS=
+	Susceptible*Force of Infection*(Virus Severity Proportion)
+	~	Person/Day
+	~		|
+
+NonResourceRecovery= INTEG (
+	ISNR-DR-NRRR,
+		0)
+	~	Person
+	~		|
+
+Normal Contacts=
+	4
+	~	1/Day
+	~	Normal contact rate in the population
+	|
+
+NRRR=
+	(1-Morbidity Fraction)*NonResourceRecovery/Rec Delay No Resources
+	~	Person/Day
+	~		|
+
+QF=
+	Quarantine Policy*Infected2*Quarintine Fraction/Quarantine Delay
+	~	Person/Day
+	~		|
+
+Quarantine Contacts=
+	Normal Contacts*Quarantine Effect
+	~	1/Day
+	~		|
+
+Quarantine Delay=
+	0.5
+	~	Day
+	~		|
+
+Quarantine Effect=
+	0.2
+	~	Dmnl
+	~	A multiplier for those in quarantine which impacts their contacts
+	|
+
+Quarantine Policy=
+	0
+	~	Dmnl
+	~		|
+
+Quarintine Fraction=
+	0.15
+	~	Dmnl
+	~		|
+
+Rec Delay No Resources=
+	28
+	~	Day
+	~		|
+
+Rec Delay Res=
+	10
+	~	Day
+	~		|
+
+Recovered Anti Virals= INTEG (
+	RRAV,
+		0)
+	~	Person
+	~		|
+
+Recovered No Intervention= INTEG (
+	RR,
+		0)
+	~	Person
+	~		|
+
+Recovered Quarantine= INTEG (
+	RRQ,
+		0)
+	~	Person
+	~		|
+
+Recovered Severe= INTEG (
+	NRRR+RRS,
+		0)
+	~	Person
+	~		|
+
+Reported Infection Rate= INTEG (
+	CIRR,
+		0)
+	~	Person/Day
+	~	Expected number of infected people
+	|
+
+Reporting Delay=
+	4
+	~	Day
+	~	Reporting delay for the public health system. Will vary by country.
+	|
+
+Resource Aided Recovery= INTEG (
+	ISR-RRS,
+		0)
+	~	Person
+	~		|
+
+RRAV=
+	Infected AntiVirals/Inf Delay
+	~	Person/Day
+	~		|
+
+RRQ=
+	Infected in Quarantine/Inf Delay
+	~	Person/Day
+	~		|
+
+RRS=
+	Resource Aided Recovery/Rec Delay Res
+	~	Person/Day
+	~		|
+
+Total in Recovery=
+	NonResourceRecovery+Resource Aided Recovery
+	~	Person
+	~		|
+
+Total Infection Rate=
+	IR+IRS
+	~	Person/Day
+	~		|
+
+Total Population=
+	Susceptible+Total in Recovery+Total Infected+Total Recovered+Long Term Morbidity
+	~	Person
+	~	Sum of all stocks in the model. Should always be constant.
+	|
+
+Virus Severity Proportion=
+	0
+	~	Dmnl
+	~	Fraction of the population who will get a severe reaction to the virus
+	|
+
+********************************************************
+	.Control
+********************************************************~
+		Simulation Control Parameters
+	|
+
+FINAL TIME  = 100
+	~	Day
+	~	The final time for the simulation.
+	|
+
+INITIAL TIME  = 0
+	~	Day
+	~	The initial time for the simulation.
+	|
+
+SAVEPER  = 
+        TIME STEP
+	~	Day [0,?]
+	~	The frequency with which output is stored.
+	|
+
+TIME STEP  = 0.125
+	~	Day [0,?]
+	~	The time step for the simulation.
+	|
+
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*Transmission Model
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,80,0
+10,1,Susceptible,-54,255,53,27,3,3,0,0,0,0,0,0
+10,2,Infected2,757,253,53,27,3,3,0,0,0,0,0,0
+10,3,Infected Severe,747,569,53,27,3,3,0,0,0,0,0,0
+10,4,Infected AntiVirals,887,57,53,27,3,3,0,0,0,0,0,0
+10,5,Resource Aided Recovery,1015,456,53,27,3,3,0,0,0,0,0,0
+10,6,NonResourceRecovery,1003,667,53,27,3,3,0,0,0,0,0,0
+10,7,Infected in Quarantine,1114,251,53,27,3,3,0,0,0,0,0,0
+10,8,Recovered Quarantine,1433,241,64,27,3,131,0,0,0,0,0,0
+10,9,Recovered Severe,1451,447,53,27,3,3,0,0,0,0,0,0
+10,10,Long Term Morbidity,1463,668,57,36,3,131,0,0,0,0,0,0
+10,11,Reporting Delay,57,775,58,11,0,131,0,18,0,0,0,0,-1--1--1,0-0-0,|12|BU|0-64-0
+1,12,13,1,100,0,0,22,0,0,0,-1--1--1,,1|(107,245)|
+11,13,2636,223,245,8,11,34,3,0,0,1,0,0,0
+10,14,IR,223,267,11,11,40,3,0,0,-1,0,0,0
+1,15,16,4,100,0,0,22,0,0,0,-1--1--1,,1|(1091,63)|
+11,16,2220,1251,63,8,11,34,3,0,0,3,0,0,0
+10,17,RRAV,1251,41,24,11,40,3,0,0,-1,0,0,0
+1,18,20,10,4,0,0,22,0,0,0,-1--1--1,,1|(1254,664)|
+1,19,20,6,100,0,0,22,0,0,0,-1--1--1,,1|(1071,664)|
+11,20,2204,1095,664,8,11,34,3,0,0,1,0,0,0
+10,21,DR,1095,685,15,11,40,3,0,0,-1,0,0,0
+1,22,24,5,4,0,0,22,0,0,0,-1--1--1,,1|(909,456)|
+1,23,24,3,100,0,0,22,0,0,0,-1--1--1,,1|(747,456)|
+11,24,2684,845,456,11,11,37,3,0,1,3,0,0,0,255-0-0,0-0-0,|12||0-0-0
+10,25,ISR,845,435,16,11,40,3,0,0,-1,0,0,0
+1,26,28,9,4,0,0,22,0,0,0,-1--1--1,,1|(1258,457)|
+1,27,28,5,100,0,0,22,0,0,0,-1--1--1,,1|(1085,457)|
+11,28,1180,1111,457,8,11,34,3,0,0,1,0,0,0
+10,29,RRS,1111,479,19,11,40,3,0,0,-1,0,0,0
+1,30,32,8,4,0,0,22,0,0,0,-1--1--1,,1|(1319,256)|
+1,31,32,7,100,0,0,22,0,0,0,-1--1--1,,1|(1210,256)|
+11,32,1548,1262,256,8,11,34,3,0,0,1,0,0,0
+10,33,RRQ,1262,277,20,11,40,3,0,0,-1,0,0,0
+1,34,36,7,4,0,0,22,0,0,0,-1--1--1,,1|(973,251)|
+1,35,36,2,100,0,0,22,0,0,0,-1--1--1,,1|(839,251)|
+11,36,2732,877,251,8,11,34,3,0,0,1,0,0,0
+10,37,QF,877,272,13,11,40,3,0,0,-1,0,0,0
+1,38,40,6,4,0,0,22,0,0,0,-1--1--1,,1|(853,671)|
+1,39,40,3,100,0,0,22,0,0,0,-1--1--1,,1|(749,628)|
+11,40,2284,749,671,8,11,34,3,0,0,1,0,0,0
+10,41,ISNR,749,692,21,11,40,3,0,0,-1,0,0,0
+10,42,Virus Severity Proportion,459,392,53,19,8,131,0,18,0,0,0,0,-1--1--1,0-0-0,|12|BU|0-64-0
+10,43,Reported Infection Rate,337,827,53,27,3,3,0,0,0,0,0,0
+10,44,Reporting Error,471,688,48,20,8,131,0,0,0,0,0,0
+1,45,43,44,1,0,0,0,0,128,0,-1--1--1,,1|(422,793)|
+12,46,48,183,825,10,8,0,3,0,0,-1,0,0,0
+1,47,49,43,4,0,0,22,0,0,0,-1--1--1,,1|(265,825)|
+1,48,49,46,100,0,0,22,0,0,0,-1--1--1,,1|(212,825)|
+11,49,48,239,825,8,11,34,3,0,0,1,0,0,0
+10,50,CIRR,239,847,21,11,40,3,0,0,-1,0,0,0
+1,51,44,49,1,0,0,0,0,128,0,-1--1--1,,1|(263,744)|
+10,52,Force of Infection,259,33,45,21,8,131,0,0,0,0,0,0
+10,53,Normal Contacts,279,-313,57,11,8,131,0,0,0,0,0,0
+10,54,Infectivity,262,148,39,11,8,3,0,18,0,0,0,0,-1--1--1,0-0-0,|12|BU|0-64-0
+10,55,Anti Viral Effect,21,-197,48,21,8,131,0,0,0,0,0,0
+10,56,Quarantine Effect,547,-203,49,19,8,131,0,0,0,0,0,0
+1,57,52,13,1,0,0,0,0,128,0,-1--1--1,,1|(178,100)|
+1,58,54,52,1,0,0,0,0,128,0,-1--1--1,,1|(247,103)|
+10,59,Total Population,1801,-16,56,11,8,3,0,0,0,0,0,0
+10,60,Total Infected,1858,-237,48,11,8,3,0,0,0,0,0,0
+10,61,Total Recovered,1723,261,56,11,8,3,0,0,0,0,0,0
+10,62,Total in Recovery,1585,580,60,11,8,3,0,0,0,0,0,0
+10,63,Susceptible,1979,47,49,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,64,63,59,1,0,0,0,0,128,0,-1--1--1,,1|(1894,43)|
+1,65,60,59,1,0,0,0,0,128,0,-1--1--1,,1|(1818,-135)|
+1,66,62,59,1,0,0,0,0,128,0,-1--1--1,,1|(1707,431)|
+1,67,61,59,1,0,0,0,0,128,0,-1--1--1,,1|(1753,28)|
+10,68,Long Term Morbidity,1902,-144,44,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,69,68,59,1,0,0,0,0,128,0,-1--1--1,,1|(1891,-89)|
+1,70,4,52,1,0,0,0,0,128,0,-1--1--1,,1|(586,-95)|
+10,71,Anti Viral Contacts,82,-108,45,20,8,131,0,0,0,0,0,0
+10,72,Quarantine Contacts,443,-131,55,19,8,131,0,0,0,0,0,0
+1,73,53,72,1,0,0,0,0,128,0,-1--1--1,,1|(387,-279)|
+1,74,56,72,0,0,0,0,0,128,0,-1--1--1,,1|(500,-170)|
+1,75,55,71,1,0,0,0,0,128,0,-1--1--1,,1|(21,-159)|
+1,76,53,71,1,0,0,0,0,128,0,-1--1--1,,1|(166,-259)|
+1,77,7,52,1,0,0,0,0,128,0,-1--1--1,,1|(838,-19)|
+1,78,3,52,1,0,0,0,0,128,0,-1--1--1,,1|(525,159)|
+1,79,81,9,4,0,0,22,0,0,0,-1--1--1,,3|(1234,551)|(1234,549)|(1451,549)|
+1,80,81,6,100,0,0,22,0,0,0,-1--1--1,,1|(1003,551)|
+11,81,2124,1114,551,8,11,34,3,0,0,1,0,0,0
+10,82,NRRR,1114,572,25,11,40,3,0,0,-1,0,0,0
+10,83,Inf Delay,1398,139,35,11,8,3,0,18,0,0,0,0,-1--1--1,0-0-0,|12|BU|0-64-0
+10,84,Infected2,1614,-277,43,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,85,Infected AntiVirals,1935,-352,55,17,8,130,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,86,Infected in Quarantine,1729,-377,44,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,87,Infected Severe,1855,-397,61,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,88,2,37,1,0,0,0,0,128,0,-1--1--1,,1|(810,219)|
+10,89,Quarintine Fraction,1019,195,59,21,8,131,0,18,0,0,0,0,-1--1--1,0-0-0,|12|BU|0-64-0
+1,90,89,37,1,0,0,0,0,128,0,-1--1--1,,1|(973,171)|
+10,91,Quarantine Delay,1109,304,57,21,8,131,0,18,0,0,0,0,-1--1--1,0-0-0,|12|BU|0-64-0
+1,92,91,36,1,0,0,0,0,128,0,-1--1--1,,1|(970,323)|
+1,93,94,3,4,0,0,22,0,0,0,-1--1--1,,1|(595,579)|
+11,94,2780,489,579,8,11,34,3,0,0,1,0,0,0
+10,95,IRS,489,600,16,11,40,3,0,0,-1,0,0,0
+1,96,42,94,1,0,0,0,0,128,0,-1--1--1,,1|(467,407)|
+1,97,42,14,1,0,0,0,0,128,0,-1--1--1,,1|(423,377)|
+1,98,7,33,1,0,0,0,0,128,0,-1--1--1,,1|(1149,271)|
+1,99,4,16,1,0,0,0,0,128,0,-1--1--1,,1|(1077,81)|
+1,100,3,40,1,0,0,0,0,128,0,-1--1--1,,1|(719,616)|
+1,101,3,24,1,0,0,0,0,128,0,-1--1--1,,1|(818,511)|
+1,102,103,2,100,0,0,22,0,0,0,-1--1--1,,1|(757,361)|
+11,103,2236,1007,361,8,11,34,3,0,0,1,0,0,0
+10,104,RR,1007,383,13,11,40,3,0,0,-1,0,0,0
+1,105,2,103,1,0,0,0,0,128,0,-1--1--1,,1|(881,321)|
+1,106,5,29,1,0,0,0,0,128,0,-1--1--1,,1|(1073,505)|
+1,107,6,82,1,0,0,0,0,128,0,-1--1--1,,1|(1053,612)|
+1,108,6,21,1,0,0,0,0,128,0,-1--1--1,,1|(1057,708)|
+1,109,11,49,1,0,0,0,0,128,0,-1--1--1,,1|(153,771)|
+1,110,94,1,100,0,0,22,0,0,0,-1--1--1,,3|(491,579)|(491,580)|(-54,580)|
+1,111,52,94,1,0,0,0,0,128,0,-1--1--1,,1|(347,320)|
+1,112,1,94,1,0,0,0,0,128,0,-1--1--1,,1|(217,496)|
+10,113,Total Infection Rate,231,424,63,16,8,131,0,0,0,0,0,0
+1,114,14,113,1,0,0,0,0,128,0,-1--1--1,,1|(219,361)|
+1,115,95,113,0,0,0,0,0,128,0,-1--1--1,,1|(369,518)|
+1,116,113,44,1,0,0,0,0,128,0,-1--1--1,,1|(250,469)|
+10,117,Rec Delay Res,1163,521,51,11,8,3,0,0,0,0,0,0
+1,118,117,29,0,0,0,0,0,128,0,-1--1--1,,1|(1142,504)|
+10,119,Rec Delay No Resources,1247,587,49,19,8,3,0,0,0,0,0,0
+1,120,119,82,0,0,0,0,0,128,0,-1--1--1,,1|(1175,578)|
+10,121,Morbidity Fraction,1249,759,69,11,8,3,0,18,0,0,0,0,-1--1--1,0-0-0,|12|BU|0-64-0
+1,122,121,21,0,0,0,0,0,128,0,-1--1--1,,1|(1174,723)|
+1,123,121,82,1,0,0,0,0,128,0,-1--1--1,,1|(1211,569)|
+1,124,71,52,1,0,0,0,0,128,0,-1--1--1,,1|(122,-11)|
+1,125,72,52,1,0,0,0,0,128,0,-1--1--1,,1|(343,-79)|
+1,126,53,52,1,0,0,0,0,128,0,-1--1--1,,1|(213,-151)|
+10,127,Quarantine Policy,1123,128,56,28,3,131,0,18,0,0,0,0,-1--1--1,0-0-0,|12|BI|128-0-0
+1,128,127,36,1,0,0,0,0,128,0,-1--1--1,,1|(946,164)|
+1,129,119,20,0,0,0,0,0,128,0,-1--1--1,,1|(1162,629)|
+10,130,Recovered Anti Virals,1451,60,53,27,3,3,0,0,0,0,0,0
+1,131,16,130,4,0,0,22,0,0,0,-1--1--1,,1|(1328,63)|
+10,132,Recovered No Intervention,1454,365,53,27,3,3,0,0,0,0,0,0
+1,133,103,132,4,0,0,22,0,0,0,-1--1--1,,1|(1208,361)|
+1,134,130,61,0,0,0,0,0,128,0,-1--1--1,,1|(1591,164)|
+1,135,8,61,0,0,0,0,0,128,0,-1--1--1,,1|(1575,250)|
+1,136,132,61,0,0,0,0,0,128,0,-1--1--1,,1|(1593,311)|
+1,137,9,61,1,0,0,0,0,128,0,-1--1--1,,1|(1613,381)|
+1,138,5,62,0,0,0,0,0,128,0,-1--1--1,,1|(1294,516)|
+1,139,6,62,1,0,0,0,0,128,0,-1--1--1,,1|(1290,840)|
+10,140,Recovered Vaccinated,1433,-97,53,27,3,3,0,0,0,0,0,0
+1,141,143,140,4,0,0,22,0,0,0,-1--1--1,,3|(1358,-256)|(1358,-256)|(1433,-256)|
+1,142,143,1,100,0,0,22,0,0,0,-1--1--1,,1|(-54,-256)|
+11,143,1980,706,-256,11,11,37,3,0,1,1,0,0,0,255-0-0,0-0-0,|12||0-0-0
+10,144,VR,706,-235,15,11,40,3,0,0,-1,0,0,0
+1,145,140,61,1,0,0,0,0,128,0,-1--1--1,,1|(1618,59)|
+10,146,Ventilator Fraction,937,572,68,11,8,131,0,18,0,0,0,0,-1--1--1,0-0-0,|12|B|255-0-0
+1,147,146,24,0,0,0,0,0,128,0,-1--1--1,,1|(895,519)|
+1,148,146,40,1,0,0,0,0,128,0,-1--1--1,,1|(859,643)|
+10,149,Anti Viral Policy,826,-95,53,27,3,3,0,18,0,0,0,0,-1--1--1,0-0-0,|12|BI|128-0-0
+10,150,Anti Viral Fraction,634,113,69,11,8,3,0,18,0,0,0,0,-1--1--1,0-0-0,|12|B|255-0-0
+10,151,Ventilator Policy,617,400,53,27,3,3,0,18,0,0,0,0,-1--1--1,0-0-0,|12|BI|128-0-0
+1,152,151,24,1,0,0,0,0,128,0,-1--1--1,,1|(730,388)|
+10,153,Vaccination Policy,513,-351,53,21,3,131,0,18,0,0,0,0,-1--1--1,0-0-0,|12|BI|128-0-0
+1,154,153,143,1,0,0,0,0,128,0,-1--1--1,,1|(621,-327)|
+10,155,Vaccination Fraction,853,-353,71,11,0,131,0,18,0,0,0,0,-1--1--1,0-0-0,|12|B|255-0-0
+1,156,155,143,1,0,0,0,0,128,0,-1--1--1,,1|(769,-321)|
+1,157,1,143,1,0,0,0,0,128,0,-1--1--1,,1|(199,-125)|
+10,158,Infected1,501,248,53,27,3,3,0,0,0,0,0,0
+1,159,13,158,4,0,0,22,0,0,0,-1--1--1,,1|(339,245)|
+1,160,162,2,4,0,0,22,0,0,0,-1--1--1,,1|(670,251)|
+1,161,162,158,100,0,0,22,0,0,0,-1--1--1,,1|(587,251)|
+11,162,620,629,251,8,11,34,3,0,0,1,0,0,0
+10,163,IR1,629,272,15,11,40,3,0,0,-1,0,0,0
+1,164,166,4,4,0,0,22,0,0,0,-1--1--1,,1|(762,55)|
+1,165,166,158,100,0,0,22,0,0,0,-1--1--1,,1|(501,55)|
+11,166,2268,682,55,8,11,34,3,0,0,1,0,0,0
+10,167,IRAV,682,76,21,11,40,3,0,0,-1,0,0,0
+10,168,Infected1,1599,-352,43,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,169,149,166,1,0,0,0,0,128,0,-1--1--1,,1|(729,-47)|
+1,170,150,166,1,0,0,0,0,128,0,-1--1--1,,1|(639,80)|
+1,171,150,162,1,0,0,0,0,128,0,-1--1--1,,1|(654,167)|
+1,172,149,162,1,0,0,0,0,128,0,-1--1--1,,1|(805,111)|
+1,173,83,17,0,1,0,0,0,64,0,-1--1--1,,1|(1330,93)|
+1,174,83,33,0,1,0,0,0,64,0,-1--1--1,,1|(1334,202)|
+1,175,83,104,0,1,0,0,0,64,0,-1--1--1,,1|(1206,258)|
+1,176,83,32,0,0,0,0,0,128,0,-1--1--1,,1|(1332,195)|
+1,177,83,16,1,0,0,0,0,128,0,-1--1--1,,1|(1318,115)|
+1,178,158,166,1,0,0,0,0,128,0,-1--1--1,,1|(662,43)|
+1,179,158,163,1,0,0,0,0,128,0,-1--1--1,,1|(574,289)|
+1,180,151,40,1,0,0,0,0,128,0,-1--1--1,,1|(709,487)|
+10,181,Infected Non Severe,581,137,69,11,8,3,0,0,0,0,0,0
+1,182,158,181,1,0,0,0,0,128,0,-1--1--1,,1|(526,181)|
+1,183,2,181,1,0,0,0,0,128,0,-1--1--1,,1|(673,179)|
+1,184,181,52,1,0,0,0,0,128,0,-1--1--1,,1|(435,52)|
+10,185,Total Population,77,115,65,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,186,185,52,0,0,0,0,0,128,0,-1--1--1,,1|(151,81)|
+1,187,86,60,0,0,0,0,0,128,0,-1--1--1,,1|(1791,-308)|
+1,188,87,60,0,0,0,0,0,128,0,-1--1--1,,1|(1855,-323)|
+1,189,85,60,0,0,0,0,0,128,0,-1--1--1,,1|(1898,-297)|
+10,190,Inf Delay,849,535,43,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,191,190,24,0,0,0,0,0,128,0,-1--1--1,,1|(847,502)|
+1,192,190,40,0,0,0,0,0,128,0,-1--1--1,,1|(801,599)|
+1,193,1,14,1,0,0,0,0,128,0,-1--1--1,,1|(95,315)|
+1,194,127,103,1,0,0,0,0,128,0,-1--1--1,,1|(1017,347)|
+1,195,89,103,0,0,0,0,0,128,0,-1--1--1,,1|(1013,277)|
+10,196,Actual Vaccination Fraction,1071,-336,71,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,197,196,155,1,0,0,0,0,128,0,-1--1--1,,1|(975,-376)|
+10,198,Actual Antiviral Fraction,786,133,60,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,199,198,150,0,0,0,0,0,128,0,-1--1--1,,1|(721,125)|
+10,200,Actual Ventilator Fraction,987,503,64,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,201,200,146,0,0,0,0,0,128,0,-1--1--1,,1|(963,535)|
+10,202,Init Infected 1,479,332,52,11,8,3,0,18,0,0,0,0,-1--1--1,0-0-0,|12|BU|0-64-0
+1,203,202,158,0,0,0,0,0,64,1,-1--1--1,,1|(485,304)|
+10,204,Total Country Population,22,428,53,19,8,3,0,18,0,0,0,0,-1--1--1,0-0-0,|12|BU|0-64-0
+1,205,202,1,0,0,0,0,0,64,1,-1--1--1,,1|(219,294)|
+1,206,204,1,0,0,0,0,0,64,1,-1--1--1,,1|(-12,351)|
+1,207,158,60,0,0,0,0,0,64,0,-1--1--1,,1|(1183,4)|
+1,208,2,60,0,0,0,0,0,64,0,-1--1--1,,1|(1315,4)|
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*Financial Model
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,100,0
+10,1,Financial Resources,376,207,60,43,3,131,0,0,0,0,0,0
+10,2,Total Spend on Vaccines,807,44,53,27,3,3,0,0,0,0,0,0
+10,3,Total Spend on Antivirals,809,224,53,27,3,3,0,0,0,0,0,0
+10,4,Total Spend on Ventilators,811,376,53,27,3,3,0,0,0,0,0,0
+10,5,Total Financial Resources Received,151,471,53,27,3,3,0,0,0,0,0,0
+10,6,Total Financial Resources Donated,375,-25,53,27,3,3,0,0,0,0,0,0
+1,7,9,6,4,0,0,22,0,0,0,-1--1--1,,1|(372,38)|
+1,8,9,1,100,0,0,22,0,0,0,-1--1--1,,1|(372,127)|
+11,9,2252,372,83,11,8,33,3,0,0,4,0,0,0
+10,10,Resources Donated,443,83,60,20,40,131,0,18,-1,0,0,0,-1--1--1,0-0-0,|12|BU|128-0-0
+12,11,48,101,194,10,8,0,3,0,0,-1,0,0,0
+1,12,14,1,4,0,0,22,0,0,0,-1--1--1,,1|(269,194)|
+1,13,14,11,100,0,0,22,0,0,0,-1--1--1,,1|(159,194)|
+11,14,48,215,194,8,11,34,3,0,0,1,0,0,0
+10,15,Resources Received,215,224,60,20,40,131,0,18,-1,0,0,0,-1--1--1,0-0-0,|12|BU|128-0-0
+12,16,48,153,332,10,8,0,3,0,0,-1,0,0,0
+1,17,19,5,4,0,0,22,0,0,0,-1--1--1,,1|(153,423)|
+1,18,19,16,100,0,0,22,0,0,0,-1--1--1,,1|(153,363)|
+11,19,48,153,394,11,8,33,3,0,0,4,0,0,0
+10,20,Inc TRR,195,394,31,11,40,3,0,0,-1,0,0,0
+1,21,15,20,1,0,0,0,0,128,0,-1--1--1,,1|(195,326)|
+1,22,24,2,4,0,0,22,0,0,0,-1--1--1,,3|(555,39)|(555,39)|(654,39)|
+1,23,24,1,100,0,0,22,0,0,0,-1--1--1,,1|(555,207)|
+11,24,2172,555,115,11,8,33,3,0,0,4,0,0,0
+10,25,Vaccine Spend,607,115,41,20,40,131,0,0,-1,0,0,0
+1,26,28,3,4,0,0,22,0,0,0,-1--1--1,,1|(679,222)|
+1,27,28,1,100,0,0,22,0,0,0,-1--1--1,,1|(511,222)|
+11,28,1260,595,222,8,11,34,3,0,0,1,0,0,0
+10,29,Antiviral Spend,595,250,35,17,40,131,0,0,-1,0,0,0
+1,30,32,4,4,0,0,22,0,0,0,-1--1--1,,1|(674,384)|
+1,31,32,1,100,0,0,22,0,0,0,-1--1--1,,1|(376,384)|
+11,32,1388,583,384,8,11,34,3,0,0,1,0,0,0
+10,33,Ventilator Spend,583,406,56,11,40,3,0,0,-1,0,0,0
+10,34,Vaccine Budget Proportion,99,546,57,19,8,3,0,18,0,0,0,0,-1--1--1,0-0-0,|12|BU|128-0-0
+10,35,Resources for Vaccines,256,524,61,23,8,131,0,0,0,0,0,0
+10,36,Resources for Antivirals,375,506,48,19,8,3,0,0,0,0,0,0
+10,37,Resources for Ventilators,521,502,48,19,8,3,0,0,0,0,0,0
+1,38,1,35,0,0,0,0,0,128,0,-1--1--1,,1|(314,368)|
+1,39,34,35,1,0,0,0,0,128,0,-1--1--1,,1|(165,556)|
+10,40,Antiviral Budget Proportion,524,578,61,19,8,3,0,18,0,0,0,0,-1--1--1,0-0-0,|12|BU|128-0-0
+1,41,40,36,1,0,0,0,0,128,0,-1--1--1,,1|(461,531)|
+1,42,1,36,1,0,0,0,0,128,0,-1--1--1,,1|(349,355)|
+10,43,Ventilator Budget Proportion,768,568,65,19,8,3,0,18,0,0,0,0,-1--1--1,0-0-0,|12|BU|128-0-0
+1,44,43,37,0,0,0,0,0,128,0,-1--1--1,,1|(642,534)|
+1,45,1,37,0,0,0,0,0,128,0,-1--1--1,,1|(450,360)|
+10,46,Vaccine Cost Per Unit,984,99,69,24,8,131,0,18,0,0,0,0,-1--1--1,0-0-0,|12|BU|0-64-0
+10,47,Antiviral Cost Per Unit,992,215,53,19,8,3,0,18,0,0,0,0,-1--1--1,0-0-0,|12|BU|0-64-0
+10,48,Ventilator Cost Per Unit,981,379,56,19,8,3,0,18,0,0,0,0,-1--1--1,0-0-0,|12|BU|0-64-0
+10,49,Vaccine Orders,568,-61,61,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,50,49,24,1,0,0,0,0,128,0,-1--1--1,,1|(532,8)|
+10,51,Antiviral Orders,640,326,65,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,52,51,29,1,0,0,0,0,128,0,-1--1--1,,1|(607,296)|
+10,53,Ventilator Orders,663,480,68,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,54,53,33,1,0,0,0,0,128,0,-1--1--1,,1|(616,455)|
+1,55,47,29,1,0,0,0,0,128,0,-1--1--1,,1|(783,284)|
+1,56,46,25,1,0,0,0,0,128,0,-1--1--1,,1|(793,132)|
+1,57,48,33,1,0,0,0,0,128,0,-1--1--1,,1|(796,427)|
+10,58,Init Financial Resources,209,83,51,19,8,3,0,18,0,0,0,0,-1--1--1,0-0-0,|12|BU|0-64-0
+1,59,58,1,0,0,0,0,0,64,1,-1--1--1,,1|(270,128)|
+10,60,CDL,1333,245,40,20,3,3,0,0,0,0,0,0
+12,61,48,1174,248,10,8,0,3,0,0,-1,0,0,0
+1,62,64,60,4,0,0,22,0,0,0,-1--1--1,,1|(1268,248)|
+1,63,64,61,100,0,0,22,0,0,0,-1--1--1,,1|(1208,248)|
+11,64,0,1238,248,6,8,34,3,0,0,1,0,0,0
+10,65,Days Lost,1238,274,18,18,40,131,0,0,-1,0,0,0
+10,66,Infected1,1108,183,40,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|0||128-128-128
+10,67,Infected2,1114,271,40,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|0||128-128-128
+10,68,Infected AntiVirals,1344,307,37,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|0||128-128-128
+10,69,Infected in Quarantine,1133,343,40,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|0||128-128-128
+10,70,Infected Severe,1160,406,59,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|0||128-128-128
+10,71,Resource Aided Recovery,1363,368,57,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|0||128-128-128
+10,72,NonResourceRecovery,1305,181,84,9,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|0||128-128-128
+10,73,Long Term Morbidity,1232,468,41,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|0||128-128-128
+1,74,66,65,0,0,0,0,0,64,0,-1--1--1,,1|(1165,223)|
+1,75,72,65,0,0,0,0,0,64,0,-1--1--1,,1|(1278,217)|
+1,76,67,65,0,0,0,0,0,64,0,-1--1--1,,1|(1180,271)|
+1,77,68,65,0,0,0,0,0,64,0,-1--1--1,,1|(1288,289)|
+1,78,69,65,0,0,0,0,0,64,0,-1--1--1,,1|(1184,308)|
+1,79,71,65,0,0,0,0,0,64,0,-1--1--1,,1|(1302,322)|
+1,80,70,65,0,0,0,0,0,64,0,-1--1--1,,1|(1192,349)|
+1,81,73,65,0,0,0,0,0,64,0,-1--1--1,,1|(1234,377)|
+10,82,average worker productivity,1194,127,50,19,8,3,0,0,0,0,0,0
+1,83,82,65,0,0,0,0,0,64,0,-1--1--1,,1|(1213,194)|
+10,84,Days Lost Fraction,1297,424,36,19,8,3,0,0,0,0,0,0
+1,85,84,65,0,0,0,0,0,64,0,-1--1--1,,1|(1270,355)|
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*Vaccine Supply Chain Model
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,80,0
+10,1,Vaccine Supply Line,570,305,53,27,3,3,0,0,0,0,0,0
+10,2,Vaccine Stockpile,1018,314,64,36,3,131,0,0,0,0,0,0
+12,3,48,346,301,10,8,0,3,0,0,-1,0,0,0
+1,4,6,1,4,0,0,22,0,0,0,-1--1--1,,1|(481,301)|
+1,5,6,3,100,0,0,22,0,0,0,-1--1--1,,1|(393,301)|
+11,6,48,438,301,8,11,34,3,0,0,1,0,0,0
+10,7,Vaccine Orders,438,322,52,11,40,3,0,0,-1,0,0,0
+1,8,10,2,4,0,0,22,0,0,0,-1--1--1,,1|(875,305)|
+1,9,10,1,100,0,0,22,0,0,0,-1--1--1,,1|(702,305)|
+11,10,300,789,305,8,11,34,3,0,0,1,0,0,0
+10,11,Vaccine Orders Arriving,789,335,53,19,40,3,0,0,-1,0,0,0
+10,12,Total Vaccines Dispensed,1402,300,53,27,3,3,0,0,0,0,0,0
+1,13,14,2,100,0,0,22,0,0,0,-1--1--1,,1|(1051,244)|
+11,14,1868,1051,202,11,8,33,3,0,0,4,0,0,0
+10,15,Vaccines Shared,1115,202,53,16,40,131,0,18,-1,0,0,0,-1--1--1,0-0-0,|12|B|128-0-0
+1,16,17,2,100,0,0,22,0,0,0,-1--1--1,,1|(1003,372)|
+11,17,556,1003,402,11,8,33,3,0,0,4,0,0,0
+10,18,Vaccines Spoiled,1062,402,48,17,40,131,0,0,-1,0,0,0
+1,19,21,12,4,0,0,22,0,0,0,-1--1--1,,1|(1281,302)|
+1,20,21,2,100,0,0,22,0,0,0,-1--1--1,,1|(1139,302)|
+11,21,1324,1205,302,8,11,34,3,0,0,1,0,0,0
+10,22,Vaccines Dispensed,1205,334,56,21,40,131,0,0,-1,0,0,0
+1,23,2,18,1,0,0,0,0,128,0,-1--1--1,,1|(1049,338)|
+10,24,VR,1250,130,23,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,25,24,21,1,0,0,0,0,128,0,-1--1--1,,1|(1247,212)|
+10,26,Vaccine Shipment Delay,690,181,59,19,8,3,0,18,0,0,0,0,-1--1--1,0-0-0,|12|BU|0-64-0
+1,27,26,10,1,0,0,0,0,128,0,-1--1--1,,1|(751,222)|
+10,28,Actual Vaccination Fraction,1358,-155,65,19,8,3,0,0,0,0,0,0
+10,29,Vaccine Dispensing Delay,750,-136,63,19,8,3,0,18,0,0,0,0,-1--1--1,0-0-0,|12|BU|0-64-0
+10,30,Susceptible,1094,-195,49,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,31,Theoretical Maximum Vaccines Dispensed,969,-92,72,28,8,3,0,0,0,0,0,0
+1,32,30,31,1,0,0,0,0,128,0,-1--1--1,,1|(1029,-179)|
+1,33,29,31,1,0,0,0,0,128,0,-1--1--1,,1|(847,-143)|
+10,34,Vaccine Spoilage Fraction,1250,464,61,19,8,3,0,18,0,0,0,0,-1--1--1,0-0-0,|12|BU|0-64-0
+1,35,34,18,1,0,0,0,0,128,0,-1--1--1,,1|(1169,398)|
+10,36,Maximum Vaccines Dispensed,1177,-92,68,19,8,3,0,0,0,0,0,0
+1,37,2,36,1,0,0,0,0,128,0,-1--1--1,,1|(1157,236)|
+1,38,31,36,1,0,0,0,0,128,0,-1--1--1,,1|(1063,-47)|
+1,39,36,28,1,0,0,0,0,128,0,-1--1--1,,1|(1269,-102)|
+1,40,30,28,0,0,0,0,0,128,0,-1--1--1,,1|(1211,-177)|
+10,41,Resources for Vaccines,607,-131,53,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,42,Maximum Vaccine Purchases Possible,489,77,65,19,8,3,0,0,0,0,0,0
+10,43,Vaccine Cost Per Unit,739,-48,51,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,44,41,42,1,0,0,0,0,128,0,-1--1--1,,1|(527,-72)|
+1,45,43,42,1,0,0,0,0,128,0,-1--1--1,,1|(611,-14)|
+10,46,Total Required Vaccine Orders,734,578,63,63,2,131,0,18,0,0,0,0,-1--1--1,0-0-0,|12|B|128-0-0
+1,47,46,7,1,0,0,0,0,128,0,-1--1--1,,1|(535,493)|
+1,48,42,6,1,0,0,0,0,128,0,-1--1--1,,1|(441,172)|
+10,49,Total Vaccines Spoiled,1009,509,53,27,3,3,0,0,0,0,0,0
+1,50,17,49,4,0,0,22,0,0,0,-1--1--1,,1|(1003,446)|
+10,51,Total Vaccines Ordered,277,544,53,27,3,3,0,0,0,0,0,0
+12,52,48,275,393,10,8,0,3,0,0,-1,0,0,0
+1,53,55,51,4,0,0,22,0,0,0,-1--1--1,,1|(275,492)|
+1,54,55,52,100,0,0,22,0,0,0,-1--1--1,,1|(275,426)|
+11,55,48,275,460,11,8,33,3,0,0,4,0,0,0
+10,56,INC TVA,321,460,35,11,40,3,0,0,-1,0,0,0
+1,57,7,56,0,0,0,0,0,128,0,-1--1--1,,1|(384,385)|
+12,58,48,965,117,10,8,0,3,0,0,-1,0,0,0
+1,59,61,2,4,0,0,22,0,0,0,-1--1--1,,1|(966,244)|
+1,60,61,58,100,0,0,22,0,0,0,-1--1--1,,1|(966,159)|
+11,61,48,966,202,11,8,33,3,0,0,2,0,0,0
+10,62,Vaccines Received,897,202,59,19,40,131,0,18,-1,0,0,0,-1--1--1,0-0-0,|12|BU|128-0-0
+10,63,Init Vaccine Supply Line,526,210,45,19,8,3,0,18,0,0,0,0,-1--1--1,0-0-0,|12|BU|0-64-0
+1,64,63,1,0,0,0,0,0,64,1,-1--1--1,,1|(542,247)|
+10,65,Init Vaccine Stockpile,847,394,72,23,8,131,0,18,0,0,0,0,-1--1--1,0-0-0,|12|BU|0-64-0
+1,66,65,2,0,0,0,0,0,64,1,-1--1--1,,1|(918,360)|
+10,67,Vaccine Usage Fraction,1515,-202,53,19,8,131,0,18,0,0,0,0,-1--1--1,0-0-0,|12|BU|128-0-0
+1,68,67,28,1,0,0,0,0,128,0,-1--1--1,,1|(1459,-170)|
+10,69,Total Vaccines Received,826,2,53,27,3,3,0,0,0,0,0,0
+12,70,48,821,116,10,8,0,3,0,0,-1,0,0,0
+1,71,73,69,4,0,0,22,0,0,0,-1--1--1,,1|(821,43)|
+1,72,73,70,100,0,0,22,0,0,0,-1--1--1,,1|(821,91)|
+11,73,48,821,66,11,8,33,3,0,0,4,0,0,0
+10,74,ITVR,853,66,21,11,40,3,0,0,-1,0,0,0
+1,75,61,74,0,0,0,0,0,128,0,-1--1--1,,1|(915,140)|
+10,76,Total Vaccines Shared,1046,25,53,27,3,3,0,0,0,0,0,0
+1,77,14,76,4,0,0,22,0,0,0,-1--1--1,,1|(1051,123)|
+1,78,6,11,1,0,0,0,0,64,0,-1--1--1,,1|(576,352)|
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*Antivirals Supply Chain Model
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,100,0
+10,1,Antiviral Supply Line,384,448,53,27,3,3,0,0,0,0,0,0
+10,2,Antiviral Stockpile,828,448,64,40,3,131,0,0,0,0,0,0
+12,3,48,160,444,10,8,0,3,0,0,-1,0,0,0
+1,4,6,1,4,0,0,22,0,0,0,-1--1--1,,1|(295,444)|
+1,5,6,3,100,0,0,22,0,0,0,-1--1--1,,1|(207,444)|
+11,6,48,252,444,8,11,34,3,0,0,1,0,0,0
+10,7,Antiviral Orders,252,465,56,11,40,3,0,0,-1,0,0,0
+1,8,10,2,4,0,0,22,0,0,0,-1--1--1,,1|(687,448)|
+1,9,10,1,100,0,0,22,0,0,0,-1--1--1,,1|(516,448)|
+11,10,252,603,448,8,11,34,3,0,0,1,0,0,0
+10,11,Antiviral Orders Arriving,603,478,57,19,40,3,0,0,-1,0,0,0
+10,12,Total Antivirals Dispensed,1216,442,53,27,3,3,0,0,0,0,0,0
+1,13,14,2,100,0,0,22,0,0,0,-1--1--1,,1|(851,380)|
+11,14,1788,851,345,11,8,33,3,0,0,4,0,0,0
+10,15,Antivirals Shared,917,345,56,19,40,131,0,18,-1,0,0,0,-1--1--1,0-0-0,|12|B|128-0-0
+1,16,17,2,100,0,0,22,0,0,0,-1--1--1,,1|(817,512)|
+11,17,460,817,545,11,8,33,3,0,0,4,0,0,0
+10,18,Antivirals Spoiled,881,545,53,17,40,131,0,0,-1,0,0,0
+1,19,21,12,4,0,0,22,0,0,0,-1--1--1,,1|(1095,445)|
+1,20,21,2,100,0,0,22,0,0,0,-1--1--1,,1|(951,445)|
+11,21,1020,1019,445,8,11,34,3,0,0,1,0,0,0
+10,22,Antivirals Dispensed,1019,476,59,20,40,131,0,0,-1,0,0,0
+1,23,2,18,1,0,0,0,0,128,0,-1--1--1,,1|(864,470)|
+10,24,Antiviral Shipment Delay,504,324,59,19,8,3,0,18,0,0,0,0,-1--1--1,0-0-0,|12|BU|0-64-0
+1,25,24,10,1,0,0,0,0,128,0,-1--1--1,,1|(565,365)|
+10,26,Actual Antiviral Fraction,1143,84,56,19,8,3,0,0,0,0,0,0
+10,27,Antiviral Dispensing Delay,560,65,63,19,8,3,0,18,0,0,0,0,-1--1--1,0-0-0,|12|BU|0-64-0
+10,28,Theoretical Maximum Antivirals Dispensed,757,118,77,19,8,3,0,0,0,0,0,0
+1,29,27,28,1,0,0,0,0,128,0,-1--1--1,,1|(648,66)|
+10,30,Antivirals Spoilage Fraction,1064,606,65,19,8,3,0,18,0,0,0,0,-1--1--1,0-0-0,|12|BU|0-64-0
+1,31,30,18,1,0,0,0,0,128,0,-1--1--1,,1|(983,541)|
+10,32,Maximum Antivirals Dispensed,967,126,72,19,8,3,0,0,0,0,0,0
+1,33,2,32,1,0,0,0,0,128,0,-1--1--1,,1|(963,358)|
+1,34,28,32,1,0,0,0,0,128,0,-1--1--1,,1|(851,169)|
+1,35,32,26,1,0,0,0,0,128,0,-1--1--1,,1|(1055,125)|
+10,36,Maximum Antivirals Purchases Possible,331,182,72,19,8,3,0,0,0,0,0,0
+10,37,Total Required Antiviral Orders,488,720,67,67,2,131,0,18,0,0,0,0,-1--1--1,0-0-0,|12|BI|128-0-0
+1,38,37,7,1,0,0,0,0,128,0,-1--1--1,,1|(323,613)|
+1,39,36,6,1,0,0,0,0,128,0,-1--1--1,,1|(260,289)|
+10,40,Resources for Antivirals,513,148,53,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,41,Antiviral Cost Per Unit,171,113,55,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,42,41,36,0,0,0,0,0,128,0,-1--1--1,,1|(244,144)|
+1,43,40,36,0,0,0,0,0,128,0,-1--1--1,,1|(438,161)|
+10,44,Vaccine Cost Per Unit,331,220,51,19,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,45,Resources for Vaccines,331,220,53,19,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,46,Infected1,848,25,43,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,47,46,28,0,0,0,0,0,128,0,-1--1--1,,1|(811,62)|
+10,48,Susceptible,1139,22,49,11,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,49,Susceptible,791,52,49,11,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,50,46,26,1,0,0,0,0,128,0,-1--1--1,,1|(981,26)|
+10,51,IRAV,1140,288,31,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,52,51,21,0,0,0,0,0,128,0,-1--1--1,,1|(1081,362)|
+10,53,VR,1019,506,23,11,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,54,Total Antivirals Ordered,85,650,53,27,3,3,0,0,0,0,0,0
+12,55,48,93,486,10,8,0,3,0,0,-1,0,0,0
+1,56,58,54,4,0,0,22,0,0,0,-1--1--1,,1|(93,595)|
+1,57,58,55,100,0,0,22,0,0,0,-1--1--1,,1|(93,523)|
+11,58,48,93,560,11,8,33,3,0,0,4,0,0,0
+10,59,AVO,123,560,19,11,40,3,0,0,-1,0,0,0
+1,60,7,59,1,0,0,0,0,128,0,-1--1--1,,1|(188,492)|
+12,61,48,796,276,10,8,0,3,0,0,-1,0,0,0
+1,62,64,2,4,0,0,22,0,0,0,-1--1--1,,1|(791,380)|
+1,63,64,61,100,0,0,22,0,0,0,-1--1--1,,1|(791,310)|
+11,64,48,791,345,11,8,33,3,0,0,2,0,0,0
+10,65,Antivirals Received,720,345,60,20,40,131,0,18,-1,0,0,0,-1--1--1,0-0-0,|12|BU|128-0-0
+10,66,Total Antivirals Spoiled,812,665,53,27,3,3,0,0,0,0,0,0
+1,67,17,66,4,0,0,22,0,0,0,-1--1--1,,1|(817,595)|
+10,68,Init Antiviral Supply Line,415,548,49,19,8,3,0,18,0,0,0,0,-1--1--1,0-0-0,|12|BU|0-64-0
+1,69,68,1,0,0,0,0,0,64,1,-1--1--1,,1|(403,508)|
+10,70,Init Antiviral Stockpile,673,552,49,19,8,3,0,18,0,0,0,0,-1--1--1,0-0-0,|12|BU|0-64-0
+1,71,70,2,0,0,0,0,0,64,1,-1--1--1,,1|(728,514)|
+10,72,Antiviral Usage Fraction,1272,12,57,19,8,3,0,18,0,0,0,0,-1--1--1,0-0-0,|12|BU|128-0-0
+1,73,72,26,1,0,0,0,0,128,0,-1--1--1,,1|(1237,57)|
+10,74,Total Antivirals Received,632,180,53,27,3,3,0,0,0,0,0,0
+12,75,48,639,309,10,8,0,3,0,0,-1,0,0,0
+1,76,78,74,4,0,0,22,0,0,0,-1--1--1,,1|(639,232)|
+1,77,78,75,100,0,0,22,0,0,0,-1--1--1,,1|(639,287)|
+11,78,48,639,266,11,8,33,3,0,0,4,0,0,0
+10,79,ITAVR,675,266,25,11,40,3,0,0,-1,0,0,0
+1,80,65,79,0,0,0,0,0,128,0,-1--1--1,,1|(698,307)|
+10,81,Total Antivirals Shared,853,184,53,27,3,3,0,0,0,0,0,0
+1,82,14,81,4,0,0,22,0,0,0,-1--1--1,,1|(851,274)|
+1,83,7,11,1,0,0,0,0,64,0,-1--1--1,,1|(411,392)|
+\\\---/// Sketch information - do not modify anything except names
+V300  Do not put anything below this section - it will be ignored
+*Ventilator Supply Chain Model
+$192-192-192,0,Times New Roman|12||0-0-0|0-0-0|0-0-255|-1--1--1|-1--1--1|96,96,100,0
+10,1,Ventilator Supply Line,384,380,53,27,3,3,0,0,0,0,0,0
+10,2,Ventilator Stockpile,839,397,71,44,3,131,0,0,0,0,0,0
+12,3,48,160,376,10,8,0,3,0,0,-1,0,0,0
+1,4,6,1,4,0,0,22,0,0,0,-1--1--1,,1|(295,376)|
+1,5,6,3,100,0,0,22,0,0,0,-1--1--1,,1|(207,376)|
+11,6,48,252,376,8,11,34,3,0,0,1,0,0,0
+10,7,Ventilator Orders,252,398,59,11,40,3,0,0,-1,0,0,0
+1,8,10,2,4,0,0,22,0,0,0,-1--1--1,,1|(689,380)|
+1,9,10,1,100,0,0,22,0,0,0,-1--1--1,,1|(516,380)|
+11,10,172,603,380,8,11,34,3,0,0,1,0,0,0
+10,11,Ventilator Orders Arriving,603,410,60,19,40,3,0,0,-1,0,0,0
+10,12,Ventilators in Use,1224,389,61,41,3,131,0,0,0,0,0,0
+1,13,14,2,100,0,0,22,0,0,0,-1--1--1,,1|(892,319)|
+11,14,1340,892,277,11,8,33,3,0,0,4,0,0,0
+10,15,Ventilators Shared,960,277,57,23,40,131,0,18,-1,0,0,0,-1--1--1,0-0-0,|12|BU|128-0-0
+1,16,17,2,100,0,0,22,0,0,0,-1--1--1,,1|(816,470)|
+11,17,348,816,507,11,8,33,131,0,0,4,0,0,0
+10,18,Ventilators Spoiled,883,507,56,24,40,131,0,0,-1,0,0,0
+1,19,21,12,4,0,0,22,0,0,0,-1--1--1,,1|(1095,364)|
+1,20,21,2,100,0,0,22,0,0,0,-1--1--1,,1|(960,364)|
+11,21,1244,1019,364,8,11,34,3,0,0,3,0,0,0
+10,22,Ventilators Dispensed,1019,343,73,11,40,131,0,0,-1,0,0,0
+1,23,2,18,1,0,0,0,0,128,0,-1--1--1,,1|(871,420)|
+10,24,Ventilator Shipment Delay,504,256,59,19,8,3,0,18,0,0,0,0,-1--1--1,0-0-0,|12|BU|0-64-0
+1,25,24,10,1,0,0,0,0,128,0,-1--1--1,,1|(565,297)|
+10,26,Actual Ventilator Fraction,1163,-39,59,19,8,3,0,0,0,0,0,0
+10,27,Ventilator Dispensing Delay,536,-49,64,19,8,3,0,18,0,0,0,0,-1--1--1,0-0-0,|12|BU|0-64-0
+10,28,Theoretical Maximum Ventilators Dispensed,764,-16,77,19,8,3,0,0,0,0,0,0
+1,29,27,28,1,0,0,0,0,128,0,-1--1--1,,1|(635,-61)|
+10,30,Ventilator Spoilage Fraction,1071,587,65,19,8,3,0,18,0,0,0,0,-1--1--1,0-0-0,|12|BU|0-64-0
+1,31,30,18,1,0,0,0,0,128,0,-1--1--1,,1|(989,509)|
+10,32,Maximum Ventilators Dispensed,963,-40,75,19,8,3,0,0,0,0,0,0
+1,33,2,32,1,0,0,0,0,128,0,-1--1--1,,1|(852,225)|
+1,34,28,32,1,0,0,0,0,128,0,-1--1--1,,1|(860,15)|
+1,35,32,26,1,0,0,0,0,128,0,-1--1--1,,1|(1057,-16)|
+10,36,Maximum Ventilators Purchases Possible,331,168,75,19,8,3,0,0,0,0,0,0
+10,37,Total Required Ventilator Orders,420,676,63,63,2,131,0,18,0,0,0,0,-1--1--1,0-0-0,|12|B|128-0-0
+1,38,37,7,1,0,0,0,0,128,0,-1--1--1,,1|(275,560)|
+1,39,36,6,1,0,0,0,0,128,0,-1--1--1,,1|(272,253)|
+10,40,Susceptible,1139,-45,49,11,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,41,Susceptible,791,-7,49,11,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,42,Resources for Ventilators,208,4,53,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,43,Ventilator Cost Per Unit,399,15,57,19,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,44,Resources for Vaccines,331,152,53,19,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,45,Vaccine Cost Per Unit,331,152,51,19,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,46,42,36,0,0,0,0,0,128,0,-1--1--1,,1|(264,80)|
+1,47,43,36,0,0,0,0,0,128,0,-1--1--1,,1|(367,85)|
+10,48,ISR,1181,251,24,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,49,48,21,1,0,0,0,0,128,0,-1--1--1,,1|(1129,325)|
+10,50,VR,1019,439,23,11,8,2,1,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+10,51,Total Ventilator Orders,69,580,53,27,3,3,0,0,0,0,0,0
+12,52,48,67,439,10,8,0,3,0,0,-1,0,0,0
+1,53,55,51,4,0,0,22,0,0,0,-1--1--1,,1|(67,531)|
+1,54,55,52,100,0,0,22,0,0,0,-1--1--1,,1|(67,470)|
+11,55,48,67,501,11,8,33,3,0,0,4,0,0,0
+10,56,VO,92,501,15,11,40,3,0,0,-1,0,0,0
+1,57,7,56,0,0,0,0,0,128,0,-1--1--1,,1|(176,446)|
+12,58,48,805,208,10,8,0,3,0,0,-1,0,0,0
+1,59,61,2,4,0,0,22,0,0,0,-1--1--1,,1|(804,322)|
+1,60,61,58,100,0,0,22,0,0,0,-1--1--1,,1|(804,246)|
+11,61,48,804,284,11,8,33,3,0,0,2,0,0,0
+10,62,Ventilators Received,725,284,68,17,40,131,0,18,-1,0,0,0,-1--1--1,0-0-0,|12|BU|128-0-0
+1,63,65,2,4,0,0,22,0,0,0,-1--1--1,,1|(968,416)|
+1,64,65,12,100,0,0,22,0,0,0,-1--1--1,,1|(1103,416)|
+11,65,508,1035,416,8,11,34,3,0,0,1,0,0,0
+10,66,Ventilators Freed,1035,437,57,11,40,3,0,0,-1,0,0,0
+10,67,RRS,1123,484,27,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,68,67,66,1,0,0,0,0,128,0,-1--1--1,,1|(1080,476)|
+10,69,Infected Severe,881,-131,61,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,70,69,26,1,0,0,0,0,128,0,-1--1--1,,1|(1008,-117)|
+10,71,Total Ventilators Decommissioned,829,621,61,28,3,131,0,0,0,0,0,0
+1,72,17,71,4,0,0,22,0,0,0,-1--1--1,,1|(816,554)|
+10,73,Init Ventilator Supply Line,431,508,53,19,8,3,0,18,0,0,0,0,-1--1--1,0-0-0,|12|BU|0-64-0
+10,74,Init Ventilator Stockpile,680,511,53,19,8,131,0,18,0,0,0,0,-1--1--1,0-0-0,|12|BU|0-64-0
+1,75,73,1,0,0,0,0,0,64,1,-1--1--1,,1|(411,454)|
+1,76,74,2,0,0,0,0,0,64,1,-1--1--1,,1|(735,470)|
+10,77,Infected Severe,741,69,61,11,8,2,0,3,-1,0,0,0,128-128-128,0-0-0,|12||128-128-128
+1,78,77,28,0,0,0,0,0,64,0,-1--1--1,,1|(748,37)|
+10,79,Total Ventilators Received,623,131,53,27,3,3,0,0,0,0,0,0
+12,80,48,619,260,10,8,0,3,0,0,-1,0,0,0
+1,81,83,79,4,0,0,22,0,0,0,-1--1--1,,1|(616,178)|
+1,82,83,80,100,0,0,22,0,0,0,-1--1--1,,1|(616,233)|
+11,83,48,616,207,11,8,33,3,0,0,4,0,0,0
+10,84,ITVENR,659,207,32,11,40,3,0,0,-1,0,0,0
+1,85,62,84,0,0,0,0,0,128,0,-1--1--1,,1|(694,247)|
+10,86,Total Ventilators Shared,887,133,53,27,3,3,0,0,0,0,0,0
+1,87,14,86,4,0,0,22,0,0,0,-1--1--1,,1|(892,214)|
+1,88,6,10,1,0,0,0,0,64,0,-1--1--1,,1|(417,317)|
+///---\\\
+:L<%^E!@
+1:Current.vdf
+1:C:\Users\jandraor\Downloads\Current.vdf
+9:Current
+22:$,Dollar,Dollars,$s
+22:Day,Days
+22:Hour,Hours
+22:Month,Months
+22:Person,People,Persons
+22:Unit,Units
+22:Week,Weeks
+22:Year,Years
+23:0
+15:0,0,0,0,0,0
+19:100,1
+27:0,
+34:0,
+4:Time
+5:Days Lost
+35:Date
+36:YYYY-MM-DD
+37:2000
+38:1
+39:1
+40:4
+41:0
+42:1
+24:0
+25:100
+26:100
