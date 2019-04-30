@@ -342,11 +342,12 @@ healthsim_model <- function(time, stocks, auxs){
   
     DaysLost <- states[,"_TM_I1"] +  states[,"_TM_I2"] +  states[,"_TM_IQ"] +
                 states[,"_TM_IS"] +  states[,"_TM_RAR"] + states[,"_TM_NRR"] +
-                states[,"_TM_RAR"] * simd$g_countries$DaysLostFraction
+                states[,"_TM_IAV"] + 
+                states[,"_TM_LTM"] * simd$g_countries$DaysLostFraction
+    
+    CostDaysLost <- DaysLost * simd$g_countries$AverageWorkerProductivity
     
     
-    CostDaysLost <- states[,"_CDL"] * simd$g_countries$AverageWorkerProductivity
-
     # Transmission Model
     d_TM_S_dt        <- -IR - IRS - VR
     d_TM_I1_dt       <- IR - IR1 - IRAV
@@ -371,6 +372,7 @@ healthsim_model <- function(time, stocks, auxs){
     d_FM_TSOA_dt     <- AntiviralSpend  
     d_FM_TSOVEN_dt   <- VentilatorSpend
     d_FM_TFRR_dt     <- IncTRR
+    d_FM_CDL_dt      <- CostDaysLost
     
     # Vaccine Model
     d_VAC_VSL_dt     <- VaccineOrders -VaccineOrdersArriving   
@@ -406,21 +408,17 @@ healthsim_model <- function(time, stocks, auxs){
     update_sim_history(time, "AntiviralsOrdered",  AntiviralOrders)
     update_sim_history(time, "VentilatorsOrdered", VentilatorOrders)
     
-    # Cost model - 1 stock
-    
-    d_CDL_dt    <- DaysLost
-    
     list(c(d_TM_S_dt,      d_TM_I1_dt,    d_TM_I2_dt,     d_TM_IQ_dt,    d_TM_IAV_dt,   d_TM_IS_dt, 
            d_TM_RV_dt,     d_TM_RAV_dt,   d_TM_RQ_dt,     d_TM_RNI_dt,   d_TM_RAR_dt,   d_TM_RS_dt,    
            d_TM_NRR_dt,    d_TM_LTM_dt,   d_TM_RIR_dt, 
            d_FM_R_dt,      d_FM_TFRD_dt,  d_FM_TSOVAC_dt, d_FM_TSOA_dt,  
-           d_FM_TSOVEN_dt, d_FM_TFRR_dt, 
+           d_FM_TSOVEN_dt, d_FM_TFRR_dt,  d_FM_CDL_dt, 
            d_VAC_VSL_dt,   d_VAC_VS_dt,   d_VAC_TVSHR_dt,  d_VAC_TVR_dt,  
            d_VAC_TVD_dt,   d_VAC_TVS_dt,  d_VAC_TVO_dt,  
            d_AVR_AVSL_dt,  d_AVR_AVS_dt,  d_AVR_TAVSHR_dt, d_AVR_TAVR_dt, 
            d_AVR_TAVD_dt,  d_AVR_TAVS_dt, d_AVR_TAO_dt,
            d_VEN_VSL_dt,   d_VEN_VS_dt,   d_VEN_VIU_dt,    d_VEN_TVR_dt,  d_VEN_TVD_dt,  
-           d_VEN_TVS_dt,   d_VEN_TVO_dt,  d_CDL_dt), 
+           d_VEN_TVS_dt,   d_VEN_TVO_dt), 
            TotalInfected=TotalInfected, 
            TotalPopulation=TotalPopulation,
            AntiviralsOrdered=AntiviralOrders,

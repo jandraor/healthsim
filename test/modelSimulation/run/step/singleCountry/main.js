@@ -44,8 +44,13 @@ describe('single countries setup', function() {
     })
   });
 
-  it(`should the same stocks' values at time 1`, async () => {
+  it(`should have the same stocks' values at time 1`, async () => {
     const vensimLastRow = vensimOutput[vensimOutput.length - 1];
+
+    Object.keys(vensimLastRow).forEach(key => {
+      vensimLastRow[key] = parseFloat(vensimLastRow[key])
+    });
+
     const vensimStocks = Object.keys(vensimLastRow)
       .filter(variable => {
         return variable === 'TIME' ? false : true
@@ -59,10 +64,5 @@ describe('single countries setup', function() {
       const actual = lastRow[vensimStock];
       assert.approximately(actual, expected, 0.001, `${vensimStock} is different`)
     })
-
-
-
-
-
   });
 });

@@ -124,7 +124,7 @@ const initSingleCountry = describe('initialise single-country model', () => {
 
     it(`the number of stocks should be equal to Vensim's number of stocks`, () => {
       const actual = Object.keys(stocks).length;
-      const expected = 42 // This should be obtained dynamically
+      const expected = 43 // This should be obtained dynamically
       assert.equal(actual, expected)
     });
 
@@ -141,7 +141,7 @@ const initSingleCountry = describe('initialise single-country model', () => {
 
     it(`should return the stocks specified in the R script for the financial sector`, () => {
       const fm_model_stocks = ["_FM_R","_FM_TFRD","_FM_TSOVAC","_FM_TSOA",
-        "_FM_TSOVEN","_FM_TFRR"]
+        "_FM_TSOVEN","_FM_TFRR", '_FM_CDL']
       const expected = fm_model_stocks.map(stock => {return `Alpha${stock}`});
       const regex = "_FM_";
       const actual = Object.keys(stocks)
@@ -178,10 +178,6 @@ const initSingleCountry = describe('initialise single-country model', () => {
         .filter(stock => {return stock.match(regex)});
       assert.deepEqual(actual, expected);
     });
-
-    it(`should return the stock _CDL`, () => {
-      assert.isAbove(Object.keys(stocks).indexOf('Alpha_CDL'), -1);
-    })
 
     it(`should return the same initial values as Vensim model`, async() => {
       const filepath = './R_Models/games/game_1/model/Vensim/BOT/single_team_initialValues.csv'
