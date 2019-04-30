@@ -39,7 +39,7 @@ conversion.table = data.frame(
 #===============================================================================
 
 Sys.setenv(RETICULATE_PYTHON = "/usr/local/bin/python3")
-file <- "./R_Models/games/game_1/model/Vensim/Game_Model_02.mdl"
+file <- "./R_Models/games/game_1/model/Vensim/Game Model 03.mdl"
 py <- pysd_connect()
 py <- read_vensim(py, file)
 results <- run_model(py)
