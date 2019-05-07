@@ -69,9 +69,9 @@
 }
 
 .bullet .measure { fill: steelblue; }
-.bullet .range.s0 { fill: #eee; }
+.bullet .range.s0 { fill: #ccc; }
 .bullet .range.s1 { fill: #ddd; }
-.bullet .range.s2 { fill: #ccc; }
+.bullet .range.s2 { fill: #eee; }
 .bullet .title { font-size: 9px;font-weight: bold; }
 .bullet .subtitle { font-size: 8px;fill: #999; }
 .bullet .tick line { stroke: #666; stroke-width: .5px; }

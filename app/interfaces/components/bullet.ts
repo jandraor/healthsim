@@ -2,16 +2,21 @@ import * as d3 from 'd3';
 
 /**
  * Draws a bullet graph on an existing SVG.
- * @param {Object} options - .
- * @param {string} option.svgId -
- * @param {string} options.title -
- * @param {string} options.subtitle -
- * @param {number[]} options.ranges - //descending order
- * @param {number} options.measure -
- * @param {boolean} [options.reverse] -
+ * @param {Object} options - Params.
+ * @param {string} option.svgId - svg where the bullet is going to be drawn
+ * @param {string} options.title - Measure
+ * @param {string} options.subtitle - Measure's units
+ * @param {number[]} options.ranges - It consists of exactly 3 elements. They should be in descending order. These are the limits, absolute values, of the background rectangles.
+ * @param {number} options.measure - Bullet's length
+ * @param {boolean} [options.reverse] - If true, the bullet grows leftwards. If false, the bullet rightwards
  */
 export const draw = options => {
-  //{"title":"Revenue","subtitle":"US$, in thousands","ranges":[150,225,300],"measures":[220,270],"markers":[250]}
+
+  if(options.ranges.length != 3){
+    console.log(`Ranges' length is not exactly 3`)
+    return
+  }
+
   const height = 30;
   const width = 215;
   const margin = {
@@ -44,8 +49,6 @@ export const draw = options => {
     .attr("height", height)
     .attr("x", options.reverse ? xScale : 0);
 
-  console.log('hola Uki');
-
   const measure = g.append("rect")
     .datum(options.measure)
     .attr("class", "measure")
@@ -55,14 +58,12 @@ export const draw = options => {
     .attr("height", height / 3);
 
   // Compute the tick format.
-  const format = xScale.tickFormat(4);
-  console.log('format')
-  console.log(format)
-
+  const format = xScale.tickFormat(4, '~s');
+  
   // Update the tick groups.
   const tick = g.selectAll("g.tick")
     .data(xScale.ticks(4), function(d) {
-      return this.textContent || format(d);
+      return this.textContent ||format(d);
     })
     .enter()
       .append("g")
@@ -95,9 +96,7 @@ export const draw = options => {
 
 const bulletWidth = x => {
   const x0 = x(0);
-  console.log(`x(0): ${x0}`)
   return d => {
-    console.log(`x(d): ${x(d)}`)
     return Math.abs(x(d) - x0);
   };
 }
@@ -106,4 +105,9 @@ const bulletTranslate = x => {
   return function(d) {
     return `translate(${x(d)},0)`;
   };
+}
+
+export const clear = svgId => {
+  const svg = d3.select(`#${svgId}`)
+    .selectAll("*").remove();
 }

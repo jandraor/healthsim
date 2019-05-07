@@ -37,6 +37,7 @@ export const update = newData => {
   sparklines.draw(results);
   timeseries.drawAll(results);
   arcMeters.update(results);
+  bullet.update(results);
 }
 
 export const newRound = () => {

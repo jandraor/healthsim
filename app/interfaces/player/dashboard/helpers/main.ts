@@ -9,11 +9,16 @@ export const applyInfoDelay = (variableId, section, simulationResult) => {
   const isDelayed = objectQueries.isDelayed(variableId, section);
 
   if(isDelayed){
-    const informationDelay = $('#lIncome').data('reportingDelay');
-    const currentRound = parseInt($('#lCurrentRound').text());
-    const upperLimit = currentRound - informationDelay;
-    const delayedDataset = dataset.filter(row => {return row.x <= upperLimit});
+    const delayedDataset = delayDataset(dataset);
     return delayedDataset;
   }
   return dataset;
+}
+
+export const delayDataset = dataset => {
+  const informationDelay = $('#lIncome').data('reportingDelay');
+  const currentRound = parseInt($('#lCurrentRound').text());
+  const upperLimit = currentRound - informationDelay;
+  const delayedDataset = dataset.filter(row => {return row.x <= upperLimit});
+  return delayedDataset;
 }
