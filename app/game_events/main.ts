@@ -2,11 +2,9 @@ const $ = require('jquery');
 import * as player from './player/main.ts';
 import * as instructor from './instructor/main.ts';
 
-export const sendCredentials = (socket) => {
+export const sendCredentials = (socket, email) => {
   const credentials = {
-    'email': 'jair.albert.andrade',
-    'first_name': 'Jair',
-    'last_name': 'Andrade'
+    'email': email,
   }
   socket.emit('assign username', credentials);
 }

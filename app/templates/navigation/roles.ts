@@ -1,4 +1,4 @@
-import * as Handlebars from '../../node_modules/handlebars/dist/handlebars.js';
+import * as Handlebars from '../../../node_modules/handlebars/dist/handlebars.js';
 
 export const html = Handlebars.compile(`
   <!-- Modal instructor -->
@@ -18,7 +18,10 @@ export const html = Handlebars.compile(`
                 <span class="errorText invisible">This field is required</span>
               </label>
               <input type="text" class="form-control" id="iptGameName"
-              placeholder = "Please type the name of the game">
+              placeholder = "Please type the name of the game" required>
+              <div class = "invalid-feedback">
+                Please provide a name for the game
+              </div>
             </div>
             <div class="form-group">
               <label for="inputNTeams">Number of teams *</label>
@@ -45,7 +48,7 @@ export const html = Handlebars.compile(`
   </div> <!-- Closes instructor modal-->
   <!-- Modal player -->
   <div class = "modal fade" id = "playerModal" tabindex="-1" role = "dialog" aria-labelledby="playerModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role = "document">
+    <div class="modal-dialog modal-lg" role = "document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Games</h5>

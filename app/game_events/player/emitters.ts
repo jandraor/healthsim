@@ -9,3 +9,7 @@ export const sendMessage = (socket, payload) => {
 export const sendDecisions = (socket, payload) => {
   socket.emit('decisions sent', payload)
 }
+
+export const joinGame = (socket, payload) => {
+  socket.emit('join game', payload)
+}

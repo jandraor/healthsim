@@ -39,6 +39,34 @@ module.exports = {
       throw error;
     }
   },
+  getName: async(pool, email) => {
+    try {
+      const query = `
+        SELECT
+          first_name, last_name
+        FROM
+          users
+        WHERE
+          email = '${email}'
+      `
+      const connection = await pool.getConnection();
+      const result = await connection.query(query);
+      connection.release();
+
+      if (result.length === 0) {
+        throw 'User not found';
+      }
+      if (result.length > 1) {
+        throw 'Duplicate users';
+      }
+      const name = `${result[0].first_name} ${result[0].last_name}`;
+      return(name);
+    } catch (error) {
+      console.log(error)
+      connection.release();
+      throw error;
+    }
+  },
   insertUserRole:async(pool, email, role_id) => {
     try {
       const query = `

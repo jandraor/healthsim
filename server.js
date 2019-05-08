@@ -129,4 +129,4 @@ const server = https.createServer(httpsOptions, app)
                                             servicePort));
 
 const socketConfig = require('./config/sockets/main.js');
-socketConfig(server);
+socketConfig(server, pool2);

@@ -39,7 +39,7 @@ const showView = async() => {
     case '#welcome':
       const session = await ut.fetchJSON('/api/session');
       templates.navigation.welcome(session);
-      
+
       if (session.error) {
         ut.showAlert(session.error);
       }
@@ -61,9 +61,20 @@ const showView = async() => {
 
     case '#play':
       try {
+        const session = await ut.fetchJSON('/api/session');
+          if(!session.auth) {
+            throw `You must sign in to use this service`;
+          }
+        const res = await ut.fetchJSON('/api/user');
+        const email = res.user;
         const io = require('socket.io-client');
         socket = io();
-        display.listPlayOptions(socket);
+        const response = await ut.fetchJSON('/api/instructor');
+        const is_Instructor = response.value;
+        templates.navigation.playOptions(is_Instructor);
+        const intNav = interfaces.navigation();
+        intNav.playOptions(socket, email);
+        //display.listPlayOptions(socket);
       } catch (err) {
         ut.showAlert(err);
         window.location.hash = '#welcome';
@@ -85,8 +96,6 @@ const showView = async() => {
     case '#instructor':
       try {
         const gameId = params[0];
-        console.log('socket instructor');
-        console.log(socket);
         gameEvents.instructorEmitters.getGameDescription(socket, gameId);
       } catch (err) {
         ut.showAlert(err);

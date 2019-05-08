@@ -1,6 +1,7 @@
 import * as intf1 from "./collection/1/main.ts";
 import * as inst from "./instructor/main.ts";
 import * as plyr from "./player/main.ts";
+import * as nvg from "./navigation/main.ts";
 const $ = require('jquery');
 
 export const getContent = (modelId, fetchJSON) => {
@@ -19,4 +20,8 @@ export const instructor = () => {
 
 export const player = () => {
   return plyr;
+}
+
+export const navigation = () => {
+  return nvg;
 }

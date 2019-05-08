@@ -17,38 +17,3 @@ export const listAvailableModels = (templates, models) => {
     rowElement.insertAdjacentHTML('beforeend', html);
   }
 };
-
-export const listPlayOptions = async(socket) => {
-  try {
-    const session = await ut.fetchJSON('/api/session');
-      if(!session.auth) {
-        throw `You must sign in to use this service`;
-      }
-    const response = await ut.fetchJSON('/api/instructor');
-    const is_Instructor = response.value;
-    const mainElement = $('.hs-main');
-    const html = templates.getRolesLayout(is_Instructor);
-    mainElement.html(html);
-    gameEvents.sendCredentials(socket);
-
-    $('#bCreateGame').click(() => {
-      socket.removeAllListeners();
-      gameEvents.instructorListeners(socket);
-    })
-
-    $('#bConfirmCG').click( () => {
-      const name = $('#iptGameName').val();
-      const nTeams = parseInt($('#inputNTeams').val());
-      gameEvents.instructorEmitters.createSession(socket, name, nTeams);
-    });
-
-    $('#bJoinGame').click(() => {
-      socket.removeAllListeners();
-      gameEvents.playerListeners(socket);
-      gameEvents.playerEmitters.getAvailableGames(socket);
-    });
-  } catch(err) {
-    ut.showAlert(err);
-    window.location.hash = '#welcome';
-  }
-};

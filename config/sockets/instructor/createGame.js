@@ -7,7 +7,7 @@ const createGame = (socket, gameCollection, data) => {
   const teams = possibleTeams.slice(0, data.nTeams);
   const newGame = {
     'id': (Math.random() + 1).toString(36).slice(2, 18),
-    'instructor': 'jair.albert.andrade',
+    'instructor': socket.credentials,
     'name': data.name,
     'teams': [],
     'status': 'boarding'
@@ -15,7 +15,7 @@ const createGame = (socket, gameCollection, data) => {
   teams.forEach(elem => {
     const newTeam = {
       name: elem,
-      players: [], //emails
+      players: [], //names
     }
     newGame.teams.push(newTeam);
   });

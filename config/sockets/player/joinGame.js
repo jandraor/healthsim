@@ -3,7 +3,7 @@
 const joinGame = (socket, gameCollection, io, data) => {
   const gameId = data.id;
   const team = data.team;
-  const player = data.email;
+  const player = socket.credentials;
   console.log('====================Join game data========================');
   console.log(data);
   console.log('==========================================================');

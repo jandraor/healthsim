@@ -68,7 +68,6 @@ export const instructor = {
   }
 }
 
-
 export const player =  {
   'waitingInterface': () => {
     plyr.drawWaitingInterface();
@@ -84,6 +83,9 @@ export const player =  {
 export const navigation = {
   'welcome': session => {
     nav.welcome(session);
+  },
+  'playOptions': is_Instructor => {
+    nav.playOptions(is_Instructor);
   }
 }
 
@@ -96,10 +98,4 @@ export const getTemplate = (modelId, modelName) => {
      tmplt1.drawLayout(modelName);
     break;
   }
-}
-
-import * as roles from './roles.ts';
-export const getRolesLayout = (is_Instructor) => {
-  const html = roles.html({is_Instructor});
-  return html;
 }

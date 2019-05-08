@@ -1,6 +1,8 @@
 'use strict';
 
-const socketConfig = (server) => {
+const dbQueries = require('../../helpers/dbQueries.js');
+
+const socketConfig = (server, pool) => {
   const io = require('socket.io')(server);
   const instructor = require('./instructor/main.js');
   const player = require('./player/main.js');
@@ -10,13 +12,12 @@ const socketConfig = (server) => {
     gameList: []
   }
 
-  io.on('connection', (socket) => {
+  io.on('connection', socket => {
     console.log('A user has connected');
 
-    socket.on('assign username', credentials => {
-      console.log(credentials.email);
-      socket.credentials = credentials;
-      console.log(socket.credentials);
+    socket.on('assign username',  async credentials => {
+      const name = await dbQueries.getName(pool, credentials.email);
+      socket.credentials = name;
     });
     //Instructor messages
     socket.on('create game session', (payload) => {
