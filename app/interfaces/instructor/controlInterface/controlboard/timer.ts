@@ -27,12 +27,12 @@ export const start = () => {
       .style('width', `${pctDistance}%`)
       .text(`${minutes}m ${seconds}s`);
 
-
-    // If the count down is finished, write some text
-    // if (distance < 0) {
-    //   clearInterval(x);
-    //   document.getElementById("demo").innerHTML = "EXPIRED";
-    // }
+    if (distance < 0) {
+     clearInterval(timer);
+     d3.select('#pbCountdown')
+       .style('width', `0%`)
+       .text(`0m 0s`);
+    }
   }, 1000);
 
   $('#pbCountdown').data('timer', timer)
