@@ -1,9 +1,7 @@
 const $ = require('jquery');
 import * as sbmtBtt from './submitButton.ts';
 import * as iptR0 from './inputsR0.ts';
-import * as iptDep1 from './inputsDeploy1.ts';
-import * as iptDep2 from './inputsDeploy2.ts';
-import * as iptDep3 from './inputsDeploy3.ts';
+import * as iptDep from './inputsDeployTemplate.ts';
 import * as iptFin from './inputsFinancial.ts';
 import * as mdlFinDon from './financialDonations.ts';
 import * as iptTm from './teamInput.ts';
@@ -42,7 +40,7 @@ export const build = options => {
     $('#mdlAntDonBody').append(inputTeamHtml);
   });
   //Inputs in main screen
-  const inputDeploy1Html = iptDep1.html({antiviralsAvailable});
+  const inputDeploy1Html = iptDep.html({params});
   $('#divDeploy').append(inputDeploy1Html);
   //============================================================================
   //Vaccines
@@ -71,7 +69,7 @@ export const build = options => {
     $('#mdlVacDonBody').append(inputTeamHtml);
   });
   //Inputs in main screen
-  const inputDeploy2Html = iptDep2.html({vaccinesAvailable});
+  const inputDeploy2Html = iptDep.html({params});
   $('#divDeploy').append(inputDeploy2Html);
   //============================================================================
   //Ventilators
@@ -100,7 +98,7 @@ export const build = options => {
     $('#mdlVenDonBody').append(inputTeamHtml);
   });
   //Inputs in main screen
-  const inputDeploy3Html = iptDep3.html({ventilatorsAvailable});
+  const inputDeploy3Html = iptDep.html({params});
   $('#divDeploy').append(inputDeploy3Html);
   //============================================================================
   //Financial resources

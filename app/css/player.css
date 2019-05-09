@@ -2,16 +2,20 @@
   width: 10vw;
 }
 
-#deploy-antivirals-slider .slider-selection {
+.slLimit {
+  font-size: 0.8rem;
+}
+
+#deploy-Antivirals-slider .slider-selection {
 	background: #BABABA;
 	width: 1000px;
 }
 
-#deploy-vaccines-slider .slider-selection {
+#deploy-Vaccines-slider .slider-selection {
 	background: #BABABA;
 }
 
-#deploy-ventilators-slider .slider-selection {
+#deploy-Ventilators-slider .slider-selection {
 	background: #BABABA;
 }
 

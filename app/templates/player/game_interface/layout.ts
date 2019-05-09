@@ -9,8 +9,12 @@ export const html = Handlebars.compile(`
           <div class = "container-fluid">
             <div id = "divRowIpt0"></div>
             <div class = "row">
-              <div class = "col-6" id = "divDeploy"> </div>
-              <div class = "col-6" id = "divFinance"> </div>
+              <div class = "col-6" id = "divDeploy">
+                <h4 class = "mt-2">Resource decisions</h4>
+              </div>
+              <div class = "col-6" id = "divFinance">
+                <h4 class = "mt-2">Financial decisions</h4>
+              </div>
             </div>
           </div>
         </div>

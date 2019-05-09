@@ -2,7 +2,6 @@ import * as Handlebars from '../../../../../node_modules/handlebars/dist/handleb
 
 export const html = Handlebars.compile(`
   <div>
-    <h4>Financial decisions</h4>
     <p class = "my-0 py-0 text-secondary">
         Funds: $
         <span class = "float-right text-dark font-weight-bold"

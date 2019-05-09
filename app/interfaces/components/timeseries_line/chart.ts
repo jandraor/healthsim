@@ -84,7 +84,7 @@ export const clear = svgId => {
 
 export const drawGroup =  options => {
   const margin = {top: 30, right: 15, bottom: 50, left: 50};
-  const width = 215;
+  const width = 175;
   const height = width;
   const svg = d3.select(`#${options.divId}`)
     .selectAll("facet")

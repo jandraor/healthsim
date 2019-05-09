@@ -29,6 +29,12 @@ module.exports = {
         fallback: 'style-loader',
       }),
     },{
+      test: /\.scss$/,
+      use: ExtractTextPlugin.extract({
+        use: ['css-loader', 'sass-loader'],
+        fallback: 'style-loader',
+      }),
+    },{
       test: /\.(png|woff|woff2|eot|ttf|svg|jpg)$/,
       loader: 'url-loader?limit=100000',
     }]
