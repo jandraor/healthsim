@@ -70,8 +70,8 @@ export const draw = options => {
       .text("Infected");
   }
 
-  const cellHeight = 40;
-  const cellWidth = 40;
+  const cellHeight = 35;
+  const cellWidth = 35;
   const width = cellWidth * data.time.length ;
 
   const svg = d3.select(`#${divId}`)

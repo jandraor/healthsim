@@ -48,6 +48,7 @@ export const update = (newData, variable) => {
       'classLine': 'tsLine',
       'tooltip': false,
       'yMax': variableObj.maxValue,
+      'xTicks': 4,
     })
   });
 }

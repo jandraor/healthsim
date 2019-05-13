@@ -15,6 +15,8 @@ import * as tooltip from './tooltip.ts';
  * @param {string} options.classLine - Class of the path element in the DOM.
  * @param {boolean} options.tooltip - Indicates whether a tooltip will be added to the timeseries line.
  * @param {number} [options.yMax] - Maximum value displayed in the y-axis.
+ * @param {number} [options.xTicks] - Number of ticks in the x-axis.
+ * @param {number} [options.yTicks] - Number of ticks in the y-axis.
  */
 export const draw = options => {
   const svg = d3.select(`#${options.svgId}`);
@@ -45,7 +47,7 @@ export const draw = options => {
   if(options.yMax) {
     ymax = options.yMax;
   }
-  
+
   const width = svg.attr('width');
   const height = svg.attr('height');
 
@@ -61,10 +63,24 @@ export const draw = options => {
   const xAxis = d3.axisBottom()
                   .scale(xScale);
 
+  if(options.xTicks) {
+    xAxis.ticks(options.xTicks)
+  }
+
   //Define Y axis
   const yAxis = d3.axisLeft()
-                  .scale(yScale)
-                  .ticks(4);
+                  .scale(yScale);
+
+  if(options.yTicks) {
+    yAxis.ticks(options.yTicks)
+  }
+
+  if(!options.yTicks) {
+    yAxis.ticks(4)
+  }
+
+
+
 
   //Update X axis
   svg.select(".x-axis")
