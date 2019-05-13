@@ -42,3 +42,7 @@ export const stop = () => {
   const timer = $('#pbCountdown').data('timer');
   clearInterval(timer);
 }
+
+export const gameOver = () => {
+  $('#divProgress').html('<h6>Game over</h6>')
+}

@@ -17,3 +17,7 @@ export const simulateBtn = {
     buttons.simulate.enable();
   }
 }
+
+export const gameOver = () => {
+  timer.gameOver();
+}

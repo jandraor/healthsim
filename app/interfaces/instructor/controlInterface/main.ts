@@ -16,7 +16,15 @@ export const build = (socket, payload) => {
 
 export const updateOnSimulation = results => {
   dashboard.update(results);
-  controlboard.newRoundBtn.enable();
+  const stopTime = parseInt($('#lStopTime').text());
+  const currentRound = parseInt($('#lCurrentRound').text());
+  if(currentRound < stopTime){
+    controlboard.newRoundBtn.enable();
+  }
+
+  if(currentRound >= stopTime) {
+    controlboard.gameOver();
+  }
 }
 
 export const updateDecisions = payload => {

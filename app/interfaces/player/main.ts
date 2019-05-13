@@ -19,6 +19,12 @@ export const disableSimButton = () => {
 export const updateOnResults = simulationResult => {
   dashboard.update(simulationResult);
   inputBoard.update(simulationResult);
+  const currentRound = parseInt($('#lCurrentRound').text());; 
+  const stopTime = parseInt($('#lStopTime').text());
+  if(currentRound >= stopTime) {
+    timers.gameOver();
+  }
+
 }
 
 export const startNewRound = () => {

@@ -76,14 +76,14 @@ export const draw = options => {
 
   const svg = d3.select(`#${divId}`)
                 .append('svg')
-                .attr('width', width)
+                .attr('width', width + margin.left +  margin.right)
                 .attr('height', cellHeight * data.names.length + margin.top + margin.bottom);
 
   const stopTime = d3.max(data.time);
 
   const xScale = d3.scaleLinear()
     .domain([0, stopTime + 1])
-    .rangeRound([margin.left, width - margin.right]);
+    .rangeRound([margin.left, margin.left + width - margin.right]);
 
   const yScale = d3.scaleBand()
     .domain(data.names)
@@ -96,7 +96,7 @@ export const draw = options => {
 
   svg.append("g")
      .attr("transform", `translate(0,${margin.top})`)
-     .call(d3.axisTop(xScale).tickValues(d3.range(0, stopTime + 1)))
+     .call(d3.axisTop(xScale).tickValues(d3.range(0, stopTime + 1)).tickFormat(d3.format("0")))
      .call(g => g.select(".domain").remove());
 
   const row = svg.append("g")
