@@ -113,16 +113,26 @@ app.get('/api/instructor', async (req, res) => {
 // Creates a http secure server with the Express app as a parameter
 const fs = require('fs');
 const https = require('https');
-const httpsOptions = {
-  key: fs.readFileSync(nconf.get('privateKey')),
-  cert: fs.readFileSync(nconf.get('certificatePem')),
-  ca:
-  [
-    fs.readFileSync(nconf.get('CARoot')),
-    fs.readFileSync(nconf.get('TrustCA')),
-    fs.readFileSync(nconf.get('SecureServerCA'))
-  ]
-};
+let httpsOptions;
+
+if(isDev){
+  httpsOptions = {
+    key: fs.readFileSync(nconf.get('privateKey')),
+    cert: fs.readFileSync(nconf.get('certificatePem'))
+  };
+} else {
+  httpsOptions = {
+    key: fs.readFileSync(nconf.get('privateKey')),
+    cert: fs.readFileSync(nconf.get('certificatePem')),
+    ca:
+    [
+      fs.readFileSync(nconf.get('CARoot')),
+      fs.readFileSync(nconf.get('TrustCA')),
+      fs.readFileSync(nconf.get('SecureServerCA'))
+    ]
+  };
+}
+
 
 const server = https.createServer(httpsOptions, app)
   .listen(servicePort, () => console.log('Secure Server Ready on port: ' +
