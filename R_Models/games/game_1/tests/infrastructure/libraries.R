@@ -7,7 +7,7 @@ validation <- ifelse(is.element(FALSE, result), FALSE, TRUE)
 
 if(validation == FALSE) {
   missingpkg <- paste(libraries[!result], collapse = ", ")
-  cat('{"validation": 0, missing: ', missingpkg, '}')
+  cat('{"validation": 0, "missing":', '"' , missingpkg, '"}')
 }  
 
 if(validation == TRUE) {
