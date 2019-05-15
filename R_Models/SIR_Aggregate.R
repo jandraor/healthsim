@@ -1,9 +1,9 @@
 suppressMessages(library(deSolve))
-suppressMessages(library(tidyverse))
+suppressMessages(library(dplyr))
 suppressMessages(library(jsonlite))
 
 args <- commandArgs(trailingOnly = TRUE)
-S     <- as.numeric(args[1]) # Susceptible  
+S     <- as.numeric(args[1]) # Susceptible
 I     <- as.numeric(args[2]) # Infected
 R     <- as.numeric(args[3]) # Recovered
 cr    <- as.numeric(args[4]) # Contact rate
@@ -13,9 +13,9 @@ startArg <- as.numeric(args[7]) # Start time
 finishArg <- as.numeric(args[8]) # Finish time
 
 # Create the start time, finish time, and time step
-START  <- startArg - startArg 
+START  <- startArg - startArg
 FINISH <- finishArg - startArg
-STEP <- 1/32
+STEP <- 1/8
 
 # Create time vector
 simtime <- seq(START, FINISH, by = STEP)
@@ -43,14 +43,14 @@ model <- function(time, stocks, auxs){
     aSusceptible.Contact.Prob <- sSusceptible / aTotal.Population
     aBasic.Reproduction.Number <- aContact.Rate * aInfectivity * aRecovery.Delay
     aNet.Reproduction.Number <- aSusceptible.Contact.Prob * aBasic.Reproduction.Number
-    
+
     fIR <- aEffectiveContactsPerInfected * aSusceptible.Contact.Prob
     fRR <- sInfected / aRecovery.Delay
-    
+
     d_sSusceptible_dt  <- -fIR
     d_sInfected_dt     <- fIR - fRR
     d_sRecovered_dt    <- fRR
-    
+
     ###########################################################################
     # Loop Impact Method
     ###########################################################################
@@ -65,11 +65,11 @@ model <- function(time, stocks, auxs){
     impR1_sInfected <- (((R1_identifier - R1_identifier.prv) / STEP) * B1_identifier) / d_sInfected_dt
     impB2_sInfected <- ((B2_identifier - B2_identifier.prv) / STEP) / d_sInfected_dt
     impB2_sRecovered <- ((B2_identifier - B2_identifier.prv) / STEP) / d_sRecovered_dt
-    
+
     # Loop dominance
     # On susceptible
     dl_sSusceptible <- NA
-     
+
     if(time > 0){
       if(impR1_sSusceptible > impB1_sSusceptible) {
         dl_sSusceptible <- 3
@@ -80,17 +80,17 @@ model <- function(time, stocks, auxs){
     }
     # On infected
     dl_sInfected <- NA
-    
+
     if(time > 0) {
       R_impacts <- c('3' = impR1_sInfected)
       B_impacts <- sort(c('1' = impB1_sInfected, '2' = impB2_sInfected))
       R_sum <- abs(sum(R_impacts))
       B_sum <- abs(sum(B_impacts))
-      
+
       if(R_sum > B_sum) {
         dl_sInfected <- 3
       }
-      
+
       if(B_sum > R_sum) {
         if(abs(B_impacts[1]) > R_sum) {
           dl_sInfected <- as.numeric(names(B_impacts[1]))
@@ -99,22 +99,22 @@ model <- function(time, stocks, auxs){
         }
       }
     }
-    
+
     # On recovered
     if(time == 0){
       dl_sRecovered <- NA
     } else {
       dl_sRecovered <- 2
     }
-    
+
     # Set values for next step
     B1_identifier.prv <<- B1_identifier
     B2_identifier.prv <<- B2_identifier
     R1_identifier.prv <<- R1_identifier
-    
+
     return (list(c(d_sSusceptible_dt, d_sInfected_dt, d_sRecovered_dt),
-                 IR = fIR, 
-                 RR = fRR, 
+                 IR = fIR,
+                 RR = fRR,
                  basicReproductionNumber = aBasic.Reproduction.Number,
                  netReproductionNumber  = aNet.Reproduction.Number,
                  dl_sSusceptible = dl_sSusceptible,

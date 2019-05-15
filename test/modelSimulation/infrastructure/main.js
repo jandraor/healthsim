@@ -6,9 +6,6 @@ const infrastructure = describe('infrastructure', () => {
     const scriptPath = 'R_Models/games/game_1/tests/infrastructure/libraries.R'
     const params = [scriptPath];
     const result = await runRScriptAsync(params);
-    console.log('result===============');
-    console.log(result)
-    console.log('result===============');
     const validation = result.validation;
     const actual = validation;
     const expected = 1;
