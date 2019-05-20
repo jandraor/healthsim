@@ -27,6 +27,7 @@
     "bootstrap-select": "^1.13.9",
     "bootstrap-slider": "^10.6.1",
     "bootstrap-social": "5.1.1",
+    "connect-redis": "3.3.2",
     "csvtojson": "^2.0.8",
     "d3": "^5.9.2",
     "express": "^4.16.4",

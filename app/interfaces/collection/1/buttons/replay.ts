@@ -27,7 +27,11 @@ export const onClick = ()  => {
           const newR = parseInt(datasetDiscrete[1].sRecovered);
           const time = parseInt(datasetDiscrete[1].time);
           const delay = 100;
-          sfd.animate(oldS, newS, newI, oldR, newR, duration, delay, time);
+          //this does nothing. Must delete & refactor code
+          const callback = () => {
+
+          };
+          sfd.animate(oldS, newS, newI, oldR, newR, duration, delay, time, callback);
           datasetDiscrete.shift();
           d3.active(this)
             .transition()
