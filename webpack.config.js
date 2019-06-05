@@ -43,7 +43,7 @@ module.exports = {
   plugins: [
     new ExtractTextPlugin('styles.css'),
     new HtmlWebpackPlugin({
-      title: 'Health Sim',
+      template: './app/index.html',
     }),
     new webpack.ProvidePlugin({
       $: 'jquery',
