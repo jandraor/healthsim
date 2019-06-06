@@ -1,6 +1,7 @@
 import * as layout from './layout.ts';
 import * as epidemics from './epidemics.ts';
 import * as donations from './donations.ts';
+import * as inventories from './inventories.ts';
 import * as queries from "../../../../interfaces/player/objectQueries.ts";
 import * as templateUtils from "../../../helpers/utils.ts";
 const $ = require('jquery');
@@ -8,6 +9,7 @@ const $ = require('jquery');
 export const build = () => {
   addLayout();
   addEpidemics();
+  addInventories();
   addDonations();
 }
 
@@ -39,4 +41,9 @@ const addDonations = () => {
     'selectId': 'selRelRes'
   }
   templateUtils.addOptions(params);
+}
+
+const addInventories = () => {
+  const inventoriesHtml = inventories.html();
+  $('#divInv').append(inventoriesHtml);
 }

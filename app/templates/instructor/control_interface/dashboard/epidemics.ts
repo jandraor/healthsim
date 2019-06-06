@@ -17,7 +17,7 @@ export const html = Handlebars.compile(`
   </ul>
   <div class="tab-content" id = "pills-tabContent">
     <div class="tab-pane fade show active" id = "pills-heatmap" role="tabpanel" aria-labelledby="pills-home-tab">
-      <div class = "mt-5 ml-5" id = "divHeatMap"></div>
+      <div class = "mt-5 ml-5" id = "divEpiHeatMap"></div>
     </div>
     <div class = "tab-pane fade" id = "pills-epiCurves" role = "tabpanel" aria-labelledby = "pills-profile-tab">
       <div class = "container-fluid">

@@ -82,18 +82,34 @@ export const clear = svgId => {
   d3.select(`#${svgId}`).selectAll('path').remove();
 }
 
+/**
+ * Creates a multiple empty timeseries charts on an existing div.
+ * @param {Object} options - Function's parameters.
+ * @param {string} options.divId - Id of the div
+ * @param {Array<Object>} options.specs - Each object has a property for each chart's title & svgId
+ */
 export const drawGroup =  options => {
+  if(!options.divId) {
+    console.log (`The group chart could not be created. Property 'divId' not found`);
+    return
+  }
+
+  if(!options.specs) {
+    console.log (`The group chart could not be created. Property 'specs' not found`);
+    return
+  }
+
   const margin = {top: 30, right: 15, bottom: 50, left: 50};
   const width = 175;
   const height = width;
   const svg = d3.select(`#${options.divId}`)
     .selectAll("facet")
-    .data(options.keys)
+    .data(options.specs)
     .enter()
       .append("svg")
     .attr("width", width)
     .attr("height", height)
-    .attr('id', d => {return `svgTSFacet${d.name}`})
+    .attr('id', d => {return d.svgId})
     .each(function(data){
       draw({
         'svgId': this.id,
@@ -106,7 +122,7 @@ export const drawGroup =  options => {
         'ymax': 30000,
         'yTicks': 3,
         'xTicks': 3,
-        'title': data.name
+        'title': data.title
       });
     });
 }

@@ -29,20 +29,26 @@ export const build = options => {
     'values': values
    };
 
-  hm.draw({
-    'data': data,
-    'divId': 'divHeatMap',
+  const divs = ['divEpiHeatMap', 'divInvHeatMap'];
+
+  divs.forEach(divId => {
+    hm.draw({
+      'data': data,
+      'divId': divId,
+    });
   });
+
 }
 
-export const update = (results, variable) => {
+export const update = (results, variable, prefix) => {
   const filterResult = instData.indicators.filter(variableObj => {
     return variableObj.id === variable});
 
   const variableObj = filterResult[0];
 
-  $('#bSimulate').html('Simulate') //Must check
-  $('#divHeatMap').html('');
+  $('#bSimulate').html('Simulate')
+  const divId = `div${prefix}HeatMap`;
+  $(`#${divId}`).html('');
   const stopTime = parseInt($('#lStopTime').text());
   const simulationTime = d3.range(0, stopTime + 1); //+ 1 to include last value
 
@@ -84,7 +90,7 @@ export const update = (results, variable) => {
 
   hm.draw({
     'data': data,
-    'divId': 'divHeatMap',
+    'divId': divId,
     'legend': true,
     'yMax': variableObj.maxValue,
   });

@@ -13,4 +13,22 @@ export const indicators = [
     'RName': ['_TotalInfected', '_TotalPopulation'],
     'maxValue': 1,
   },
+  {
+    'id': 'Antivirals',
+    'type': 'atomic',
+    'RName': '_AVR_AVS',
+    'maxValue': 2000,
+  },
+  {
+    'id': 'Vaccines',
+    'type': 'atomic',
+    'RName': '_VAC_VS',
+    'maxValue': 2000,
+  },
+  {
+    'id': 'Ventilators',
+    'type': 'atomic',
+    'RName': '_VEN_VS',
+    'maxValue': 200,
+  },
 ]

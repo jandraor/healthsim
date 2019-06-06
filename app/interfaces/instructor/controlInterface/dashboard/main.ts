@@ -31,9 +31,16 @@ export const update = resultObj => {
     results = updatedData;
   }
 
-  const variable = $(`#selEpiVar`).val();
-  heatmap.update(results, variable);
-  timeseries.update(results, variable);
+  //----------------------------------------------------------------------------
+  //Updates heatmaps & timeseries
+  const tabs = ['Epi', 'Inv'];
+
+  tabs.forEach(tab => {
+    const variable = $(`#sel${tab}Var`).val();
+    heatmap.update(results, variable, tab);
+    timeseries.update(results, variable, tab);
+  })
+  //----------------------------------------------------------------------------
   const resource = $('#selRelRes').val();
   const allDonations = resultObj.donations;
   const oneResourceDonations = allDonations[resource]

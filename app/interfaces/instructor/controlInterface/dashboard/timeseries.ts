@@ -1,17 +1,39 @@
+const $ = require('jquery');
 import * as ts from '../../../components/timeseries_line/main.ts';
 import * as instUt from '../../helpers.ts';
 import * as ut from '../../../../helpers/utilities.ts';
-const $ = require('jquery');
 import * as instData from '../../data.ts';
 
 export const build = options => {
-  ts.drawGroupChart({
-    'divId': 'divSVGEpiCurves',
-    'keys': options.teams,
-  });
+  const teamNames = options.teams.map(teamObj => {return teamObj.name});
+  const charts = [
+    {
+      'div': 'divSVGEpiCurves',
+      'prefix': 'Epi'
+    },
+    {
+      'div': 'divSVGInvTimeseries',
+      'prefix': 'Inv'
+    },
+  ];
+
+  charts.forEach(chart => {
+
+    const specs = teamNames.map(name => {
+      return {
+        'svgId': `svgTSFacet${chart.prefix}${name}`,
+        'title': name
+      }
+    });
+
+    ts.drawGroupChart({
+      'divId': chart.div,
+      'specs': specs,
+    });
+  })
 }
 
-export const update = (newData, variable) => {
+export const update = (newData, variable, prefix) => {
   const filterResult = instData.indicators.filter(variableObj => {
     return variableObj.id === variable});
 
@@ -22,7 +44,7 @@ export const update = (newData, variable) => {
   const RVar = variableObj.RName;
 
   teams.forEach(team => {
-    const svgId = `svgTSFacet${team}`;
+    const svgId = `svgTSFacet${prefix}${team}`;
     ts.clearChart(svgId);
 
     let dataset;

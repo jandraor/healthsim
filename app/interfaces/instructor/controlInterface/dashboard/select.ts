@@ -8,12 +8,13 @@ import * as instData from '../../data.ts';
 import * as timeseries from './timeseries.ts';
 
 export const build = () => {
-  const divIds = ["divSelRes", 'divSelEpi'];
+  const divIds = ["divSelRes", 'divSelEpi', 'divSelInv'];
   divIds.forEach(id => {
     select.buildGroup(id);
   });
   onChangeSelDon();
   onChangeSelEpi();
+  onChangeSelInv();
 }
 
 const onChangeSelDon = () => {
@@ -41,7 +42,17 @@ const onChangeSelEpi = () => {
   $(`#selEpiVar`).change(function() {
     const variable = $(this).val();
     const currentData = $(this).data('results');
-    heatmap.update(currentData, variable);
-    timeseries.update(currentData, variable);
+    heatmap.update(currentData, variable, 'Epi');
+    timeseries.update(currentData, variable, 'Epi');
+  });
+}
+
+const onChangeSelInv = () => {
+  $(`#selInvVar`).change(function() {
+    const variable = $(this).val();
+    //Select 'selEpiVar' is the only select that contains data
+    const currentData = $(`#selEpiVar`).data('results');
+    heatmap.update(currentData, variable, 'Inv');
+    timeseries.update(currentData, variable, 'Inv');
   });
 }
