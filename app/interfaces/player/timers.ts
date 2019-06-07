@@ -5,7 +5,7 @@ export const start = () => {
   // Set the date we're counting down to
   //const countDownDate = new Date("Jan 5, 2019 15:37:25").getTime();
   const startTime = d3.timeSecond(new Date());
-  const countDownDate = d3.timeMinute.offset(startTime,5);
+  const countDownDate = d3.timeMinute.offset(startTime, 2);
   const totalDistance = countDownDate - startTime;
 
   const timer = setInterval(() => {

@@ -56,6 +56,11 @@ export const onClick = socket => {
       }
     }
     gameEvents.playerEmitters.sendDecisions(socket, payload);
+
+    const message = {
+      'text': 'Submitted decisions'
+    }
+    gameEvents.playerEmitters.sendMessage(socket, message);
   });
 }
 

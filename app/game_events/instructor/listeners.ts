@@ -34,7 +34,7 @@ export const onGameStarted = socket => {
   });
 }
 
-export const onMessage = (socket) => {
+export const onMessage = socket => {
   socket.on('message', payload => {
     templates.instructor.chatMessage(payload);
     const intInstructor = interfaces.instructor();
@@ -45,7 +45,7 @@ export const onMessage = (socket) => {
 export const onSimulationResults = socket => {
   socket.on('simulation result', payload => {
     const intInstructor = interfaces.instructor();
-    intInstructor.controlInterface.updateOnSimulation(payload)
+    intInstructor.controlInterface.updateOnSimulation(payload, socket)
   });
 }
 
@@ -58,8 +58,7 @@ export const onPlayerDecisions = socket => {
 
 export const onNewRoundStarted = socket => {
   socket.on('new round started', () => {
-    console.log('new round started');
     const intInstructor = interfaces.instructor();
-    intInstructor.controlInterface.startNewRound();
+    intInstructor.controlInterface.startNewRound(socket);
   });
 }

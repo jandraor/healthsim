@@ -33,8 +33,8 @@ export const onClick = socket => {
         'Population': population,
         'Infected': infected,
         'Susceptible': population - infected,
-        'xloc': Math.ceil(teamNumber / 3),
-        'yloc': (teamNumber % 3 === 0) ? 3 : teamNumber % 3,
+        'xloc': (Math.ceil(teamNumber / 3)) * 1000,
+        'yloc': ((teamNumber % 3 === 0) ? 3 : teamNumber % 3) * 1000,
         'Category': income,
       }
       initConditions.push(team);

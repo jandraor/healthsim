@@ -13,14 +13,14 @@ export const controlInterface = {
   'build': (socket, payload)=> {
     ctrlInt.build(socket, payload);
   },
-  'updateOnSimulation': payload => {
-    ctrlInt.updateOnSimulation(payload);
+  'updateOnSimulation': (payload, socket) => {
+    ctrlInt.updateOnSimulation(payload, socket);
   },
   'updateDecisions': payload => {
     ctrlInt.updateDecisions(payload);
   },
-  'startNewRound': () => {
-    ctrlInt.startNewRound();
+  'startNewRound': socket => {
+    ctrlInt.startNewRound(socket);
   },
   'updateOnNewMessage': () => {
     ctrlInt.updateOnNewMessage();

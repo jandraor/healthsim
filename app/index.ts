@@ -74,7 +74,6 @@ const showView = async() => {
         templates.navigation.playOptions(is_Instructor);
         const intNav = interfaces.navigation();
         intNav.playOptions(socket, email);
-        //display.listPlayOptions(socket);
       } catch (err) {
         ut.showAlert(err);
         window.location.hash = '#welcome';
