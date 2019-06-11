@@ -1,37 +1,21 @@
 const assert = require('chai').assert;
 const fs = require('fs');
-const model = require('../../../../../modelSimulation/main.js');
+const model = require('../../../../../../modelSimulation/main.js');
 const csvReader = require('csvtojson');
-const nonNegativeTests = require("../../commonTests/nonNegativeStocks.js");
-const basicTests = require("../../commonTests/basic.js");
+const nonNegativeTests = require("../../../commonTests/nonNegativeStocks.js");
+const basicTests = require("../../../commonTests/basic.js");
 
 const test = () => {
   describe('donations', () => {
-    const countriesTemplate = './R_Models/games/game_1/model/data/CountriesTemplate.csv';
-    const virusSeverity = 0;
     let result, nTeams, teams, donationCases;
-    const policyMatrixPath = "./R_Models/games/game_1/model/data/PolicyMatrix.csv";
-    const donationsPath = "./R_Models/games/game_1/model/data/donations.csv";
 
     before(async function()  {
       this.timeout(10000);
+      const initModel = require('../helpers/main.js');
+      const initModeloutput = await initModel('default');
+      const initialisationResult = initModeloutput.initialisationResult;
+      this.teams = initModeloutput.teams;
 
-      //Avoiding false positives
-      //------------------------------------------------------------------------
-      if(fs.existsSync(policyMatrixPath)) {
-        fs.unlinkSync(policyMatrixPath)
-      }
-
-      if(fs.existsSync(donationsPath)) {
-        fs.unlinkSync(donationsPath)
-      }
-      //------------------------------------------------------------------------
-
-      const initConditions = await csvReader().fromFile(countriesTemplate);
-      teams = initConditions.map(rowTeam => {return rowTeam.Name});
-      this.teams = teams;
-      initialisationResult = await model.initialise(initConditions,
-        virusSeverity, true);
       const startTime = 0;
       const stopTime = 1;
       const policyMatrixTemplate = "./R_Models/games/game_1/model/data/10CountryPolicyMatrixTemplate.csv";

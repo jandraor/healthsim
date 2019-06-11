@@ -10,37 +10,19 @@ const test = () => {
     const startTime = 0;
     const stopTime = 1;
     const dirPath = './R_Models/games/game_1/model/data/';
-    const policyMatrixPath = `${dirPath}PolicyMatrix.csv`;
-    const donationsPath = `${dirPath}donations.csv`;
-    const countriesTemplate = `${dirPath}CountriesTemplate.csv`;
-    const virusSeverity = 0;
     let result, nTeams, teams, alphaUsageFraction;
 
     before(async function()  {
       this.timeout(10000);
-      if(fs.existsSync(policyMatrixPath)) {
-        fs.unlinkSync(policyMatrixPath)
-      }
-
-      if(fs.existsSync(donationsPath)) {
-        fs.unlinkSync(donationsPath)
-      }
-
-      const initConditions = await csvReader().fromFile(countriesTemplate);
-      teams = initConditions.map(rowTeam => {return rowTeam.Name});
-      this.teams = teams;
-      const countrySetupTemplate = `${dirPath}country_MOCK_UP_TEMPLATE.csv`;
-      const countrySetup = await csvReader().fromFile(countrySetupTemplate);
-      //------------------------------------------------------------------------
-      // Changes Beta's default value of initial vaccines
-      countrySetup.forEach(row => {
-        if(row.Name == 'Beta') {
-          row.InitVaccineStockpile = row.Susceptible;
-        }
-      });
-      //------------------------------------------------------------------------
-      initialisationResult = await model.initialise(initConditions,
-        virusSeverity, true, true, countrySetup);
+      const initModel = require('./helpers/main.js');
+      const manualValues = [{
+        'team': 'Beta',
+        'var': 'InitVaccineStockpile',
+        'value': 10000
+      }]
+      const initModeloutput = await initModel('manual', manualValues);
+      const initialisationResult = initModeloutput.initialisationResult;
+      this.teams = initModeloutput.teams;
       //========================================================================
       // PolicyMatrix
       //========================================================================
