@@ -38,7 +38,7 @@ const initModel = (mode, manualValues = null) => {
             });
           })
         }
-
+        
         initialisationResult = await model.initialise(initConditions,
           virusSeverity, true, true, countrySetup);
       }
@@ -52,7 +52,7 @@ const initModel = (mode, manualValues = null) => {
         'teams': teams
       });
     } catch(err){
-    reject(err)
+    reject({'error': err})
     }
   });
   return promise;

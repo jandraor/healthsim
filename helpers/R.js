@@ -14,7 +14,7 @@ const runScriptAsync = params => {
         const resultsObject = JSON.parse(results);
         resolve (resultsObject)
       } catch(err) {
-        reject(err);
+        reject({'error': err});
       }
     });
   });
