@@ -12,5 +12,6 @@ export const updateStocks = params => {
     $(`#lStock${prefix}`).text(Math.floor(stockValue));
     //Indicator in donations modal
     $(`#lblInv${prefix}`).text(Math.floor(stockValue));
+    $(`#lRemaining${prefix}`).text(Math.floor(stockValue));
   })
 }
