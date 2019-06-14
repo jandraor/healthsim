@@ -67,10 +67,11 @@ export const update = (newData, variable, prefix) => {
       'finishTime': stopTime,
       'lineDuration': 0,
       'idLine': `tsLine${team}`,
-      'classLine': 'tsLine',
-      'tooltip': false,
+      'classLine': `tsLine${prefix} tsLine`,
+      'tooltip': true,
       'yMax': variableObj.maxValue,
       'xTicks': 4,
+      'tooltipType': 'facets'
     })
   });
 }

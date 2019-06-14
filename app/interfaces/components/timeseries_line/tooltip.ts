@@ -1,9 +1,30 @@
 import * as d3 from 'd3';
 import * as ut from "../utilities.ts";
 
-export const add = (svgId, w, h, padding, xScale, yScale, dataset, endTime) => {
+/**
+ * Adds simultaneous tooltips on a faceted timeseries graph
+ * @param {Object} options - Function's parameters.
+ * @param {string} options.svgId - Id of the svg where the line is located.
+ * @param {Object} options.padding - Each key corresponds to left, top, right & bottom paddings in the svg
+ * @param {Function} options.xScale - x scale function of line's chart.
+ * @param {Function} options.yScale - y scale function of line's chart.
+ * @param {Array<Object>} options.dataset - Two-dimension dataset (x & y).
+ * @param {number} options.stopTime - Max time the entire run.
+ * @param {string} options.classLine - Class of the path element in the DOM.
+ */
+
+export const facets = options => {
+  const svgId = options.svgId;
   const svg = d3.select(`#${svgId}`);
-  const chartType = svgId.replace("svgTS", "");
+  const w = parseFloat(svg.attr('width'));
+  const h = parseFloat(svg.attr('height'));
+  const padding = options.padding;
+  const xScale = options.xScale;
+  const yScale = options.yScale;
+  const dataset = options.dataset;
+  const stopTime = options.stopTime;
+  const classline = options.classLine;
+
   svg.selectAll('.mouse-over-effects').remove();
   const mouseG = svg.append('g')
                    .attr('class', 'mouse-over-effects')
@@ -17,7 +38,6 @@ export const add = (svgId, w, h, padding, xScale, yScale, dataset, endTime) => {
 
   mouseG.append('circle')
     .attr('r', 7)
-    .attr('id', `ctt${chartType}`)
     .attr('class', 'crcTooltip')
     .style('stroke', 'steelblue')
     .style('fill', 'none')
@@ -25,7 +45,6 @@ export const add = (svgId, w, h, padding, xScale, yScale, dataset, endTime) => {
     .style('opacity', '0');
 
   mouseG.append('text')
-    .attr('id', `ttt${chartType}`)
     .attr('class', 'txtTooltip')
     .style('opacity', '0')
 
@@ -33,9 +52,9 @@ export const add = (svgId, w, h, padding, xScale, yScale, dataset, endTime) => {
   const xLength = xScale(xmax) - xScale(0);
   mouseG.append('rect')
     .attr('width', xLength)
-    .attr('height', h - 2 * padding)
-    .attr('x', padding)
-    .attr('y', padding)
+    .attr('height', h - (padding.top + padding.bottom))
+    .attr('x', padding.left)
+    .attr('y', padding.top)
     .attr('opacity', 0)
     .on('mouseout', () => {
       d3.selectAll('.mouse-line')
@@ -61,60 +80,46 @@ export const add = (svgId, w, h, padding, xScale, yScale, dataset, endTime) => {
       //Create custom bisector
       const bisect = d3.bisector(d => { return d.x}).right;
       const mouse = d3.mouse(this);
-      d3.selectAll('.lastTS')
+      const classes = classline.split(" ");
+      const selector = classes.map(singleClass => {return `.${singleClass}`})
+        .join("");
+      d3.selectAll(selector)
         .each(function(d) {
-          let h2;
-          let typeMouseLine;
-          let typeChart;
-          const lineClass = d3.select(this).attr('class');
-          const patt = RegExp('tsSF');
-          const res = patt.test(lineClass);
-          if(res === true){
-            h2 = 500 * (2 / 3);
-            typeMouseLine = 'mlsvgTSSF';
-            typeChart = 'SF';
-          } else {
-            h2 = (500 * (2 / 3)) / 2;
-            typeMouseLine = 'mlsvgTSPar';
-            typeChart = 'Par';
-          }
+          const lineSVG = this.parentNode.parentNode.id
+          const h2 = d3.select(`#${lineSVG}`).attr('height');
 
           const lineDataPoints  = [
-            {'x': mouse[0], 'y': padding},
-            {'x': mouse[0], 'y': h2 - padding}
+            {'x': mouse[0], 'y': padding.top},
+            {'x': mouse[0], 'y': h2 - padding.bottom}
           ]
 
           const line = d3.line()
                          .x(d => {return d.x})
                          .y(d => {return d.y})
-
-          d3.select(`#${typeMouseLine}`)
+          //
+          d3.select(`#ml${lineSVG}`)
             .datum(lineDataPoints)
             .attr('d', line);
 
           const dataset = d3.select(this).datum();
-          const extremePoints = ut.findExtremePoints(d3.selectAll(`.ts${typeChart}`).data());
-
-          const xScale = d3.scaleLinear()
-                           .domain([0, endTime])
-                           .range([0 + padding, w - padding]);
-
-          const yScale = d3.scaleLinear()
-                             .domain([0, extremePoints.ymax])
-                             .range([h2 - padding, 0 + padding]);
-
           const x0 = xScale.invert(mouse[0]);
           const index = bisect(dataset, x0);
           const startDatum = dataset[index - 1];
           const endDatum = dataset[index];
+
+          //Adds an exception when the startDatum is the last value in the dataset
+          if(!endDatum) {
+            return
+          }
+
           const interpolate = d3.interpolateNumber(startDatum.y, endDatum.y);
           const range = endDatum.x - startDatum.x;
           const valueY = interpolate((x0 - startDatum.x) / range );
-          d3.select(`#ctt${typeChart}`)
+          d3.select(`#${lineSVG}`).select('.crcTooltip')
             .attr('cy', yScale(valueY))
             .attr('cx', mouse[0]);
 
-          d3.select(`#ttt${typeChart}`)
+          d3.select(`#${lineSVG}`).select('.txtTooltip')
             .attr('y', yScale(valueY) + 3)
             .attr('x', mouse[0] + 10)
             .text(Math.round(valueY * 100) / 100);

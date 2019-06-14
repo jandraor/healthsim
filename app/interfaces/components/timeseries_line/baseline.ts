@@ -14,6 +14,7 @@ import * as tooltip from './tooltip.ts';
  * @param {string} options.idLine - Id of the path element in the DOM.
  * @param {string} options.classLine - Class of the path element in the DOM.
  * @param {boolean} options.tooltip - Indicates whether a tooltip will be added to the timeseries line.
+ * @param {string} [options.tooltipType] - Indicates the type of tooltip to be added.
  * @param {number} [options.yMax] - Maximum value displayed in the y-axis.
  * @param {number} [options.xTicks] - Number of ticks in the x-axis.
  * @param {number} [options.yTicks] - Number of ticks in the y-axis.
@@ -79,9 +80,6 @@ export const draw = options => {
     yAxis.ticks(4)
   }
 
-
-
-
   //Update X axis
   svg.select(".x-axis")
     .transition()
@@ -97,18 +95,32 @@ export const draw = options => {
   for(let i = 0; i < superDataset.length; i++) {
     let durationTime, colorLine, classLine;
     const dataset = superDataset[i];
+
     if(i === superDataset.length - 1){
       durationTime = options.lineDuration;
       colorLine = 'steelblue';
       classLine = options.classLine + ' lastTS';
+
       if(options.tooltip === true) {
-        tooltip.add(options.svgId, width, height, options.padding, xScale, yScale, dataset, options.finishTime);
+
+        if(options.tooltipType === 'facets') {
+          tooltip.facets({
+            'svgId': options.svgId,
+            'padding': options.padding,
+            'xScale': xScale,
+            'yScale': yScale,
+            'dataset': dataset,
+            'stopTime': options.finishTim,
+            'classLine': classLine
+          });
+        }
       }
     } else {
       durationTime = 0;
       colorLine = '#cccccc';
       classLine = options.classLine
     }
+
     const line = d3.line()
                    .x(d => { return xScale(d.x); })
                    .y(d => { return yScale(d.y);});
