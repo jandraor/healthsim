@@ -65,6 +65,10 @@ export const facets = options => {
 
       d3.selectAll('.txtTooltip')
         .style('opacity', '0');
+
+      d3.select(svg.node().parentNode)
+        .select('.ttpIndicator')
+        .remove();
     })
     .on('mouseover', () => {
       d3.selectAll('.mouse-line')
@@ -75,6 +79,10 @@ export const facets = options => {
 
       d3.selectAll('.txtTooltip')
         .style('opacity', '1');
+
+      d3.select(svg.node().parentNode)
+        .append('span')
+          .attr('class', 'ttpIndicator d-block mt-2 ml-3')
     })
     .on('mousemove', function() {
       //Create custom bisector
@@ -111,6 +119,12 @@ export const facets = options => {
           if(!endDatum) {
             return
           }
+
+          const formattedInd = d3.format(".2f")(x0)
+
+          d3.select(svg.node().parentNode)
+            .select('.ttpIndicator')
+            .text(`Time: ${formattedInd}`);
 
           const interpolate = d3.interpolateNumber(startDatum.y, endDatum.y);
           const range = endDatum.x - startDatum.x;
