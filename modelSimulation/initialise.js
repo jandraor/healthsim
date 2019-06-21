@@ -25,7 +25,7 @@ const initialise = (initConditions, virusSeverity, testMode, manualSetup,
       }
       //execute R script
       const runRScriptAsync = require('../helpers/R.js');
-      const scriptPath = 'R_Models/games/game_1/srv_initialise.R'
+      const scriptPath = 'R_Models/games/game_1/call_srv_initialise.R'
       const params = [scriptPath, virusSeverity, testMode, manualSetup];
       const initialisationResult = await runRScriptAsync(params);
       resolve(initialisationResult)

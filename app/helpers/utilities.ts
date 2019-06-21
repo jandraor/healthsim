@@ -217,3 +217,10 @@ export const sortObjArray = (array, key) => {
     return d3.descending(a[key], b[key])
   })
 }
+
+export const findDepletingConst = (s0, delta, t0) => {
+  const numerator = delta * s0 * Math.pow(Math.E, -1 * delta * t0);
+  const denominator = 1 - Math.pow(Math.E, -1 * delta * t0);
+  const k = numerator / denominator ;
+  return k;
+}

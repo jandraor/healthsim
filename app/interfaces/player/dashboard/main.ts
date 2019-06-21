@@ -7,6 +7,7 @@ import * as bullet from './bullet.ts';
 const $ = require('jquery');
 
 export const build = initParams => {
+  $('#lTeamId').data('spoilageRates', initParams.spoilageRates);
   $('#lIncome').data('reportingDelay', Math.round(initParams.reportingDelay));
   $('#lPopulation').data('value', initParams.population)
   const stopTime = initParams.rounds;

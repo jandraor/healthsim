@@ -1,5 +1,5 @@
 const modelSimulation = require('./modelSimulation/main.js');
 
-const main = () => {
+describe('model simulation', () => {
   modelSimulation();
-}
+})

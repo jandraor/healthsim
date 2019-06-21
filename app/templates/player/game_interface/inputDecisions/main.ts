@@ -7,6 +7,7 @@ import * as mdlFinDon from './financialDonations.ts';
 import * as iptTm from './teamInput.ts';
 import * as orderTemplate from './orderResourceTemplate.ts'
 import * as donModTemplate from './donationsModalTemplate.ts';
+import * as ut from '../../../../helpers/utilities.ts';
 
 export const build = options => {
   const otherTeams = options.otherTeams;
@@ -17,7 +18,10 @@ export const build = options => {
   //============================================================================
   //Antivirals
   //============================================================================
-  const antiviralsAvailable = Math.floor(options.resources.antivirals);
+  const antSpoilageRate = options.spoilageRates.antivirals;
+  const antStock = options.resources.antivirals;
+  const antiviralsAvailable = Math.floor(ut.findDepletingConst(antStock,
+    antSpoilageRate, 1));
   //Modal
   let params = {
     'prefix': 'Ant',
@@ -45,7 +49,10 @@ export const build = options => {
   //============================================================================
   //Vaccines
   //============================================================================
-  const vaccinesAvailable = Math.floor(options.resources.vaccines);
+  const vacSpoilageRate = options.spoilageRates.vaccines;
+  const vacStock = options.resources.vaccines;
+  const vaccinesAvailable = Math.floor(ut.findDepletingConst(vacStock,
+    vacSpoilageRate, 1));
   //Modal-----------------------------------------------------------------------
   params = {
     'prefix': 'Vac',
@@ -74,7 +81,10 @@ export const build = options => {
   //============================================================================
   //Ventilators
   //============================================================================
-  const ventilatorsAvailable = Math.floor(options.resources.ventilators);
+  const venSpoilageRate = options.spoilageRates.ventilators;
+  const venStock = options.resources.ventilators;
+  const ventilatorsAvailable = Math.floor(ut.findDepletingConst(venStock,
+    venSpoilageRate, 1));
   //Modal
   params = {
     'prefix': 'Ven',

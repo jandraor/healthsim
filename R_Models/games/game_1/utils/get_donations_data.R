@@ -6,7 +6,7 @@ get_donations_data <- function(start, stop, development = FALSE, countries = NA)
   production <- !development
   
   if(production) {
-    dt <- read_csv("./R_Models/games/game_1/model/data/donations.csv")
+    dt <- read_csv("./R_Models/games/game_1/model/data/donations.csv", col_types = cols())
     dt <- mutate(dt,startTime = start,stopTime = stop)
   }
   

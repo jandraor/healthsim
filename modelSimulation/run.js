@@ -31,8 +31,9 @@ const run = (startTime, stopTime, policyMatrix, donations) => {
 
       //execute R script
       const runRScriptAsync = require('../helpers/R.js');
-      const scriptPath = 'R_Models/games/game_1/srv_run.R'
-      const params = [scriptPath, startTime, stopTime];
+      const scriptPath = 'R_Models/games/game_1/call_srv_run.R'
+      const step = 1 / 8;
+      const params = [scriptPath, startTime, stopTime, step];
       const simulationResult = await runRScriptAsync(params);
       resolve(simulationResult)
     } catch(err){

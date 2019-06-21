@@ -11,8 +11,6 @@ const startGame = async(socket, gameCollection, io, payload) => {
     return elem.id;
   });
   const gamePos = ids.indexOf(gameId);
-  //it might be replaced by
-  //gamePos = findGamePos(gameId);
   gameCollection.gameList[gamePos].status = 'on flight';
   const teamNames = gameCollection.gameList[gamePos].teams.map(elem => {
     return elem.name;
@@ -52,6 +50,11 @@ const startGame = async(socket, gameCollection, io, payload) => {
         'severeinfected': 0,
         'quarantineinfected': 0,
         'antiviralsinfected': 0,
+      },
+      'spoilageRates': {
+        'antivirals': teamData[0].AntiviralSpoilageFraction,
+        'vaccines': teamData[0].VaccineSpoilageFraction,
+        'ventilators': teamData[0].VentilatorSpoilageFraction,
       }
     }
     io.to(`${recipientTeam}_${gameId}`).emit('game started', playerPayload);

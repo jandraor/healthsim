@@ -2,6 +2,7 @@ suppressMessages(library(deSolve))
 suppressMessages(library(tibble))
 suppressMessages(library(tidyr))
 suppressMessages(library(purrr))
+
 run_simulation <- function(sim_data,
                            START=0,
                            FINISH=10,
@@ -10,9 +11,10 @@ run_simulation <- function(sim_data,
                            development = FALSE){
   source('./R_Models/games/game_1/model/SIRModelF.R') #loads healthsim_model 
   source('./R_Models/games/game_1/utils/get_donations_data.R') #loads get_donations_data 
-  source('./R_Models/games/game_1/utils/convert_donatons_to_list.R') #loads get_donations_data 
+  source('./R_Models/games/game_1/utils/convert_donatons_to_list.R')
+  source('./R_Models/games/game_1/utils/intraStepInterpolation.R')
   
-  production <- !development
+    production <- !development
   
   # create a temporary global environment for the simulation data
   simd <<- new.env()
@@ -43,7 +45,7 @@ run_simulation <- function(sim_data,
   
   simd$current_donations   <- current_donations
   simd$aggregate_donations <- convert_donations_to_list(current_donations)
-  
+
   # Note: originally the idea was to have one variable per column, but it
   # was simpler to use a tidy data structure involvin time, ModelVariable and Value
   # Old code commented out
@@ -51,10 +53,14 @@ run_simulation <- function(sim_data,
     # Storing the cache in tidy data format
     simd$order_history <- dplyr::select(sim_data$sim_output,time,contains("Ordered.")) %>%
                           tidyr::gather(key = ModelVariable,value = Value,-1)
+    
+    # RK4 integration methods uses a midpoint step 
+    simd$order_history <- intraStepInterpolation(simd$order_history, STEP)
+    
     #order alphabetically
     #simd$order_history <- select(simd$order_history,sort(colnames(simd$order_history)))
     #simd$order_history <- select(simd$order_history,time,everything())
-    #browser()
+    
   }
   else{
     # Need to create an empty tibble here with the correct columns
@@ -77,12 +83,12 @@ run_simulation <- function(sim_data,
                     times  = simtime,
                     func   = healthsim_model,
                     parms  = sim_data$g_auxs,
-                    method = "euler"))
+                    method = "rk4"))
 
   sim_data$g_final_stocks <- unlist(o[nrow(o),
                                     2:(sim_data$g_NUM_STOCKS*sim_data$g_NUM_SECTORS+1)])
 
-  tbl_o <- dplyr::as_data_frame(o)
+  tbl_o <- dplyr::as_tibble(o)
   
   if(sim_data$g_NUM_SECTORS == 1) {
     tbl_o <- tbl_o %>% rename(Alpha_TotalInfected = TotalInfected,

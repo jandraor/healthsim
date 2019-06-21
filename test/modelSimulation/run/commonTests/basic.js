@@ -54,10 +54,11 @@ module.exports = function() {
     const result = this.result;
     const bot = result.bot;
     const pivotKeys = Object.keys(bot[0]);
+
     bot.map(row => {
       const actual = pivotKeys
       const expected = Object.keys(row)
-      assert.deepEqual(actual, expected, "Column names different in rows")
+      assert.deepEqual(actual, expected, `Column names different in time: ${row.time} `)
     });
     equalColNames = true
   });

@@ -39,13 +39,16 @@ update_sim_history <- function(simtime, var, values){
 
 #--------------------------------------------------------------------------------
 get_delay_flows <- function(resource, simtime, sectors, delays){
-  
+
   flows <- sapply(seq_along(delays),function(i){
+
     if (simtime - (delays[i] + simd$ABS_START) < 0)
        return (0.0)
     
     lag_time <- simtime - delays[i]
+
     key <- paste(resource,sectors[i],sep=".")
+    
     lag_flow <- filter(simd$order_history,
                        ModelVariable==key,
                        near(time,lag_time,tol = 0.000000001)) %>%
@@ -54,7 +57,6 @@ get_delay_flows <- function(resource, simtime, sectors, delays){
     lag_flow
   })
   
-
   names(flows) <- sectors
   #cat("time = ", simtime, "delays = ", delays,"\n")
   #print(flows)
@@ -213,7 +215,12 @@ healthsim_model <- function(time, stocks, auxs){
     ReportingError <- TotalInfectionRate - states[,"_TM_RIR"]
     
     #CIRR=Reporting Error/Reporting Delay
-    CIRR <- ReportingError/simd$g_countries$ReportingDelay
+    
+    # Adding exception when reportingDelay is 0
+    reportingDelay <- ifelse(simd$g_countries$ReportingDelay == 0, 
+                             simd$TIME_STEP, simd$g_countries$ReportingDelay)
+    CIRR <- ReportingError/reportingDelay
+     
     
     #DR=Morbidity Fraction*"Non-Resource Recovery"/Rec Delay No Resources
     DR <- simd$g_countries$MorbidityFraction*states[,"_TM_NRR"]/simd$g_countries$RecoveryDelayNoResources
@@ -362,7 +369,7 @@ healthsim_model <- function(time, stocks, auxs){
     d_TM_RAR_dt      <- ISR - RRS 
     d_TM_RS_dt       <- NRRR + RRS  
     d_TM_NRR_dt      <- ISNR - DR - NRRR  
-    d_TM_LTM_dt      <- DR 
+    d_TM_LTM_dt      <- DR
     d_TM_RIR_dt      <- CIRR
     
     # Financial  Model

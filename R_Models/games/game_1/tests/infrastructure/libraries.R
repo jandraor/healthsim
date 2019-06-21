@@ -1,5 +1,5 @@
 libraries <- c('deSolve', 'dplyr', 'jsonlite', 'purrr', 'lubridate', 'stringr',
-              'readr', 'tidyr', 'tibble')
+              'readr', 'tidyr', 'tibble', 'zoo')
 
 result <- libraries %in% rownames(installed.packages())
 
