@@ -226,7 +226,7 @@ get_data <- function(SAMPLE=T,
   
   # Overrides STEP 1 & STEP 3 by importing values from a .csv file
   if(TEST_RUN == T && MANUAL_SETUP == T) {
-    countries <- read_csv("./R_Models/games/game_1/model/data/countries_MOCK_UP.csv")
+    countries <- read_csv("./R_Models/games/game_1/model/data/countries_MOCK_UP.csv", col_types = cols())
   }
   
   list(g_countries=countries,

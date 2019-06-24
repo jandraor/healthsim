@@ -3,7 +3,15 @@
 # Script to initialise the simulation
 #=======================================================================================
 
-# Manual setup allows the user to set country characteristics from a .csv file. # It facilitates testing by setting parameter values from Javascript
+
+#' Sets up the simulation environment for future runs
+#'
+#' @param VirusSeverityProportion A number.
+#' @param testMode A boolean. When TRUE, all countries are specified based on the file 'countries_MOCK_UP.csv' in the data folder
+#' @param manualSetup A boolean.
+#'
+#' @return A JSON object with countries' specifications
+
 srv_initialise <- function(VirusSeverityProportion = 0, testMode = F, manualSetup = F) {
   suppressMessages(library(jsonlite))
   source("./R_Models/games/game_1/utils/initialise_sim_data.R")
