@@ -50,7 +50,7 @@ module.exports = {
           const bot = obj.bot;
 
           bot.forEach(row => {
-            assert.isAtLeast(row[stock], 0);
+            assert.isAtLeast(row[stock], 0, `${stock}`);
           });
         });
       });
@@ -77,7 +77,7 @@ module.exports = {
           const bot = obj.bot;
 
           bot.forEach(row => {
-            assert.isAtLeast(row[stock], 0);
+            assert.isAtLeast(row[stock], 0, `${stock}`);
           })
         });
       });
@@ -104,7 +104,7 @@ module.exports = {
           const bot = obj.bot;
 
           bot.forEach(row => {
-            assert.isAtLeast(row[stock], 0);
+            assert.isAtLeast(row[stock], 0, `${stock}`);
           })
         });
       })
@@ -131,7 +131,7 @@ module.exports = {
           const bot = obj.bot;
 
           bot.forEach(row => {
-            assert.isAtLeast(row[stock], 0);
+            assert.isAtLeast(row[stock], 0, `${stock}`);
           })
         });
       })

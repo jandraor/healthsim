@@ -2,6 +2,7 @@ suppressMessages(library(deSolve))
 suppressMessages(library(tibble))
 suppressMessages(library(tidyr))
 suppressMessages(library(purrr))
+suppressMessages(library(dplyr))
 
 run_simulation <- function(sim_data,
                            START=0,
@@ -47,15 +48,16 @@ run_simulation <- function(sim_data,
   simd$aggregate_donations <- convert_donations_to_list(current_donations)
 
   # Note: originally the idea was to have one variable per column, but it
-  # was simpler to use a tidy data structure involvin time, ModelVariable and Value
+  # was simpler to use a tidy data structure involving time, ModelVariable and Value
   # Old code commented out
   if("sim_output" %in% names(sim_data)){
     # Storing the cache in tidy data format
     simd$order_history <- dplyr::select(sim_data$sim_output,time,contains("Ordered.")) %>%
                           tidyr::gather(key = ModelVariable,value = Value,-1)
-    
+
     # RK4 integration methods uses a midpoint step 
     simd$order_history <- intraStepInterpolation(simd$order_history, STEP)
+
     
     #order alphabetically
     #simd$order_history <- select(simd$order_history,sort(colnames(simd$order_history)))
@@ -100,12 +102,12 @@ run_simulation <- function(sim_data,
   if(!("sim_output" %in% names(sim_data))){
      sim_data$sim_output   <- tbl_o
      sim_data$donations    <- current_donations
-  }
-  else{
-     sim_data$sim_output   <- dplyr::bind_rows(sim_data$sim_output,
-                                               slice(tbl_o,2:nrow(tbl_o)))
-     sim_data$donations    <- dplyr::bind_rows(sim_data$donations,
-                                               current_donations)
+  } else {
+    currentSimOutput <- sim_data$sim_output[-nrow(sim_data$sim_output), ]
+    sim_data$sim_output   <- bind_rows(currentSimOutput, tbl_o)
+    
+    sim_data$donations    <- bind_rows(sim_data$donations,
+                                       current_donations)
   }
   
   # remove the simulation environment
