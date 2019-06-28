@@ -213,3 +213,489 @@ export const fillStock = (svgId, variable, n, delay = 0) => {
        .delay(delay)
        .text(`${variable}: ${n}`);
 }
+
+export const drawStock2 = options => {
+  const xLength = 60;
+  const yLength = 60;
+  const flowWidth = 10;
+  const xCenter = options.x;
+  const yCenter = options.y;
+
+  const stockData = {
+    'xLength': xLength,
+    'yLength': yLength,
+    'flowWidth': flowWidth,
+    'xCenter': xCenter,
+    'yCenter': yCenter,
+  }
+
+  const svg = d3.select(`#${options.svgId}`);
+  const g = svg.append('g')
+       .attr('id', options.stockId)
+       .datum(stockData)
+
+  const label = g.append('text')
+      .attr('x', xCenter)
+      .attr('y', yCenter)
+      .attr('text-anchor', 'middle')
+      .attr('font-size', '9px')
+      .style('fill', '#505050')
+
+  if(typeof(options.title) === 'string') {
+    label.text(options.title)
+  }
+
+
+
+  if(Array.isArray(options.title)) {
+    label.attr('y', yCenter + 8)
+      .attr('font-size', '8px');
+    options.title.forEach((word, i) => {
+      label.append('tspan')
+          .attr('x', xCenter)
+          .attr('dy', 10 * Math.pow(-1, i + 1))
+          .text(word)
+    })
+  }
+
+
+
+  const line = d3.line()
+    .x(d => { return d.x; })
+    .y(d => { return d.y;});
+
+  if(!options.leftFlow && options.topFlow && options.rightFlow && options.bottomFlow){
+    const points1 = [
+      {'x': xCenter - (flowWidth / 2), 'y': yCenter - (yLength / 2)},
+      {'x': xCenter - (xLength / 2), 'y': yCenter - (yLength / 2)},
+      {'x': xCenter - (xLength / 2), 'y': yCenter + (yLength / 2)},
+      {'x': xCenter - (flowWidth / 2), 'y': yCenter + (yLength / 2)},
+    ];
+
+    g.append("path")
+        .datum(points1)
+        .attr("d", line)
+        .attr('class', 'stockSegment');
+
+    const points2 = [
+      {'x': xCenter + (flowWidth / 2), 'y': yCenter - (yLength / 2)},
+      {'x': xCenter + (xLength / 2), 'y': yCenter - (yLength / 2)},
+      {'x': xCenter + (xLength / 2), 'y': yCenter - (flowWidth / 2)},
+    ];
+
+    g.append("path")
+        .datum(points2)
+        .attr("d", line)
+        .attr('class', 'stockSegment');
+
+    const points3 = [
+          {'x': xCenter + (xLength / 2), 'y': yCenter + (flowWidth / 2)},
+          {'x': xCenter + (xLength / 2), 'y': yCenter + (yLength / 2)},
+          {'x': xCenter + (flowWidth / 2), 'y': yCenter + (yLength / 2)},
+        ];
+
+    g.append("path")
+        .datum(points3)
+        .attr("d", line)
+        .attr('class', 'stockSegment');
+  }
+
+  if(options.leftFlow && options.topFlow && options.rightFlow && !options.bottomFlow){
+
+    const points1 = getSegment4(xCenter, yCenter, xLength, yLength, flowWidth);
+
+    g.append("path")
+        .datum(points1)
+        .attr("d", line)
+        .attr('class', 'stockSegment');
+
+    const points2 = [
+      {'x': xCenter + (flowWidth / 2), 'y': yCenter - (yLength / 2)},
+      {'x': xCenter + (xLength / 2), 'y': yCenter - (yLength / 2)},
+      {'x': xCenter + (xLength / 2), 'y': yCenter - (flowWidth / 2)},
+    ];
+
+    g.append("path")
+        .datum(points2)
+        .attr("d", line)
+        .attr('class', 'stockSegment');
+
+    const points3 = getSegment1(xCenter, yCenter, xLength, yLength, flowWidth);
+
+    g.append("path")
+        .datum(points3)
+        .attr("d", line)
+        .attr('class', 'stockSegment');
+  }
+
+  if(options.leftFlow && !options.topFlow && options.rightFlow && options.bottomFlow ){
+    const points1 = getSegment2(xCenter, yCenter, xLength, yLength, flowWidth);
+
+    g.append("path")
+        .datum(points1)
+        .attr("d", line)
+        .attr('class', 'stockSegment');
+
+    const points2 = [
+      {'x': xCenter + (xLength / 2), 'y': yCenter + (flowWidth / 2)},
+      {'x': xCenter + (xLength / 2), 'y': yCenter + (yLength / 2)},
+      {'x': xCenter + (flowWidth / 2), 'y': yCenter + (yLength / 2)},
+    ];
+
+    g.append("path")
+        .datum(points2)
+        .attr("d", line)
+        .attr('class', 'stockSegment');
+
+    const points3 = getSegment6(xCenter, yCenter, xLength, yLength, flowWidth);
+
+    g.append("path")
+        .datum(points3)
+        .attr("d", line)
+        .attr('class', 'stockSegment');
+  }
+
+  if(options.leftFlow && !options.topFlow && options.rightFlow && !options.bottomFlow){
+    const points1 = getSegment2(xCenter, yCenter, xLength, yLength, flowWidth);
+
+    g.append("path")
+        .datum(points1)
+        .attr("d", line)
+        .attr('class', 'stockSegment');
+
+
+    const points2 = getSegment1(xCenter, yCenter, xLength, yLength, flowWidth);
+
+    g.append("path")
+        .datum(points2)
+        .attr("d", line)
+        .attr('class', 'stockSegment');
+  }
+
+  if(options.leftFlow && !options.topFlow && !options.rightFlow && !options.bottomFlow ){
+    const points = getSegment3(xCenter, yCenter, xLength, yLength, flowWidth);
+
+    g.append("path")
+        .datum(points)
+        .attr("d", line)
+        .attr('class', 'stockSegment');
+  }
+
+  if(options.leftFlow && options.topFlow && !options.rightFlow && options.bottomFlow){
+    const points1 = getSegment4(xCenter, yCenter, xLength, yLength, flowWidth);
+
+    g.append("path")
+        .datum(points1)
+        .attr("d", line)
+        .attr('class', 'stockSegment');
+
+    const points2 = getSegment5(xCenter, yCenter, xLength, yLength, flowWidth);
+
+    g.append("path")
+        .datum(points2)
+        .attr("d", line)
+        .attr('class', 'stockSegment');
+
+    const points3 = getSegment6(xCenter, yCenter, xLength, yLength, flowWidth);
+
+    g.append("path")
+        .datum(points3)
+        .attr("d", line)
+        .attr('class', 'stockSegment');
+  }
+
+  if(options.leftFlow && !options.topFlow && !options.rightFlow && options.bottomFlow ){
+    const points1 = getSegment7(xCenter, yCenter, xLength, yLength, flowWidth);
+
+    g.append("path")
+        .datum(points1)
+        .attr("d", line)
+        .attr('class', 'stockSegment');
+
+    const points2 = getSegment6(xCenter, yCenter, xLength, yLength, flowWidth);
+
+    g.append("path")
+        .datum(points2)
+        .attr("d", line)
+        .attr('class', 'stockSegment');
+  }
+}
+
+// Generates the bottom-half segment for stocks with left & right flows,
+// and no bottom flow
+
+const getSegment1 = (xCenter, yCenter, xLength, yLength, flowWidth) => {
+  const points = [
+    {'x': xCenter + (xLength / 2), 'y': yCenter + (flowWidth / 2)},
+    {'x': xCenter + (xLength / 2), 'y': yCenter + (yLength / 2)},
+    {'x': xCenter - (xLength / 2), 'y': yCenter + (yLength / 2)},
+    {'x': xCenter - (xLength / 2), 'y': yCenter + (flowWidth / 2)},
+  ];
+
+  return points
+}
+
+// Generates the top-half segment for stocks with left & right flows,
+// and no flow on the top
+
+const getSegment2 = (xCenter, yCenter, xLength, yLength, flowWidth) => {
+  const points = [
+    {'x': xCenter - (xLength / 2), 'y': yCenter - (flowWidth / 2)},
+    {'x': xCenter - (xLength / 2), 'y': yCenter - (yLength / 2)},
+    {'x': xCenter + (xLength / 2), 'y': yCenter - (yLength / 2)},
+    {'x': xCenter + (xLength / 2), 'y': yCenter - (flowWidth / 2)},
+  ];
+  return points
+}
+
+//Stock with left flow
+const getSegment3 = (xCenter, yCenter, xLength, yLength, flowWidth) => {
+
+  const points = [
+    {'x': xCenter - (xLength / 2), 'y': yCenter - (flowWidth / 2)},
+    {'x': xCenter - (xLength / 2), 'y': yCenter - (yLength / 2)},
+    {'x': xCenter + (xLength / 2), 'y': yCenter - (yLength / 2)},
+    {'x': xCenter + (xLength / 2), 'y': yCenter + (yLength / 2)},
+    {'x': xCenter - (xLength / 2), 'y': yCenter + (yLength / 2)},
+    {'x': xCenter - (xLength / 2), 'y': yCenter + (flowWidth / 2)},
+  ];
+
+  return points;
+}
+
+//Top-left quarter of a stock with left & top flows
+const getSegment4 = (xCenter, yCenter, xLength, yLength, flowWidth) => {
+  const points = [
+    {'x': xCenter - (xLength / 2), 'y': yCenter - (flowWidth / 2)},
+    {'x': xCenter - (xLength / 2), 'y': yCenter - (yLength / 2)},
+    {'x': xCenter - (flowWidth / 2), 'y': yCenter - (yLength / 2)},
+  ];
+
+  return points;
+}
+
+// Right-half segment of a stock with top & bottom flows
+const getSegment5 = (xCenter, yCenter, xLength, yLength, flowWidth) => {
+  const points = [
+    {'x': xCenter + (flowWidth / 2), 'y': yCenter - (yLength / 2)},
+    {'x': xCenter + (xLength / 2), 'y': yCenter - (yLength / 2)},
+    {'x': xCenter + (xLength / 2), 'y': yCenter + (yLength / 2)},
+    {'x':  xCenter + (flowWidth / 2), 'y': yCenter + (yLength / 2)},
+  ];
+
+  return points;
+}
+
+//Bottom-left segment of a stock with left & bottom flows
+const getSegment6 = (xCenter, yCenter, xLength, yLength, flowWidth) => {
+  const points = [
+    {'x': xCenter - (flowWidth / 2), 'y': yCenter + (yLength / 2)},
+    {'x': xCenter - (xLength / 2), 'y': yCenter + (yLength / 2)},
+    {'x': xCenter - (xLength / 2), 'y': yCenter + (flowWidth / 2)},
+  ];
+
+  return points;
+}
+
+//Top half & bottom-right segments of a stock with left & bottom flows
+const getSegment7 = (xCenter, yCenter, xLength, yLength, flowWidth) => {
+  const points = [
+    {'x': xCenter - (xLength / 2), 'y': yCenter - (flowWidth / 2)},
+    {'x': xCenter - (xLength / 2), 'y': yCenter - (yLength / 2)},
+    {'x': xCenter + (xLength / 2), 'y': yCenter - (yLength / 2)},
+    {'x': xCenter + (xLength / 2), 'y': yCenter + (yLength / 2)},
+    {'x': xCenter + (flowWidth / 2), 'y': yCenter + (yLength / 2)},
+  ];
+
+  return points
+}
+
+export const drawFlow2 = options => {
+  const svg = d3.select(`#${options.svgId}`);
+
+  const g = svg.append('g')
+       .attr('id', options.flowId);
+
+  const originStock = d3.select(`#${options.originStock}`).datum();
+  const destinationStock = d3.select(`#${options.destinationStock}`).datum();
+
+  if(options.flowType === 'regular'){
+    const line1 = {
+      'x1' : originStock.xCenter + (originStock.xLength / 2),
+      'y1' : originStock.yCenter - (originStock.flowWidth / 2),
+      'x2' : destinationStock.xCenter - (destinationStock.xLength / 2),
+      'y2' : destinationStock.yCenter - (destinationStock.flowWidth / 2)
+    }
+
+    g.append('line')
+        .style("stroke", "black")
+        .attr("x1", line1.x1)
+        .attr("y1", line1.y1)
+        .attr("x2", line1.x2)
+        .attr("y2", line1.y2);
+
+    const line2 = {
+      'x1' : originStock.xCenter + (originStock.xLength / 2),
+      'y1' : originStock.yCenter + (originStock.flowWidth / 2),
+      'x2' : destinationStock.xCenter - (destinationStock.xLength / 2),
+      'y2' : destinationStock.yCenter + (destinationStock.flowWidth / 2)
+    }
+
+    g.append('line')
+        .style("stroke", "black")
+        .attr("x1", line2.x1)
+        .attr("y1", line2.y1)
+        .attr("x2", line2.x2)
+        .attr("y2", line2.y2);
+  }
+
+  if(options.flowType === "bent") {
+
+    const line = d3.line()
+      .x(d => { return d.x; })
+      .y(d => { return d.y;});
+
+    if(originStock.yCenter > destinationStock.yCenter) {
+
+      const segment1 = [
+        {
+          'x': originStock.xCenter - (originStock.flowWidth / 2),
+          'y': originStock.yCenter - (originStock.yLength / 2)
+        },
+        {
+          'x': originStock.xCenter - (originStock.flowWidth / 2),
+          'y': destinationStock.yCenter - (destinationStock.flowWidth / 2),
+        },
+        {
+          'x': destinationStock.xCenter - (destinationStock.xLength / 2),
+          'y': destinationStock.yCenter - (destinationStock.flowWidth / 2)
+        },
+      ];
+
+      g.append("path")
+          .datum(segment1)
+          .attr("d", line)
+          .attr('class', 'flowSegment');
+
+      const segment2 = [
+        {
+          'x': originStock.xCenter + (originStock.flowWidth / 2),
+          'y': originStock.yCenter - (originStock.yLength / 2)
+        },
+        {
+          'x': originStock.xCenter + (originStock.flowWidth / 2),
+          'y': destinationStock.yCenter + (destinationStock.flowWidth / 2),
+        },
+        {
+          'x': destinationStock.xCenter - (destinationStock.xLength / 2),
+          'y': destinationStock.yCenter + (destinationStock.flowWidth / 2)
+        },
+      ];
+
+      g.append("path")
+          .datum(segment2)
+          .attr("d", line)
+          .attr('class', 'flowSegment');
+    }
+
+    if(originStock.yCenter < destinationStock.yCenter ) {
+
+      const segment1 = [
+        {
+          'x': originStock.xCenter - (originStock.flowWidth / 2),
+          'y': originStock.yCenter + (originStock.yLength / 2)
+        },
+        {
+          'x': originStock.xCenter - (originStock.flowWidth / 2),
+          'y': destinationStock.yCenter + (destinationStock.flowWidth / 2),
+        },
+        {
+          'x': destinationStock.xCenter - (destinationStock.xLength / 2),
+          'y': destinationStock.yCenter + (destinationStock.flowWidth / 2)
+        },
+      ];
+
+      g.append("path")
+          .datum(segment1)
+          .attr("d", line)
+          .attr('class', 'flowSegment');
+
+      const segment2 = [
+        {
+          'x': originStock.xCenter + (originStock.flowWidth / 2),
+          'y': originStock.yCenter + (originStock.yLength / 2)
+        },
+        {
+          'x': originStock.xCenter + (originStock.flowWidth / 2),
+          'y': destinationStock.yCenter - (destinationStock.flowWidth / 2),
+        },
+        {
+          'x': destinationStock.xCenter - (destinationStock.xLength / 2),
+          'y': destinationStock.yCenter - (destinationStock.flowWidth / 2)
+        },
+      ];
+
+      g.append("path")
+          .datum(segment2)
+          .attr("d", line)
+          .attr('class', 'flowSegment');
+    }
+  }
+
+  if(options.flowType === "double-bent"){
+
+    const line = d3.line()
+      .x(d => { return d.x; })
+      .y(d => { return d.y;});
+
+    const segment1 = [
+      {
+        'x': originStock.xCenter - (originStock.flowWidth / 2),
+        'y': originStock.yCenter - (originStock.yLength / 2)
+      },
+      {
+        'x': originStock.xCenter - (originStock.flowWidth / 2),
+        'y': (originStock.yCenter + destinationStock.yCenter) / 2  - (originStock.flowWidth / 2),
+      },
+      {
+        'x': destinationStock.xCenter - (destinationStock.flowWidth / 2),
+        'y': (originStock.yCenter + destinationStock.yCenter) / 2  - (originStock.flowWidth / 2),
+      },
+      {
+        'x': destinationStock.xCenter - (destinationStock.flowWidth / 2),
+        'y': destinationStock.yCenter + (destinationStock.yLength / 2)
+      },
+    ];
+
+    g.append("path")
+        .datum(segment1)
+        .attr("d", line)
+        .attr('class', 'flowSegment');
+
+
+    const segment2 = [
+      {
+        'x': originStock.xCenter + (originStock.flowWidth / 2),
+        'y': originStock.yCenter - (originStock.yLength / 2)
+      },
+      {
+        'x': originStock.xCenter + (originStock.flowWidth / 2),
+        'y': (originStock.yCenter + destinationStock.yCenter) / 2  + (originStock.flowWidth / 2),
+      },
+      {
+        'x': destinationStock.xCenter + (destinationStock.flowWidth / 2),
+        'y': (originStock.yCenter + destinationStock.yCenter) / 2  + (originStock.flowWidth / 2),
+      },
+      {
+        'x': destinationStock.xCenter + (destinationStock.flowWidth / 2),
+        'y': destinationStock.yCenter + (destinationStock.yLength / 2)
+      },
+    ];
+
+    g.append("path")
+        .datum(segment2)
+        .attr("d", line)
+        .attr('class', 'flowSegment');
+
+  }
+}

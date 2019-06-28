@@ -4,6 +4,7 @@ import * as sparklines from './sparklines.ts';
 import * as arcMeters from './arcMeters.ts';
 import * as ut from '../../../helpers/utilities.ts';
 import * as bullet from './bullet.ts';
+import * as sf from './stocks&flows.ts';
 const $ = require('jquery');
 
 export const build = initParams => {
@@ -16,6 +17,7 @@ export const build = initParams => {
   sparklines.build(initParams);
   arcMeters.build(initParams);
   bullet.build();
+  sf.build();
 }
 
 export const update = newData => {

@@ -107,3 +107,13 @@
 .errorText{
   color: red;
 }
+
+.stockSegment{
+  fill: none;
+  stroke: black;
+}
+
+.flowSegment{
+  fill: none;
+  stroke: black;
+}
