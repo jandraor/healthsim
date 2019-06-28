@@ -226,3 +226,61 @@ export const highlightDominantLoop = (dataset, stock) => {
   //
   // console.log(`impacts: ${balancingImp}`);
 }
+
+
+/**
+ * Draws a feedback loop symbol on an existing SVG
+ * @param {Object} options - Function's parameters.
+ * @param {string} options.svgId - Id of the svg of the existing chart
+ * @param {number} options.xPos - x position where the symbol will be drawn
+ * @param {number} options.yPos - y position where the symbol will be drawn.
+ * @param {string} options.name - Text that identifies the feedback loop.
+ * @param {boolean} options.counterclockwise - Indicates the position of the arrow head.
+ *
+ */
+export const addFLSymbol = options => {
+  const svg = d3.select(`#${options.svgId}`)
+    .append('g')
+      .attr('transform', `translate(${options.xPos}, ${options.yPos})`);
+
+  const isEmpty = d3.select(`#flHead`).empty();
+
+  const defs = svg.append("svg:defs").append("svg:marker")
+      .attr("id", "flHead")
+      .attr("refX", 6)
+      .attr("refY", 6)
+      .attr('viewBox', '0 0 12 12')
+      .attr('markerUnit', 'userSpaceOnUse')
+      .attr("markerWidth", 12)
+      .attr("markerHeight", 12)
+      .style("fill", "black")
+      .attr("orient", "auto")
+    .append("path")
+      .attr("d", "M2,2 L10,6 L2,10 L6,6 L2,2")
+
+  const path = d3.path();
+
+  if(options.counterclockwise === true) {
+    path.arc(options.xPos, options.yPos, 15,
+      -Math.PI * (3 / 4), - Math.PI * (1 / 8), true)
+  }
+
+  if(options.counterclockwise === false) {
+    path.arc(options.xPos, options.yPos, 15,
+      - Math.PI * (1 / 8), -Math.PI * (3 / 4))
+  }
+
+  svg.append('path')
+      .attr('d', path.toString())
+      .attr('fill', 'none')
+      .attr('stroke-width', '1.5')
+      .attr('stroke', 'black')
+      .attr('marker-end', 'url(#flHead)')
+
+  svg.append('text')
+     .attr('x', options.xPos)
+     .attr('y', options.yPos + 5)
+     .attr('text-anchor', 'middle')
+     .attr('font-size', 12)
+     .text(options.name)
+}

@@ -7,7 +7,7 @@ import * as tables from "../../components/table.ts";
 import * as sfd from "./sf.ts";
 import * as sliders from "./slds.ts"
 import * as buttons from './buttons/main.ts';
-import * as cld from '../../components/cld.ts';
+import * as cld from './cld.ts';
 import * as ut from '../../../helpers/utilities.ts';
 import * as events from './events.ts';
 // the MathJax core
@@ -27,7 +27,7 @@ export const buildInterface = async (modelId, fetchJSON) => {
   const padding = 40;
   ts.buildCharts();
   sl.buildCharts();
-  cld.drawCLD('feedbackLoopDiagram');
+  cld.build();
 
   const caseStudyData = [
     {'x': 0, 'y': 1},
