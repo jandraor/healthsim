@@ -11,6 +11,10 @@ export const html = Handlebars.compile(`
        data-toggle = "modal" data-target="#mdlSIR">
        Epidemics
       </button>
+      <button type = "button" class = "btn btn-outline-primary btn-sm"
+       data-toggle = "modal" data-target="#mdlMap">
+       Map
+      </button>
     </div>
   </div>
 

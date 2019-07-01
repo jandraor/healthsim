@@ -6,6 +6,7 @@ import * as ut from '../../../../helpers/utilities.ts';
 import * as bot from './bot.ts'; //behaviour over time
 import * as kpi from './kpi.ts'; // key performance indicators
 import * as SIRmodal from './SIR_modal.ts';
+import * as mapModal from './mapModal.ts';
 
 export const build = params => {
   const myTeam = params.yourTeam;
@@ -24,6 +25,12 @@ export const build = params => {
   $('#divTeamInfo').html(teamInfoHtml);
   const roundHtml = round.html({stopTime});
   $('#divRounds').html(roundHtml);
+  addModals();
+}
+
+const addModals = () => {
   const SIRHtml = SIRmodal.html();
   $('body').prepend(SIRHtml);
+  const mapHtml = mapModal.html();
+  $('body').prepend(mapHtml);
 }
