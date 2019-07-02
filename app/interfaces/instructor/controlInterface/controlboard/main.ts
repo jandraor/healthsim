@@ -3,7 +3,6 @@ import * as timer from './timer.ts'
 
 export const build = socket => {
   buttons.clickEvents(socket);
-  timer.start();
 }
 
 export const newRoundBtn = {

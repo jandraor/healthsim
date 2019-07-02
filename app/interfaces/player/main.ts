@@ -6,7 +6,6 @@ import * as chatboard from './chatboard/main.ts';
 
 
 export const buildGameInterface = (socket, initParams) => {
-  timers.start();
   inputBoard.build(socket, initParams);
   dashboard.build(initParams);
   chatboard.build(socket);
@@ -19,7 +18,7 @@ export const disableSimButton = () => {
 export const updateOnResults = simulationResult => {
   dashboard.update(simulationResult);
   inputBoard.update(simulationResult);
-  const currentRound = parseInt($('#lCurrentRound').text());; 
+  const currentRound = parseInt($('#lCurrentRound').text());;
   const stopTime = parseInt($('#lStopTime').text());
   if(currentRound >= stopTime) {
     timers.gameOver();
