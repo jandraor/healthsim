@@ -16,10 +16,13 @@ export const build = params => {
   dashboard.append(layoutHtml);
   $('#colBOT').append(bot.html());
   $('#colKPI').append(kpi.html());
+  const teamLogo = require(`../../../../img/teams/${params.yourTeam}.svg`)
+
   const paramsTeam = {
     'name': params.yourTeam,
     'population': ut.formatNumber(params.population),
     'incomeLevel': params.incomeLevel,
+    'teamLogo': teamLogo
   }
   const teamInfoHtml = teamInfo.html({paramsTeam});
   $('#divTeamInfo').html(teamInfoHtml);

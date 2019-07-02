@@ -14,10 +14,12 @@ export const build = params => {
   $('#divTeams').html(teamTableHtml);
   const teams = params.teams
   teams.map(teamInfo => {
+    const logo = require(`../../../../img/teams/${teamInfo.name}.svg`)
     const team = {
       'name': teamInfo.name,
       'population': ut.formatNumber(teamInfo.population),
       'incomeLevel': teamInfo.incomeLevel,
+      'logo': logo
     }
     const teamRowHtml = teamRow.html({team});
     $('.tblTeams').append(teamRowHtml);

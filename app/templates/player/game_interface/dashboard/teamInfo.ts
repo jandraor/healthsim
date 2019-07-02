@@ -3,6 +3,7 @@ import * as Handlebars from '../../../../../node_modules/handlebars/dist/handleb
 export const html = Handlebars.compile(`
   <p class = "text-secondary">
     Team:
+    <img src= {{paramsTeam.teamLogo}} height = "24" width = "24">
     <span class = "text-dark" id = "lTeamId">{{paramsTeam.name}}</span>
     <span class = "ml-5">
       Population:
