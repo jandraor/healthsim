@@ -34,14 +34,23 @@ export const build = options => {
 }
 
 export const update = (newData, variable, prefix) => {
-  const filterResult = instData.indicators.filter(variableObj => {
+  const [variableObj] = instData.indicators.filter(variableObj => {
     return variableObj.id === variable});
 
-  const variableObj = filterResult[0];
+  const RVar = variableObj.RName;
   const teams = instUt.getTeams();
+  let ymax;
+
+  if(variableObj.maxValue === 'variable') {
+    const superDataset = instUt.makeSuperDataset(newData, RVar, teams);
+    const limits = ut.findExtremePoints(superDataset);
+    ymax = limits.ymax;
+  }
+
+
   const stopTime = parseInt($('#lStopTime').text());
   const margin = {top: 30, right: 15, bottom: 50, left: 50};
-  const RVar = variableObj.RName;
+
 
   teams.forEach(team => {
     const svgId = `svgTSFacet${prefix}${team}`;
@@ -69,7 +78,7 @@ export const update = (newData, variable, prefix) => {
       'idLine': `tsLine${team}`,
       'classLine': `tsLine${prefix} tsLine`,
       'tooltip': true,
-      'yMax': variableObj.maxValue,
+      'yMax': ymax || variableObj.maxValue,
       'xTicks': 4,
       'tooltipType': 'facets'
     })

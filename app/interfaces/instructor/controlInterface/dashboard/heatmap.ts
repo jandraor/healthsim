@@ -3,6 +3,7 @@ import * as hm from '../../../components/heatmap.ts';
 import * as ut from '../../../../helpers/utilities.ts';
 const $ = require('jquery');
 import * as instData from '../../data.ts';
+import * as instUt from '../../helpers.ts';
 
 /**
  * Creates the input for the heatmap builder & calls it
@@ -41,10 +42,8 @@ export const build = options => {
 }
 
 export const update = (results, variable, prefix) => {
-  const filterResult = instData.indicators.filter(variableObj => {
+  const [variableObj] = instData.indicators.filter(variableObj => {
     return variableObj.id === variable});
-
-  const variableObj = filterResult[0];
 
   $('#bSimulate').html('Simulate')
   const divId = `div${prefix}HeatMap`;
@@ -81,17 +80,28 @@ export const update = (results, variable, prefix) => {
       });
     }
     return valueVector
-  })
+  });
+
   const data = {
     'names': teams,
     'time': simulationTime,
     'values': yValues
    };
 
+  let yMax;
+
+  if(variableObj.maxValue === 'variable') {
+    const isFraction = variableObj.type === 'fraction' ? true : false;
+    const superDataset = instUt.makeSuperDataset(results, variableObj.RName,
+      teams, isFraction);
+    const limits = ut.findExtremePoints(superDataset);
+    yMax = limits.ymax;
+  }
+
   hm.draw({
     'data': data,
     'divId': divId,
     'legend': true,
-    'yMax': variableObj.maxValue,
+    'yMax': yMax ||variableObj.maxValue,
   });
 }
