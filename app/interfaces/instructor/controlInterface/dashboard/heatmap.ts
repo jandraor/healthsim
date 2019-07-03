@@ -53,7 +53,7 @@ export const update = (results, variable, prefix) => {
 
   let teams = [];
   $(`.tdTeamName`).each(function () {
-    const team = $(`#${this.id}`).text();
+    const team = $(`#${this.id}`).text().trim();
     teams.push(team);
   });
 
@@ -102,6 +102,6 @@ export const update = (results, variable, prefix) => {
     'data': data,
     'divId': divId,
     'legend': true,
-    'yMax': yMax ||variableObj.maxValue,
+    'yMax': yMax || variableObj.maxValue,
   });
 }

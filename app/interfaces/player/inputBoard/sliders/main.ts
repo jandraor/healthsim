@@ -1,6 +1,7 @@
 import * as slds from "../../../components/sliders.ts";
 import * as validate from "./checks/main.ts";
 import * as queries from '../../objectQueries.ts';
+import * as ut from '../../../../helpers/utilities.ts';
 const $ = require('jquery');
 
 export const build = teams => {
@@ -104,10 +105,17 @@ export const build = teams => {
 export const setMaxLimits = params => {
   const sectionObject = queries.getSectionObject('Resources');
   const team = $('#lTeamId').text();
+
   sectionObject.variables.forEach(variable => {
+
     const prefix = variable.id.substring(0,3);
     const rVariable = queries.getRVariables(variable.id, 'Resources', team);
-    const deployMax = Math.floor(params[rVariable]);
+    const stockValue = params[rVariable];
+    const lcVar = variable.id.toLowerCase();
+    const spoilageRate = $('#lTeamId').data('spoilageRates')[lcVar];
+    const deployMax = Math.floor(variable.id != 'Financial' ?
+      ut.findDepletingConst(stockValue, spoilageRate, 1) :
+      stockValue)
 
     //modals
     $(`.sl${prefix}Don`).each(function() {
