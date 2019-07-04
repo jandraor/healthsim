@@ -4,7 +4,7 @@ build_model <- function (g_countries, SAMPLE, SECTORS_INFECTED = 0, TEST_RUN = F
                        "_TM_RAR","_TM_RS","_TM_NRR","_TM_LTM", "_TM_RIR")
   tm_model_desc <- c("Susceptible","Infected1","Infected2")
 
-  fm_model_stocks <- c("_FM_R","_FM_TFRD","_FM_TSOVAC","_FM_TSOA","_FM_TSOVEN","_FM_TFRR", "_FM_CDL")
+  fm_model_stocks <- c("_FM_R","_FM_TFRD","_FM_TSOVAC","_FM_TSOA","_FM_TSOVEN","_FM_TFRR", "_FM_COC")
 
   vac_model_stocks <- c("_VAC_VSL","_VAC_VS","_VAC_TVSHR","_VAC_TVR","_VAC_TVD","_VAC_TVS", "_VAC_TVO")
 

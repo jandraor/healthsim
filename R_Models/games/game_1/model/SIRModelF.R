@@ -354,7 +354,19 @@ healthsim_model <- function(time, stocks, auxs){
     
     CostDaysLost <- DaysLost * simd$g_countries$AverageWorkerProductivity
     
+    DonationCost <- ResourcesDonated + 
+      AntiviralsShared * simd$g_countries$AntiviralCostPerUnit +
+      VaccinesShared * simd$g_countries$VaccineCostPerUnit +
+      VentilatorsShared * simd$g_countries$VentilatorCostPerUnit
     
+    # Ventilators are not included given that they are kept after use.
+    DeploymentCost <- AntiviralsDispensed * simd$g_countries$AntiviralCostPerUnit +
+      VaccinesDispensed * simd$g_countries$VaccineCostPerUnit
+    
+    SpoilageCost <- AntiviralsSpoiled * simd$g_countries$AntiviralCostPerUnit +
+      VaccinesSpoiled * simd$g_countries$VaccineCostPerUnit +
+      VentilatorsSpoiled * simd$g_countries$VentilatorCostPerUnit
+      
     # Transmission Model
     d_TM_S_dt        <- -IR - IRS - VR
     d_TM_I1_dt       <- IR - IR1 - IRAV
@@ -379,10 +391,10 @@ healthsim_model <- function(time, stocks, auxs){
     d_FM_TSOA_dt     <- AntiviralSpend  
     d_FM_TSOVEN_dt   <- VentilatorSpend
     d_FM_TFRR_dt     <- IncTRR
-    d_FM_CDL_dt      <- CostDaysLost
+    d_FM_COC_dt      <- CostDaysLost + DonationCost + DeploymentCost + SpoilageCost # Cumulative Opportunity Costs
     
     # Vaccine Model
-    d_VAC_VSL_dt     <- VaccineOrders -VaccineOrdersArriving   
+    d_VAC_VSL_dt     <- VaccineOrders -VaccineOrdersArriving  
     d_VAC_VS_dt      <- VaccineOrdersArriving + VaccinesReceived -VaccinesDispensed -
                            VaccinesShared - VaccinesSpoiled
     d_VAC_TVSHR_dt   <- VaccinesShared  
@@ -419,7 +431,7 @@ healthsim_model <- function(time, stocks, auxs){
            d_TM_RV_dt,     d_TM_RAV_dt,   d_TM_RQ_dt,     d_TM_RNI_dt,   d_TM_RAR_dt,   d_TM_RS_dt,    
            d_TM_NRR_dt,    d_TM_LTM_dt,   d_TM_RIR_dt, 
            d_FM_R_dt,      d_FM_TFRD_dt,  d_FM_TSOVAC_dt, d_FM_TSOA_dt,  
-           d_FM_TSOVEN_dt, d_FM_TFRR_dt,  d_FM_CDL_dt, 
+           d_FM_TSOVEN_dt, d_FM_TFRR_dt,  d_FM_COC_dt, 
            d_VAC_VSL_dt,   d_VAC_VS_dt,   d_VAC_TVSHR_dt,  d_VAC_TVR_dt,  
            d_VAC_TVD_dt,   d_VAC_TVS_dt,  d_VAC_TVO_dt,  
            d_AVR_AVSL_dt,  d_AVR_AVS_dt,  d_AVR_TAVSHR_dt, d_AVR_TAVR_dt, 

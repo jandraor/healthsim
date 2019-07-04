@@ -144,7 +144,7 @@ const initSingleCountry = () => {
 
       it(`should return the stocks specified in the R script for the financial sector`, () => {
         const fm_model_stocks = ["_FM_R","_FM_TFRD","_FM_TSOVAC","_FM_TSOA",
-          "_FM_TSOVEN","_FM_TFRR", '_FM_CDL']
+          "_FM_TSOVEN","_FM_TFRR", '_FM_COC']
         const expected = fm_model_stocks.map(stock => {return `Alpha${stock}`});
         const regex = "_FM_";
         const actual = Object.keys(stocks)
