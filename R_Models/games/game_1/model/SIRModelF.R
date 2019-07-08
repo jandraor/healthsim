@@ -366,6 +366,11 @@ healthsim_model <- function(time, stocks, auxs){
     SpoilageCost <- AntiviralsSpoiled * simd$g_countries$AntiviralCostPerUnit +
       VaccinesSpoiled * simd$g_countries$VaccineCostPerUnit +
       VentilatorsSpoiled * simd$g_countries$VentilatorCostPerUnit
+    
+    DonationsReceived <- ResourcesReceived + 
+      AntiviralsReceived * simd$g_countries$AntiviralCostPerUnit +
+      VaccinesReceived * simd$g_countries$VaccineCostPerUnit +
+      VentilatorsReceived * simd$g_countries$VentilatorCostPerUnit
       
     # Transmission Model
     d_TM_S_dt        <- -IR - IRS - VR
@@ -391,7 +396,9 @@ healthsim_model <- function(time, stocks, auxs){
     d_FM_TSOA_dt     <- AntiviralSpend  
     d_FM_TSOVEN_dt   <- VentilatorSpend
     d_FM_TFRR_dt     <- IncTRR
-    d_FM_COC_dt      <- CostDaysLost + DonationCost + DeploymentCost + SpoilageCost # Cumulative Opportunity Costs
+    d_FM_COC_dt      <- CostDaysLost + DonationCost + DeploymentCost + SpoilageCost - # Cumulative Opportunity Costs
+      DonationsReceived
+    
     
     # Vaccine Model
     d_VAC_VSL_dt     <- VaccineOrders -VaccineOrdersArriving  
