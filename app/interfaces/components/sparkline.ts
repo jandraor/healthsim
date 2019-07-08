@@ -18,7 +18,7 @@ export const drawChart = (options) => {
     .html(`<small>${options.display}</small>`)
     .attr('class', 'border-0 py-2');
 
-  const td = tr.append('td').attr('class', 'border-0 py-2');
+  const td = tr.append('td').attr('class', 'border-0 py-2 pl-3');
 
   const svg = td.append('svg')
                 .attr('class', 'svgSparkline')

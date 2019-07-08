@@ -36,7 +36,7 @@ export const html = Handlebars.compile(`
                 <th>
                   <small>Key metrics</small>
                 </th>
-                <th>
+                <th class = "pl-3">
                   <small>Behaviour over time</small>
                 </th>
                 <th>

@@ -12,14 +12,14 @@ export const html = Handlebars.compile(`
         <svg id = "svgTSSIR"></svg>
       </div>
     </div>
-    <div class = "col-6 " id = "divSLSIR">
+    <div class = "col-6 align-self-center" id = "divSLSIR">
       <div class = "mt-3" id = "divTableSLSIR">
         <table id = "tblSIR">
           <thead>
             <tr class = "border-bottom">
               <th> <small>Key metrics</small> </th>
-              <th> <small>Behaviour over time</small> </th>
-              <th> <small>Last value</small> </th>
+              <th class = "pl-3"> <small>Behaviour over time</small> </th>
+              <th class = "pl-2"> <small>Last value</small> </th>
             </tr>
           </thead>
           <tbody></tbody>
@@ -43,7 +43,7 @@ export const html = Handlebars.compile(`
           <thead>
             <tr class = "border-bottom">
               <th> <small>Resources</small> </th>
-              <th> <small>Behaviour over time</small> </th>
+              <th class = "pl-3"> <small>Behaviour over time</small> </th>
               <th> <small>Last value</small> </th>
             </tr>
           </thead>
