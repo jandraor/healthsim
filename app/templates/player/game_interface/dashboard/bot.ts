@@ -2,19 +2,19 @@ import * as Handlebars from '../../../../../node_modules/handlebars/dist/handleb
 
 export const html = Handlebars.compile(`
 <div class = "container-fluid">
-  <div class = "row border rounded" id = "divInfected">
-    <div class = "col-6" id = "divTSInfected">
-      <div class = "my-1" id = "divSelInfected">
-        <select id = "selTSInfected" class = "selectpicker selDashboard show-tick" data-width="fit">
+  <div class = "row border rounded" id = "divSIR">
+    <div class = "col-6" id = "divTSSIR">
+      <div class = "my-1" id = "divSelSIR">
+        <select id = "selTSSIR" class = "selectpicker selDashboard show-tick" data-width="fit">
         </select>
       </div>
-      <div id = "divSVGInfected"  class = "pt-2 pl-0">
-        <svg id = "svgTSInfected"></svg>
+      <div id = "divSVGSIR"  class = "pt-2 pl-0">
+        <svg id = "svgTSSIR"></svg>
       </div>
     </div>
-    <div class = "col-6 " id = "divSLInfected">
-      <div class = "mt-3" id = "divTableSLInfected">
-        <table id = "tblSLInfected">
+    <div class = "col-6 " id = "divSLSIR">
+      <div class = "mt-3" id = "divTableSLSIR">
+        <table id = "tblSIR">
           <thead>
             <tr class = "border-bottom">
               <th> <small>Key metrics</small> </th>

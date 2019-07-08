@@ -44,12 +44,10 @@ const startGame = async(socket, gameCollection, io, payload) => {
         'vaccines': teamData[0].VaccineCostPerUnit,
         'ventilators': teamData[0].VentilatorCostPerUnit,
       },
-      'infected': {
-        'totalinfected': teamData[0].Infected,
-        'nonsevereinfected': teamData[0].Infected,
-        'severeinfected': 0,
-        'quarantineinfected': 0,
-        'antiviralsinfected': 0,
+      'sir': {
+        'susceptible': teamData[0].Population - teamData[0].Infected,
+        'infected': teamData[0].Infected,
+        'recovered': 0,
       },
       'spoilageRates': {
         'antivirals': teamData[0].AntiviralSpoilageFraction,

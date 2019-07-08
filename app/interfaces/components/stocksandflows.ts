@@ -1,5 +1,6 @@
 //Stocks and stocksAndFlows
 const $ = require('jquery');
+import * as sl from './sparkline.ts';
 import * as d3 from 'd3';
 
 export const drawStock = (options) => {
@@ -215,8 +216,8 @@ export const fillStock = (svgId, variable, n, delay = 0) => {
 }
 
 export const drawStock2 = options => {
-  const xLength = 60;
-  const yLength = 60;
+  const xLength = 80;
+  const yLength = 80;
   const flowWidth = 10;
   const xCenter = options.x;
   const yCenter = options.y;
@@ -234,9 +235,11 @@ export const drawStock2 = options => {
        .attr('id', options.stockId)
        .datum(stockData)
 
+  const offset = options.initValue === undefined ? 0 : yLength / 4
+
   const label = g.append('text')
-      .attr('x', xCenter)
-      .attr('y', yCenter)
+      .attr('x', xCenter )
+      .attr('y', yCenter - offset)
       .attr('text-anchor', 'middle')
       .attr('font-size', '9px')
       .style('fill', '#505050')
@@ -248,17 +251,26 @@ export const drawStock2 = options => {
 
 
   if(Array.isArray(options.title)) {
-    label.attr('y', yCenter + 8)
+    const offset = options.initValue === undefined ? yLength / 6 : yLength / 2.5;
+
+    label.attr('y', yCenter - offset)
       .attr('font-size', '8px');
     options.title.forEach((word, i) => {
       label.append('tspan')
           .attr('x', xCenter)
-          .attr('dy', 10 * Math.pow(-1, i + 1))
+          .attr('dy', 8)
           .text(word)
     })
   }
 
-
+  if(options.initValue != undefined){
+    g.append('text')
+        .attr('x', xCenter)
+        .attr('y', yCenter)
+        .attr('class', 'scalarIndicator')
+        .attr('text-anchor', 'middle')
+        .text(options.initValue)
+  }
 
   const line = d3.line()
     .x(d => { return d.x; })
@@ -698,4 +710,57 @@ export const drawFlow2 = options => {
         .attr('class', 'flowSegment');
 
   }
+}
+
+export const addSparkline = options => {
+  const xMargin = 2;
+  const stockId = options.stockId;
+  const stock = d3.select(`#${stockId}`);
+  const stockSpecs = stock.datum();
+
+  sl.drawChart2({
+    'svgId': options.sparkline.svgId,
+    'sparklineId': `sl-${stockId}`,
+    'width': {
+      'sparkline': stockSpecs.xLength * 0.7 - xMargin,
+    },
+    'height': stockSpecs.yLength / 3,
+    'xPos': stockSpecs.xCenter - stockSpecs.xLength / 2  + xMargin,
+    'yPos': stockSpecs.yCenter,
+    'standAlone': false
+  });
+
+  sl.drawLine({
+    'svgId':options.sparkline.svgId,
+    'sparklineId': `sl-${stockId}`,
+    'dataset': options.sparkline.dataset,
+    'stopTime': options.sparkline.stopTime,
+    'radius': options.sparkline.radius,
+    'delay': options.sparkline.delay,
+    'duration': options.sparkline.duration,
+    'standAlone': false,
+    'format': options.sparkline.format,
+    'yDomain': options.sparkline.yDomain
+  })
+}
+
+export const clearIndicators = svgId => {
+  const svg = d3.select(`#${svgId}`)
+
+  svg.selectAll('.sparklineGraph').remove();
+  svg.selectAll('.scalarIndicator').remove();
+}
+
+export const updateIndicator = options => {
+  const svg = d3.select(`#${options.svgId}`);
+  const stock = svg.select(`#${options.stockId}`);
+  const stockSpecs = stock.datum();
+  const defaultValue = '-----'
+
+  stock.append('text')
+      .attr('x', stockSpecs.xCenter)
+      .attr('y', stockSpecs.yCenter)
+      .attr('class', 'scalarIndicator')
+      .attr('text-anchor', 'middle')
+      .text(options.value === undefined ? defaultValue : options.value)
 }

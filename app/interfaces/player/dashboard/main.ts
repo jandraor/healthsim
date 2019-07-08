@@ -17,8 +17,7 @@ export const build = initParams => {
   selects.build();
   sparklines.build(initParams);
   arcMeters.build(initParams);
-  bullet.build();
-  sf.build();
+  sf.build(initParams);
   map.build(initParams);
 }
 
@@ -42,7 +41,7 @@ export const update = newData => {
   sparklines.draw(results);
   timeseries.drawAll(results);
   arcMeters.update(results);
-  bullet.update(results);
+  sf.update(results);
 }
 
 export const newRound = () => {

@@ -5,7 +5,7 @@ import * as help from './helpers/main.ts';
 
 export const build = initParams => {
   const population = initParams.population;
-  const infected = initParams.infected.totalinfected;
+  const infected = initParams.sir.infected;
   const antivirals = initParams.resources.antivirals;
   const ventilators = initParams.resources.ventilators;
   const vaccines = initParams.resources.vaccines;
@@ -62,7 +62,7 @@ export const update = results => {
   const lastRow = results[results.length - 1];
   const population = $('#lPopulation').data('value');
   const team = $('#lTeamId').text();
-  const infectedDelayed = help.applyInfoDelay('TotalInfected', 'Infected', results);
+  const infectedDelayed = help.applyInfoDelay('Infected', 'SIR', results);
   if(infectedDelayed.length > 0 ) {
     const infected = infectedDelayed[infectedDelayed.length - 1].y;
     arcMeter.update({

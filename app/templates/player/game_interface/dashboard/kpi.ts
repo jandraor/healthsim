@@ -3,7 +3,7 @@ import * as Handlebars from '../../../../../node_modules/handlebars/dist/handleb
 export const html = Handlebars.compile(`
   <div class = "my-5" id = "divEconomy">
     <h6 class = "mt-2 text-center text-secondary">Economy</h6>
-    <div class = "d-flex justify-content-center mt-2" id = "divSVGEconPerf">
+    <div class = "d-flex justify-content-center mt-3" id = "divSVGEconPerf">
       <svg id = "svgEconPerf"></svg>
     </div>
   </div>

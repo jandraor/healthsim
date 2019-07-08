@@ -11,7 +11,7 @@ const padding = {
 }
 
 export const buildCharts = stopTime => {
-  const sections = ['Infected', 'Resources'];
+  const sections = ['SIR', 'Resources'];
 
   sections.forEach(section => {
     const options = {
@@ -39,7 +39,7 @@ export const drawAll = simulationResult => {
     const params = {
       'svgId': `svgTS${section}`,
       'superDataset': superDataset,
-      'idLine': `tsLineInfected${section}`,
+      'idLine': `tsLine${section}`,
     }
     draw(params);
   });
@@ -54,7 +54,7 @@ export const draw = params => {
     'superDataset': params.superDataset,
     'padding': padding,
     'finishTime': stopTime,
-    'lineDuration': 2000,
+    'lineDuration': 100,
     'idLine': params.idLine,
     'classLine': 'tsLine',
     'tooltip': false,

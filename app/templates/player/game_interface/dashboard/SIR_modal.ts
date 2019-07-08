@@ -12,7 +12,7 @@ export const html = Handlebars.compile(`
           </button>
         </div>
         <div class="modal-body mx-auto" id = 'mdlSIRBody'>
-          <svg id = "svgSIR" height = 500 width = 550></svg>
+          <svg class = "SFD" id = "svgSIR" height = 700 width = 655></svg>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

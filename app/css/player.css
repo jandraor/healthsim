@@ -80,3 +80,16 @@
 .bullet .subtitle { font-size: 8px;fill: #999; }
 .bullet .tick line { stroke: #666; stroke-width: .5px; }
 .bullet .tick text {font-size: 8px}
+
+.spIndicator {
+  font-size: 14px;
+  font-weight: bold
+}
+
+#svgEconPerf .sparkcircle {
+  fill: black;
+}
+
+.SFD .spIndicator {
+  font-size: 8px;
+}

@@ -6,16 +6,16 @@ import * as help from './helpers/main.ts';
 import * as data from '../data.ts';
 import * as objectQueries from '../objectQueries.ts';
 
+const svgIdEconPerf = 'svgEconPerf';
+
 export const build = (initParams) => {
   const variableList = [
     {
-      'tableId': 'tblSLInfected',
+      'tableId': 'tblSIR',
       'slElements': [
-        {'name': 'TotalInfected', 'display': 'Total Infected'},
-        {'name': 'NonSevereInfected', 'display': 'Non-severe infected'},
-        {'name': 'SevereInfected', 'display': 'Severe infected'},
-        {'name': 'QuarantineInfected', 'display': 'Infected in quarantine'},
-        {'name': 'AntiviralsInfected', 'display': 'Infected in antivirals'}
+        {'name': 'Susceptible', 'display': 'Susceptible'},
+        {'name': 'Infected', 'display': 'Infected'},
+        {'name': 'Recovered', 'display': 'Recovered'},
       ]
     },
     {
@@ -45,6 +45,18 @@ export const build = (initParams) => {
        sl.drawChart(options);
     });
   });
+
+  sl.drawChart2({
+    'svgId': svgIdEconPerf,
+    'title': 'Cumulative loss',
+    'width': {
+      'sparkline': 130,
+      'title': 130
+    },
+    'height': 30,
+    'initValue': '$ 0'
+  });
+
   setInitialValues(initParams);
 }
 
@@ -59,8 +71,11 @@ export const setInitialValues = initParams => {
 
       if (!isDelayed || (isDelayed && informationDelay === 0)) {
         const sectionLC = section.toLowerCase();
+        console.log(`section: ${sectionLC}`);
         const variableLC = variable.toLowerCase();
+        console.log(`variableLC: ${variableLC}`);
         const yValue = Math.round(initParams[sectionLC][variableLC]);
+        console.log(`yValue : ${yValue}`)
         const dataset = [{'x': 0, 'y': yValue}];
         const options = {
           'variable':variableObj.id,
@@ -113,5 +128,20 @@ export const draw = simulationResult => {
         sl.createSparkline(options);
       }
     });
+  });
+
+  //Cumulative economic loss
+  sl.clearChart2(svgIdEconPerf)
+  const dataset = ut.create2DDataset('time', `${team}_FM_COC`, simulationResult,);
+
+  sl.drawLine({
+    'svgId': svgIdEconPerf,
+    'dataset': dataset,
+    'stopTime': stopTime,
+    'radius': 3,
+    'duration': 1000,
+    'delay': 1,
+    'format': '.2s',
+    'prefix': '$'
   });
 }

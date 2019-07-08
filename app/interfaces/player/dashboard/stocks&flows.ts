@@ -1,199 +1,236 @@
+const $ = require('jquery');
 import * as saf from '../../components/stocksandflows.ts';
+import * as data from '../data.ts';
+import * as ut from '../../../helpers/utilities.ts';
+import * as utPlayer from './helpers/main.ts';
 
-export const build = () => {
+
+export const build = initParams => {
+  const informationDelay = $('#lIncome').data('reportingDelay');
+  const population = initParams.population;
+  const infected = initParams.sir.infected;
+  const isDelayed = informationDelay > 0 ? true : false;
+  const xPos1stColumn = 41
+  const xPos2ndColumn = 180;
+  const xPos3rdColumn = 320;
+  const xPos4thColumn = 460;
+  const xPos5thColumn = 600;
+  const yPos1stRow = 41;
+  const yPos2ndRow = 140;
+  const yPos3rdRow = 240;
+  const yPos4thRow = 340;
+  const yPos5thRow = 440;
+  const yPos7thRow = 560;
+  const yPos6thRow = (yPos5thRow + yPos7thRow) / 2;
+
   saf.drawStock2(
     {
       'svgId': 'svgSIR',
-      'x': 50,
-      'y': 200,
+      'x': xPos1stColumn,
+      'y': yPos3rdRow,
       'leftFlow': false,
       'topFlow': true,
       'rightFlow': true,
       'bottomFlow': true,
       'title': 'Susceptible',
-      'stockId': 'sSusceptible'
+      'stockId': 'sSusceptible',
+      'initValue': isDelayed ? '---' : population - infected
     }
   );
 
   saf.drawStock2(
     {
       'svgId': 'svgSIR',
-      'x': 200,
-      'y': 200,
+      'x': xPos2ndColumn,
+      'y': yPos3rdRow,
       'leftFlow': true,
       'topFlow': true,
       'rightFlow': true,
       'bottomFlow': false,
       'title': 'Infected 1',
-      'stockId': 'sInfected1'
+      'stockId': 'sInfected1',
+      'initValue': isDelayed ? '---' : infected
     }
   );
 
   saf.drawStock2(
     {
       'svgId': 'svgSIR',
-      'x': 300,
-      'y': 200,
+      'x': xPos3rdColumn,
+      'y': yPos3rdRow,
       'leftFlow': true,
       'topFlow': false,
       'rightFlow': true,
       'bottomFlow': true,
       'title': 'Infected 2',
-      'stockId': 'sInfected2'
+      'stockId': 'sInfected2',
+      'initValue': isDelayed ? '---' : 0
     }
   );
 
   saf.drawStock2(
     {
       'svgId': 'svgSIR',
-      'x': 400,
-      'y': 200,
+      'x': xPos4thColumn,
+      'y': yPos3rdRow,
       'leftFlow': true,
       'topFlow': false,
       'rightFlow': true,
       'bottomFlow': false,
       'title': ['Infected', 'in Quarantine'],
-      'stockId': 'sInfectedQuarantine'
+      'stockId': 'sInfectedQuarantine',
+      'initValue': isDelayed ? '---' : 0
     }
   );
 
   saf.drawStock2(
     {
       'svgId': 'svgSIR',
-      'x': 500,
-      'y': 200,
+      'x': xPos5thColumn,
+      'y': yPos3rdRow,
       'leftFlow': true,
       'topFlow': false,
       'rightFlow': false,
       'bottomFlow': false,
       'title': ['Recovered', 'from quarantine'],
-      'stockId': 'sRecoveredQuarantine'
+      'stockId': 'sRecoveredQuarantine',
+      'initValue': isDelayed ? '---' : 0
     }
   );
 
   saf.drawStock2(
     {
       'svgId': 'svgSIR',
-      'x': 500,
-      'y': 275,
+      'x': xPos5thColumn,
+      'y': yPos4thRow,
       'leftFlow': true,
       'topFlow': false,
       'rightFlow': false,
       'bottomFlow': false,
       'title': ['Recovered', 'no intervention'],
-      'stockId': 'sRecoveredNoIntervention'
+      'stockId': 'sRecoveredNoIntervention',
+      'initValue': isDelayed ? '---' : 0
     }
   );
 
   saf.drawStock2(
     {
       'svgId': 'svgSIR',
-      'x': 500,
-      'y': 125,
+      'x': xPos5thColumn,
+      'y': yPos2ndRow,
       'leftFlow': true,
       'topFlow': false,
       'rightFlow': false,
       'bottomFlow': false,
       'title': ['Recovered', 'from antivirals'],
-      'stockId': 'sRecoveredAntivirals'
+      'stockId': 'sRecoveredAntivirals',
+      'initValue': isDelayed ? '---' : 0
     }
   );
 
   saf.drawStock2(
     {
       'svgId': 'svgSIR',
-      'x': 500,
-      'y': 50,
+      'x': xPos5thColumn,
+      'y': yPos1stRow,
       'leftFlow': true,
       'topFlow': false,
       'rightFlow': false,
       'bottomFlow': false,
       'title': 'Vaccinated',
-      'stockId': 'sVaccinated'
+      'stockId': 'sVaccinated',
+      'initValue': isDelayed ? '---' : 0
     }
   );
 
   saf.drawStock2(
     {
       'svgId': 'svgSIR',
-      'x': 500,
-      'y': 350,
+      'x': xPos5thColumn,
+      'y': yPos5thRow,
       'leftFlow': true,
       'topFlow': false,
       'rightFlow': false,
       'bottomFlow': true,
       'title': ['Recovered', 'severe'],
-      'stockId': 'sRecoveredSevere'
+      'stockId': 'sRecoveredSevere',
+      'initValue': isDelayed ? '---' : 0
     }
   );
 
   saf.drawStock2(
     {
       'svgId': 'svgSIR',
-      'x': 500,
-      'y': 450,
+      'x': xPos5thColumn,
+      'y': yPos7thRow,
       'leftFlow': true,
       'topFlow': false,
       'rightFlow': false,
       'bottomFlow': false,
       'title': ['Long-term', 'morbidity'],
-      'stockId': 'sLongTermMorbidity'
+      'stockId': 'sLongTermMorbidity',
+      'initValue': isDelayed ? '---' : 0
+
     }
   );
 
   saf.drawStock2(
     {
       'svgId': 'svgSIR',
-      'x': 300,
-      'y': 387.5,
+      'x': xPos3rdColumn,
+      'y': yPos6thRow,
       'leftFlow': true,
       'topFlow': true,
       'rightFlow': false,
       'bottomFlow': true,
       'title': ['Infected', 'severe'],
-      'stockId': 'sInfectedSevere'
+      'stockId': 'sInfectedSevere',
+      'initValue': isDelayed ? '---' : 0
     }
   );
 
   saf.drawStock2(
     {
       'svgId': 'svgSIR',
-      'x': 400,
-      'y': 350,
+      'x': xPos4thColumn,
+      'y': yPos5thRow,
       'leftFlow': true,
       'topFlow': false,
       'rightFlow': true,
       'bottomFlow': false,
       'title': ['Resource', 'recovery'],
-      'stockId': 'sResourceAidedRecovery'
+      'stockId': 'sResourceAidedRecovery',
+      'initValue': isDelayed ? '---' : 0
     }
   );
 
   saf.drawStock2(
     {
       'svgId': 'svgSIR',
-      'x': 400,
-      'y': 450,
+      'x': xPos4thColumn,
+      'y': yPos7thRow,
       'leftFlow': true,
       'topFlow': true,
       'rightFlow': true,
       'bottomFlow': false,
       'title': ['Non-resource', 'recovery'],
-      'stockId': 'sNonResourceRecovery'
+      'stockId': 'sNonResourceRecovery',
+      'initValue': isDelayed ? '---' : 0
     }
   );
 
   saf.drawStock2(
     {
       'svgId': 'svgSIR',
-      'x': 300,
-      'y': 125,
+      'x': xPos3rdColumn,
+      'y': yPos2ndRow,
       'leftFlow': true,
       'topFlow': false,
       'rightFlow': true,
       'bottomFlow': false,
       'title': ['Infected', 'on antivirals'],
-      'stockId': 'sInfectedAntivirals'
+      'stockId': 'sInfectedAntivirals',
+      'initValue': isDelayed ? '---' : 0
     }
   );
   //============================================================================
@@ -334,5 +371,51 @@ export const build = () => {
     'flowType': 'double-bent',
     'title': 'NRRR',
     'flowId': 'fNRR'
+  });
+}
+
+export const update = simData => {
+  saf.clearIndicators('svgSIR');
+  const stopTime = parseInt($('#lStopTime').text());
+  const team = $('#lTeamId').text();
+  const informationDelay = $('#lIncome').data('reportingDelay');
+  const currentRound = parseInt($('#lCurrentRound').text());
+  const upperLimit = currentRound - informationDelay;
+  const population = parseFloat($('#lPopulation').data('value'));
+
+  const [transimisionSector] = data.modelStocks.filter(secObj => {
+    return secObj.sector === 'transmission'
+  });
+
+  const stocks = transimisionSector.stocks;
+
+  stocks.forEach(stock => {
+    const variable = `${team}${stock.RName}`;
+    const dataset = ut.create2DDataset('time', variable, simData);
+    const delayedDataset = utPlayer.delayDataset(dataset);
+
+    if(upperLimit <= 0) {
+      saf.updateIndicator({
+        'svgId': 'svgSIR',
+        'stockId': stock.id,
+        'value': delayedDataset[0].y
+      })
+    }
+
+    if (upperLimit > 0) {
+      saf.addSparkline({
+        'stockId': stock.id,
+        'sparkline': {
+          'svgId': 'svgSIR',
+          'dataset': dataset,
+          'stopTime': stopTime,
+          'radius': 1,
+          'delay': 1,
+          'duration': 1000,
+          'format': '.2s',
+          'yDomain': [0, population]
+        }
+      });
+    }
   });
 }
