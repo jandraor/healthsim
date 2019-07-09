@@ -3,7 +3,6 @@ import * as selects from './selects.ts';
 import * as sparklines from './sparklines.ts';
 import * as arcMeters from './arcMeters.ts';
 import * as ut from '../../../helpers/utilities.ts';
-import * as bullet from './bullet.ts';
 import * as sf from './stocks&flows.ts';
 import * as map from './map.ts';
 const $ = require('jquery');

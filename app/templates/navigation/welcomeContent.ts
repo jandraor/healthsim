@@ -2,7 +2,7 @@ import * as Handlebars from '../../../node_modules/handlebars/dist/handlebars.js
 
 export const html = Handlebars.compile(`
     <div class = "mt-5">
-      <h3 class = "mb-3">Welcome! - This site is under development</h3>
+      <h3 class = "mb-3">Welcome!</h3>
       <p class = "text-justify">HealthSim is an <strong>open source</strong> and cloud-based application
         in which public health stakeholders can <strong>interact</strong> with
         mathematical models of infectious diseases through an

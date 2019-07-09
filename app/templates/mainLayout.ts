@@ -22,24 +22,11 @@ export const html = Handlebars.compile(`
           <li class="nav-item">
             <a class = "nav-link" href = "#play">Play</a>
           </li>
-          <li class="nav-item">
-            <a class = "nav-link" href = "#resources">Resources</a>
-          </li>
-          <li class="nav-item">
-            <a class = "nav-link" href = "#about">About</a>
-          </li>
-          <li class="nav-item">
-            <a class = "nav-link" href = "#Contact">Contact</a>
-          </li>
-
        </ul>
       </div>
       <div class="collapse navbar-collapse dual-collapse2">
       <ul class="navbar-nav ml-auto">
         {{#if session.auth}}
-          <li class="nav-item">
-            <a class="nav-link" href="#models">My models</a>
-          </li>
           <li class="nav-item">
             <a class="nav-link" href="/auth/signout">Sign out</a>
           </li>

@@ -6,7 +6,7 @@ export const sections = [
     'variables': [
       {
         'id': 'Susceptible',
-        'RName': ['_TM_S'],
+        'RName': '_TM_S',
         'display': 'Susceptible',
         'delay': true,
         'type': '',
