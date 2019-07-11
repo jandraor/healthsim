@@ -7,30 +7,36 @@ export const onClick = socket => {
     //--------------------------------------------------------------------------
     const availableVaccines = parseInt($('#lStockVac').text());
     const vaccinesToBeUsed = parseInt($('#lDepVac').text());;
-    const vaccineUsageFraction = vaccinesToBeUsed / availableVaccines;
+    const vaccineUsageFraction = availableVaccines === 0
+      ? 0 : vaccinesToBeUsed / availableVaccines;
     //--------------------------------------------------------------------------
     const availableAntiVirals = parseInt($('#lStockAnt').text());
     const antiviralsToBeUsed = parseInt($('#lDepAnt').text());;
-    const antiviralsUsageFraction = antiviralsToBeUsed / availableAntiVirals;
+    const antiviralsUsageFraction = availableAntiVirals === 0
+      ? 0 : antiviralsToBeUsed / availableAntiVirals;
     //--------------------------------------------------------------------------
     const availableVentilators = parseInt($('#lStockVen').text());
     const ventilatorsToBeUsed = parseInt($('#lDepVen').text());;
-    const ventilatorsUsageFraction = ventilatorsToBeUsed / availableVentilators;
+    const ventilatorsUsageFraction = availableVentilators === 0
+      ? 0 : ventilatorsToBeUsed / availableVentilators;
     //--------------------------------------------------------------------------
     // Available resources
     const avlResources = parseInt($('#lStockFin').text());
     //--------------------------------------------------------------------------
     const vaccinesOrdered = parseInt($('#lOrdVac').text());
     const vaccinesOrderedCost = parseInt($('#lTotCostVac').text());
-    const vaccineBudgetProportion = vaccinesOrderedCost / avlResources;
+    const vaccineBudgetProportion = avlResources === 0
+      ? 0 : vaccinesOrderedCost / avlResources;
     //--------------------------------------------------------------------------
     const antiviralsOrdered = parseInt($('#lOrdAnt').text());
     const antiviralsOrderedCost = parseInt($('#lTotCostAnt').text());
-    const antiviralsBudgetProportion = antiviralsOrderedCost / avlResources;
+    const antiviralsBudgetProportion = avlResources === 0
+      ? 0 : antiviralsOrderedCost / avlResources;
     //--------------------------------------------------------------------------
     const ventilatorsOrdered = parseInt($('#lOrdVen').text());
     const ventilatorsOrderedCost = parseInt($('#lTotCostVen').text());
-    const ventilatorsBudgetProportion = ventilatorsOrderedCost / avlResources;
+    const ventilatorsBudgetProportion = avlResources === 0
+      ? 0 : ventilatorsOrderedCost / avlResources;
     //--------------------------------------------------------------------------
     const payload = {
       'deployment': {
