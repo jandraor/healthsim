@@ -407,7 +407,7 @@ export const update = simData => {
         'stockId': stock.id,
         'sparkline': {
           'svgId': 'svgSIR',
-          'dataset': dataset,
+          'dataset': delayedDataset,
           'stopTime': stopTime,
           'radius': 1,
           'delay': 1,

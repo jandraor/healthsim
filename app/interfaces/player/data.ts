@@ -13,14 +13,17 @@ export const sections = [
       },
       {
         'id': 'Infected',
-        'RName': ['_TM_I1', '_TM_I2', '_TM_IS', '_TM_IQ', '_TM_IAV', '_TM_NRR', '_TM_RAR'],
+        'RName': ['_TM_I1', '_TM_I2', '_TM_IS', '_TM_IQ', '_TM_IAV'],
         'display': 'Infected',
         'delay': true,
         'type': '',
       },
       {
         'id': 'Recovered',
-        'RName': ['_TM_RV', '_TM_IAV', '_TM_RQ', '_TM_RNI', '_TM_RS', '_TM_LTM'],
+        'RName': [
+          '_TM_RV', '_TM_IAV', '_TM_RQ', '_TM_RNI', '_TM_RS', '_TM_LTM',
+          , '_TM_NRR', '_TM_RAR'
+        ],
         'display': 'Recovered',
         'delay': true,
         'type': '',
