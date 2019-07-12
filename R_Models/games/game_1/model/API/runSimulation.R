@@ -52,12 +52,14 @@ run_simulation <- function(sim_data,
   # Old code commented out
   if("sim_output" %in% names(sim_data)){
     # Storing the cache in tidy data format
-    simd$order_history <- dplyr::select(sim_data$sim_output,time,contains("Ordered.")) %>%
+    order_history <- dplyr::select(sim_data$sim_output,time,contains("Ordered.")) %>%
                           tidyr::gather(key = ModelVariable,value = Value,-1)
 
     # RK4 integration methods uses a midpoint step 
-    simd$order_history <- intraStepInterpolation(simd$order_history, STEP)
-
+    order_history <- intraStepInterpolation(order_history, STEP)
+    maxTime <- max(order_history$time)
+    order_history <- order_history %>% filter(time != maxTime)
+    simd$order_history <- order_history
     
     #order alphabetically
     #simd$order_history <- select(simd$order_history,sort(colnames(simd$order_history)))

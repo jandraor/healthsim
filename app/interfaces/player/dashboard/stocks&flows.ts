@@ -395,10 +395,16 @@ export const update = simData => {
     const delayedDataset = utPlayer.delayDataset(dataset);
 
     if(upperLimit <= 0) {
+      let value;
+
+      if(delayedDataset.length === 1){
+        value = delayedDataset[0].y
+      }
+
       saf.updateIndicator({
         'svgId': 'svgSIR',
         'stockId': stock.id,
-        'value': delayedDataset[0].y
+        'value': value
       })
     }
 
