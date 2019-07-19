@@ -44,7 +44,7 @@ for(i in 1:length(resources)) {
 write_csv(policyMatrixTemplate, './R_Models/games/game_1/model/data/PolicyMatrix.csv')
 write_csv(donationsTemplate, './R_Models/games/game_1/model/data/donations.csv')
 
-simResult <- srv_run(STEP = 1 / 8)
+simResult <- srv_run(STEP = 1 / 8, INT_METHOD = 'rk4')
 print(simResult)
 
 

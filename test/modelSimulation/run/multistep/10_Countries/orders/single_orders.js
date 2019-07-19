@@ -41,6 +41,24 @@ const test = () => {
       assert.deepEqual(actual, expected)
     });
 
+    it(`Alpha's vaccine stockpile should be equal to its initial value at the delay time`, () => {
+      const countries = initConditions.countries;
+      const [Alpha] = countries.filter(row => {return row.Name === 'Alpha' });
+      const initStock = Alpha.InitVaccineStockpile;
+      const delay = Alpha.VaccineShipmentDelay;
+      const order = 30; // See the R script
+      const expected = initStock;
+      // Each object in result object goes from i to i + 1.
+      // Here, result is subset to the interval [delay, delay + 1]
+      // In this case, [9, 10].
+      // See file countries_MOCKUP.csv in the test folder to corroborate the information
+      const intervalData = result[delay]
+      const bot = intervalData.bot;
+      const [filteredBot] = bot.filter(row => {return row.time === delay})
+      const actual = filteredBot.Alpha_VAC_VS;
+      assert.equal(actual, expected);
+    });
+
     it(`Alpha's vaccine stockpile should increase by the order amount at the delay time + 1`, () => {
       const countries = initConditions.countries;
       const [Alpha] = countries.filter(row => {return row.Name === 'Alpha' });

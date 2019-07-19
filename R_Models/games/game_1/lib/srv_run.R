@@ -1,4 +1,4 @@
-srv_run <- function(start_time = 0, finish_time = 1, STEP = 1 / 4) {
+srv_run <- function(start_time = 0, finish_time = 1, STEP = 1 / 4, INT_METHOD = 'euler') {
   suppressMessages(library(jsonlite))
   suppressMessages(library(dplyr))
   source("./R_Models/games/game_1/getDirectory.R")
@@ -17,7 +17,7 @@ srv_run <- function(start_time = 0, finish_time = 1, STEP = 1 / 4) {
   # load the policy matrix from PolicyMatrix.csv
   sim_data$g_policy_matrix <- get_policy_matrix(rownames(sim_data$g_policy_matrix))
   
-  sim_data <- run_simulation(sim_data, START = start_time, FINISH = finish_time, STEP = STEP)
+  sim_data <- run_simulation(sim_data, START = start_time, FINISH = finish_time, STEP = STEP, INT_METHOD = INT_METHOD)
   write_sim_data(sim_data, CURRENT_DIR)
   consoleOutput <- list(bot = sim_data$sim_output %>% filter(between(time, start_time, finish_time)), # behaviour over time
                         donations = sim_data$aggregate_donations)

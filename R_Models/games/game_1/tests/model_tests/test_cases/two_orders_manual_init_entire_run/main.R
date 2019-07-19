@@ -41,7 +41,7 @@ for(i in 1:length(simTimes)) {
     mutate(startTime = simTimes[i], stopTime = simTimes[i] + 1)
   write_csv(policyMatrixTemplate, './R_Models/games/game_1/model/data/PolicyMatrix.csv')
   write_csv(donationsTemplate, './R_Models/games/game_1/model/data/donations.csv')
-  simResult <- srv_run(simTimes[i], simTimes[i] + 1, STEP = 1 / 8)
+  simResult <- srv_run(simTimes[i], simTimes[i] + 1, STEP = 1 / 8, INT_METHOD = 'rk4')
   consoleOutput$simResult[[i]] <- fromJSON(simResult)
 }
 

@@ -3,7 +3,7 @@ const basicTests = require("../../../commonTests/basic_multistep.js");
 const nonNegativeTests = require("../../../commonTests/nonNegativeStocks_multistep.js");
 
 const test = () => {
-  describe('orders at time 0', () => {
+  describe('two orders at time 0 & time 3', () => {
     let result, initConditions;
 
     const teams = [

@@ -52,6 +52,7 @@ get_delay_flows <- function(resource, simtime, sectors, delays){
     lag_flow <- filter(simd$order_history,
                        ModelVariable==key,
                        near(time,lag_time,tol = 0.000000001)) %>%
+                distinct() %>% 
                 select(Value) %>%
                 pull()
     lag_flow

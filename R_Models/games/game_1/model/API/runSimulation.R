@@ -9,13 +9,14 @@ run_simulation <- function(sim_data,
                            FINISH=10,
                            STEP=0.05,
                            ABS_START=0,
-                           development = FALSE){
+                           development = FALSE,
+                           INT_METHOD = 'euler'){
   source('./R_Models/games/game_1/model/SIRModelF.R') #loads healthsim_model 
   source('./R_Models/games/game_1/utils/get_donations_data.R') #loads get_donations_data 
   source('./R_Models/games/game_1/utils/convert_donatons_to_list.R')
   source('./R_Models/games/game_1/utils/intraStepInterpolation.R')
   
-    production <- !development
+  production <- !development
   
   # create a temporary global environment for the simulation data
   simd <<- new.env()
@@ -87,7 +88,7 @@ run_simulation <- function(sim_data,
                     times  = simtime,
                     func   = healthsim_model,
                     parms  = sim_data$g_auxs,
-                    method = "rk4"))
+                    method = INT_METHOD))
 
   sim_data$g_final_stocks <- unlist(o[nrow(o),
                                     2:(sim_data$g_NUM_STOCKS*sim_data$g_NUM_SECTORS+1)])
