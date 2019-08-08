@@ -12,7 +12,7 @@ const test = () => {
     ];
 
     before(async function() {
-      this.timeout(100000);
+      this.timeout(400000);
       const runRScriptAsync = require('../../../../../helpers/R.js');
       const scriptPath = 'R_Models/games/game_1/tests/model_tests/test_cases/basic_entire_run/main.R'
       const params = [scriptPath];

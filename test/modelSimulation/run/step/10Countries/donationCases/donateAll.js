@@ -57,7 +57,7 @@ const donateAll = () => {
           const lastRow = bot[bot.length - 1]; // time === 1
           const actual = lastRow[`${team}${resource.stock}`];
           const expected = 0
-          assert.approximately(actual, expected, 1)
+          assert.approximately(actual, expected, 5)
         });
       })
     });

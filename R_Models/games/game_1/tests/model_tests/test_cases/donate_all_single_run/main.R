@@ -35,7 +35,8 @@ for(i in 1:length(resources)) {
     spoilageRate <- initConditions %>% filter(Name == donor) %>% pull(spoilageRateVar)
     initResourceVar <- paste0("Init", prefix, "Stockpile")
     initResource <- initConditions %>% filter(Name == donor) %>% pull(initResourceVar)
-    val <- floor((spoilageRate * initResource * exp(-1 * spoilageRate * 1)) / (1 - exp(- 1 * spoilageRate * 1)))
+    # 0.997 is used to offset Euler integration error & prevent negative values
+    val <- floor((spoilageRate * initResource * exp(-1 * spoilageRate * 1)) / (1 - exp(- 1 * spoilageRate * 1))) * 0.997
     donationsTemplate <- donationsTemplate %>% 
       mutate(amount = replace(amount, resource == donResource & from == donor & to == recipient, val))
   }
@@ -44,7 +45,7 @@ for(i in 1:length(resources)) {
 write_csv(policyMatrixTemplate, './R_Models/games/game_1/model/data/PolicyMatrix.csv')
 write_csv(donationsTemplate, './R_Models/games/game_1/model/data/donations.csv')
 
-simResult <- srv_run(STEP = 1 / 8, INT_METHOD = 'rk4')
+simResult <- srv_run(STEP = 1 / 32, INT_METHOD = 'euler')
 print(simResult)
 
 
