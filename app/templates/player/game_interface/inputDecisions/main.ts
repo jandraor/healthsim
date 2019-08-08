@@ -20,8 +20,9 @@ export const build = options => {
   //============================================================================
   const antSpoilageRate = options.spoilageRates.antivirals;
   const antStock = options.resources.antivirals;
+  //0.997 is used to offset Euler integration error & to avoid negative numbers
   const antiviralsAvailable = Math.floor(ut.findDepletingConst(antStock,
-    antSpoilageRate, 1));
+    antSpoilageRate, 1) * 0.997);
   //Modal
   let params = {
     'prefix': 'Ant',
@@ -52,7 +53,7 @@ export const build = options => {
   const vacSpoilageRate = options.spoilageRates.vaccines;
   const vacStock = options.resources.vaccines;
   const vaccinesAvailable = Math.floor(ut.findDepletingConst(vacStock,
-    vacSpoilageRate, 1));
+    vacSpoilageRate, 1) * 0.997);
   //Modal-----------------------------------------------------------------------
   params = {
     'prefix': 'Vac',
@@ -84,7 +85,7 @@ export const build = options => {
   const venSpoilageRate = options.spoilageRates.ventilators;
   const venStock = options.resources.ventilators;
   const ventilatorsAvailable = Math.floor(ut.findDepletingConst(venStock,
-    venSpoilageRate, 1));
+    venSpoilageRate, 1) * 0.997);
   //Modal
   params = {
     'prefix': 'Ven',

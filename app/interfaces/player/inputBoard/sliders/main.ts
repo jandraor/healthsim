@@ -113,8 +113,9 @@ export const setMaxLimits = params => {
     const stockValue = params[rVariable];
     const lcVar = variable.id.toLowerCase();
     const spoilageRate = $('#lTeamId').data('spoilageRates')[lcVar];
+    //0.997 is used to offset Euler integration error & to avoid negative numbers
     const deployMax = Math.floor(variable.id != 'Financial' ?
-      ut.findDepletingConst(stockValue, spoilageRate, 1) :
+      ut.findDepletingConst(stockValue, spoilageRate, 1) * 0.997 :
       stockValue)
 
     //modals
