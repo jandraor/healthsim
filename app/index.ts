@@ -111,6 +111,15 @@ const showView = async() => {
       }
     break;
 
+    case '#privacy-policy' :
+      try {
+        templates.agreements.privacyPolicy();
+      } catch (err) {
+        ut.showAlert(err);
+        window.location.hash = '#welcome';
+      }
+    break;
+
     default:
       // Unrecognised view.
       throw Error(`Unrecognised view: ${view}`);

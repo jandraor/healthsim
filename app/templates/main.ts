@@ -5,6 +5,7 @@ import * as inst from './instructor/main.ts';
 import * as main from './mainLayout.ts';
 import * as plyr from './player/main.ts';
 import * as nav from './navigation/main.ts';
+import * as agr from './agreements/main.ts';
 
 export const alert = Handlebars.compile(`
   <div class="alert alert-{{type}} alert-dismissible fade show" role="alert">
@@ -86,6 +87,12 @@ export const navigation = {
   },
   'playOptions': is_Instructor => {
     nav.playOptions(is_Instructor);
+  }
+}
+
+export const agreements = {
+  'privacyPolicy': () => {
+    agr.privacyPolicy();
   }
 }
 
