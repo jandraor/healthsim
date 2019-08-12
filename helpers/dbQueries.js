@@ -4,9 +4,9 @@ module.exports = {
   insertUser: async(pool, email, firstName, lastName) =>{
     try {
       const query = `
-      INSERT INTO users VALUES('${email}',
-                               '${firstName}',
-                               '${lastName}')
+      INSERT INTO users VALUES("${email}",
+                               "${firstName}",
+                               "${lastName}")
 
       `;
       const connection = await pool.getConnection();
