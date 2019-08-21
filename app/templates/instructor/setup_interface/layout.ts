@@ -11,8 +11,12 @@ export const html = Handlebars.compile(`
     <div class = "my-2" id = "divConfigInputs"></div>
     <h5 class = "text-center">Teams</h5>
     <div class = "d-flex justify-content-center my-3">
+      <button type ="button" id = "bEqualSpec"
+        class = "btn btn-outline-primary btn-sm mx-1">
+        Equal specs
+      </button>
       <button type ="button" id = "bRandomSpec"
-        class="btn btn-outline-primary btn-sm">
+        class = "btn btn-outline-primary btn-sm mx-1">
         Random specs
       </button>
     </div>

@@ -1,7 +1,7 @@
 import * as lstn from './listeners.ts';
 import * as emtr from './emitters.ts'
 
-export const listeners = (socket) => {
+export const listeners = socket => {
   lstn.onGameCreated(socket);
   lstn.onDescriptionGiven(socket);
   lstn.onPlayerAdded(socket);
@@ -10,11 +10,15 @@ export const listeners = (socket) => {
   lstn.onSimulationResults(socket);
   lstn.onPlayerDecisions(socket);
   lstn.onNewRoundStarted(socket);
+  lstn.onBaseRun(socket);
 }
 
 export const emitters = {
   'createSession': (socket, name, nTeams) => {
     emtr.createSession(socket, name, nTeams);
+  },
+  'getBaseRun': (socket, payload) => {
+    emtr.getBaseRun(socket, payload);
   },
   'getGameDescription': (socket, gameId) => {
     emtr.getGameDescription(socket, gameId)

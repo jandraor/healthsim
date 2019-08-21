@@ -62,3 +62,10 @@ export const onNewRoundStarted = socket => {
     intInstructor.controlInterface.startNewRound(socket);
   });
 }
+
+export const onBaseRun = socket => {
+  socket.on('base run', payload => {
+    const intInstructor = interfaces.instructor();
+    intInstructor.controlInterface.estimateFinalScores(socket, payload);
+  })
+}

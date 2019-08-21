@@ -38,6 +38,9 @@ export const instructorEmitters = {
   'getGameDescription': (socket, gameId) => {
     instructor.emitters.getGameDescription(socket, gameId);
   },
+  'getBaseRun': (socket, payload) => {
+    instructor.emitters.getBaseRun(socket, payload);
+  },
   'sendMessage': (socket, payload) => {
     instructor.emitters.sendMessage(socket, payload);
   },

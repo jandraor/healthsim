@@ -49,10 +49,17 @@ export const drawChart = (options) => {
   * @param {number} options.radius - Length of circle's radius in the sparkline.
   * @param {number} options.duration - Duration of sparkline's animation.
   * @param {number} options.delay - Time to start animation.
-  * @param {number[]} options.domain - An optional array of length 2 with min & max domains
+  * @param {number[]} [options.domain] - An optional array of length 2 with min & max domains
+  * @param {string} options.format - Format of the last value;
   */
 export const createSparkline = options => {
   const svg = d3.select(`#svgSL${options.variable}`);
+
+  if(svg.empty()){
+    console.log('SVG not found');
+    return
+  }
+
   const rectWidth = parseFloat(svg.select('rect').attr('width'));
   const rectHeight = parseFloat(svg.select('rect').attr('height'));
   const dataset = options.dataset;
@@ -90,7 +97,12 @@ export const createSparkline = options => {
       .ease(d3.easeLinear)
       .attr("stroke-dashoffset", 0);
 
-  const lastValue = Math.round(options.dataset[options.dataset.length - 1].y);
+  let lastValue = Math.round(options.dataset[options.dataset.length - 1].y);
+
+  if(options.format) {
+    lastValue = d3.format(options.format)(lastValue);
+  }
+
   d3.select(`#trSL${options.variable}`)
       .select('.tdCurVal')
       .transition()

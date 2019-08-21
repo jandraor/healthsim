@@ -27,3 +27,7 @@ export const createSession = (socket, name, nTeams) => {
 export const newRound = socket => {
   socket.emit('start new round');
 }
+
+export const getBaseRun = (socket, payload) => {
+  socket.emit('send base run', payload);
+}

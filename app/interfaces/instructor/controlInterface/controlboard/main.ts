@@ -8,12 +8,30 @@ export const build = socket => {
 export const newRoundBtn = {
   'enable': () => {
     buttons.newRound.enable();
+  },
+  'dim': () => {
+    buttons.newRound.dim();
   }
 }
 
 export const simulateBtn = {
   'enable': () => {
     buttons.simulate.enable();
+  },
+  'dim': () => {
+    buttons.simulate.dim();
+  }
+}
+
+export const resultsBtn = {
+  'dim': () => {
+    buttons.results.dim();
+  },
+  'enable': () => {
+    buttons.results.enable();
+  },
+  'light': () => {
+    buttons.results.light();
   }
 }
 

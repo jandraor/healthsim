@@ -153,5 +153,9 @@ const fillEmptyDecisions = () => {
 }
 
 export const enable = () => {
-    $('#bSimulate').prop('disabled', false);
+  $('#bSimulate').prop('disabled', false);
+}
+
+export const dim = () => {
+  $('#bSimulate').attr('class', 'btn btn-outline-light btn-sm mt-2');
 }

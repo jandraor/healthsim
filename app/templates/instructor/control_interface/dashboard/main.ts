@@ -4,6 +4,7 @@ import * as donations from './donations.ts';
 import * as inventories from './inventories.ts';
 import * as queries from "../../../../interfaces/player/objectQueries.ts";
 import * as templateUtils from "../../../helpers/utils.ts";
+import * as scores from './scores.ts';
 const $ = require('jquery');
 
 export const build = () => {
@@ -11,6 +12,7 @@ export const build = () => {
   addEpidemics();
   addInventories();
   addDonations();
+  addScores();
 }
 
 const addLayout = () => {
@@ -46,4 +48,9 @@ const addDonations = () => {
 const addInventories = () => {
   const inventoriesHtml = inventories.html();
   $('#divInv').append(inventoriesHtml);
+}
+
+const addScores = () => {
+  const scoresHtml = scores.html();
+  $('#divScr').append(scoresHtml)
 }

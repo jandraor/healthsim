@@ -14,7 +14,7 @@ export const onClick = socket => {
 
     const checkboxValidation = validateCheckboxes();
     if(checkboxValidation === 0) {
-      ut.showAlert('Exactly one team must have an infected individual');
+      ut.showAlert('At least one team must have an infected individual');
       return
     }
 

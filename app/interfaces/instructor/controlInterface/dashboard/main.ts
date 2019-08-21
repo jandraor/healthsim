@@ -1,9 +1,10 @@
+const $ = require('jquery');
 import * as heatmap from './heatmap.ts';
 import * as chord from './chordDiagram.ts';
 import * as select from './select.ts';
 import * as barchart from './barchart.ts';
 import * as timeseries from './timeseries.ts';
-const $ = require('jquery');
+import * as sparklines from './sparklines.ts';
 import * as ut from '../../../../helpers/utilities.ts';
 
 export const build = options => {
@@ -12,6 +13,7 @@ export const build = options => {
   chord.build();
   barchart.build();
   timeseries.build(options);
+  sparklines.build(options);
 }
 
 export const update = resultObj => {
@@ -25,11 +27,15 @@ export const update = resultObj => {
   }
 
   if(!$.isEmptyObject(currentData)) {
-    resultObj.bot.shift();
     const updatedData = ut.bindData(currentData, resultObj.bot);
     $('#selEpiVar').data('results', updatedData);
     results = updatedData;
   }
+
+  //----------------------------------------------------------------------------
+  //Updating scores
+  sparklines.update(results);
+  //----------------------------------------------------------------------------
 
   //----------------------------------------------------------------------------
   //Updates heatmaps & timeseries
@@ -54,4 +60,8 @@ export const update = resultObj => {
   $('#lTotalDonations').text(totalDonations);
   chord.update(oneResourceDonations, allDonations.names_order);
   barchart.update(oneResourceDonations, allDonations.names_order);
+}
+
+export const displayFinalScores = payload => {
+  sparklines.displayFinalScores(payload);
 }

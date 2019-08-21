@@ -5,6 +5,7 @@ const sendGameDetails = require('./sendGameDetails.js');
 const startGame = require('./startGame.js');
 const simulate = require('./simulate.js');
 const startNewRound = require('./startNewRound.js');
+const getBaseRun = require('./getBaseRun.js');
 
 const instructor = {
   'createGame': (socket, gameCollection, data, payload) => {
@@ -22,6 +23,9 @@ const instructor = {
   'startNewRound': (socket, io) => {
     startNewRound(socket, io);
   },
+  'getBaseRun': (socket, payload, io) => {
+    getBaseRun(socket, payload, io);
+  }
 }
 
 module.exports = instructor;

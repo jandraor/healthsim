@@ -142,3 +142,17 @@ export const retrieveSavedScenarios = async (options) => {
       });
   }); // closes forEach
 }
+
+export const addColumn = options => {
+  const table = d3.select(`#${options.tableId}`)
+
+  table.select('thead').select('tr').append('th')
+      .attr('class', 'pl-3')
+      .html(options.header);
+
+  table.select('tbody').selectAll('tr').each(function(d, i){
+    d3.select(this).append('td')
+       .attr('class', 'pl-3')
+       .html(options.values[i])
+  })
+}

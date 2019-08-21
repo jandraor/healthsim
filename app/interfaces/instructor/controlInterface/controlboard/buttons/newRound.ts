@@ -17,3 +17,7 @@ export const onClick = socket => {
 export const enable = () => {
     $('#bNewRound').prop('disabled', false);
 }
+
+export const dim = () => {
+  $('#bNewRound').attr('class', 'btn btn-outline-light btn-sm mt-2');
+}

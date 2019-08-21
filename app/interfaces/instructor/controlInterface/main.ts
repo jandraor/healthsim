@@ -30,6 +30,10 @@ export const updateOnSimulation = (results, socket) => {
 
   if(currentRound >= stopTime) {
     controlboard.gameOver();
+    controlboard.newRoundBtn.dim();
+    controlboard.simulateBtn.dim();
+    controlboard.resultsBtn.light();
+    controlboard.resultsBtn.enable();
   }
 
   const message = {
@@ -64,4 +68,9 @@ export const startNewRound = socket => {
 
 export const updateOnNewMessage = () => {
   chatboard.newMessage();
+}
+
+export const estimateFinalScores = (socket, payload) => {
+  controlboard.resultsBtn.dim();
+  dashboard.displayFinalScores(payload);
 }

@@ -13,6 +13,9 @@ export const controlInterface = {
   'build': (socket, payload)=> {
     ctrlInt.build(socket, payload);
   },
+  'estimateFinalScores': (socket, payload) => {
+    ctrlInt.estimateFinalScores(socket, payload);
+  },
   'updateOnSimulation': (payload, socket) => {
     ctrlInt.updateOnSimulation(payload, socket);
   },
