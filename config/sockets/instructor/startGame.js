@@ -62,6 +62,7 @@ const startGame = async(socket, gameCollection, io, payload) => {
   const instructorPayload = {
     'teams': teamsObject,
     'rounds': nRounds,
+    'virusSeverity': virusSeverity
   }
   io.to(`instructor_${gameId}`).emit('game started', instructorPayload);
   gameCollection.gameList[gamePos]

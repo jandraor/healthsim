@@ -31,7 +31,7 @@ export const update = newData => {
   }
 
   if(!$.isEmptyObject(currentData)) {
-    newData.shift();
+    currentData.pop();
     const updatedData = ut.bindData(currentData, newData);
     $('#lTeamId').data('data', updatedData);
     results = updatedData;

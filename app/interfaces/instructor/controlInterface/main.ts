@@ -7,7 +7,8 @@ import * as controlboard from './controlboard/main.ts';
 import * as gameEvents from '../../../game_events/main.ts';
 
 export const build = (socket, payload) => {
-  controlboard.build(socket);
+  const virusSeverity = payload.virusSeverity;
+  controlboard.build(socket, virusSeverity);
   domEvents.clickSendMessage(socket);
   domEvents.pressAnyKey();
   const identity = {'team': 'instructor'}

@@ -14,8 +14,8 @@ const modelSimulation = {
     const results = await run(startTime, stopTime, policyMatrix, donations);
     return results
   },
-  'baseRun': async stopTime => {
-    const results = await getBaseRun(stopTime)
+  'baseRun': async (stopTime, virusSeverity) => {
+    const results = await getBaseRun(stopTime, virusSeverity)
     return results
   }
 }

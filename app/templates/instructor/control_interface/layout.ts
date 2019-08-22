@@ -6,6 +6,9 @@ export const html = Handlebars.compile(`
       <div class = "col-3">
         <div id = "divProgress"></div>
         <div id = "divControlboard"></div>
+        <div id = "divData">
+          <label class = "d-none" id = "lVirusSeverity"></label>
+        </div>
       </div>
       <div class = "col-9 instructorRightCol">
         <div class = "py-0 my-0 h-75" id = "divDashboard"></div>

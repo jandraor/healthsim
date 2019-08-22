@@ -20,8 +20,11 @@ export const onClick = socket => {
     $('#bResults').html('<i class="fa fa-spinner fa-spin"></i>');
     $('#bResults').prop('disabled', true);
     const stopTime = parseInt($('#lStopTime').text());
+    const virusSeverity = parseFloat($('#lVirusSeverity').data('data'));
+
     const payload = {
-      'stopTime': stopTime
+      'stopTime': stopTime,
+      'virusSeverity': virusSeverity
     }
     gameEvents.instructorEmitters.getBaseRun(socket, payload);
   });

@@ -5,7 +5,8 @@ const getBaseRun = async(socket, payload, io) => {
     const gameId = socket.room;
     const model = require('../../../modelSimulation/main.js');
     const stopTime = payload.stopTime;
-    const simulationResult = await model.baseRun(stopTime);
+    const virusSeverity = payload.virusSeverity;
+    const simulationResult = await model.baseRun(stopTime, virusSeverity);
     console.log('... sending base case scenario...')
     io.to(`instructor_${gameId}`).emit('base run', simulationResult);
   } catch(err) {

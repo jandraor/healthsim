@@ -27,6 +27,7 @@ export const update = resultObj => {
   }
 
   if(!$.isEmptyObject(currentData)) {
+    currentData.pop();
     const updatedData = ut.bindData(currentData, resultObj.bot);
     $('#selEpiVar').data('results', updatedData);
     results = updatedData;

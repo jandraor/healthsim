@@ -1,8 +1,10 @@
+const $ = require('jquery');
 import * as buttons from './buttons/main.ts';
-import * as timer from './timer.ts'
+import * as timer from './timer.ts';
 
-export const build = socket => {
+export const build = (socket, virusSeverity) => {
   buttons.clickEvents(socket);
+  $('#lVirusSeverity').data('data', virusSeverity);
 }
 
 export const newRoundBtn = {

@@ -14,9 +14,13 @@ step           <- ifelse(is.na(as.numeric(cmd_args[2])),
                          1 / 32, as.numeric(cmd_args[2]))
 # 3rd parameter from command line
 int_method     <- ifelse(is.na(cmd_args[3]), 
-                         'euler', cmd_args[3])  
+                         'euler', cmd_args[3])
 
-initConditions <- fromJSON(srv_initialise())
+# 4th parameter from command line
+VSP            <- ifelse(is.na(as.numeric(cmd_args[4])), 
+                        0, as.numeric(cmd_args[4]))
+
+initConditions <- fromJSON(srv_initialise(VirusSeverityProportion = VSP))
 teams          <- initConditions$Name
 n_teams        <- nrow(initConditions)
 
