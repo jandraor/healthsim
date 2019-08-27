@@ -139,9 +139,16 @@ module.exports = function() {
     it(`In ${resource}, the square matrix diagonal should be 0`, function() {
       const result = this.result;
       const resourceDonations = result.donations[resource];
+
       if(squareMatrix === false) {
         assert(false, "It is not a square matrix");
       }
+
+      if(resourceDonations.length === 1 && !isNaN(resourceDonations[0])){
+        assert.equal(resourceDonations[0], 0)
+        return
+      }
+
       const diagonal = resourceDonations.map((row, i) => {
         return row[i]
       });

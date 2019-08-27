@@ -12,9 +12,14 @@ module.exports = matrix => {
       return Array.isArray(row)
     })
 
+
     const eachElementIsArray = rowValidation.indexOf(false) > -1 ? false : true;
 
     if(eachElementIsArray === false){
+      //An atomic vector of length 1 is considered as squared matrix  
+      if(matrix.length === 1 && !isNaN(matrix[0])) {
+        return true;
+      }
       return false
     }
 
