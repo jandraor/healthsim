@@ -7,7 +7,7 @@ export const html = Handlebars.compile(`
         <tr class = "border-bottom">
           <th> <small>Team</small> </th>
           <th class = "pl-3"> <small>Behaviour over time</small> </th>
-          <th> <small>Score</small> </th>
+          <th> <small>Loss</small> </th>
         </tr>
       </thead>
       <tbody></tbody>
