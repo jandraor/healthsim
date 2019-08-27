@@ -64,28 +64,6 @@ const test = () => {
     nonNegativeTests.antiviralSector();
     nonNegativeTests.ventilatorSector();
 
-
-    //Must check
-    // it(`Alpha's antiviral stock should be consistent`, () => {
-    //   const bot = result.bot;
-    //   const lastRow = bot[bot.length - 1]; // time === 1
-    //   const firstRow = bot[0] // time === 0;
-    //   const initAntiviralStock = firstRow.Alpha_AVR_AVS;
-    //   const desiredUsage = alphaUsageFraction * initAntiviralStock;
-    //   const initAlphaInfected1 = firstRow.Alpha_TM_I1;
-    //   const expected = initAntiviralStock - Math.min(desiredUsage, initAlphaInfected1)
-    //   const actual = lastRow.Alpha_AVR_AVS
-    //   assert.equal(actual, expected);
-    // });
-
-    it(`Beta's vaccine stockpile should behave as a first order delay`, () => {
-      const bot = result.bot;
-      const lastRow = bot[bot.length - 1]; // time === 1
-      const actual = Math.round(lastRow.Beta_VAC_VS);
-      const expected = 3585;
-      assert.equal(actual, expected);
-    })
-
     // --------------------------------------------------------------------------
     // Donations
 
