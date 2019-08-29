@@ -70,12 +70,12 @@ const passportConfig = (app, pool, nconf, serviceUrl) => {
     done(null, profile);
   }));
 
-  const LinkedInStrategy = require('passport-linkedin').Strategy;
+  const LinkedInStrategy = require('@sokratis/passport-linkedin-oauth2').Strategy;
   passport.use(new LinkedInStrategy({
-    consumerKey: nconf.get('auth:linkedin:consumerKey'),
-    consumerSecret: nconf.get('auth:linkedin:consumerSecret'),
+    clientID: nconf.get('auth:linkedin:consumerKey'),
+    clientSecret: nconf.get('auth:linkedin:consumerSecret'),
     callbackURL: new URL('/auth/linkedin/callback', serviceUrl).href,
-    profileFields: ['id', 'first-name', 'last-name', 'email-address']
+    scope: ['r_emailaddress', 'r_liteprofile']
   }, async(token, tokenSecret, profile, done) => {
     try {
       const email = profile.emails[0].value;

@@ -23,6 +23,7 @@
   "homepage": "https://github.com/jandraor/HealthSim#readme",
   "dependencies": {
     "@observablehq/stdlib": "^2.0.8",
+    "@sokratis/passport-linkedin-oauth2": "^2.1.0",
     "body-parser": "^1.18.3",
     "bootstrap-select": "^1.13.9",
     "bootstrap-slider": "^10.6.1",
@@ -42,7 +43,6 @@
     "passport": "0.4.0",
     "passport-facebook": "2.1.1",
     "passport-google-oauth20": "^1.0.0",
-    "passport-linkedin": "^1.0.0",
     "passport-twitter": "^1.0.4",
     "promise-mysql": "^3.3.1",
     "request": "^2.88.0",
