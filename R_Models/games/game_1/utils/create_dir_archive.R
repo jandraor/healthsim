@@ -1,7 +1,8 @@
-suppressMessages(library(lubridate))
-suppressMessages(library(stringr))
-source('./R_Models/games/game_1/utils/fixed_number.R')
-create_dir_archive <- function(root_dir=ARCHIVE_DIR){
+
+create_dir_archive <- function(root_dir){
+  suppressMessages(library(lubridate))
+  suppressMessages(library(stringr))
+  source('./R_Models/games/game_1/utils/fixed_number.R')
   f <- list.files(root_dir)
   fname <- paste(fixed_number(length(f)+1),"HealthSIM",
                  str_replace_all(str_replace_all(str_replace_all(now()," ","_"),"-","_"),":","_"),sep="_")

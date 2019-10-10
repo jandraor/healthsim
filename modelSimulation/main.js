@@ -1,7 +1,8 @@
 'use strict';
 const initialise = require('./initialise.js');
 const run = require('./run.js');
-const getBaseRun = require('./base_run.js')
+const getBaseRun = require('./base_run.js');
+const tidyUp = require('./tidy_up.js');
 
 const modelSimulation = {
   'initialise': async(initConditions, virusSeverity,
@@ -16,6 +17,10 @@ const modelSimulation = {
   },
   'baseRun': async (stopTime, virusSeverity) => {
     const results = await getBaseRun(stopTime, virusSeverity)
+    return results
+  },
+  'tidyUp': async() => {
+    const results = await tidyUp();
     return results
   }
 }
