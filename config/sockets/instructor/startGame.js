@@ -28,6 +28,7 @@ const startGame = async(socket, gameCollection, io, payload) => {
 
     const playerPayload = {
       'yourTeam': recipientTeam,
+      'isInfoDelayed': payload.isInfoDelayed,
       'population': teamData[0].Population,
       'incomeLevel': teamData[0].Category,
       'reportingDelay': teamData[0].ReportingDelay,

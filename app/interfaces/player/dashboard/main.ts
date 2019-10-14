@@ -9,7 +9,9 @@ const $ = require('jquery');
 
 export const build = initParams => {
   $('#lTeamId').data('spoilageRates', initParams.spoilageRates);
-  $('#lIncome').data('reportingDelay', Math.round(initParams.reportingDelay));
+  const reportingDelay = initParams.isInfoDelayed ?
+    Math.round(initParams.reportingDelay) : 0;
+  $('#lIncome').data('reportingDelay', reportingDelay);
   $('#lPopulation').data('value', initParams.population)
   const stopTime = initParams.rounds;
   timeseries.buildCharts(stopTime);

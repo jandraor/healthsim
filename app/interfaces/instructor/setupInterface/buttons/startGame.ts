@@ -43,11 +43,14 @@ export const onClick = socket => {
     const virusSeverity = parseFloat($('#lVirusSeverity').text()) / 100;
     const [view, ...params] = window.location.hash.split('/');
     const gameId = params[0];
+    const isInfoDelayed = $('#selDelayInfo').val() === "1" ? true:false;
+
     const payload = {
       'gameId': gameId,
       'rounds': nRounds,
       'virusSeverity': virusSeverity,
       'initConditions': initConditions,
+      'isInfoDelayed': isInfoDelayed
     }
     gameEvents.instructorEmitters.startGame(socket, payload);
   });

@@ -25,20 +25,12 @@ export const html = Handlebars.compile(`
       </div>
   </div>
   <div class = "my-5" id = "row2">
-    <p class = "my-2">Round the infected individual enters the population:</p>
+    <p class = "my-2">Delayed information:</p>
     <div class = "form-row">
       <div class = "col-1">
-        <select class = "custom-select" id = "selInfectedTime">
-          <option value = "0">0</option>
-          <option value = "1">1</option>
-          <option value = "2">2</option>
-          <option value = "3">3</option>
-          <option value = "4">4</option>
-          <option value = "5">5</option>
-          <option value = "6">6</option>
-          <option value = "7">7</option>
-          <option value = "8">8</option>
-          <option value = "9">9</option>
+        <select class = "custom-select" id = "selDelayInfo">
+          <option value = "0">No</option>
+          <option value = "1">Yes</option>
         </select>
       </div>
     </div>
