@@ -10,10 +10,10 @@ export const html = Handlebars.compile(`
             <div id = "divRowIpt0"></div>
             <div class = "row">
               <div class = "col-6" id = "divDeploy">
-                <h4 class = "mt-2">Resource decisions</h4>
+                <h4 class = "mt-2">Fight the disease</h4>
               </div>
               <div class = "col-6" id = "divFinance">
-                <h4 class = "mt-2">Financial decisions</h4>
+                <h4 class = "mt-2">Manage the supply line</h4>
               </div>
             </div>
           </div>
