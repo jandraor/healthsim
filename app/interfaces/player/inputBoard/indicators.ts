@@ -22,10 +22,36 @@ export const updateStocks = params => {
       stockAvailable = Math.floor(ut.findDepletingConst(stockValue,
         spoilageRate, 1) * 0.997)
     }
-    
+
     $(`#lStock${prefix}`).text(stockAvailable);
     //Indicator in donations modal
     $(`#lblInv${prefix}`).text(stockAvailable);
     $(`#lRemaining${prefix}`).text(stockAvailable);
   })
+}
+
+export const updateResourcesOnTransit = lastRow => {
+  const supplyLineArray = [
+    {
+      'resource': 'Antivirals',
+      'supplyLineVar': '_AVR_AVSL'
+    },
+    {
+      'resource': 'Vaccines',
+      'supplyLineVar': '_VAC_VSL'
+    },
+    {
+      'resource': 'Ventilators',
+      'supplyLineVar': '_VEN_VSL'
+    }
+  ];
+
+  const team = $('#lTeamId').text();
+
+  supplyLineArray.forEach(slObj => {
+    const variableName = `${team}${slObj.supplyLineVar}`;
+    const prefix =  slObj.resource.substring(0,3);
+    const value = Math.round(lastRow[variableName]);
+    $(`#lInTransit${prefix}`).text(value);
+  });
 }

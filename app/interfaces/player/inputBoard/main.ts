@@ -15,5 +15,6 @@ export const update = simulationResult => {
   buttons.submitDecisions.disable();
   const lastRow = simulationResult[simulationResult.length - 1];
   indicators.updateStocks(lastRow);
+  indicators.updateResourcesOnTransit(lastRow);
   sliders.setMaxLimits(lastRow);
 }

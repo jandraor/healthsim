@@ -28,12 +28,10 @@ export const validate = params => {
       const resource = this.id.replace(params.orderSliders, "");
       const unitCost = parseInt($(`#lUnitCost${resource}`).text());
       const value = sliderElem.data('slider').getValue() * unitCost;
-      console.log(`value: ${value}`);
       values.push(value);
     });
-    console.log(values)
+
     const desiredValue = values.reduce((a, b) => a + b, 0);
-    console.log(`desired value before: ${desiredValue}`);
     const difference = desiredValue - availableFundsForOrders;
 
     if(difference > 0) {
@@ -44,7 +42,7 @@ export const validate = params => {
       $(`#${params.sliderId}`).slider('setValue', maxOrderQuantity, true, true);
       return;
     }
-    console.log(`desired value after: ${desiredValue}`);
+
     const order = $(`#${params.sliderId}`).slider('getValue');
     const totalCost = order * unitCost;
     $(`#${params.lTotalCost}`).text(totalCost);

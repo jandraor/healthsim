@@ -17,7 +17,11 @@ export const html = Handlebars.compile(`
        <label class = "text-secondary" id = "lUnitCost{{params.idResource}}">{{params.costUnit}}</label>
     </p>
     <p class = "my-0 ml-1 py-0">
-      <span class = "text-secondary">Order: </span>
+      <span class = "text-secondary">In transit: </span>
+      <label class = "lInTransit" id = "lInTransit{{params.idResource}}">0</label> units
+    </p>
+    <p class = "my-0 ml-1 py-0">
+      <span class = "text-secondary">Current order: </span>
       <label class = "lOrd" id = "lOrd{{params.idResource}}">0</label> units
     </p>
     <span class = "mx-2 text-secondary slLimit"> 0 </span>

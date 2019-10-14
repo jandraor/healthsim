@@ -139,14 +139,8 @@ healthsim_model <- function(time, stocks, auxs){
     # Anti Viral Fraction=Actual Antiviral Fraction
     AntiViralFraction <- ActualAntiviralFraction
     
-    # Resources for Antivirals=Financial Resources*Antiviral Budget Proportion
-    ResourcesforAntivirals <- states[,"_FM_R"]*simd$g_countries$AntiviralBudgetProportion
-    
-    # Maximum Antivirals Purchases Possible=Resources for Antivirals/Antiviral Cost Per Unit
-    MaximumAntiviralsPurchasesPossible <- ResourcesforAntivirals/simd$g_countries$AntiviralCostPerUnit
-    
     # Antiviral Orders=min(Maximum Antivirals Purchases Possible,Total Required Antiviral Orders)
-    AntiviralOrders <- pmin(MaximumAntiviralsPurchasesPossible,TotalRequiredAntiviralOrders)
+    AntiviralOrders <- TotalRequiredAntiviralOrders
     
     # *** (1) Change to PIPELINE DELAY ***
     # Antiviral Orders Arriving = Antiviral Supply Line/Antiviral Shipment Delay
@@ -229,14 +223,8 @@ healthsim_model <- function(time, stocks, auxs){
     #Inc TRR=Resources Received
     IncTRR <- ResourcesReceived
     
-    #Resources for Vaccines=Financial Resources*Vaccine Budget Proportion
-    ResourcesforVaccines=states[,"_FM_R"] * simd$g_countries$VaccineBudgetProportion 
-    
-    #Maximum Vaccine Purchases Possible=Resources for Vaccines/Vaccine Cost Per Unit
-    MaximumVaccinePurchasesPossible <- ResourcesforVaccines/simd$g_countries$VaccineCostPerUnit
-    
     #Vaccine Orders=min(Maximum Vaccine Purchases Possible,Total Required Vaccine Orders)
-    VaccineOrders <- pmin(MaximumVaccinePurchasesPossible,TotalRequiredVaccineOrders)
+    VaccineOrders <- TotalRequiredVaccineOrders
     
     #INC TVA=Vaccine Orders
     INCTVA <- VaccineOrders
@@ -252,12 +240,6 @@ healthsim_model <- function(time, stocks, auxs){
     
     #ISR=Ventilator Policy*Ventilator Fraction*Infected Severe/Inf Delay
     ISR <- simd$g_policy_matrix[,"VentilatorPolicy"]*VentilatorFraction*states[,"_TM_IS"]/simd$g_countries$InfectiousDelay
-    
-    #Resources for Ventilators=Financial Resources*Ventilator Budget Proportion
-    ResourcesforVentilators <- states[,"_FM_R"]*simd$g_countries$VentilatorBudgetProportion
-    
-    #Maximum Ventilators Purchases Possible=Resources for Ventilators/Ventilator Cost Per Unit
-    MaximumVentilatorsPurchasesPossible <- ResourcesforVentilators/simd$g_countries$VentilatorCostPerUnit
     
     #NRRR=(1-Morbidity Fraction)*"Non-Resource Recovery"/Rec Delay No Resources
     NRRR=(1-simd$g_countries$MorbidityFraction )*states[,"_TM_NRR"]/simd$g_countries$RecoveryDelayNoResources
@@ -309,7 +291,7 @@ healthsim_model <- function(time, stocks, auxs){
     VaccinesSpoiled <- states[,"_VAC_VS"]*simd$g_countries$VaccineSpoilageFraction
     
     #Ventilator Orders=min(Maximum Ventilators Purchases Possible,Total Required Ventilator Orders)
-    VentilatorOrders <- pmin(MaximumVentilatorsPurchasesPossible,TotalRequiredVentilatorOrders)
+    VentilatorOrders <- TotalRequiredVentilatorOrders
     
     # *** (3) Change to PIPELINE DELAY ***
     #Ventilator Orders Arriving=Ventilator Supply Line/Ventilator Shipment Delay
