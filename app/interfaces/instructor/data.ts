@@ -5,7 +5,7 @@ export const indicators = [
     'id': 'TotalInfected',
     'type': 'atomic',
     'RName': '_TotalInfected',
-    'maxValue': 30000,
+    'maxValue': 15000,
   },
   {
     'id': 'InfectedPerCapita',
