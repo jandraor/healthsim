@@ -37,10 +37,14 @@ export const html = Handlebars.compile(`
       {{/if}}
       <p class = "mt-3">
         HealthSim is a project developed at the
-        <strong>National University of Ireland Galway</strong>
-        and funded by the <strong>Bill & Melinda Gates Foundation</strong>
+        <a href="http://www.nuigalway.ie" target="_blank"><strong>National University of Ireland Galway</strong> </a>
+        and funded by the <a href="https://www.gatesfoundation.org" target="_blank"><strong>Bill & Melinda Gates Foundation</strong></a>
         – Grand Challenges Explorations Initiative.
       </p>
+
+      <p>
+        Browse source code at <a href="https://github.com/jandraor/HealthSim"> Healthsim's github page</a>
+      </p
 
     </div>
   `);
