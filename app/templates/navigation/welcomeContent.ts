@@ -40,7 +40,7 @@ export const html = Handlebars.compile(`
       <div id = "divGoData" class = "mt-5 mb-5">
         <p>
         <img src = ${goDataLogo} width = "30" height = "30" alt="">
-          NUI Galway GOARN Group: <a href = "healthsim:8000">
+          NUI Galway GOARN Group: <a href = "http://healthsim.ie:8000">
           Go.Data Training Site </a>
         </p>
       </div>
