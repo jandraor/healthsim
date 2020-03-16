@@ -1,4 +1,5 @@
 import * as Handlebars from '../../../node_modules/handlebars/dist/handlebars.js';
+const goDataLogo = require("../../img/GD.ico");
 
 export const html = Handlebars.compile(`
     <div class = "mt-5">
@@ -35,6 +36,14 @@ export const html = Handlebars.compile(`
   			</div>
       </div>
       {{/if}}
+
+      <div id = "divGoData" class = "mt-5 mb-5">
+        <p>
+        <img src = ${goDataLogo} width = "30" height = "30" alt="">
+          NUI Galway GOARN Group: <a href = "healthsim:8000">
+          Go.Data Training Site </a>
+        </p>
+      </div>
       <p class = "mt-3">
         HealthSim is a project developed at the
         <a href="http://www.nuigalway.ie" target="_blank"><strong>National University of Ireland Galway</strong> </a>

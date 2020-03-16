@@ -22,6 +22,9 @@ export const html = Handlebars.compile(`
           <li class="nav-item">
             <a class = "nav-link" href = "#play">Play</a>
           </li>
+          <li class="nav-item">
+            <a class = "nav-link" href = "healthsim.ie:8000">Go.Data</a>
+          </li>
        </ul>
       </div>
       <div class="collapse navbar-collapse dual-collapse2">
